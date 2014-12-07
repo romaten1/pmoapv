@@ -39,7 +39,7 @@ AppAsset::register($this);
                         'items' => [
                             ['label' => 'Про кафедру', 'url' => ['/kafedra/page', 'view'=>'about']],
                             ['label' => 'Історія кафедри', 'url' => ['/kafedra/page', 'view'=>'history']],
-                            ['label' => 'Викладацький склад', 'url' => ['/teachers']],
+                            ['label' => 'Викладацький склад', 'url' => ['/teacher']],
                             ['label' => 'Методична робота', 'url' => ['/kafedra/page', 'view'=>'metod_work']],
                             ['label' => 'Організацйна робота', 'url' => ['/kafedra/page', 'view'=>'org_work']],
                             ['label' => 'Практична підготовка студентів', 'url' => ['/kafedra/page', 'view'=>'praktika']],
@@ -48,7 +48,7 @@ AppAsset::register($this);
                             ['label' => 'Контакти', 'url' => ['/kafedra/contact']],
                         ],
                     ],
-                    ['label' => 'Новини', 'url' => ['/site/about']],
+                    ['label' => 'Новини', 'url' => ['/news']],
                     ['label' => 'Абітурієнту',
                         'items' => [
                             ['label' => 'Звернення до наших абітурієнтів', 'url' => ['/abiturient/page', 'view'=>'about']],
@@ -91,6 +91,7 @@ AppAsset::register($this);
         <div class="container">
             <?= Breadcrumbs::widget([
                 'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+                'homeLink' => ['label' => 'Головна','url' => ['/site/index']],
             ]) ?>
             <?= $content ?>
         </div>
@@ -98,17 +99,13 @@ AppAsset::register($this);
 
     <footer class="footer">
         <div class="container">
-            <div class="col-md-5">
-                <p class="push-left">&copy; ПМОАПВ <?= date('Y') ?></p>
-                <p class="push-left"> 
-                    <strong>Наша адреса:</strong> пров. Інтернаціональний, 1
-                </p>
-                <p class="push-left"> 
-                    <strong>Телефон: </strong> (04744) 3-98-37, 3-98-93
-                </p>
-                <p class="push-left"> 
-                    <strong>E-mail:</strong> pmoapv@meta.ua, kafedra.pmo@gmail.com
-                </p>
+            <div class="col-md-7">
+                <address>
+                  <strong>&copy; ПМОАПВ <?= date('Y') ?></strong><br>
+                  м. Умань, пров. Інтернаціональний, 1<br>
+                  <abbr title="Phone">Тел:</abbr> (04744) 3-98-37, 3-98-93
+                  <abbr title="Mail">E-mail:</abbr> pmoapv@meta.ua, kafedra.pmo@gmail.com
+                </address>
             </div>
             <p class="pull-right"><?= Yii::powered() ?></p>
         </div>
