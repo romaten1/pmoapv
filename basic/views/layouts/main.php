@@ -29,7 +29,7 @@ AppAsset::register($this);
                 'brandLabel' => 'ПМОАПВ',
                 'brandUrl' => Yii::$app->homeUrl,
                 'options' => [
-                    'class' => 'navbar navbar-fixed-top',
+                    'class' => 'navbar',
                 ],
             ]);
             echo Nav::widget([
@@ -51,31 +51,31 @@ AppAsset::register($this);
                     ['label' => 'Новини', 'url' => ['/site/about']],
                     ['label' => 'Абітурієнту',
                         'items' => [
-                            ['label' => 'Звернення до наших абітурієнтів', 'url' => ['/abiturient/about']],
-                            ['label' => 'Напрям підготовки 6.100202 Процеси, машини та обладнання агропромислового виробництва ', 'url' => ['/abiturient/napryam']],
-                            ['label' => 'Спеціальність 7.10010201  Процеси, машини та обладнання агропромислових підприємств', 'url' => ['/abiturient/spec7']],
-                            ['label' => 'Спеціальність 8.10010201  Процеси, машини та обладнання агропромислових підприємств', 'url' => ['/abiturient/spec8']],
-                            ['label' => 'Заочна форма навчання', 'url' => ['/abiturient/zaochna']],
+                            ['label' => 'Звернення до наших абітурієнтів', 'url' => ['/abiturient/page', 'view'=>'about']],
+                            ['label' => 'Напрям підготовки 6.100202 Процеси, машини та обладнання агропромислового виробництва', 'url' => ['/abiturient/page', 'view'=>'napryam']],
+                            ['label' => 'Спеціальність 7.10010201  Процеси, машини та обладнання агропромислових підприємств', 'url' => ['/abiturient/page', 'view'=>'spec7']],
+                            ['label' => 'Спеціальність 8.10010201  Процеси, машини та обладнання агропромислових підприємств', 'url' => ['/abiturient/page', 'view'=>'spec8']],
+                            ['label' => 'Заочна форма навчання', 'url' => ['/abiturient/page', 'view'=>'zaochna']],
                         ],
                     ],
                     ['label' => 'Студенту',
                         'items' => [
                             ['label' => 'Предмети', 'url' => ['/predmet']],
-                            ['label' => 'Навчальні плани', 'url' => ['/student/plany']],
-                            ['label' => 'Робочі програми', 'url' => ['/student/teachers']],
+                            ['label' => 'Навчальні плани', 'url' => ['/student/page', 'view'=>'plany']],
+                            ['label' => 'Робочі програми', 'url' => ['/student/page', 'view'=>'programy']],
                             ['label' => 'Навчально-методичне забезпечення', 'url' => ['/metodychky']],
-                            ['label' => 'Дипломнику', 'url' => ['/student/dyplomnik']],
-                            ['label' => 'Корисні посилання', 'url' => ['/student/links']],
-                            ['label' => 'Програми практики', 'url' => ['/student/praktikprogramy']],
+                            ['label' => 'Дипломнику', 'url' => ['/student/page', 'view'=>'dyplomnik']],
+                            ['label' => 'Корисні посилання', 'url' => ['/student/page', 'view'=>'links']],
+                            ['label' => 'Програми практики', 'url' => ['/student/page', 'view'=>'praktikprogramy']],
                         ],
                     ],
                     ['label' => 'Наукова робота',
                         'items' => [
-                            ['label' => 'Напрямки наукових досліджень викладачів кафедри', 'url' => ['/nauka/napryamy']],
-                            ['label' => 'Наукова робота студентів', 'url' => ['/nauka/student_work']],
-                            ['label' => 'Наукові заходи', 'url' => ['/nauka/zahody']],
-                            ['label' => 'Пропозиціії виробникам', 'url' => ['/nauka/proposal']],
-                            ['label' => 'Аспіранти кафедри', 'url' => ['/nauka/aspirant']],
+                            ['label' => 'Напрямки наукових досліджень викладачів кафедри', 'url' => ['/nauka/page', 'view'=>'napryamy']],
+                            ['label' => 'Наукова робота студентів', 'url' => ['/nauka/page', 'view'=>'student_work']],
+                            ['label' => 'Наукові заходи', 'url' => ['/nauka/page', 'view'=>'zahody']],
+                            ['label' => 'Пропозиції виробникам', 'url' => ['/nauka/page', 'view'=>'proposal']],
+                            ['label' => 'Аспіранти кафедри', 'url' => ['/nauka/page', 'view'=>'aspirant']],
                         ],
                     ],
                     Yii::$app->user->isGuest ?
@@ -98,7 +98,18 @@ AppAsset::register($this);
 
     <footer class="footer">
         <div class="container">
-            <p class="pull-left">&copy; ПМОАПВ <?= date('Y') ?></p>
+            <div class="col-md-5">
+                <p class="push-left">&copy; ПМОАПВ <?= date('Y') ?></p>
+                <p class="push-left"> 
+                    <strong>Наша адреса:</strong> пров. Інтернаціональний, 1
+                </p>
+                <p class="push-left"> 
+                    <strong>Телефон: </strong> (04744) 3-98-37, 3-98-93
+                </p>
+                <p class="push-left"> 
+                    <strong>E-mail:</strong> pmoapv@meta.ua, kafedra.pmo@gmail.com
+                </p>
+            </div>
             <p class="pull-right"><?= Yii::powered() ?></p>
         </div>
     </footer>
