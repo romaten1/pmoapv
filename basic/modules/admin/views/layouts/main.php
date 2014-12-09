@@ -1,5 +1,7 @@
+
 <?php
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
@@ -89,11 +91,31 @@ AppAsset::register($this);
         ?>
 
         <div class="container">
-            <?= Breadcrumbs::widget([
-                'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-                'homeLink' => ['label' => 'Головна','url' => ['/site/index']],
-            ]) ?>
-            <?= $content ?>
+            
+	        <div class="row">    
+	            <div class="col-xs-2">
+	            	<ul class="nav nav-list">
+                      <li class="nav-header btn btn-primary">Новини</li>
+                      <li><a href="<?= Url::to(['/admin/news'])?>">Журнал</a></li>
+                      <li><a href="<?= Url::to(['/admin/news/create'])?>">Створити</a></li>
+                      <li class="nav-header btn btn-success">Статичні сторінки</li>
+                      <li><a href="<?= Url::to(['/admin/static-page'])?>">Журнал</a></li>
+                      <li><a href="<?= Url::to(['/admin/static-page/create'])?>">Створити</a></li>
+                      <li class="nav-header btn btn-danger">Викладачі</li>
+                      <li><a href="<?= Url::to(['/admin/teacher'])?>">Журнал</a></li>
+                      <li><a href="<?= Url::to(['/admin/teacher/create'])?>">Створити</a></li>
+                      <li class="nav-header btn btn-warning">Предмети</li>
+                      <li><a href="<?= Url::to(['/admin/predmet'])?>">Журнал</a></li>
+                      <li><a href="<?= Url::to(['/admin/predmet/create'])?>">Створити</a></li>
+                      <li class="nav-header btn btn-info">Методичні вказівки</li>
+                      <li><a href="<?= Url::to(['/admin/metodychky'])?>">Журнал</a></li>
+                      <li><a href="<?= Url::to(['/admin/metodychky/create'])?>">Створити</a></li>
+                    </ul>
+	            </div>
+	            <div class="col-xs-10">
+	            	<?= $content ?>
+	            </div>
+	        </div>    
         </div>
     </div>
 

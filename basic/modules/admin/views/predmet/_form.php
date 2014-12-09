@@ -3,34 +3,17 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use dosamigos\tinymce\TinyMce;
-use dosamigos\fileupload\FileUpload;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\Teacher */
+/* @var $model app\models\Predmet */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="teacher-form">
+<div class="predmet-form">
 
-    <?php $form = ActiveForm::begin([
-        'options'=>['enctype'=>'multipart/form-data'] // important
-    ]); ?>
+    <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'name')->textInput(['maxlength' => 100]) ?>
-
-    <?= $form->field($model, 'second_name')->textInput(['maxlength' => 100]) ?>
-
-    <?= $form->field($model, 'last_name')->textInput(['maxlength' => 100]) ?>
-
-    <? if(!empty($model->image)){echo Html::img('@web/uploads/teacher/'.$model->image);} ?>
-
-    <?= $form->field($model, 'image')->fileInput() ?>
-
-    <?= $form->field($model, 'job')->textInput(['maxlength' => 100]) ?>
-
-    <?= $form->field($model, 'science_status')->textInput(['maxlength' => 100]) ?>
-
-    <?= $form->field($model, 'org_status')->textInput(['maxlength' => 100]) ?>
+    <?= $form->field($model, 'title')->textInput(['maxlength' => 255]) ?>
 
     <?= $form->field($model, 'description')->widget(TinyMce::className(), [
         'options' => ['rows' => 6],
@@ -44,6 +27,8 @@ use dosamigos\fileupload\FileUpload;
             'toolbar' => "undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image"
         ]
     ]);?>
+
+    <?= $form->field($model, 'active')->dropDownList(['1' => 'Активнo', '0' => 'Неактивнo'])  ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Створити' : 'Оновити', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

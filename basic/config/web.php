@@ -7,6 +7,9 @@ $config = [
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'modules' => [
+        'admin' => [
+            'class' => 'app\modules\admin\Module',
+        ],
         'auth' => [
                 'class' => 'auth\Module',
                 'layout' => '@vendor/robregonm/yii2-auth/views/default/login.php', // Layout when not logged in yet

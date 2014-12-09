@@ -3,36 +3,21 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use dosamigos\tinymce\TinyMce;
-use dosamigos\fileupload\FileUpload;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\Teacher */
+/* @var $model app\models\StaticPage */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="teacher-form">
+<div class="static-page-form">
 
-    <?php $form = ActiveForm::begin([
-        'options'=>['enctype'=>'multipart/form-data'] // important
-    ]); ?>
+    <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'name')->textInput(['maxlength' => 100]) ?>
+    <?= $form->field($model, 'alias')->textInput(['maxlength' => 100]) ?>
 
-    <?= $form->field($model, 'second_name')->textInput(['maxlength' => 100]) ?>
+    <?= $form->field($model, 'title')->textInput(['maxlength' => 255]) ?>
 
-    <?= $form->field($model, 'last_name')->textInput(['maxlength' => 100]) ?>
-
-    <? if(!empty($model->image)){echo Html::img('@web/uploads/teacher/'.$model->image);} ?>
-
-    <?= $form->field($model, 'image')->fileInput() ?>
-
-    <?= $form->field($model, 'job')->textInput(['maxlength' => 100]) ?>
-
-    <?= $form->field($model, 'science_status')->textInput(['maxlength' => 100]) ?>
-
-    <?= $form->field($model, 'org_status')->textInput(['maxlength' => 100]) ?>
-
-    <?= $form->field($model, 'description')->widget(TinyMce::className(), [
+    <?= $form->field($model, 'text')->widget(TinyMce::className(), [
         'options' => ['rows' => 6],
         'language' => 'ru',
         'clientOptions' => [
@@ -45,6 +30,9 @@ use dosamigos\fileupload\FileUpload;
         ]
     ]);?>
 
+    <?= $form->field($model, 'active')->dropDownList(['1' => 'Активнo', '0' => 'Неактивнo'])  ?>
+
+    <?= $form->field($model, 'parent_group_id')->dropDownList(['0' => 'Про кафедру', '1' => 'Абітурієнту', '2' => 'Студенту', '3' => 'Наукова робота', ])  ?>
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Створити' : 'Оновити', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
