@@ -32,20 +32,9 @@ use yii\helpers\ArrayHelper;
         ]
     ]);?>
 	
-	
-   	
-	<? if(!empty($model->file)){echo Html::img('@web/uploads/metod/'.$model->file);} ?>
+	<? if(!empty($model->file)){echo Html::encode($model->file);} ?>
 
-
-	<?= $form->field($model, 'file')->widget(FileUpload::classname(), [
-        'url' => ['metodychky/create','id' => $model->id], // your url, this is just for demo purposes,
-	    'options' => ['accept' => 'image/*'],
-	    'clientOptions' => [
-	        'maxFileSize' => 2000000
-	    ],
-    ]);?>
-
-
+    <?= $form->field($model, 'file')->fileInput() ?>
 	
 	<?= $form->field($model, 'active')->dropDownList(['1' => 'Активнo', '0' => 'Неактивнo'])  ?>
 

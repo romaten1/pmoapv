@@ -32,7 +32,8 @@ class Metodychky extends \yii\db\ActiveRecord
             [['title', 'description', 'active'], 'required'],
             [['description'], 'string'],
             [['active'], 'integer'],
-            [['title', 'file'], 'string', 'max' => 255]
+            [['title'], 'string', 'max' => 255],
+            [['file'], 'file']
         ];
     }
 

@@ -37,7 +37,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'attribute' => 'file',
-                'value' => $model->file ? Html::a($model->file, ['metodychky/view', 'id' => $model->id]) : 'Файл на сайті відсутній',
+                'value' => $model->file ? Html::a($model->file, ['@web/uploads/metodychky/'.$model->file]) : 'Файл на сайті відсутній',
                 'format' => 'html'
             ],
             [

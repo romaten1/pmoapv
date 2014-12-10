@@ -64,24 +64,24 @@ class MetodychkyController extends Controller
         $model = new Metodychky();
 
         if ($model->load(Yii::$app->request->post())) {
-            
-            // Получаем массив данных по загружамых файлах
-            $file = UploadedFile::getInstance($model, 'file');
-            if(isset($file)){
-                $filename = $file->name;
-                $ext = end((explode(".", $file->name)));
-                // Генерируем уникальное имя файла
-                $model->file = Yii::$app->getSecurity()->generateRandomString(). '.' .$ext;
-                // Путь к папке где будет хранится файл
-                $path = Yii::$app->basePath . 'web/uploads/metod/' . $model->file;
-                
+        
+        // Получаем массив данных по загружамых файлах
+            if (isset($model->file)) {
+                $model->file = UploadedFile::getInstance($model, 'file');
             }
-            
+
+            if ($model->validate()) {                
+                if (isset($model->file)) {
+                    $file_name = Yii::$app->getSecurity()->generateRandomString() ;
+                    $file_full_name = $file_name . '.' . $model->file->extension;
+                    $model->file->saveAs('uploads/metodychky/' . $file_full_name);
+                    $model->file = $file_full_name;
+                } 
+                else {
+                    $model->file = '0';
+                }    
+            }
             if($model->save()){
-                if(isset($file)){
-                    // Сохраняем рисунок
-                    $file->saveAs($path);
-                }
                 return $this->redirect(['view', 'id'=>$model->id]);
             } else {
                 throw new NotFoundHttpException('Не удалось загрузить данные');
@@ -90,7 +90,7 @@ class MetodychkyController extends Controller
             return $this->render('create', [
                 'model' => $model,
                 ]);
-        }
+        }   
     }
         
 
@@ -103,9 +103,28 @@ class MetodychkyController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $old_file = $model->file;
+        if ($model->load(Yii::$app->request->post())) {
+            if (isset($model->file)) {
+                $model->file = UploadedFile::getInstance($model, 'file');
+            }
+            if ($model->validate()) {                
+                if (isset($model->file)) {
+                    $file_name = Yii::$app->getSecurity()->generateRandomString() ;
+                    $file_full_name = $image_name . '.' . $model->file->extension;
+                    $model->file->saveAs('uploads/metodychky/' . $file_full_name);
+                    $model->file = $file_full_name;
+                }
+                else{
+                   $model->file = $old_file;
+                }
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            }
+            if($model->save()){
+                return $this->redirect(['view', 'id'=>$model->id]);
+            } else {
+                throw new NotFoundHttpException('Не удалось загрузить данные');
+            }      
         } else {
             return $this->render('update', [
                 'model' => $model,

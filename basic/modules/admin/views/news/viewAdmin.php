@@ -41,7 +41,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'attribute' => 'image',
-                'value' => $model->image ? Html::img('@web/images/'.$model->image) : 'Малюнок на сайті відсутній',
+                'value' => $model->image ? Html::img('@web/uploads/news/'.$model->image) : 'Малюнок на сайті відсутній',
                 'format' => 'html'
             ],
         ],
