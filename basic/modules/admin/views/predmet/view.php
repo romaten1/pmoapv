@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 use kartik\icons\Icon;
+use app\models\TeachPredmet
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Predmet */
@@ -25,5 +26,8 @@ $this->params['breadcrumbs'][] = $this->title;
             
         ],
     ]) ?>
-
+    <p>
+        Предмет викладає:<br />
+        <?= TeachPredmet::find->where(['predmet_id' => $model->id])->teach_id?>
+    </p>
 </div>

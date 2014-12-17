@@ -3,6 +3,8 @@
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 use kartik\icons\Icon;
+use app\models\TeachPredmet;
+use app\models\Teacher;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Predmet */
@@ -41,5 +43,25 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ],
     ]) ?>
+
+    <p>
+        Предмет викладає:<br />
+        <?
+            $teacher_id = TeachPredmet::findAll([
+                'predmet_id' => $model->id,
+            ]); 
+            foreach($teacher_id as $teacher ){
+                $teacher_name = Teacher::findOne($teacher->teach_id);
+                echo 
+                Html::a($teacher_name->last_name.' '
+                    .$teacher_name->name.' '
+                    .$teacher_name->second_name, 
+                    ['/admin/teacher/view', 'id' => $teacher_name->id], ['class' => 'btn btn-default'])
+                . '<br />'; 
+            }
+            
+
+        ?>
+    </p>
 
 </div>

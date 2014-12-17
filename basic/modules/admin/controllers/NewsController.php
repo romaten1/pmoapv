@@ -114,7 +114,7 @@ class NewsController extends Controller
                     $model->image->saveAs('uploads/news/' . $image_full_name);
                     $model->image = $image_full_name;
                 }
-                else{
+                else{ 
                    $model->image = $old_image;
                 }
 

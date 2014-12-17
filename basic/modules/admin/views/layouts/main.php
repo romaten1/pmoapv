@@ -104,6 +104,8 @@ AppAsset::register($this);
                       <li class="nav-header btn btn-danger">Викладачі</li>
                       <li><a href="<?= Url::to(['/admin/teacher'])?>">Журнал</a></li>
                       <li><a href="<?= Url::to(['/admin/teacher/create'])?>">Створити</a></li>
+                      <li><a href="<?= Url::to(['/admin/teach-predmet'])?>">Викладач::Предмет</a></li>
+                      <li><a href="<?= Url::to(['/admin/teach-metodychky'])?>">Викладач::Методичка</a></li>
                       <li class="nav-header btn btn-warning">Предмети</li>
                       <li><a href="<?= Url::to(['/admin/predmet'])?>">Журнал</a></li>
                       <li><a href="<?= Url::to(['/admin/predmet/create'])?>">Створити</a></li>
