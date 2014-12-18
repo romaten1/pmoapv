@@ -32,6 +32,11 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             'title',
             [
+                'attribute' => 'image',
+                'value' => $model->image ? Html::img('@web/uploads/news/'.$model->image) : 'Малюнок на сайті відсутній',
+                'format' => 'html'
+            ],
+            [
                 'attribute' => 'description',
                 'format' => 'html'
             ],
@@ -39,11 +44,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'text',
                 'format' => 'html'
             ],
-            [
-                'attribute' => 'image',
-                'value' => $model->image ? Html::img('@web/uploads/news/'.$model->image) : 'Малюнок на сайті відсутній',
-                'format' => 'html'
-            ],
+            
         ],
     ]) ?>
 

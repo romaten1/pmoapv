@@ -36,7 +36,7 @@ class Teacher extends \yii\db\ActiveRecord
             [['name', 'second_name', 'last_name', 'job', 'description'], 'required'],
             [['description'], 'string'],
             [['name', 'second_name', 'last_name', 'job', 'science_status', 'org_status'], 'string', 'max' => 100],
-            [['image'], 'file', 'extensions' => 'gif, jpg',],
+            [['image'], 'file', 'extensions' => 'gif, jpg, jpeg',],
         ];
     }
 

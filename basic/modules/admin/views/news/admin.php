@@ -25,7 +25,12 @@ $this->params['breadcrumbs'][] = $this->title;
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-
+            [
+                'attribute' => 'image',
+                'format' => 'image',
+                'value' => function($model) { return 'uploads/news/thumbs/thumb_'.$model->image; },
+                'contentOptions' => ['class' => 'img-thumbnail']
+            ],
             //'id',
             'title',
             'description:ntext',

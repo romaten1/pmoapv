@@ -19,7 +19,7 @@ class NewsSearch extends News
     {
         return [
             [['id'], 'integer'],
-            [['title', 'description', 'text', 'image'], 'safe'],
+            [['title', 'description', 'text', 'image', 'published_at'], 'safe'],
         ];
     }
 

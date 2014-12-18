@@ -9,7 +9,11 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\UploadedFile;
-
+use yii\imagine\Image;
+use Imagine\Image\Box;
+use Imagine\Image\Point;
+use Imagine\Imagick\Imagine;
+use Imagine\Image\ImageInterface;
 /**
  * TeacherController implements the CRUD actions for Teacher model.
  */
@@ -74,6 +78,14 @@ class TeacherController extends Controller
                 $image_full_name = $image_name . '.' . $model->image->extension;
                 $model->image->saveAs('uploads/teacher/' . $image_full_name);
                 $model->image = $image_full_name;
+                //Make a thumbnails
+                $path_from = Yii::getAlias('@webroot/uploads/teacher/' . $image_full_name);
+                $path_to = Yii::getAlias('@webroot/uploads/teacher/thumbs/thumb_') . $image_full_name;
+                $this->makeImage($path_from, $path_to, $desired_width = 60);
+                //Make an image
+                $path_from = Yii::getAlias('@webroot/uploads/teacher/' . $image_full_name);
+                $path_to = Yii::getAlias('@webroot/uploads/teacher/') . $image_full_name;
+                $this->makeImage($path_from, $path_to, $desired_width = 200);
             }
             if($model->save()){
                 return $this->redirect(['view', 'id'=>$model->id]);
@@ -107,6 +119,14 @@ class TeacherController extends Controller
                     $image_full_name = $image_name . '.' . $model->image->extension;
                     $model->image->saveAs('uploads/teacher/' . $image_full_name);
                     $model->image = $image_full_name;
+                    //Make a thumbnails
+                    $path_from = Yii::getAlias('@webroot/uploads/teacher/' . $image_full_name);
+                    $path_to = Yii::getAlias('@webroot/uploads/teacher/thumbs/thumb_') . $image_full_name;
+                    $this->makeImage($path_from, $path_to, $desired_width = 60);
+                    //Make an image
+                    $path_from = Yii::getAlias('@webroot/uploads/teacher/' . $image_full_name);
+                    $path_to = Yii::getAlias('@webroot/uploads/teacher/') . $image_full_name;
+                    $this->makeImage($path_from, $path_to, $desired_width = 200);
                 }
                 else{
                    $model->image = $old_image;
@@ -152,5 +172,25 @@ class TeacherController extends Controller
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
+    }
+
+    protected function makeImage($path_from, $path_to, $desired_width)
+    {
+        $imagine = new Imagine();
+        $image = $imagine->open($path_from);
+        $image_size = $image->getSize();
+        $image_height = $image_size->getHeight();
+        $image_width = $image_size->getWidth();
+        $ratio = $image_width / $desired_width;
+        $resizedHeight = $image_height / $ratio;
+        $resizedWidth = $image_width / $ratio;
+        $resized_image = $image->resize(new Box($resizedWidth, $resizedHeight));
+        $options = array(
+            'resolution-units' => ImageInterface::RESOLUTION_PIXELSPERINCH,
+            'resolution-x' => 100,
+            'resolution-y' => 200,
+            'flatten' => false
+        );
+        $resized_image->save($path_to, $options);
     }
 }

@@ -12,6 +12,7 @@ use Yii;
  * @property string $description
  * @property string $text
  * @property string $image
+ * @property integer $published_at
  */
 class News extends \yii\db\ActiveRecord
 {
@@ -32,7 +33,8 @@ class News extends \yii\db\ActiveRecord
             [['title', 'description', 'text'], 'required'],
             [['description', 'text'], 'string'],
             [['title'], 'string', 'max' => 255],
-            [['image'], 'file']
+            [['image'], 'file', 'extensions' => 'gif, jpg, jpeg'],
+            [['published_at'], 'number', 'max' => 10]
         ];
     }
 
@@ -47,6 +49,7 @@ class News extends \yii\db\ActiveRecord
             'description' => 'Короткий опис',
             'text' => 'Текст новини',
             'image' => 'Фото',
+            'published_at' => 'Опубліковано'
         ];
     }
 }

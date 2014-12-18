@@ -4,20 +4,20 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "d26f71a96fbdfa586725e958ca6526e9",
+    "hash": "dc1deea6706a63b2635e3449f16145b6",
     "packages": [
         {
             "name": "2amigos/yii2-file-upload-widget",
-            "version": "0.1.1",
+            "version": "0.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/2amigos/yii2-file-upload-widget.git",
-                "reference": "3eb430c1cb17b3667ee4a21dcf3b7036345e27ac"
+                "reference": "50b592a960f13924f5da715ec5d398d4d9ef0d8e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/2amigos/yii2-file-upload-widget/zipball/3eb430c1cb17b3667ee4a21dcf3b7036345e27ac",
-                "reference": "3eb430c1cb17b3667ee4a21dcf3b7036345e27ac",
+                "url": "https://api.github.com/repos/2amigos/yii2-file-upload-widget/zipball/50b592a960f13924f5da715ec5d398d4d9ef0d8e",
+                "reference": "50b592a960f13924f5da715ec5d398d4d9ef0d8e",
                 "shasum": ""
             },
             "require": {
@@ -38,7 +38,7 @@
                 {
                     "name": "Antonio Ramirez",
                     "email": "ramirez.cobos@gmail.com",
-                    "homepage": "http://www.ramirezcobos.com"
+                    "homepage": "http://2amigos.us"
                 }
             ],
             "description": "BlueImp jQuery File Upload Widget for Yii2.",
@@ -48,7 +48,7 @@
                 "widget",
                 "yii"
             ],
-            "time": "2014-05-26 08:17:16"
+            "time": "2014-11-27 19:49:27"
         },
         {
             "name": "2amigos/yii2-gallery-widget",
@@ -189,23 +189,23 @@
         },
         {
             "name": "bower-asset/jquery",
-            "version": "2.1.1",
+            "version": "2.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/jquery/jquery.git",
-                "reference": "4dec426aa2a6cbabb1b064319ba7c272d594a688"
+                "reference": "a04f5ff9795fd6292117563623db44cf3f875868"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jquery/jquery/zipball/4dec426aa2a6cbabb1b064319ba7c272d594a688",
-                "reference": "4dec426aa2a6cbabb1b064319ba7c272d594a688",
+                "url": "https://api.github.com/repos/jquery/jquery/zipball/a04f5ff9795fd6292117563623db44cf3f875868",
+                "reference": "a04f5ff9795fd6292117563623db44cf3f875868",
                 "shasum": ""
             },
             "require-dev": {
                 "bower-asset/qunit": "1.14.0",
                 "bower-asset/requirejs": "2.1.10",
                 "bower-asset/sinon": "1.8.1",
-                "bower-asset/sizzle": "1.10.19"
+                "bower-asset/sizzle": "2.1.1-patch2"
             },
             "type": "bower-asset-library",
             "extra": {
@@ -257,16 +257,16 @@
         },
         {
             "name": "bower-asset/jquery.inputmask",
-            "version": "3.1.45",
+            "version": "3.1.48",
             "source": {
                 "type": "git",
                 "url": "https://github.com/RobinHerbots/jquery.inputmask.git",
-                "reference": "b656c5b61b05d2a479b69b20de5bc01b837a43c5"
+                "reference": "d9ebcf6ce4be6bd8642a10c633fe950c0c0f0a9d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/RobinHerbots/jquery.inputmask/zipball/b656c5b61b05d2a479b69b20de5bc01b837a43c5",
-                "reference": "b656c5b61b05d2a479b69b20de5bc01b837a43c5",
+                "url": "https://api.github.com/repos/RobinHerbots/jquery.inputmask/zipball/d9ebcf6ce4be6bd8642a10c633fe950c0c0f0a9d",
+                "reference": "d9ebcf6ce4be6bd8642a10c633fe950c0c0f0a9d",
                 "shasum": ""
             },
             "require": {
@@ -567,16 +567,16 @@
         },
         {
             "name": "kartik-v/yii2-krajee-base",
-            "version": "v1.5.0",
+            "version": "v1.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/yii2-krajee-base.git",
-                "reference": "662835bf3fe1579277cf727f942ae87959ab2f3f"
+                "reference": "89b2ac65904e61380a57d9a5c6f8c2767ab23207"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-krajee-base/zipball/662835bf3fe1579277cf727f942ae87959ab2f3f",
-                "reference": "662835bf3fe1579277cf727f942ae87959ab2f3f",
+                "url": "https://api.github.com/repos/kartik-v/yii2-krajee-base/zipball/89b2ac65904e61380a57d9a5c6f8c2767ab23207",
+                "reference": "89b2ac65904e61380a57d9a5c6f8c2767ab23207",
                 "shasum": ""
             },
             "require": {
@@ -609,7 +609,7 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2014-12-06 10:44:45"
+            "time": "2014-12-17 06:15:53"
         },
         {
             "name": "philippfrenzel/yii2sly",
@@ -658,16 +658,16 @@
         },
         {
             "name": "robregonm/yii2-auth",
-            "version": "0.5.1",
+            "version": "0.5.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/robregonm/yii2-auth.git",
-                "reference": "575e7582e00b14ded5e146450865b3183076fe06"
+                "reference": "139508470926ce004976c0232eda385c89726b6b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/robregonm/yii2-auth/zipball/575e7582e00b14ded5e146450865b3183076fe06",
-                "reference": "575e7582e00b14ded5e146450865b3183076fe06",
+                "url": "https://api.github.com/repos/robregonm/yii2-auth/zipball/139508470926ce004976c0232eda385c89726b6b",
+                "reference": "139508470926ce004976c0232eda385c89726b6b",
                 "shasum": ""
             },
             "require": {
@@ -705,7 +705,7 @@
                 "yii",
                 "yii2"
             ],
-            "time": "2014-10-20 14:52:39"
+            "time": "2014-12-16 15:56:02"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -1114,6 +1114,58 @@
             "time": "2014-06-04 14:43:02"
         },
         {
+            "name": "imagine/imagine",
+            "version": "v0.5.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/avalanche123/Imagine.git",
+                "reference": "f64ec666baaa800edcbf237db41121a569230709"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/avalanche123/Imagine/zipball/f64ec666baaa800edcbf237db41121a569230709",
+                "reference": "f64ec666baaa800edcbf237db41121a569230709",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.2"
+            },
+            "require-dev": {
+                "sami/sami": "dev-master"
+            },
+            "suggest": {
+                "ext-gd": "to use the GD implementation",
+                "ext-gmagick": "to use the Gmagick implementation",
+                "ext-imagick": "to use the Imagick implementation"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Imagine": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Bulat Shakirzyanov",
+                    "email": "mallluhuct@gmail.com",
+                    "homepage": "http://avalanche123.com"
+                }
+            ],
+            "description": "Image processing for PHP 5.3",
+            "homepage": "http://imagine.readthedocs.org/",
+            "keywords": [
+                "drawing",
+                "graphics",
+                "image manipulation",
+                "image processing"
+            ],
+            "time": "2013-07-10 17:25:36"
+        },
+        {
             "name": "phpspec/php-diff",
             "version": "v1.0.2",
             "source": {
@@ -1331,6 +1383,54 @@
             "keywords": [
                 "code generator",
                 "gii",
+                "yii2"
+            ],
+            "time": "2014-12-07 16:42:41"
+        },
+        {
+            "name": "yiisoft/yii2-imagine",
+            "version": "2.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/yiisoft/yii2-imagine.git",
+                "reference": "65975373bda91a5403b54f12d7b3dfbc7c1fa1f8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/yiisoft/yii2-imagine/zipball/65975373bda91a5403b54f12d7b3dfbc7c1fa1f8",
+                "reference": "65975373bda91a5403b54f12d7b3dfbc7c1fa1f8",
+                "shasum": ""
+            },
+            "require": {
+                "imagine/imagine": "0.5.*",
+                "yiisoft/yii2": "*"
+            },
+            "type": "yii2-extension",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "yii\\imagine\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Antonio Ramirez",
+                    "email": "amigo.cobos@gmail.com"
+                }
+            ],
+            "description": "The Imagine integration for the Yii framework",
+            "keywords": [
+                "helper",
+                "image",
+                "imagine",
                 "yii2"
             ],
             "time": "2014-12-07 16:42:41"

@@ -25,13 +25,20 @@ $this->params['breadcrumbs'][] = $this->title;
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
+            [
+                'attribute' => 'image',
+                'format' => 'image',
+                'value' => function($model) { return 'uploads/teacher/thumbs/thumb_'.$model->image; },
+                'contentOptions' => ['class' => 'img-thumbnail']
+            ],
 
+            'last_name',
             'name',
             'second_name',
-            'last_name',
+            
             'job',
-            'science_status',
-            'org_status',
+            //'science_status',
+            //'org_status',
             
 
             ['class' => 'yii\grid\ActionColumn'],
