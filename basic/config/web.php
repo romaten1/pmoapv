@@ -9,23 +9,15 @@ $config = [
     'modules' => [
         'admin' => [
             'class' => 'app\modules\admin\Module',
-        ],
-        'auth' => [
-                'class' => 'auth\Module',
-                'layout' => '@vendor/robregonm/yii2-auth/views/default/login.php', // Layout when not logged in yet
-                'layoutLogged' => '//main', // Layout for logged in users
-                'attemptsBeforeCaptcha' => 3, // Optional
-                'supportEmail' => 'support@mydomain.com', // Email for notifications
-                'passwordResetTokenExpire' => 3600, // Seconds for token expiration
-                'superAdmins' => ['admin'], // SuperAdmin users
-                'tableMap' => [ // Optional, but if defined, all must be declared
-                    'User' => 'user',
-                    'UserStatus' => 'user_status',
-                    'ProfileFieldValue' => 'profile_field_value',
-                    'ProfileField' => 'profile_field',
-                    'ProfileFieldType' => 'profile_field_type',
-                ],
-            ],
+        ],  
+        'user' => [
+            'class' => 'dektrium\user\Module',
+            'enableConfirmation' => false,
+            'enableUnconfirmedLogin' => true,
+            'confirmWithin' => 21600,
+            'cost' => 12,
+            'admins' => ['admin']
+        ],      
     ],
     'components' => [
         'request' => [
@@ -69,6 +61,29 @@ $config = [
             'class' => 'auth\components\User',
         ],
         'db' => require(__DIR__ . '/db.php'),
+        'assetManager' => [
+            'bundles' => [
+                'yii\bootstrap\BootstrapAsset' => [
+                    'sourcePath' => null,
+                    'basePath' => '@webroot',
+                    'baseUrl' => '@web',
+                    'css' => ['css/bootstrap.css'],
+                ],
+            ],
+        ],
+        'authClientCollection' => [
+            'class' => 'yii\authclient\Collection',
+            'clients' => [
+                'google' => [
+                    'class' => 'yii\authclient\clients\GoogleOpenId'
+                ],
+                'facebook' => [
+                    'class' => 'yii\authclient\clients\Facebook',
+                    'clientId' => 'facebook_client_id',
+                    'clientSecret' => 'facebook_client_secret',
+                ],
+            ],
+        ],
     ],
     'params' => $params,
 ];
