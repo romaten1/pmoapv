@@ -15,18 +15,6 @@ use yii\web\UploadedFile;
  */
 class MetodychkyController extends Controller
 {
-    public function behaviors()
-    {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['post'],
-                ],
-            ],
-        ];
-    }
-
     /**
      * Lists all Metodychky models.
      * @return mixed
@@ -49,7 +37,7 @@ class MetodychkyController extends Controller
      */
     public function actionView($id)
     {
-        return $this->render('viewAdmin', [
+        return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
     }

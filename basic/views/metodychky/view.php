@@ -1,8 +1,9 @@
 <?php
 
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\widgets\DetailView;
-use kartik\icons\Icon;
+
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Metodychky */
@@ -13,17 +14,18 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="metodychky-view">
  
-     <h1><?= Icon::show('book', [], Icon::BSG).Html::encode($this->title) ?></h1>
+     <h1><?= Html::encode($this->title) ?></h1>
 
-    <?= DetailView::widget([
-        'model' => $model,
-        'attributes' => [
-            'description:ntext',
-            ['attribute' => 'file',
-                 'value' => $model->file ? Html::a($model->file, ['metodychky/view', 'id' => $model->id]) : 'Файл на сайті відсутній',
-                 'format' => 'html'
-            ],
-        ],
-    ]) ?>
+    <p><?= Html::encode($model->description) ?></p>
+
+    <p>
+        <strong>Електронна версія:  </strong>
+        <?php  
+            echo $model->file ? 
+            ' <a href=' . Url::to('/basic/web/uploads/metodychky/'. $model->file, true).' >' . $model->title.'</a>'
+			: 'Файл на сайті відсутній'
+        ?>
+    </p>
+    
 
 </div>

@@ -14,33 +14,6 @@ use yii\filters\VerbFilter;
  */
 class StaticPageController extends Controller
 {
-    public function behaviors()
-    {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['post'],
-                ],
-            ],
-        ];
-    }
-
-    /**
-     * Lists all StaticPage models.
-     * @return mixed
-     */
-    public function actionIndex()
-    {
-        $searchModel = new SearchStaticPage();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
-    }
-
     /**
      * Displays a single StaticPage model.
      * @param integer $id
@@ -53,31 +26,7 @@ class StaticPageController extends Controller
             'model' => $this->findModelByAlias($alias),
         ]);
     }
-
-    public function actionView($id)
-    {
-       return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
-    }
-
-    
-    /**
-     * Finds the StaticPage model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param integer $id
-     * @return StaticPage the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    protected function findModel($id)
-    {
-        if (($model = StaticPage::findOne($id)) !== null) {
-            return $model;
-        } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
-        }
-    }
-
+ 
     protected function findModelByAlias($alias)
     {
         if (($model = StaticPage::find()->where(['alias' => $alias])->one()) !== null) {

@@ -1,6 +1,7 @@
 <?php
 
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\widgets\DetailView;
 use kartik\icons\Icon;
 use app\models\TeachMetodychky;
@@ -39,7 +40,8 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'attribute' => 'file',
-                'value' => $model->file ? Html::a($model->file, ['@web/uploads/metodychky/'.$model->file]) : 'Файл на сайті відсутній',
+                'value' => $model->file ? ' <a href=' . Url::to('/basic/web/uploads/metodychky/'. $model->file, true).' >' . $model->title.'</a>'
+                : 'Файл на сайті відсутній',
                 'format' => 'html'
             ],
             [

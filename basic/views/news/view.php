@@ -13,15 +13,12 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="news-view">
 
-    <h1><?= Icon::show('folder-open', [], Icon::BSG).Html::encode($this->title) ?></h1>
+    <h1><?= Html::encode($this->title) ?></h1>
+	
+	<p><?= $model->image ? Html::img('@web/uploads/news/'.$model->image) : '' ?></p> 
 
-    <?= DetailView::widget([
-        'model' => $model,
-        'attributes' => [
-            'description:ntext',
-            'text:ntext',
-            'image',
-        ],
-    ]) ?>
+    <p><?= Html::encode($model->description) ?></p>
+
+    <p><?= Html::encode($model->text) ?></p>
 
 </div>

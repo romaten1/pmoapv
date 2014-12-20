@@ -14,18 +14,6 @@ use yii\filters\VerbFilter;
  */
 class PredmetController extends Controller
 {
-    public function behaviors()
-    {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['post'],
-                ],
-            ],
-        ];
-    }
-
     /**
      * Lists all Predmet models.
      * @return mixed
@@ -48,7 +36,7 @@ class PredmetController extends Controller
      */
     public function actionView($id)
     {
-        return $this->render('viewAdmin', [
+        return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
     }

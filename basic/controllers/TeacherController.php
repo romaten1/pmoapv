@@ -15,18 +15,6 @@ use yii\web\UploadedFile;
  */
 class TeacherController extends Controller
 {
-    public function behaviors()
-    {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['post'],
-                ],
-            ],
-        ];
-    }
-
     /**
      * Lists all Teacher models.
      * @return mixed
@@ -50,7 +38,7 @@ class TeacherController extends Controller
      */
     public function actionView($id)
     {
-        return $this->render('viewAdmin', [
+        return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
     }

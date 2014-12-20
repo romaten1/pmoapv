@@ -72,7 +72,7 @@ class MetodychkyController extends Controller
 
             if ($model->validate()) {                
                 if (isset($model->file)) {
-                    $file_name = Yii::$app->getSecurity()->generateRandomString() ;
+                    $file_name = Yii::$app->getSecurity()->generateRandomString(7) ;
                     $file_full_name = $file_name . '.' . $model->file->extension;
                     $model->file->saveAs('uploads/metodychky/' . $file_full_name);
                     $model->file = $file_full_name;
@@ -110,8 +110,8 @@ class MetodychkyController extends Controller
             }
             if ($model->validate()) {                
                 if (isset($model->file)) {
-                    $file_name = Yii::$app->getSecurity()->generateRandomString() ;
-                    $file_full_name = $image_name . '.' . $model->file->extension;
+                    $file_name = Yii::$app->getSecurity()->generateRandomString(7) ;
+                    $file_full_name = $file_name . '.' . $model->file->extension;
                     $model->file->saveAs('uploads/metodychky/' . $file_full_name);
                     $model->file = $file_full_name;
                 }

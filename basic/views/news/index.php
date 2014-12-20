@@ -13,13 +13,17 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="news-index">
 
-    <h1><?= Icon::show('folder-open', [], Icon::BSG).Html::encode($this->title) ?></h1>
+    <h1><?= Html::encode($this->title) ?></h1>
     
     <?= ListView::widget([
         'dataProvider' => $dataProvider,
         'itemOptions' => ['class' => 'item'],
         'itemView' => function ($model, $key, $index, $widget) {
-            return Html::a(Html::encode($model->title), ['view', 'id' => $model->id]);
+            $return = '';
+            $return .= $model->image ? Html::img('@web/uploads/news/thumbs/thumb_'.$model->image, ['class'=>'img-thumbnail']) : '';
+            $return .= '&nbsp &nbsp';
+            $return .= Html::a(Html::encode($model->title), ['view', 'id' => $model->id]);
+            return $return;
         },
     ]) ?>
 

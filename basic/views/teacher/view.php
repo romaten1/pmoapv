@@ -13,23 +13,19 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="teacher-view">
 
-    <h1><?= Icon::show('user', [], Icon::BSG).Html::encode($this->title) ?></h1>
+    <h1><?= Html::encode($this->title) ?></h1>
 
-    <?= DetailView::widget([
-        'model' => $model,
-        'attributes' => [
-            'name',
-            'second_name',
-            'last_name',
-            'image',
-            'job',
-            'science_status',
-            'org_status',
-            [
-                'attribute' => 'description',
-                'format' => 'html'
-            ],
-        ],
-    ]) ?>
+    
+    <p><?= $model->image ? Html::img('@web/uploads/teacher/'.$model->image) : '' ?></p>
+
+    <p><?= 'Посада: '.Html::encode($model->job) ?></p>
+
+    <p><?= 'Науковий ступінь: '.Html::encode($model->science_status) ?></p>
+
+    <p><?= 'Організаційна посада: '.Html::encode($model->org_status) ?></p>
+
+    <p><?= Html::encode($model->description) ?></p>
+
+    
 
 </div>

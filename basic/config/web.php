@@ -6,6 +6,7 @@ $config = [
     'id' => 'basic',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
+    'language' => 'uk',
     'modules' => [
         'admin' => [
             'class' => 'app\modules\admin\Module',
@@ -84,6 +85,7 @@ $config = [
                 ],
             ],
         ],
+
     ],
     'params' => $params,
 ];
