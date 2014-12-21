@@ -15,6 +15,9 @@ use Yii;
  */
 class Metodychky extends \yii\db\ActiveRecord
 {
+    
+    const STATUS_PASSIVE = 0;
+    const STATUS_ACTIVE = 1;
     /**
      * @inheritdoc
      */
@@ -47,6 +50,21 @@ class Metodychky extends \yii\db\ActiveRecord
             'description' => 'Опис',
             'file' => 'Файл',
             'active' => 'Активно чи ні',
+            'created_at' => 'Дата створення запису',
+            'updated_at' => 'Дата оновлення запису',
         ];
     }
+
+    public static function getStatusArray()
+    {
+        return [
+            self::STATUS_ACTIVE => 'Активно',
+            self::STATUS_PASSIVE => 'Неактивно',
+            
+        ];
+    }
+
+    
+
+    
 }

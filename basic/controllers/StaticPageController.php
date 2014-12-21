@@ -14,6 +14,8 @@ use yii\filters\VerbFilter;
  */
 class StaticPageController extends Controller
 {
+    public $layout = 'static';
+
     /**
      * Displays a single StaticPage model.
      * @param integer $id

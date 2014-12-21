@@ -23,7 +23,8 @@ $this->params['breadcrumbs'][] = $this->title;
         <?php  
             echo $model->file ? 
             ' <a href=' . Url::to('/basic/web/uploads/metodychky/'. $model->file, true).' >' . $model->title.'</a>'
-			: 'Файл на сайті відсутній'
+			: 'Файл на сайті відсутній';
+            echo '<br />Запис створено: '. date('d.m.Y', $model->updated_at);;
         ?>
     </p>
     

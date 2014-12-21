@@ -6,6 +6,7 @@ use yii\widgets\DetailView;
 use kartik\icons\Icon;
 use app\models\TeachMetodychky;
 use app\models\Teacher;
+use app\modules\admin\models\Metodychky;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Metodychky */
@@ -46,7 +47,15 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'attribute' => 'active',
-                'value' => $model->active == '1' ? 'Активна' : 'Неактивна',
+                'value' => Metodychky::getStatus($model->active),
+            ],
+            [
+                'attribute' => 'created_at',
+                'format' => 'date'
+            ],
+            [
+                'attribute' => 'updated_at',
+                'format' => 'date'
             ],
 
         ],

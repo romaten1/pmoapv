@@ -1,12 +1,11 @@
-
 <?php
 use yii\helpers\Html;
-use yii\helpers\Url;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
-
+use app\components\widgets\news\NewsWidget;
+use app\components\widgets\teachers\TeacherWidget;
 /* @var $this \yii\web\View */
 /* @var $content string */
 
@@ -80,10 +79,12 @@ AppAsset::register($this);
                             ['label' => 'Аспіранти кафедри', 'url' => ['/static-page/view-alias', 'alias'=>'aspirant']],
                         ],
                     ],
+                    !Yii::$app->user->isGuest ?
+                        ['label' => 'Профіль', 'url' => ['/user/settings/profile']] : '',                            
                     Yii::$app->user->isGuest ?
-                        ['label' => 'Вхід на сайт', 'url' => ['/site/login']] :
+                        ['label' => 'Вхід на сайт', 'url' => ['/user/security/login']] :
                         ['label' => 'Вийти (' . Yii::$app->user->identity->username . ')',
-                            'url' => ['/site/logout'],
+                            'url' => ['/user/security/logout'],
                             'linkOptions' => ['data-method' => 'post']],
                 ],
             ]);
@@ -91,33 +92,21 @@ AppAsset::register($this);
         ?>
 
         <div class="container">
+            <?= Breadcrumbs::widget([
+                'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+                'homeLink' => ['label' => 'Головна','url' => ['/site/index']],
+            ]) ?>
+            <div class="row">
+                <div class="col-md-9"><?= $content ?></div>
+                
+                <div class="col-md-3"> 
+                    <?php  if($this->params['type'] === 'predmet'){ 
+                            echo TeacherWidget::widget();
+                        } ?>                        
+                    <?php echo NewsWidget::widget(); ?>
+                </div>
+            </div>
             
-	        <div class="row">    
-	            <div class="col-xs-2">
-	            	<ul class="nav nav-list">
-                      <li class="nav-header btn btn-primary">Новини</li>
-                      <li><a href="<?= Url::to(['/admin/news'])?>">Журнал</a></li>
-                      <li><a href="<?= Url::to(['/admin/news/create'])?>">Створити</a></li>
-                      <li class="nav-header btn btn-primary">Статичні сторінки</li>
-                      <li><a href="<?= Url::to(['/admin/static-page'])?>">Журнал</a></li>
-                      <li><a href="<?= Url::to(['/admin/static-page/create'])?>">Створити</a></li>
-                      <li class="nav-header btn btn-primary">Викладачі</li>
-                      <li><a href="<?= Url::to(['/admin/teacher'])?>">Журнал</a></li>
-                      <li><a href="<?= Url::to(['/admin/teacher/create'])?>">Створити</a></li>
-                      <li><a href="<?= Url::to(['/admin/teach-predmet'])?>">Викладач::Предмет</a></li>
-                      <li><a href="<?= Url::to(['/admin/teach-metodychky'])?>">Викладач::Методичка</a></li>
-                      <li class="nav-header btn btn-primary">Предмети</li>
-                      <li><a href="<?= Url::to(['/admin/predmet'])?>">Журнал</a></li>
-                      <li><a href="<?= Url::to(['/admin/predmet/create'])?>">Створити</a></li>
-                      <li class="nav-header btn btn-primary">Методичні вказівки</li>
-                      <li><a href="<?= Url::to(['/admin/metodychky'])?>">Журнал</a></li>
-                      <li><a href="<?= Url::to(['/admin/metodychky/create'])?>">Створити</a></li>
-                    </ul>
-	            </div>
-	            <div class="col-xs-10">
-	            	<?= $content ?>
-	            </div>
-	        </div>    
         </div>
     </div>
 

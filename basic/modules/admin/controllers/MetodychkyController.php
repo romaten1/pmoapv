@@ -9,6 +9,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\UploadedFile;
+use app\helpers\TransliterateHelper;
 
 /**
  * MetodychkyController implements the CRUD actions for Metodychky model.
@@ -62,7 +63,7 @@ class MetodychkyController extends Controller
     public function actionCreate()
     {
         $model = new Metodychky();
-
+        $statusArray = Metodychky::getStatusArray();
         if ($model->load(Yii::$app->request->post())) {
         
         // Получаем массив данных по загружамых файлах
@@ -72,7 +73,8 @@ class MetodychkyController extends Controller
 
             if ($model->validate()) {                
                 if (isset($model->file)) {
-                    $file_name = Yii::$app->getSecurity()->generateRandomString(7) ;
+                    $file_name = Yii::$app->getSecurity()->generateRandomString(5)
+                        .'_'.substr(TransliterateHelper::cyrillicToLatin($model->title), 0, 7);
                     $file_full_name = $file_name . '.' . $model->file->extension;
                     $model->file->saveAs('uploads/metodychky/' . $file_full_name);
                     $model->file = $file_full_name;
@@ -89,6 +91,7 @@ class MetodychkyController extends Controller
         } else {
             return $this->render('create', [
                 'model' => $model,
+                'statusArray' => $statusArray,
                 ]);
         }   
     }
@@ -103,6 +106,7 @@ class MetodychkyController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $statusArray = Metodychky::getStatusArray();
         $old_file = $model->file;
         if ($model->load(Yii::$app->request->post())) {
             if (isset($model->file)) {
@@ -110,7 +114,8 @@ class MetodychkyController extends Controller
             }
             if ($model->validate()) {                
                 if (isset($model->file)) {
-                    $file_name = Yii::$app->getSecurity()->generateRandomString(7) ;
+                    $file_name = Yii::$app->getSecurity()->generateRandomString(5)
+                        .'_'.substr(TransliterateHelper::cyrillicToLatin($model->title), 0, 7);
                     $file_full_name = $file_name . '.' . $model->file->extension;
                     $model->file->saveAs('uploads/metodychky/' . $file_full_name);
                     $model->file = $file_full_name;
@@ -128,6 +133,7 @@ class MetodychkyController extends Controller
         } else {
             return $this->render('update', [
                 'model' => $model,
+                'statusArray' => $statusArray,
             ]);
         }
     }

@@ -5,7 +5,7 @@ use yii\widgets\ActiveForm;
 use dosamigos\tinymce\TinyMce;
 use dosamigos\fileupload\FileUpload;
 use yii\helpers\ArrayHelper;
-
+use app\modules\admin\models\Metodychky;
 /* @var $this yii\web\View */
 /* @var $model app\models\Metodychky */
 /* @var $form yii\widgets\ActiveForm */
@@ -36,7 +36,7 @@ use yii\helpers\ArrayHelper;
 
     <?= $form->field($model, 'file')->fileInput() ?>
 	
-	<?= $form->field($model, 'active')->dropDownList(['1' => 'Активнo', '0' => 'Неактивнo'])  ?>
+	<?= $form->field($model, 'active')->dropDownList(Metodychky::getStatusArray())  ?>
 
 	
     <div class="form-group">

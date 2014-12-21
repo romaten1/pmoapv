@@ -14,6 +14,7 @@ use yii\filters\VerbFilter;
  */
 class PredmetController extends Controller
 {
+    public $layout = 'static';
     /**
      * Lists all Predmet models.
      * @return mixed

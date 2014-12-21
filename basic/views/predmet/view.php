@@ -10,6 +10,8 @@ use kartik\icons\Icon;
 $this->title = $model->title;
 $this->params['breadcrumbs'][] = ['label' => 'Предмети', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
+$this->params['type'] = 'predmet';
+$this->params['predmet_id'] = $model->id;
 ?>
 <div class="predmet-view">
 
