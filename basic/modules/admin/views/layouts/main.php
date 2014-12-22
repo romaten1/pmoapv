@@ -98,25 +98,42 @@ AppAsset::register($this);
             
 	        <div class="row">    
 	            <div class="col-xs-2">
-	            	<ul class="nav nav-list">
-                      <li class="nav-header btn btn-primary">Новини</li>
-                      <li><a href="<?= Url::to(['/admin/news'])?>">Журнал</a></li>
-                      <li><a href="<?= Url::to(['/admin/news/create'])?>">Створити</a></li>
-                      <li class="nav-header btn btn-primary">Статичні сторінки</li>
-                      <li><a href="<?= Url::to(['/admin/static-page'])?>">Журнал</a></li>
-                      <li><a href="<?= Url::to(['/admin/static-page/create'])?>">Створити</a></li>
-                      <li class="nav-header btn btn-primary">Викладачі</li>
-                      <li><a href="<?= Url::to(['/admin/teacher'])?>">Журнал</a></li>
-                      <li><a href="<?= Url::to(['/admin/teacher/create'])?>">Створити</a></li>
-                      <li><a href="<?= Url::to(['/admin/teach-predmet'])?>">Викладач::Предмет</a></li>
-                      <li><a href="<?= Url::to(['/admin/teach-metodychky'])?>">Викладач::Методичка</a></li>
-                      <li class="nav-header btn btn-primary">Предмети</li>
-                      <li><a href="<?= Url::to(['/admin/predmet'])?>">Журнал</a></li>
-                      <li><a href="<?= Url::to(['/admin/predmet/create'])?>">Створити</a></li>
-                      <li class="nav-header btn btn-primary">Методичні вказівки</li>
-                      <li><a href="<?= Url::to(['/admin/metodychky'])?>">Журнал</a></li>
-                      <li><a href="<?= Url::to(['/admin/metodychky/create'])?>">Створити</a></li>
-                    </ul>
+                    <div class="panel panel-primary">
+                        <div class="panel-heading"><h3 class="panel-title"><?= Html::a('Новини', ['/admin/news']) ?></h3></div>
+                        <div class="panel-body">
+                            <?= Html::a('Створити', ['/admin/news/create']) ?></h3>
+                        </div>
+                    </div>
+	            	<div class="panel panel-primary">
+                        <div class="panel-heading"><h3 class="panel-title"><?= Html::a('Статичні сторінки', ['/admin/static-page']) ?></h3></div>
+                        <div class="panel-body">
+                            <?= Html::a('Створити', ['/admin/static-page/create']) ?>
+                        </div>
+                    </div>
+                    <div class="panel panel-primary">
+                        <div class="panel-heading"><h3 class="panel-title"><?= Html::a('Викладачі', ['/admin/teacher']) ?></h3></div>
+                        <div class="panel-body">
+                            <?= Html::a('Створити', ['/admin/teacher/create']) ?><br />
+                            <?= Html::a('Викладач::Предмет', ['/admin/teach-predmet']) ?><br />
+                            <?= Html::a('Викладач::Методичка', ['/admin/teach-metodychky']) ?>
+                        </div>
+                    </div>
+                    <div class="panel panel-primary">
+                        <div class="panel-heading"><h3 class="panel-title"><?= Html::a('Предмети', ['/admin/predmet']) ?></h3></div>
+                        <div class="panel-body">
+                            <?= Html::a('Створити', ['/admin/predmet/create']) ?>
+                        </div>
+                    </div>
+                    <div class="panel panel-primary">
+                        <div class="panel-heading"><h3 class="panel-title"><?= Html::a('Методичні вказівки', ['/admin/metodychky']) ?></h3></div>
+                        <div class="panel-body">
+                            <?= Html::a('Створити', ['/admin/metodychky/create']) ?>
+                        </div>
+                    </div>
+                    <div class="panel panel-primary">
+                        <div class="panel-heading"><h3 class="panel-title"><?= Html::a('Повідомлення користувачів', ['/admin/contacts']) ?></h3></div>
+                        
+                    </div>                       
 	            </div>
 	            <div class="col-xs-10">
 	            	<?= $content ?>
