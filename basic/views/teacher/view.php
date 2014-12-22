@@ -31,7 +31,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <p><?= $model->description?></p>
     <div class="row">
         <div class="col-md-6">
-            <p class="btn btn-default">Предмети, які веде викладач:</p>
+            <div class="well well-sm">Предмети, які веде викладач:</div>
              <p><?
                     $predmet_id = TeachPredmet::findAll([
                         'teach_id' => $model->id,
@@ -46,7 +46,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 ?></p>
         </div>
         <div class="col-md-6">
-            <p class="btn btn-default">Викладач є автором методичних вказівок:</p>
+            <div class="well well-sm">Викладач є автором методичних вказівок:</div>
             <p><?
                 $metodychky_id = TeachMetodychky::findAll([
                     'teach_id' => $model->id,

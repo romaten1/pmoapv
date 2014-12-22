@@ -80,6 +80,10 @@ AppAsset::register($this);
                             ['label' => 'Аспіранти кафедри', 'url' => ['/static-page/view-alias', 'alias'=>'aspirant']],
                         ],
                     ],
+                    !Yii::$app->user->isGuest ?
+                        ['label' => 'Admin', 'url' => ['/admin']] : '',
+                    !Yii::$app->user->isGuest ?
+                        ['label' => 'Профіль', 'url' => ['/user/settings/profile']] : '',
                     Yii::$app->user->isGuest ?
                         ['label' => 'Вхід на сайт', 'url' => ['/site/login']] :
                         ['label' => 'Вийти (' . Yii::$app->user->identity->username . ')',

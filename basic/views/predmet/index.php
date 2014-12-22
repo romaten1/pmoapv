@@ -2,7 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\ListView;
-use kartik\icons\Icon;
+
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\PredmetSearch */
@@ -13,7 +13,7 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="predmet-index">
 
-    <h1><?= Icon::show('briefcase', [], Icon::BSG).Html::encode($this->title) ?></h1>
+    <h1><?= Html::encode($this->title) ?></h1>
     <?php //echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <?= ListView::widget([

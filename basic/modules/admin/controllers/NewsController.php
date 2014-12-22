@@ -14,6 +14,7 @@ use Imagine\Image\Box;
 use Imagine\Image\Point;
 use Imagine\Imagick\Imagine;
 use Imagine\Image\ImageInterface;
+use app\helpers\TransliterateHelper;
 /**
  * NewsController implements the CRUD actions for News model.
  */

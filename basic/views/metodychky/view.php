@@ -29,7 +29,7 @@ $this->params['breadcrumbs'][] = $this->title;
             echo '<br />Запис створено: '. date('d.m.Y', $model->updated_at);;
         ?>
     </p>
-     Автори методичних вказівок:<br />
+    <div class="well well-sm">Автори методичних вказівок:</div> 
         <?
             $metodychky_id = TeachMetodychky::findAll([
                 'metodychky_id' => $model->id,

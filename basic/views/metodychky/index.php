@@ -2,7 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\ListView;
-use kartik\icons\Icon;
+
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\MetodychkySearch */
@@ -13,7 +13,7 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="metodychky-index">
 
-   <h1><?= Icon::show('book', [], Icon::BSG).Html::encode($this->title) ?></h1>
+   <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
