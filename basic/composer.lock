@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "90a74c89b2a739737e0d6bfe340cd6e8",
+    "hash": "fd13cf21c8e881bd1b0dfdb463d26df5",
     "packages": [
         {
             "name": "2amigos/yii2-file-upload-widget",
@@ -229,6 +229,16 @@
                 "jquery",
                 "library"
             ]
+        },
+        {
+            "name": "bower-asset/jquery-prettyPhoto",
+            "version": "3.1.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/scaron/prettyphoto",
+                "reference": "master"
+            },
+            "type": "bower-asset-library"
         },
         {
             "name": "bower-asset/jquery-ui",
@@ -671,6 +681,53 @@
                 "yii2"
             ],
             "time": "2014-12-17 06:15:53"
+        },
+        {
+            "name": "nirvana-msu/yii2-prettyphoto",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nirvana-msu/yii2-prettyphoto.git",
+                "reference": "6e9040ea4b87a0df60258b1cc1dd21f81afdab05"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/nirvana-msu/yii2-prettyphoto/zipball/6e9040ea4b87a0df60258b1cc1dd21f81afdab05",
+                "reference": "6e9040ea4b87a0df60258b1cc1dd21f81afdab05",
+                "shasum": ""
+            },
+            "require": {
+                "bower-asset/jquery-prettyphoto": "*",
+                "yiisoft/yii2": "*"
+            },
+            "type": "yii2-extension",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "nirvana\\prettyphoto\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Alexander Stepanov",
+                    "email": "student_vmk@mail.ru"
+                }
+            ],
+            "description": "Yii2 extension for prettyPhoto jQuery lightbox clone",
+            "keywords": [
+                "prettyPhoto",
+                "widget",
+                "yii2"
+            ],
+            "time": "2014-12-14 21:15:23"
         },
         {
             "name": "philippfrenzel/yii2sly",
@@ -1498,7 +1555,8 @@
     "minimum-stability": "stable",
     "stability-flags": {
         "kartik-v/yii2-icons": 20,
-        "philippfrenzel/yii2sly": 20
+        "philippfrenzel/yii2sly": 20,
+        "nirvana-msu/yii2-prettyphoto": 20
     },
     "prefer-stable": false,
     "platform": {

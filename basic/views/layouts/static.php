@@ -122,7 +122,7 @@ AppAsset::register($this);
                   <abbr title="Mail">E-mail:</abbr> pmoapv@meta.ua, kafedra.pmo@gmail.com
                 </address>
             </div>
-            <p class="pull-right"><?= Yii::powered() ?></p>
+            
         </div>
     </footer>
 

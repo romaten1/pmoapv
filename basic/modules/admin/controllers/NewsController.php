@@ -82,7 +82,7 @@ class NewsController extends Controller
                 //Make a thumbnails
                 $path_from = Yii::getAlias('@webroot/uploads/news/' . $image_full_name);
                 $path_to = Yii::getAlias('@webroot/uploads/news/thumbs/thumb_') . $image_full_name;
-                $this->makeImage($path_from, $path_to, $desired_width = 60);
+                $this->makeImage($path_from, $path_to, $desired_width = 120);
                 //Make an image
                 $path_from = Yii::getAlias('@webroot/uploads/news/' . $image_full_name);
                 $path_to = Yii::getAlias('@webroot/uploads/news/') . $image_full_name;
@@ -124,7 +124,7 @@ class NewsController extends Controller
                     //Make a thumbnails
                     $path_from = Yii::getAlias('@webroot/uploads/news/' . $image_full_name);
                     $path_to = Yii::getAlias('@webroot/uploads/news/thumbs/thumb_') . $image_full_name;
-                    $this->makeImage($path_from, $path_to, $desired_width = 60);
+                    $this->makeImage($path_from, $path_to, $desired_width = 120);
                     //Make an image
                     $path_from = Yii::getAlias('@webroot/uploads/news/' . $image_full_name);
                     $path_to = Yii::getAlias('@webroot/uploads/news/') . $image_full_name;

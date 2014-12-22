@@ -22,7 +22,8 @@
         "2amigos/yii2-file-upload-widget" : "*",
         "kartik-v/yii2-icons": "dev-master",
         "philippfrenzel/yii2sly": "dev-master",
-        "dektrium/yii2-user": "*"        
+        "dektrium/yii2-user": "*",
+        "nirvana-msu/yii2-prettyphoto": "1.0.*@dev"        
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",
@@ -56,5 +57,20 @@
             "npm-asset-library": "vendor/npm",
             "bower-asset-library": "vendor/bower"
         }
-    }
+    },
+    "repositories": [
+        {
+            "type": "package",
+            "package": {
+                "name": "bower-asset/jquery-prettyPhoto",
+                "type": "bower-asset-library",
+                "version": "3.1.4",
+                "source": {
+                    "url": "https://github.com/scaron/prettyphoto",
+                    "type": "git",
+                    "reference": "master"
+                }
+            }
+        }
+    ]
 }
