@@ -5,6 +5,7 @@ use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
 use app\components\widgets\news\NewsWidget;
+use app\components\widgets\metodychky\MetodychkyWidget;
 use app\components\widgets\teachers\TeacherWidget;
 /* @var $this \yii\web\View */
 /* @var $content string */
@@ -79,7 +80,9 @@ AppAsset::register($this);
                             ['label' => 'Аспіранти кафедри', 'url' => ['/static-page/view-alias', 'alias'=>'aspirant']],
                         ],
                     ],
-                    !Yii::$app->user->isGuest ?
+                   !Yii::$app->user->isGuest ?
+                        ['label' => 'Admin', 'url' => ['/admin']] : '',
+                   !Yii::$app->user->isGuest ?
                         ['label' => 'Профіль', 'url' => ['/user/settings/profile']] : '',                            
                     Yii::$app->user->isGuest ?
                         ['label' => 'Вхід на сайт', 'url' => ['/user/security/login']] :
@@ -100,10 +103,9 @@ AppAsset::register($this);
                 <div class="col-md-9"><?= $content ?></div>
                 
                 <div class="col-md-3"> 
-                    <?php  if($this->params['type'] === 'predmet'){ 
-                            echo TeacherWidget::widget();
-                        } ?>                        
                     <?php echo NewsWidget::widget(); ?>
+                    <?php echo MetodychkyWidget::widget();?>
+                    <?php echo TeacherWidget::widget();?>
                 </div>
             </div>
             

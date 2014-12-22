@@ -3,7 +3,9 @@
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 use kartik\icons\Icon;
+use app\models\Metodychky;
 use app\models\TeachPredmet;
+use app\models\TeachMetodychky;
 use app\models\Predmet;
 
 /* @var $this yii\web\View */
@@ -27,21 +29,39 @@ $this->params['breadcrumbs'][] = $this->title;
     <p><?= 'Організаційна посада: '.Html::encode($model->org_status) ?></p>
 
     <p><?= $model->description?></p>
-
-    <p>Предмети, які веде викладач:</p>
-        <?
-            $predmet_id = TeachPredmet::findAll([
-                'teach_id' => $model->id,
-            ]); 
-            foreach($predmet_id as $predmet){
-                $predmet_name = Predmet::findOne($predmet->predmet_id);
-                echo 
-                Html::a($predmet_name->title, 
-                    ['/admin/predmet/view', 'id' => $predmet_name->id], ['class' => 'btn btn-default'])
-                . '<br />'; 
-            }
-            
-
-        ?>
+    <div class="row">
+        <div class="col-md-6">
+            <p class="btn btn-default">Предмети, які веде викладач:</p>
+             <p><?
+                    $predmet_id = TeachPredmet::findAll([
+                        'teach_id' => $model->id,
+                    ]); 
+                    foreach($predmet_id as $predmet){
+                        $predmet_name = Predmet::findOne($predmet->predmet_id);
+                        echo 
+                        Html::a($predmet_name->title, 
+                            ['/predmet/view', 'id' => $predmet_name->id])
+                        . '<br />'; 
+                    } 
+                ?></p>
+        </div>
+        <div class="col-md-6">
+            <p class="btn btn-default">Викладач є автором методичних вказівок:</p>
+            <p><?
+                $metodychky_id = TeachMetodychky::findAll([
+                    'teach_id' => $model->id,
+                ]); 
+                foreach($metodychky_id as $metodychky){
+                    $metodychky_name = Metodychky::findOne($metodychky->metodychky_id);
+                    echo 
+                    Html::a($metodychky_name->title, 
+                        ['/metodychky/view', 'id' => $metodychky_name->id])
+                    . '<br />'; 
+                } 
+            ?></p>
+        </div>
+    </div>
+    
+    
 
 </div>

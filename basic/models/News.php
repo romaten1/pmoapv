@@ -15,6 +15,8 @@ use Yii;
  */
 class News extends \yii\db\ActiveRecord
 {
+    const STATUS_PASSIVE = 0;
+    const STATUS_ACTIVE = 1;
     /**
      * @inheritdoc
      */
@@ -31,6 +33,7 @@ class News extends \yii\db\ActiveRecord
         return [
             [['title', 'description', 'text'], 'required'],
             [['description', 'text'], 'string'],
+            [['active'], 'integer'],
             [['title', 'image'], 'string', 'max' => 255]
         ];
     }
@@ -46,6 +49,9 @@ class News extends \yii\db\ActiveRecord
             'description' => 'Короткий опис',
             'text' => 'Текст новини',
             'image' => 'Фото',
+            'created_at' => 'Дата створення',
+            'updated_at' => 'Дата оновлення',
+            'active' => 'Активно чи ні',
         ];
     }
 }

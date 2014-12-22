@@ -73,7 +73,8 @@ class NewsController extends Controller
         // Получаем массив данных по загружамых файлах
             $model->image = UploadedFile::getInstance($model, 'image');
             if ($model->validate()) {                
-                $image_name = Yii::$app->getSecurity()->generateRandomString() ;
+                $image_name = Yii::$app->getSecurity()->generateRandomString(5)
+                    .'_'.substr(TransliterateHelper::cyrillicToLatin($model->title), 0, 7);
                 $image_full_name = $image_name . '.' . $model->image->extension;
                 $model->image->saveAs('uploads/news/' . $image_full_name);
                 $model->image = $image_full_name;
@@ -114,7 +115,8 @@ class NewsController extends Controller
             }
             if ($model->validate()) {                
                 if (isset($model->image)) {
-                    $image_name = Yii::$app->getSecurity()->generateRandomString() ;
+                    $image_name = Yii::$app->getSecurity()->generateRandomString(5)
+                        .'_'.substr(TransliterateHelper::cyrillicToLatin($model->title), 0, 7);
                     $image_full_name = $image_name . '.' . $model->image->extension;
                     $model->image->saveAs('uploads/news/' . $image_full_name);
                     $model->image = $image_full_name;

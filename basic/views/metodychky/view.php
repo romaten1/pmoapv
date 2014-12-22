@@ -3,7 +3,9 @@
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\DetailView;
-
+use app\models\TeachMetodychky;
+use app\models\Teacher;
+use app\modules\admin\models\Metodychky;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Metodychky */
@@ -27,6 +29,23 @@ $this->params['breadcrumbs'][] = $this->title;
             echo '<br />Запис створено: '. date('d.m.Y', $model->updated_at);;
         ?>
     </p>
+     Автори методичних вказівок:<br />
+        <?
+            $metodychky_id = TeachMetodychky::findAll([
+                'metodychky_id' => $model->id,
+            ]); 
+            foreach($metodychky_id as $metodychky ){
+                $teacher_name = Teacher::findOne($metodychky->teach_id);
+                echo 
+                Html::a($teacher_name->last_name.' '
+                    .$teacher_name->name.' '
+                    .$teacher_name->second_name, 
+                    ['/admin/teacher/view', 'id' => $teacher_name->id], ['class' => 'btn btn-default'])
+                . '<br />'; 
+            }
+            
+
+        ?>
     
 
 </div>

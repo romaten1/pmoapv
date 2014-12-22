@@ -15,6 +15,7 @@ use yii\web\UploadedFile;
  */
 class TeacherController extends Controller
 {
+    public $layout = 'static';
     /**
      * Lists all Teacher models.
      * @return mixed

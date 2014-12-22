@@ -3,9 +3,9 @@
 	use yii\widgets\ListView;
  ?>
 
-<div id="news-widget">
-    <h3><?= Html::a('Новини кафедри', 
-			['/news']) ?></h3>
+<div id="metodychky-widget">
+    <h3><?= Html::a('Методичні вказівки', 
+			['/metodychky']) ?></h3>
     <?= $this->render('_index_loop', [
     	'models' => $models
     ]) ?>

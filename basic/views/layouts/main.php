@@ -79,6 +79,8 @@ AppAsset::register($this);
                         ],
                     ],
                     !Yii::$app->user->isGuest ?
+                        ['label' => 'Admin', 'url' => ['/admin']] : '',
+                    !Yii::$app->user->isGuest ?
                         ['label' => 'Профіль', 'url' => ['/user/settings/profile']] : '',                            
                     Yii::$app->user->isGuest ?
                         ['label' => 'Вхід на сайт', 'url' => ['/user/security/login']] :

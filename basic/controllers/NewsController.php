@@ -14,13 +14,13 @@ use yii\filters\VerbFilter;
  */
 class NewsController extends Controller
 {
+    public $layout = 'static';
     /**
      * Lists all News models.
      * @return mixed
      */
     public function actionIndex()
     {
-        var_dump(Yii::$app->request->queryParams);
         $searchModel = new NewsSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 

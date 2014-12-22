@@ -1,12 +1,12 @@
 <?php 
-namespace app\components\widgets\teachers;
+namespace app\components\widgets\metodychky;
 
 use Yii;
 use yii\base\Widget;
 use yii\helpers\Html;
-use app\models\Teacher;
+use app\models\Metodychky;
 
-class TeacherWidget extends Widget
+class MetodychkyWidget extends Widget
 {
     
     public $title;
@@ -15,15 +15,15 @@ class TeacherWidget extends Widget
     {
         parent::init();
         if (!$this->title) {
-            $this->title = 'Викладачі кафедри';
+            $this->title = 'Методичні вказівки';
         }
     }
 
     public function run()
     {
         
-        $models = Teacher::find()->limit(10)->orderBy(['id' => SORT_ASC])->all();
-        return $this->render('teacher', [
+        $models = Metodychky::find()->limit(5)->orderBy(['id' => SORT_DESC])->all();
+        return $this->render('metodychky', [
             'models' => $models,
             'title' => $title,
         ]);

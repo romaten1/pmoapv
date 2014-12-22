@@ -4,7 +4,8 @@
  ?>
 
 <div id="teacher-widget">
-    <h3><?= 'Викладачі кафедри' ?></h3>
+    <h3><?= Html::a('Викладачі кафедри', 
+			['/teacher']) ?></h3>
     <?= $this->render('_index_loop', [
     	'models' => $models
     ]) ?>

@@ -3,7 +3,7 @@
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 use kartik\icons\Icon;
-
+use app\modules\admin\models\News;
 /* @var $this yii\web\View */
 /* @var $model app\models\News */
 
@@ -43,6 +43,18 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'text',
                 'format' => 'html'
+            ],
+            [
+                'attribute' => 'active',
+                'value' => News::getStatus($model->active),
+            ],
+            [
+                'attribute' => 'created_at',
+                'format' => 'date'
+            ],
+            [
+                'attribute' => 'updated_at',
+                'format' => 'date'
             ],
             
         ],

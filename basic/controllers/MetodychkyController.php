@@ -15,6 +15,7 @@ use yii\web\UploadedFile;
  */
 class MetodychkyController extends Controller
 {
+    public $layout = 'static';
     /**
      * Lists all Metodychky models.
      * @return mixed
