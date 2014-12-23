@@ -77,7 +77,7 @@ class NewsController extends Controller
                 $image_name = Yii::$app->getSecurity()->generateRandomString(5)
                     .'_'.substr(TransliterateHelper::cyrillicToLatin($model->title), 0, 7);
                 $image_full_name = $image_name . '.' . $model->image->extension;
-                $model->image->saveAs('uploads/news/' . $image_full_name);
+                $model->image->saveAs(Yii::getAlias('@webroot/uploads/news/' . $image_full_name));
                 $model->image = $image_full_name;
                 //Make a thumbnails
                 $path_from = Yii::getAlias('@webroot/uploads/news/' . $image_full_name);

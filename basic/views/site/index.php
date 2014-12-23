@@ -21,13 +21,13 @@ $this->title = 'Кафедра ПМОАПВ УНУС';
     <?= philippfrenzel\yii2sly\yii2sly::widget([
         'id' => 'sp_slider',
         'items'=> [
-            ['content' => '<img src="' . Url::to('@web/img/sly/001.jpg') . '"></img>'],
-            ['content' => '<img src="' . Url::to('@web/img/sly/002.jpg') . '"></img>'],
-            ['content' => '<img src="' . Url::to('@web/img/sly/003.jpg') . '"></img>'],
-            ['content' => '<img src="' . Url::to('@web/img/sly/004.jpg') . '"></img>'],
-            ['content' => '<img src="' . Url::to('@web/img/sly/005.jpg') . '"></img>'],
-            ['content' => '<img src="' . Url::to('@web/img/sly/006.jpg') . '"></img>'],
-            ['content' => '<img src="' . Url::to('@web/img/sly/007.jpg') . '"></img>']
+            ['content' => '<img src="' . Url::to('@web/uploads/images/001.jpeg') . '"></img>'],
+            ['content' => '<img src="' . Url::to('@web/uploads/images/002.jpeg') . '"></img>'],
+            ['content' => '<img src="' . Url::to('@web/uploads/images/003.jpeg') . '"></img>'],
+            ['content' => '<img src="' . Url::to('@web/uploads/images/004.jpeg') . '"></img>'],
+            ['content' => '<img src="' . Url::to('@web/uploads/images/005.jpeg') . '"></img>'],
+            ['content' => '<img src="' . Url::to('@web/uploads/images/006.jpeg') . '"></img>'],
+            ['content' => '<img src="' . Url::to('@web/uploads/images/007.jpeg') . '"></img>']
         ],
         'options' => [
             'style' => "height:200px;",
