@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "fd13cf21c8e881bd1b0dfdb463d26df5",
+    "hash": "892b4ac629e52599bff8fbc01133dfde",
     "packages": [
         {
             "name": "2amigos/yii2-file-upload-widget",
@@ -434,6 +434,39 @@
                 "markdown-extra"
             ],
             "time": "2014-10-25 16:16:49"
+        },
+        {
+            "name": "claudejanz/jquery-slider",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/claudejanz/jquery-slider.git",
+                "reference": "421389f2ce1fd39996189e687b229f2eea4f3d44"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/claudejanz/jquery-slider/zipball/421389f2ce1fd39996189e687b229f2eea4f3d44",
+                "reference": "421389f2ce1fd39996189e687b229f2eea4f3d44",
+                "shasum": ""
+            },
+            "require": {
+                "yiisoft/yii2": "*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "claudejanz\\jquerySlider\\widgets\\": "widgets"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "Claude Janz",
+                    "email": "claudejanz@gmail.com"
+                }
+            ],
+            "description": "forked from jssor/jquery-slider add composer file and yii2 widgets",
+            "time": "2014-08-11 10:00:12"
         },
         {
             "name": "dektrium/yii2-user",
@@ -1556,7 +1589,8 @@
     "stability-flags": {
         "kartik-v/yii2-icons": 20,
         "philippfrenzel/yii2sly": 20,
-        "nirvana-msu/yii2-prettyphoto": 20
+        "nirvana-msu/yii2-prettyphoto": 20,
+        "claudejanz/jquery-slider": 20
     },
     "prefer-stable": false,
     "platform": {
