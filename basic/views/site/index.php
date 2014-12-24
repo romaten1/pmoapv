@@ -88,7 +88,7 @@ $this->title = 'Кафедра ПМОАПВ УНУС';
                     Вольвак С.Ф. (2012-2014 рр.).              
                   </p>
 
-                <p><a class="btn btn-default" href= <?= Url::to('/static-page/view-alias', ['alias'=>'history']); ?> >Далі ... &raquo;</a></p>
+                <p><a class="btn btn-default" href= <?= Url::to(['/static-page/view-alias', 'alias' => 'history']); ?> >Далі ... &raquo;</a></p>
             </div>
             <div class="col-lg-4">
                 <h2>Наукова робота</h2>
@@ -98,8 +98,8 @@ $this->title = 'Кафедра ПМОАПВ УНУС';
                 та ягідниках, паливної економічності та екологічності дизелів та ін. При кафедрі працює аспірантура, функціонує 
                 студентський науковий гурток, в якому студенти займаються науковою роботою.              </p>
 
-                <p><a class="btn btn-default" href= <?= Url::to('@web/nauka/page/napryamy'); ?> >Далі ... &raquo;</a></p>
-            </div>
+                <p><a class="btn btn-default" href= <?= Url::to(['/static-page/view-alias', 'alias' => 'napryamy-nauki']); ?> >Далі ... &raquo;</a></p>
+            </div>                               
             <div class="col-lg-4">
                 <h2>Практична підготовка студентів</h2>
 
@@ -109,7 +109,7 @@ $this->title = 'Кафедра ПМОАПВ УНУС';
                 Студенти проходять навчальну практику на кафедральному полігоні і виробничу в 
                 умовах навчально-дослідного господарства та інших господарств регіону</p>
 
-                <p><a class="btn btn-default" href= <?= Url::to('@web/cafedra/page/praktika'); ?> >Далі ... &raquo;</a></p>
+                <p><a class="btn btn-default" href= <?= Url::to(['/static-page/view-alias', 'alias' => 'praktika']); ?> >Далі ... &raquo;</a></p>
             </div>
         </div>
 

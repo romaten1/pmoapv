@@ -44,7 +44,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="col-md-7">
             <h3>
                 Якщо ви маєте пропозиції або запитання, заповніть дану форму.  
-                Дякуємо!.
+                Дякуємо!
             </h3>
             <?php $form = ActiveForm::begin(['id' => 'contact-form']); ?>
                 <?= $form->field($model, 'name') ?>

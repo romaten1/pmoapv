@@ -2,7 +2,8 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-use dosamigos\tinymce\TinyMce;
+use mihaildev\ckeditor\CKEditor;
+use mihaildev\elfinder\ElFinder;
 use dosamigos\fileupload\FileUpload;
 use yii\helpers\ArrayHelper;
 use app\modules\admin\models\Metodychky;
@@ -19,17 +20,11 @@ use app\modules\admin\models\Metodychky;
 
     <?= $form->field($model, 'title')->textInput(['maxlength' => 255]) ?>
 
-    <?= $form->field($model, 'description')->widget(TinyMce::className(), [
-        'options' => ['rows' => 6],
-        'language' => 'ru',
-        'clientOptions' => [
-            'plugins' => [
-                "advlist autolink lists link charmap print preview anchor",
-                "searchreplace visualblocks code fullscreen",
-                "insertdatetime media table contextmenu paste"
-            ],
-            'toolbar' => "undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image"
-        ]
+    <?= $form->field($model, 'description')->widget(CKEditor::className(),[
+        'editorOptions' => ElFinder::ckeditorOptions(['elfinder', 'path' => 'Global'],['preset' => 'full', 
+            'inline' => false,
+            'height' => '250']
+            ),        
     ]);?>
 	
 	<? if(!empty($model->file)){echo Html::encode($model->file);} ?>
