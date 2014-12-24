@@ -73,7 +73,7 @@ AppAsset::register($this);
                     ],
                     ['label' => 'Наукова робота',
                         'items' => [
-                            ['label' => 'Напрямки наукових досліджень викладачів кафедри', 'url' => ['/static-page/view', 'alias'=>'napryamy-nauki']],
+                            ['label' => 'Напрямки наукових досліджень викладачів кафедри', 'url' => ['/static-page/view-alias', 'alias'=>'napryamy-nauki']],
                             ['label' => 'Наукова робота студентів', 'url' => ['/static-page/view-alias', 'alias'=>'student_work']],
                             ['label' => 'Наукові заходи', 'url' => ['/static-page/view-alias', 'alias'=>'zahody']],
                             ['label' => 'Пропозиції виробникам', 'url' => ['/static-page/view-alias', 'alias'=>'proposal']],
