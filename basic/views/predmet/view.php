@@ -15,8 +15,24 @@ $this->params['predmet_id'] = $model->id;
 ?>
 <div class="predmet-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h2><?= Html::encode($this->title) ?></h2>
 
-    <p><?= Html::encode($model->description) ?></p>
+    <p><?= $model->description ?></p>
+
+    <div class="row">
+            <div class="col-md-6">
+                <div class="well well-sm">Викладачі, що ведуть предмет:</div>  
+                 <p><?php 
+                        foreach($model->teachers as $teach) {               
+                            echo 
+                            Html::a($teach->last_name.' '
+                                .$teach->name.' '
+                                .$teach->second_name, 
+                                ['/teacher/view', 'id' => $teach->id])
+                            . '<br />'; 
+                        }
+                     ?></p>
+            </div>
+        </div>
     
 </div>

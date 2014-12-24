@@ -16,9 +16,9 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="metodychky-view">
  
-     <h1><?= Html::encode($this->title) ?></h1>
+     <h2><?= Html::encode($this->title) ?></h2>
 
-    <p><?= Html::encode($model->description) ?></p>
+    <p><?= $model->description ?></p>
 
     <p>
         <strong>Електронна версія:  </strong>
@@ -29,23 +29,20 @@ $this->params['breadcrumbs'][] = $this->title;
             echo '<br />Запис створено: '. date('d.m.Y', $model->updated_at);;
         ?>
     </p>
-    <div class="well well-sm">Автори методичних вказівок:</div> 
-        <?
-            $metodychky_id = TeachMetodychky::findAll([
-                'metodychky_id' => $model->id,
-            ]); 
-            foreach($metodychky_id as $metodychky ){
-                $teacher_name = Teacher::findOne($metodychky->teach_id);
-                echo 
-                Html::a($teacher_name->last_name.' '
-                    .$teacher_name->name.' '
-                    .$teacher_name->second_name, 
-                    ['/admin/teacher/view', 'id' => $teacher_name->id], ['class' => 'btn btn-default'])
-                . '<br />'; 
-            }
-            
-
-        ?>
     
-
+         <div class="row">
+            <div class="col-md-6">
+                <div class="well well-sm">Автори методичних вказівок:</div>  
+                 <p><?php 
+                        foreach($model->teachers as $teach) {               
+                            echo 
+                            Html::a($teach->last_name.' '
+                                .$teach->name.' '
+                                .$teach->second_name, 
+                                ['/teacher/view', 'id' => $teach->id])
+                            . '<br />'; 
+                        }
+                     ?></p>
+            </div>
+        </div> 
 </div>

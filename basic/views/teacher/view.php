@@ -17,7 +17,7 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="teacher-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h2><?= Html::encode($this->title) ?></h2>
 
     
     <p><?= $model->image ? Html::img('@web/uploads/teacher/'.$model->image) : '' ?></p>
@@ -33,32 +33,24 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="col-md-6">
             <div class="well well-sm">Предмети, які веде викладач:</div>
              <p><?
-                    $predmet_id = TeachPredmet::findAll([
-                        'teach_id' => $model->id,
-                    ]); 
-                    foreach($predmet_id as $predmet){
-                        $predmet_name = Predmet::findOne($predmet->predmet_id);
+                    foreach($model->predmet as $predmet) {               
                         echo 
-                        Html::a($predmet_name->title, 
-                            ['/predmet/view', 'id' => $predmet_name->id])
+                        Html::a($predmet->title, 
+                            ['/predmet/view', 'id' => $predmet->id])
                         . '<br />'; 
                     } 
                 ?></p>
         </div>
         <div class="col-md-6">
             <div class="well well-sm">Викладач є автором методичних вказівок:</div>
-            <p><?
-                $metodychky_id = TeachMetodychky::findAll([
-                    'teach_id' => $model->id,
-                ]); 
-                foreach($metodychky_id as $metodychky){
-                    $metodychky_name = Metodychky::findOne($metodychky->metodychky_id);
-                    echo 
-                    Html::a($metodychky_name->title, 
-                        ['/metodychky/view', 'id' => $metodychky_name->id])
-                    . '<br />'; 
-                } 
-            ?></p>
+            <p><?php 
+                    foreach($model->metodychky as $metodychky) {               
+                        echo 
+                        Html::a($metodychky->title, 
+                            ['/metodychky/view', 'id' => $metodychky->id])
+                        . '<br />'; 
+                    }
+                 ?></p>
         </div>
     </div>
     

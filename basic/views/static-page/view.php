@@ -12,9 +12,9 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="static-page-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h2><?= Html::encode($this->title) ?></h2>
     <p>
-        <?= Html::decode($model->text) ?></h1>
+        <?= Html::decode($model->text) ?>
     </p>
     
 </div>

@@ -3,6 +3,8 @@
 namespace app\models;
 
 use Yii;
+use app\models\Teacher;
+use app\models\TeachPredmet;
 
 /**
  * This is the model class for table "predmet".
@@ -46,5 +48,11 @@ class Predmet extends \yii\db\ActiveRecord
             'description' => 'Опис',
             'active' => 'Активний чи ні',
         ];
+    }
+
+    public function getTeachers()
+    {
+        return $this->hasMany(Teacher::className(), ['id' => 'teach_id'])
+                    ->viaTable(TeachPredmet::tableName(), ['predmet_id' => 'id']);
     }
 }

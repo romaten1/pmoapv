@@ -3,7 +3,10 @@
 namespace app\models;
 
 use Yii;
-
+use app\models\Predmet;
+use app\models\TeachMetodychky;
+use app\models\Metodychky;
+use app\models\TeachPredmet;
 /**
  * This is the model class for table "teacher".
  *
@@ -56,5 +59,17 @@ class Teacher extends \yii\db\ActiveRecord
             'org_status' => 'Організаційна посада',
             'description' => 'Короткий опис',
         ];
+    }
+
+    public function getMetodychky()
+    {
+        return $this->hasMany(Metodychky::className(), ['id' => 'metodychky_id'])
+                    ->viaTable(TeachMetodychky::tableName(), ['teach_id' => 'id']);
+    }
+
+    public function getPredmet()
+    {
+        return $this->hasMany(Predmet::className(), ['id' => 'predmet_id'])
+                    ->viaTable(TeachPredmet::tableName(), ['teach_id' => 'id']);
     }
 }

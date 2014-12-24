@@ -3,7 +3,8 @@
 namespace app\models;
 
 use Yii;
-
+use app\models\TeachMetodychky;
+use app\models\Teacher;
 /**
  * This is the model class for table "metodychky".
  *
@@ -59,9 +60,14 @@ class Metodychky extends \yii\db\ActiveRecord
     {
         return [
             self::STATUS_ACTIVE => 'Активно',
-            self::STATUS_PASSIVE => 'Неактивно',
-            
+            self::STATUS_PASSIVE => 'Неактивно',            
         ];
+    }
+
+    public function getTeachers()
+    {
+        return $this->hasMany(Teacher::className(), ['id' => 'teach_id'])
+                    ->viaTable(TeachMetodychky::tableName(), ['metodychky_id' => 'id']);
     }
 
     
