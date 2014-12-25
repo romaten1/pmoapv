@@ -23,7 +23,7 @@ $this->params['breadcrumbs'][] = $this->title;
         	$teacher_full_name = $model->last_name . ' ' . $model->name . ' '. $model->second_name;
             $href = Url::to('@web/uploads/teacher/').$model->image;
             $image = Url::to('@web/uploads/teacher/thumbs/thumb_').$model->image;
-            $image_code = 
+            
             $return = '<div class="row">
                             <div class="col-md-2">';
             $image_code = '<a href="'.
@@ -53,9 +53,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'autoplay_slideshow' => false,
                 'modal' => true
             ],
-        ]);
-
-        
+        ]);        
      ?>
     
  

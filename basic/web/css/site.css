@@ -13,12 +13,25 @@ body {
 .wrap > .container {
     padding: 20px 15px 20px;
 }
-
+.row-pad{
+    padding: 20px;
+}
 .footer {
-    height: 100px;
+    height: 140px;
     background-color: #f5f5f5;
     border-top: 1px solid #ddd;
     padding-top: 20px;
+}
+.container2 {
+    background-color: #f5f5f5;
+    border-top: 1px solid #ddd;
+    padding-top: 20px;
+}
+.container3 {
+    background-color: #fff;
+    border-top: 1px solid #ddd;
+    padding-top: 20px;
+    height: auto;
 }
 
 .jumbotron {
