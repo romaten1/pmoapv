@@ -25,7 +25,12 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'title',
+            [
+                'attribute' => 'title',
+                'format' => 'html',
+                'value' => function ($model) {
+                    return Html::a($model->title, ['/predmet/view/', 'id'=>$model->id]);},
+            ],
             [
                 'attribute' => 'active',
                 'format' => 'html',

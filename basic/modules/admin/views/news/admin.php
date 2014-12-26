@@ -32,7 +32,12 @@ $this->params['breadcrumbs'][] = $this->title;
                 'contentOptions' => ['class' => 'img-thumbnail']
             ],
             //'id',
-            'title',
+            [
+                'attribute' => 'title',
+                'format' => 'html',
+                'value' => function ($model) {
+                    return Html::a($model->title, ['/news/view/', 'id'=>$model->id]);},                
+            ],
             [
                 'attribute' => 'description',
                 'format' => 'html',                

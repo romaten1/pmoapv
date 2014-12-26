@@ -31,8 +31,13 @@ $this->params['breadcrumbs'][] = $this->title;
                 'value' => function($model) { return 'uploads/teacher/thumbs/thumb_'.$model->image; },
                 'contentOptions' => ['class' => 'img-thumbnail']
             ],
-
-            'last_name',
+            [
+                'attribute' => 'last_name',
+                'format' => 'html',
+                'value' => function ($model) {
+                    return Html::a($model->last_name, ['/teacher/view/', 'id'=>$model->id]);},
+                //'filter' => ['0' => 'Неактивна', '1' => 'Активна']
+            ],            
             'name',
             'second_name',
             

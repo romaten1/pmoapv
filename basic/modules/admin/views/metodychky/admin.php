@@ -1,6 +1,7 @@
 <?php
 
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\grid\GridView;
 use kartik\icons\Icon;
 
@@ -25,11 +26,24 @@ $this->params['breadcrumbs'][] = $this->title;
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-
-            //'id',
-            'title',
-            //'description:ntext',
-            'file',
+            //'id',            
+            [
+                'attribute' => 'title',
+                'format' => 'html',
+                'value' => function ($model) {
+                    return Html::a($model->title, ['/metodychky/view/', 'id'=>$model->id]);},
+                //'filter' => ['0' => 'Неактивна', '1' => 'Активна']
+            ],
+            //'description:ntext',            
+            [
+                'attribute' => 'file',
+                'format' => 'html',
+                'value' => function ($model) {
+					
+                    return $model->file ? 
+                    	'<a href=' . Url::to('/basic/web/uploads/metodychky/'. $model->file, true).'> Файл на сайті </a>' 
+                    	: 'Файл відсутній на сайті';},
+            ],
             [
                 'attribute' => 'active',
                 'format' => 'html',
