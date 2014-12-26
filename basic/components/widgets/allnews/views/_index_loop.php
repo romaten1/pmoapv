@@ -22,8 +22,9 @@ if ($models) {
                             <img src="'.Url::to('@web/uploads/news/thumbs/thumb_').$model->image.'" alt="" />
                         </a>
                     </div>
-                    <div class="col-md-9">'
+                    <div class="col-md-9"><strong>'
                         .Html::a(Html::encode($model->title), ['/news/view', 'id' => $model->id],['class'=>'text-primary']).                        
+                        '</strong><br />'.date('d.m.Y', $model->updated_at).
                     '</div>
                 </div>
             </div>';

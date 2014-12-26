@@ -116,6 +116,7 @@ AppAsset::register($this);
                             <?= Html::a('Створити', ['/admin/teacher/create']) ?><br />
                             <?= Html::a('Викладач::Предмет', ['/admin/teach-predmet']) ?><br />
                             <?= Html::a('Викладач::Методичка', ['/admin/teach-metodychky']) ?>
+                            <?= Html::a('Предмет::Методичка', ['/admin/predmet-metodychky']) ?>
                         </div>
                     </div>
                     <div class="panel panel-primary">

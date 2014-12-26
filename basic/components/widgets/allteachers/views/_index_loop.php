@@ -24,9 +24,9 @@ if ($models) {
                             <img src="'.Url::to('@web/uploads/teacher/thumbs/thumb_').$model->image.'" alt="" />
                         </a>
                     </div>
-                    <div class="col-md-10">'
+                    <div class="col-md-10"><strong>'
                         .Html::a(Html::encode($teacher_full_name), ['/teacher/view', 'id' => $model->id],['class'=>'text-primary']).
-                        '<br />'
+                        '</strong><br />'
                         .$model->job . ', ' . $model->science_status .
                     '</div>
                 </div>

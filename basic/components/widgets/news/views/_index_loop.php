@@ -10,6 +10,6 @@ use yii\helpers\Html;
 
 if ($models) {
 	foreach ($models as $model) {
-		echo '<p>'.Html::a(Html::encode($model->title), ['/news/view', 'id' => $model->id]).'</p>';
+		echo '<p>'.Html::a(Html::encode($model->title), ['/news/view', 'id' => $model->id],['class'=>'text-primary']).'</p>';
 	}
 }

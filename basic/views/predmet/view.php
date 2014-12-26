@@ -33,6 +33,18 @@ $this->params['predmet_id'] = $model->id;
                         }
                      ?></p>
             </div>
+            <div class="col-md-6">
+                <div class="well well-sm">Методичні вказівки по даному предмету:</div>  
+                 <p><?php 
+                        foreach($model->metodychkies as $metodychky) {               
+                            echo 
+                            Html::a($metodychky->title, 
+                                ['/metodychky/view', 'id' => $metodychky->id])
+                            . '<br />'; 
+                        }
+                     ?></p>
+            </div>
         </div>
+
     
 </div>

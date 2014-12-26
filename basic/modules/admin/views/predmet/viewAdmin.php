@@ -43,24 +43,31 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ]) ?>
 
-    <p>
-        Предмет викладає:<br />
-        <?
-            $teacher_id = TeachPredmet::findAll([
-                'predmet_id' => $model->id,
-            ]); 
-            foreach($teacher_id as $teacher ){
-                $teacher_name = Teacher::findOne($teacher->teach_id);
-                echo 
-                Html::a($teacher_name->last_name.' '
-                    .$teacher_name->name.' '
-                    .$teacher_name->second_name, 
-                    ['/admin/teacher/view', 'id' => $teacher_name->id], ['class' => 'btn btn-default'])
-                . '<br />'; 
-            }
-            
-
-        ?>
-    </p>
+    <div class="row">
+            <div class="col-md-6">
+                <div class="well well-sm">Викладачі, що ведуть предмет:</div>  
+                 <p><?php 
+                        foreach($model->teachers as $teach) {               
+                            echo 
+                            Html::a($teach->last_name.' '
+                                .$teach->name.' '
+                                .$teach->second_name, 
+                                ['/teacher/view', 'id' => $teach->id])
+                            . '<br />'; 
+                        }
+                     ?></p>
+            </div>
+            <div class="col-md-6">
+                <div class="well well-sm">Методичні вказівки по даному предмету:</div>  
+                 <p><?php 
+                        foreach($model->metodychkies as $metodychky) {               
+                            echo 
+                            Html::a($metodychky->title, 
+                                ['/metodychky/view', 'id' => $metodychky->id])
+                            . '<br />'; 
+                        }
+                     ?></p>
+            </div>
+        </div>
 
 </div>

@@ -5,6 +5,8 @@ namespace app\models;
 use Yii;
 use app\models\Teacher;
 use app\models\TeachPredmet;
+use app\models\PredmetMetodychky;
+use app\models\Metodychky;
 
 /**
  * This is the model class for table "predmet".
@@ -54,5 +56,11 @@ class Predmet extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Teacher::className(), ['id' => 'teach_id'])
                     ->viaTable(TeachPredmet::tableName(), ['predmet_id' => 'id']);
+    }
+
+    public function getMetodychkies()
+    {
+        return $this->hasMany(Metodychky::className(), ['id' => 'metodychky_id'])
+                    ->viaTable(PredmetMetodychky::tableName(), ['predmet_id' => 'id']);
     }
 }
