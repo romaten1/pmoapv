@@ -22,7 +22,7 @@ class TeacherWidget extends Widget
     public function run()
     {
         
-        $models = Teacher::find()->limit(10)->orderBy(['id' => SORT_ASC])->all();
+        $models = Teacher::find()->where(['active'=>Teacher::STATUS_ACTIVE])->limit(7)->orderBy(['id' => SORT_ASC])->all();
         return $this->render('teacher', [
             'models' => $models,
             'title' => $title,

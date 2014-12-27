@@ -22,7 +22,7 @@ class MetodychkyWidget extends Widget
     public function run()
     {
         
-        $models = Metodychky::find()->limit(5)->orderBy(['id' => SORT_DESC])->all();
+        $models = Metodychky::find()->where(['active'=>Metodychky::STATUS_ACTIVE])->limit(5)->orderBy(['id' => SORT_DESC])->all();
         return $this->render('metodychky', [
             'models' => $models,
             'title' => $title,
