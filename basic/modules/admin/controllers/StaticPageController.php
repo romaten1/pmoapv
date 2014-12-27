@@ -76,6 +76,7 @@ class StaticPageController extends Controller
         $model = new StaticPage();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            Yii::info($this->id.' - '.$this->action->id.' - id: '.$model->id.' - user: '.\Yii::$app->user->id,'admin');
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
@@ -95,6 +96,7 @@ class StaticPageController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            Yii::info($this->id.' - '.$this->action->id.' - id: '.$model->id.' - user: '.\Yii::$app->user->id,'admin');
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', [
@@ -113,6 +115,7 @@ class StaticPageController extends Controller
     {
         $model = $this->findModel($id);
         $model->active = StaticPage::STATUS_PASSIVE;
+        Yii::info($this->id.' - '.$this->action->id.' - id: '.$model->id.' - user: '.\Yii::$app->user->id,'admin');
         $model->save();
 
         return $this->redirect(['index']);

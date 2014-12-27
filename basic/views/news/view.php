@@ -17,7 +17,7 @@ $this->params['breadcrumbs'][] = $this->title;
 	
 	<p><?= $model->image ? Html::img('@web/uploads/news/'.$model->image) : '' ?></p> 
 	
-	<p><?= '<br />Опубліковано: '. date('d.m.Y', $model->updated_at);; ?></p>
+	<p><?= '<br />Опубліковано: '. date('d.m.Y', $model->updated_at); ?></p>
     
     <p><?= Html::encode($model->description) ?></p>
 

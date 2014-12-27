@@ -17,18 +17,19 @@ class PredmetController extends Controller
 {
     public function behaviors()
     {
-        'access' => [
-                'class' => AccessControl::className(),
-                //'only' => ['admin', 'create', 'update', 'delete'], //only be applied to
-                'rules' => [
-                    [
-                        'allow' => true,
-                        'actions' => ['index', 'create', 'update', 'view', 'delete'],
-                        'roles' => ['moderator'],
-                    ]
-                ],
-            ],
+        
         return [
+            'access' => [
+                    'class' => AccessControl::className(),
+                    //'only' => ['admin', 'create', 'update', 'delete'], //only be applied to
+                    'rules' => [
+                        [
+                            'allow' => true,
+                            'actions' => ['index', 'create', 'update', 'view', 'delete'],
+                            'roles' => ['moderator'],
+                        ]
+                    ],
+                ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -75,6 +76,7 @@ class PredmetController extends Controller
         $model = new Predmet();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            Yii::info($this->id.' - '.$this->action->id.' - id: '.$model->id.' - user: '.\Yii::$app->user->id,'admin');
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
@@ -94,6 +96,7 @@ class PredmetController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            Yii::info($this->id.' - '.$this->action->id.' - id: '.$model->id.' - user: '.\Yii::$app->user->id,'admin');
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', [
@@ -112,6 +115,7 @@ class PredmetController extends Controller
     {
         $model = $this->findModel($id);
         $model->active = Predmet::STATUS_PASSIVE;
+        Yii::info($this->id.' - '.$this->action->id.' - id: '.$model->id.' - user: '.\Yii::$app->user->id,'admin');
         $model->save();
 
         return $this->redirect(['index']);

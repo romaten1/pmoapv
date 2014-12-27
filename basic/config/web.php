@@ -17,7 +17,8 @@ $config = [
             'enableUnconfirmedLogin' => true,
             'confirmWithin' => 21600,
             'cost' => 12,
-            'admins' => ['admin']
+            'admins' => ['admin'],
+            'enableIntlExtension' => false
         ],      
     ],
     'components' => [
@@ -48,6 +49,14 @@ $config = [
                 [
                     'class' => 'yii\log\FileTarget',
                     'levels' => ['error', 'warning'],
+                    'categories' => ['yii\*'],
+                ],
+                [
+                    'class' => 'yii\log\FileTarget',
+                    'levels' => ['info'],
+                    'categories' => ['admin'],
+                    'logFile' => '@runtime/logs/test.log',
+                    'logVars' => [] 
                 ],
             ],
         ],

@@ -75,7 +75,8 @@ class TeachPredmetController extends Controller
         $model = new TeachPredmet();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['index']);
+           Yii::info($this->id.' - '.$this->action->id.' - id: '.$model->id.' - user: '.\Yii::$app->user->id,'admin');
+           return $this->redirect(['index']);
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -94,6 +95,7 @@ class TeachPredmetController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            Yii::info($this->id.' - '.$this->action->id.' - id: '.$model->id.' - user: '.\Yii::$app->user->id,'admin');
             return $this->redirect(['index']);
         } else {
             return $this->render('update', [
@@ -111,7 +113,7 @@ class TeachPredmetController extends Controller
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
-
+        Yii::info($this->id.' - '.$this->action->id.' - id: '.$model->id.' - user: '.\Yii::$app->user->id,'admin');
         return $this->redirect(['index']);
     }
 

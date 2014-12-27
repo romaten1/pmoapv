@@ -4,7 +4,7 @@ namespace app\modules\admin\controllers;
 
 use yii\web\Controller;
 use yii\filters\AccessControl;
-
+use Yii;
 class DefaultController extends Controller
 {
     public function behaviors()
@@ -26,6 +26,7 @@ class DefaultController extends Controller
 
     public function actionIndex()
     {
+        Yii::info($this->id.' - '.$this->action->id.' - id: '.$model->id.' - user: '.\Yii::$app->user->id,'admin');
         return $this->render('index');
     }
 }

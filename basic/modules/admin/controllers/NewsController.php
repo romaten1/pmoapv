@@ -24,7 +24,9 @@ class NewsController extends Controller
 {
     public function behaviors()
     {
-        'access' => [
+        
+        return [
+            'access' => [
                 'class' => AccessControl::className(),
                 //'only' => ['admin', 'create', 'update', 'delete'], //only be applied to
                 'rules' => [
@@ -35,7 +37,6 @@ class NewsController extends Controller
                     ]
                 ],
             ],
-        return [
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -102,6 +103,7 @@ class NewsController extends Controller
                 $this->makeImage($path_from, $path_to, $desired_width = 500);
             }
             if($model->save()){
+                Yii::info($this->id.' - '.$this->action->id.' - id: '.$model->id.' - user: '.\Yii::$app->user->id,'admin');
                 return $this->redirect(['view', 'id'=>$model->id]);
             } else {
                 throw new NotFoundHttpException('Не удалось загрузить данные');
@@ -148,7 +150,9 @@ class NewsController extends Controller
                 }
 
             }
+
             if($model->save()){
+                Yii::info($this->id.' - '.$this->action->id.' - id: '.$model->id.' - user: '.\Yii::$app->user->id,'admin');
                 return $this->redirect(['view', 'id'=>$model->id]);
             } else {
                 throw new NotFoundHttpException('Не удалось загрузить данные');
@@ -170,6 +174,7 @@ class NewsController extends Controller
     {
         $model = $this->findModel($id);
         $model->active = News::STATUS_PASSIVE;
+        Yii::info($this->id.' - '.$this->action->id.' - id: '.$model->id.' - user: '.\Yii::$app->user->id,'admin');
         $model->save();
 
         return $this->redirect(['index']);

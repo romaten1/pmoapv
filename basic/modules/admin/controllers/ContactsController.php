@@ -65,23 +65,7 @@ class ContactsController extends Controller
         ]);
     }
 
-    /**
-     * Creates a new Contacts model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return mixed
-     */
-    public function actionCreate()
-    {
-        $model = new Contacts();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
-        }
-    }
+    
 
     /**
      * Updates an existing Contacts model.
@@ -94,6 +78,7 @@ class ContactsController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            Yii::info($this->id.' - '.$this->action->id.' - id: '.$model->id.' - user: '.\Yii::$app->user->id,'admin');
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', [
@@ -112,6 +97,7 @@ class ContactsController extends Controller
     {
         $model = $this->findModel($id);
         $model->status = Contacts::STATUS_DELETED;
+        Yii::info($this->id.' - '.$this->action->id.' - id: '.$model->id.' - user: '.\Yii::$app->user->id,'admin');
         $model->save();
 
         return $this->redirect(['index']);

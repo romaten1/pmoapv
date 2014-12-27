@@ -101,6 +101,7 @@ class TeacherController extends Controller
                 $this->makeImage($path_from, $path_to, $desired_width = 200);
             }
             if($model->save()){
+                Yii::info($this->id.' - '.$this->action->id.' - id: '.$model->id.' - user: '.\Yii::$app->user->id,'admin');
                 return $this->redirect(['view', 'id'=>$model->id]);
             } else {
                 throw new NotFoundHttpException('Не удалось загрузить данные');
@@ -147,6 +148,7 @@ class TeacherController extends Controller
 
             }
             if($model->save()){
+                Yii::info($this->id.' - '.$this->action->id.' - id: '.$model->id.' - user: '.\Yii::$app->user->id,'admin');
                 return $this->redirect(['view', 'id'=>$model->id]);
             } else {
                 throw new NotFoundHttpException('Не удалось загрузить данные');
@@ -168,6 +170,7 @@ class TeacherController extends Controller
     {
         $model = $this->findModel($id);
         $model->active = Teacher::STATUS_PASSIVE;
+        Yii::info($this->id.' - '.$this->action->id.' - id: '.$model->id.' - user: '.\Yii::$app->user->id,'admin');
         $model->save();
 
         return $this->redirect(['index']);
