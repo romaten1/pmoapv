@@ -15,6 +15,8 @@ use Imagine\Image\Point;
 use Imagine\Imagick\Imagine;
 use Imagine\Image\ImageInterface;
 use app\helpers\TransliterateHelper;
+use yii\filters\AccessControl;
+
 /**
  * NewsController implements the CRUD actions for News model.
  */
@@ -22,6 +24,17 @@ class NewsController extends Controller
 {
     public function behaviors()
     {
+        'access' => [
+                'class' => AccessControl::className(),
+                //'only' => ['admin', 'create', 'update', 'delete'], //only be applied to
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'actions' => ['index','create', 'update', 'view', 'delete'],
+                        'roles' => ['moderator'],
+                    ]
+                ],
+            ],
         return [
             'verbs' => [
                 'class' => VerbFilter::className(),

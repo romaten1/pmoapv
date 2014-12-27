@@ -14,6 +14,8 @@ use Imagine\Image\Box;
 use Imagine\Image\Point;
 use Imagine\Imagick\Imagine;
 use Imagine\Image\ImageInterface;
+use yii\filters\AccessControl;
+
 /**
  * TeacherController implements the CRUD actions for Teacher model.
  */
@@ -22,6 +24,17 @@ class TeacherController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                //'only' => ['admin', 'create', 'update', 'delete'], //only be applied to
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'actions' => ['index', 'create', 'update', 'view', 'delete'],
+                        'roles' => ['moderator'],
+                    ]
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [

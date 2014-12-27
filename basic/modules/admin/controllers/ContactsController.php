@@ -8,6 +8,7 @@ use app\modules\admin\models\SearchContacts;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
 
 /**
  * ContactsController implements the CRUD actions for Contacts model.
@@ -17,6 +18,17 @@ class ContactsController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                //'only' => ['admin', 'create', 'update', 'delete'], //only be applied to
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'actions' => ['index', 'create', 'update', 'view', 'delete'],
+                        'roles' => ['moderator'],
+                    ]
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [

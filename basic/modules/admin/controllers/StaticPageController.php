@@ -8,6 +8,7 @@ use app\modules\admin\models\SearchStaticPage;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
 
 /**
  * StaticPageController implements the CRUD actions for StaticPage model.
@@ -17,6 +18,17 @@ class StaticPageController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                //'only' => ['admin', 'create', 'update', 'delete'], //only be applied to
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'actions' => ['index', 'create', 'update', 'view', 'delete'],
+                        'roles' => ['moderator'],
+                    ]
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -46,14 +58,7 @@ class StaticPageController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionViewAlias($alias)
-    {
-       //var_dump($this->findModelByAlias($alias));
-        return $this->render('view', [
-            'model' => $this->findModelByAlias($alias),
-        ]);
-    }
-
+    
     public function actionView($id)
     {
        return $this->render('view', [

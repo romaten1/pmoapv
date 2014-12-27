@@ -10,6 +10,7 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\UploadedFile;
 use app\helpers\TransliterateHelper;
+use yii\filters\AccessControl;
 
 /**
  * MetodychkyController implements the CRUD actions for Metodychky model.
@@ -19,6 +20,17 @@ class MetodychkyController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                //'only' => ['admin', 'create', 'update', 'delete'], //only be applied to
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'actions' => ['index', 'create', 'update', 'view', 'delete'],
+                        'roles' => ['moderator'],
+                    ]
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [

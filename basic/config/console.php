@@ -42,11 +42,8 @@ return [
             ],
         ],
         'authManager' => [
-            'class' => '\yii\rbac\DbManager',
-            'ruleTable' => 'AuthRule', // Optional
-            'itemTable' => 'AuthItem',  // Optional
-            'itemChildTable' => 'AuthItemChild',  // Optional
-            'assignmentTable' => 'AuthAssignment',  // Optional
+            'class' => '\yii\rbac\PhpManager',
+            
         ],
         'user' => [
             'class' => 'auth\components\User',
