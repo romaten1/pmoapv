@@ -3,6 +3,7 @@
 namespace app\modules\admin\models;
 
 use Yii;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "static_page".
@@ -16,6 +17,8 @@ use Yii;
  */
 class StaticPage extends \yii\db\ActiveRecord
 {
+    const STATUS_PASSIVE = 0;
+    const STATUS_ACTIVE = 1;
     /**
      * @inheritdoc
      */
@@ -35,7 +38,9 @@ class StaticPage extends \yii\db\ActiveRecord
             [['alias'], 'unique'],
             [['active', 'parent_group_id'], 'integer'],
             [['alias'], 'string', 'max' => 100],
-            [['title'], 'string', 'max' => 255]
+            [['title'], 'string', 'max' => 255],
+            ['active', 'default', 'value' => self::STATUS_ACTIVE],
+            ['active', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_PASSIVE]],
         ];
     }
 
@@ -52,5 +57,26 @@ class StaticPage extends \yii\db\ActiveRecord
             'active' => 'Активно чи ні',
             'parent_group_id' => 'Код групи',
         ];
+    }
+
+    public static function getStatusArray()
+    {
+        return [
+            self::STATUS_ACTIVE => 'Активно',
+            self::STATUS_PASSIVE => 'Неактивно',
+            
+        ];
+    }
+
+    public static function getStatus($active)
+    {
+        $status = self::getStatusArray();
+        return $status[$active];
+    }
+
+    public function getStatusLabel()
+    {
+        $statuses = $this->getStatusArray();
+        return ArrayHelper::getValue($statuses, $this->active);
     }
 }

@@ -4,6 +4,7 @@ use mihaildev\ckeditor\CKEditor;
 use mihaildev\elfinder\ElFinder;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use app\modules\admin\models\News;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\News */
@@ -35,6 +36,8 @@ use yii\widgets\ActiveForm;
     <? if(!empty($model->image)){echo Html::img('@web/uploads/news/'.$model->image);} ?>
 
     <?= $form->field($model, 'image')->fileInput() ?>
+
+    <?= $form->field($model, 'active')->dropDownList(News::getStatusArray())  ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Створити' : 'Оновити', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

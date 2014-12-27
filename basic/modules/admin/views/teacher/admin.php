@@ -3,7 +3,7 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use kartik\icons\Icon;
-
+use app\modules\admin\models\Teacher;
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\TeacherSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -39,9 +39,15 @@ $this->params['breadcrumbs'][] = $this->title;
                 //'filter' => ['0' => 'Неактивна', '1' => 'Активна']
             ],            
             'name',
-            'second_name',
-            
+            'second_name',            
             'job',
+            [
+                'attribute' => 'active',
+                'format' => 'html',
+                'value' => function ($model) {
+                    return $model->getStatusLabel();},
+                'filter' => Teacher::getStatusArray()
+            ],
             //'science_status',
             //'org_status',
             

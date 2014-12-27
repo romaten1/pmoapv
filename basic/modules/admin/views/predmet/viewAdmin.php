@@ -3,8 +3,8 @@
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 use kartik\icons\Icon;
-use app\models\TeachPredmet;
-use app\models\Teacher;
+use app\modules\admin\models\TeachPredmet;
+use app\modules\admin\models\Teacher;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Predmet */
@@ -52,7 +52,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             Html::a($teach->last_name.' '
                                 .$teach->name.' '
                                 .$teach->second_name, 
-                                ['/teacher/view', 'id' => $teach->id])
+                                ['/admin/teacher/view', 'id' => $teach->id])
                             . '<br />'; 
                         }
                      ?></p>
@@ -63,7 +63,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         foreach($model->metodychkies as $metodychky) {               
                             echo 
                             Html::a($metodychky->title, 
-                                ['/metodychky/view', 'id' => $metodychky->id])
+                                ['/admin/metodychky/view', 'id' => $metodychky->id])
                             . '<br />'; 
                         }
                      ?></p>

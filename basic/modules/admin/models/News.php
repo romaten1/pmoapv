@@ -7,6 +7,7 @@ use yii\helpers\HtmlPurifier;
 use yii\behaviors\TimestampBehavior;
 use app\behaviors\PurifierBehavior;
 use yii\db\ActiveRecord;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "news".
@@ -61,6 +62,8 @@ class News extends ActiveRecord
             [['title'], 'string', 'max' => 255],
             [['active'], 'integer'],
             [['image'], 'file', 'extensions' => 'gif, jpg, jpeg'],
+            ['active', 'default', 'value' => self::STATUS_ACTIVE],
+            ['active', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_PASSIVE]],
             
         ];
     }
@@ -81,7 +84,7 @@ class News extends ActiveRecord
             'active' => 'Активно чи ні',
         ];
     }
-     public static function getStatusArray()
+    public static function getStatusArray()
     {
         return [
             self::STATUS_ACTIVE => 'Активно',
@@ -94,5 +97,11 @@ class News extends ActiveRecord
     {
         $status = self::getStatusArray();
         return $status[$active];
+    }
+
+    public function getStatusLabel()
+    {
+        $statuses = $this->getStatusArray();
+        return ArrayHelper::getValue($statuses, $this->active);
     }
 }

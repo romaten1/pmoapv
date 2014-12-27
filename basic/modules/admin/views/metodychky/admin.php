@@ -4,6 +4,7 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\grid\GridView;
 use kartik\icons\Icon;
+use app\modules\admin\models\Metodychky;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\MetodychkySearch */
@@ -48,8 +49,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'active',
                 'format' => 'html',
                 'value' => function ($model) {
-                    return $model->active == '1' ? 'Активна' : 'Неактивна';},
-                'filter' => ['0' => 'Неактивна', '1' => 'Активна']
+                    return $model->getStatusLabel();},
+                'filter' => Metodychky::getStatusArray()
             ],
 
             ['class' => 'yii\grid\ActionColumn'],

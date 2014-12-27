@@ -7,7 +7,9 @@ use yii\helpers\HtmlPurifier;
 use yii\behaviors\TimestampBehavior;
 use app\behaviors\PurifierBehavior;
 use yii\db\ActiveRecord;
-
+use yii\helpers\ArrayHelper;
+use app\modules\admin\models\TeachMetodychky;
+use app\modules\admin\models\Teacher;
 /**
  * This is the model class for table "metodychky".
  *
@@ -58,9 +60,10 @@ class Metodychky extends ActiveRecord
         return [
             [['title', 'description', 'active'], 'required'],
             [['description'], 'string'],
-            [['active'], 'integer'],
             [['title'], 'string', 'max' => 255],
-            [['file'], 'file']
+            [['file'], 'file'],
+            ['active', 'default', 'value' => self::STATUS_ACTIVE],
+            ['active', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_PASSIVE]],
         ];
     }
 
@@ -80,6 +83,12 @@ class Metodychky extends ActiveRecord
         ];
     }
 
+    public function getTeachers()
+    {
+        return $this->hasMany(Teacher::className(), ['id' => 'teach_id'])
+                    ->viaTable(TeachMetodychky::tableName(), ['metodychky_id' => 'id']);
+    }
+    
     public static function getStatusArray()
     {
         return [
@@ -93,5 +102,11 @@ class Metodychky extends ActiveRecord
     {
         $status = self::getStatusArray();
         return $status[$active];
+    }
+
+    public function getStatusLabel()
+    {
+        $statuses = $this->getStatusArray();
+        return ArrayHelper::getValue($statuses, $this->active);
     }
 }

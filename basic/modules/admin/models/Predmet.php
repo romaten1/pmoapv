@@ -3,10 +3,12 @@
 namespace app\modules\admin\models;
 
 use Yii;
-use app\models\Teacher;
-use app\models\TeachPredmet;
-use app\models\PredmetMetodychky;
-use app\models\Metodychky;
+use app\modules\admin\models\Teacher;
+use app\modules\admin\models\TeachPredmet;
+use app\modules\admin\models\PredmetMetodychky;
+use app\modules\admin\models\Metodychky;
+use yii\helpers\ArrayHelper;
+
 /**
  * This is the model class for table "predmet".
  *
@@ -17,6 +19,8 @@ use app\models\Metodychky;
  */
 class Predmet extends \yii\db\ActiveRecord
 {
+    const STATUS_PASSIVE = 0;
+    const STATUS_ACTIVE = 1;
     /**
      * @inheritdoc
      */
@@ -33,8 +37,11 @@ class Predmet extends \yii\db\ActiveRecord
         return [
             [['title', 'description', 'active'], 'required'],
             [['description'], 'string'],
-            [['active'], 'integer'],
-            [['title'], 'string', 'max' => 255]
+            [['title'], 'string', 'max' => 255],
+            ['active', 'default', 'value' => self::STATUS_ACTIVE],
+            ['active', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_PASSIVE]],
+            ['active', 'default', 'value' => self::STATUS_ACTIVE],
+            ['active', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_PASSIVE]],
         ];
     }
 
@@ -60,5 +67,26 @@ class Predmet extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Metodychky::className(), ['id' => 'metodychky_id'])
                     ->viaTable(PredmetMetodychky::tableName(), ['predmet_id' => 'id']);
+    }
+
+    public static function getStatusArray()
+    {
+        return [
+            self::STATUS_ACTIVE => 'Активно',
+            self::STATUS_PASSIVE => 'Неактивно',
+            
+        ];
+    }
+
+    public static function getStatus($active)
+    {
+        $status = self::getStatusArray();
+        return $status[$active];
+    }
+
+    public function getStatusLabel()
+    {
+        $statuses = $this->getStatusArray();
+        return ArrayHelper::getValue($statuses, $this->active);
     }
 }

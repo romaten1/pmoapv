@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use app\modules\admin\models\Predmet;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\PredmetSearch */
@@ -35,8 +36,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'active',
                 'format' => 'html',
                 'value' => function ($model) {
-                    return $model->active == '1' ? 'Активна' : 'Неактивна';},
-                'filter' => ['0' => 'Неактивна', '1' => 'Активна']
+                    return $model->getStatusLabel();},
+                'filter' => Predmet::getStatusArray()
             ],
 
             ['class' => 'yii\grid\ActionColumn'],

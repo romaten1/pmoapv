@@ -3,7 +3,7 @@
 use yii\helpers\Html;
 use yii\helpers\StringHelper;
 use yii\grid\GridView;
-
+use app\modules\admin\models\StaticPage;
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\SearchStaticPage */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -38,8 +38,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'active',
                 'format' => 'html',
                 'value' => function ($model) {
-                    return $model->active == '1' ? 'Активна' : 'Неактивна';},
-                'filter' => ['0' => 'Неактивна', '1' => 'Активна']
+                    return $model->getStatusLabel();},
+                'filter' => StaticPage::getStatusArray()
             ],
             [
                 'attribute' => 'parent_group_id',

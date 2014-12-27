@@ -106,7 +106,9 @@ class StaticPageController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        $model = $this->findModel($id);
+        $model->active = StaticPage::STATUS_PASSIVE;
+        $model->save();
 
         return $this->redirect(['index']);
     }

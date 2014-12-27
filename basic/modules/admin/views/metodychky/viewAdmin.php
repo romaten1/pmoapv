@@ -4,8 +4,8 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\DetailView;
 use kartik\icons\Icon;
-use app\models\TeachMetodychky;
-use app\models\Teacher;
+use app\modules\admin\models\TeachMetodychky;
+use app\modules\admin\models\Teacher;
 use app\modules\admin\models\Metodychky;
 
 /* @var $this yii\web\View */
@@ -61,22 +61,20 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ]) ?>
 
-    Автори методичних вказівок:<br />
-        <?
-            $metodychky_id = TeachMetodychky::findAll([
-                'metodychky_id' => $model->id,
-            ]); 
-            foreach($metodychky_id as $metodychky ){
-                $teacher_name = Teacher::findOne($metodychky->teach_id);
-                echo 
-                Html::a($teacher_name->last_name.' '
-                    .$teacher_name->name.' '
-                    .$teacher_name->second_name, 
-                    ['/admin/teacher/view', 'id' => $teacher_name->id], ['class' => 'btn btn-default'])
-                . '<br />'; 
-            }
-            
-
-        ?> 
+    <div class="row">
+            <div class="col-md-6">
+                <div class="well well-sm">Автори методичних вказівок:</div>  
+                 <p><?php 
+                        foreach($model->teachers as $teach) {               
+                            echo 
+                            Html::a($teach->last_name.' '
+                                .$teach->name.' '
+                                .$teach->second_name, 
+                                ['/admin/teacher/view', 'id' => $teach->id])
+                            . '<br />'; 
+                        }
+                     ?></p>
+            </div>
+        </div>
 
 </div>

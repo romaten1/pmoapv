@@ -9,6 +9,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\UploadedFile;
+use yii\data\ActiveDataProvider;
 
 /**
  * MetodychkyController implements the CRUD actions for Metodychky model.
@@ -23,7 +24,10 @@ class MetodychkyController extends Controller
     public function actionIndex()
     {
         $searchModel = new MetodychkySearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider = new ActiveDataProvider([
+            'query' => Metodychky::find()->where(['active'=>Metodychky::STATUS_ACTIVE])->orderBy('id DESC'),
+            'pagination' => ['pageSize' => 10],
+        ]);
 
         return $this->render('index', [
             'searchModel' => $searchModel,

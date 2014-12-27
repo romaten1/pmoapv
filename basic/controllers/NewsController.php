@@ -8,6 +8,7 @@ use app\models\NewsSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\data\ActiveDataProvider;
 
 /**
  * NewsController implements the CRUD actions for News model.
@@ -21,8 +22,12 @@ class NewsController extends Controller
      */
     public function actionIndex()
     {
+        
         $searchModel = new NewsSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider = new ActiveDataProvider([
+            'query' => News::find()->where(['active'=>News::STATUS_ACTIVE])->orderBy('id DESC'),
+            'pagination' => ['pageSize' => 10],
+        ]);
 
         return $this->render('index', [
             'searchModel' => $searchModel,

@@ -34,7 +34,9 @@ class News extends \yii\db\ActiveRecord
             [['title', 'description', 'text'], 'required'],
             [['description', 'text'], 'string'],
             [['active'], 'integer'],
-            [['title', 'image'], 'string', 'max' => 255]
+            [['title', 'image'], 'string', 'max' => 255],
+            ['active', 'default', 'value' => self::STATUS_ACTIVE],
+            ['active', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_PASSIVE]],
         ];
     }
 

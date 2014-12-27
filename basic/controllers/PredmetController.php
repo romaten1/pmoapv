@@ -8,6 +8,7 @@ use app\models\PredmetSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\data\ActiveDataProvider;
 
 /**
  * PredmetController implements the CRUD actions for Predmet model.
@@ -21,9 +22,12 @@ class PredmetController extends Controller
      */
     public function actionIndex()
     {
+        
         $searchModel = new PredmetSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
+        $dataProvider = new ActiveDataProvider([
+            'query' => Predmet::find()->where(['active'=>Predmet::STATUS_ACTIVE]),
+            'pagination' => ['pageSize' => 10],
+        ]);
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,

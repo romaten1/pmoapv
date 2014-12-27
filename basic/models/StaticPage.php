@@ -16,6 +16,8 @@ use Yii;
  */
 class StaticPage extends \yii\db\ActiveRecord
 {
+    const STATUS_PASSIVE = 0;
+    const STATUS_ACTIVE = 1;
     /**
      * @inheritdoc
      */
@@ -35,7 +37,9 @@ class StaticPage extends \yii\db\ActiveRecord
             [['alias'], 'unique'],
             [['active', 'parent_group_id'], 'integer'],
             [['alias'], 'string', 'max' => 100],
-            [['title'], 'string', 'max' => 255]
+            [['title'], 'string', 'max' => 255],
+            ['active', 'default', 'value' => self::STATUS_ACTIVE],
+            ['active', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_PASSIVE]],
         ];
     }
 

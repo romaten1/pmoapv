@@ -5,6 +5,7 @@ use yii\widgets\ActiveForm;
 use dosamigos\tinymce\TinyMce;
 use mihaildev\ckeditor\CKEditor;
 use mihaildev\elfinder\ElFinder;
+use app\modules\admin\models\Teacher;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Teacher */
@@ -39,6 +40,8 @@ use mihaildev\elfinder\ElFinder;
             'height' => '250']
             ),        
     ]);?>
+
+    <?= $form->field($model, 'active')->dropDownList(Teacher::getStatusArray())  ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Створити' : 'Оновити', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

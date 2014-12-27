@@ -98,7 +98,9 @@ class ContactsController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        $model = $this->findModel($id);
+        $model->status = Contacts::STATUS_DELETED;
+        $model->save();
 
         return $this->redirect(['index']);
     }

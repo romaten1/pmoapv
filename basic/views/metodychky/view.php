@@ -5,7 +5,7 @@ use yii\helpers\Url;
 use yii\widgets\DetailView;
 use app\models\TeachMetodychky;
 use app\models\Teacher;
-use app\modules\admin\models\Metodychky;
+use app\models\Metodychky;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Metodychky */

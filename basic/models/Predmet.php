@@ -18,6 +18,8 @@ use app\models\Metodychky;
  */
 class Predmet extends \yii\db\ActiveRecord
 {
+    const STATUS_PASSIVE = 0;
+    const STATUS_ACTIVE = 1;
     /**
      * @inheritdoc
      */
@@ -35,7 +37,9 @@ class Predmet extends \yii\db\ActiveRecord
             [['title', 'description', 'active'], 'required'],
             [['description'], 'string'],
             [['active'], 'integer'],
-            [['title'], 'string', 'max' => 255]
+            [['title'], 'string', 'max' => 255],
+            ['active', 'default', 'value' => self::STATUS_ACTIVE],
+            ['active', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_PASSIVE]],
         ];
     }
 

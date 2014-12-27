@@ -4,6 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use mihaildev\ckeditor\CKEditor;
 use mihaildev\elfinder\ElFinder;
+use app\modules\admin\models\StaticPage;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\StaticPage */
@@ -25,7 +26,7 @@ use mihaildev\elfinder\ElFinder;
             ),        
     ]);?>
 
-    <?= $form->field($model, 'active')->dropDownList(['1' => 'Активнo', '0' => 'Неактивнo'])  ?>
+    <?= $form->field($model, 'active')->dropDownList(StaticPage::getStatusArray())  ?>
 
     <?= $form->field($model, 'parent_group_id')->dropDownList(['0' => 'Про кафедру', '1' => 'Абітурієнту', '2' => 'Студенту', '3' => 'Наукова робота', ])  ?>
     <div class="form-group">

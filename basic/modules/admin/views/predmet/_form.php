@@ -4,6 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use mihaildev\ckeditor\CKEditor;
 use mihaildev\elfinder\ElFinder;
+use app\modules\admin\models\Predmet;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Predmet */
@@ -23,7 +24,7 @@ use mihaildev\elfinder\ElFinder;
             ),        
     ]);?>
 
-    <?= $form->field($model, 'active')->dropDownList(['1' => 'Активнo', '0' => 'Неактивнo'])  ?>
+    <?= $form->field($model, 'active')->dropDownList(Predmet::getStatusArray())  ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Створити' : 'Оновити', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

@@ -22,6 +22,8 @@ use app\models\TeachPredmet;
  */
 class Teacher extends \yii\db\ActiveRecord
 {
+    const STATUS_PASSIVE = 0;
+    const STATUS_ACTIVE = 1;
     /**
      * @inheritdoc
      */
@@ -40,6 +42,8 @@ class Teacher extends \yii\db\ActiveRecord
             [['description'], 'string'],
             [['name', 'second_name', 'last_name', 'job', 'science_status', 'org_status'], 'string', 'max' => 100],
             [['image'], 'file', 'extensions' => 'gif, jpg',],
+            ['active', 'default', 'value' => self::STATUS_ACTIVE],
+            ['active', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_PASSIVE]],
         ];
     }
 

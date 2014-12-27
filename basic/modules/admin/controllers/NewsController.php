@@ -155,7 +155,9 @@ class NewsController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        $model = $this->findModel($id);
+        $model->active = News::STATUS_PASSIVE;
+        $model->save();
 
         return $this->redirect(['index']);
     }

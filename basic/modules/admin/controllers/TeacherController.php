@@ -153,7 +153,9 @@ class TeacherController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        $model = $this->findModel($id);
+        $model->active = Teacher::STATUS_PASSIVE;
+        $model->save();
 
         return $this->redirect(['index']);
     }

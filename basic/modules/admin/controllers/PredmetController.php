@@ -98,7 +98,9 @@ class PredmetController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        $model = $this->findModel($id);
+        $model->active = Predmet::STATUS_PASSIVE;
+        $model->save();
 
         return $this->redirect(['index']);
     }

@@ -9,6 +9,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\UploadedFile;
+use yii\data\ActiveDataProvider;
 
 /**
  * TeacherController implements the CRUD actions for Teacher model.
@@ -23,8 +24,10 @@ class TeacherController extends Controller
     public function actionIndex()
     {
         $searchModel = new TeacherSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
+        $dataProvider = new ActiveDataProvider([
+            'query' => Teacher::find()->where(['active'=>Teacher::STATUS_ACTIVE]),
+            'pagination' => ['pageSize' => 10],
+        ]);
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
