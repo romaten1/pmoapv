@@ -19,7 +19,7 @@ class SearchContacts extends Contacts
     {
         return [
             [['id'], 'integer'],
-            [['name', 'email', 'subject', 'body'], 'safe'],
+            [['name', 'email', 'subject', 'body', 'active'], 'safe'],
         ];
     }
 
@@ -58,7 +58,11 @@ class SearchContacts extends Contacts
         $query->andFilterWhere(['like', 'name', $this->name])
             ->andFilterWhere(['like', 'email', $this->email])
             ->andFilterWhere(['like', 'subject', $this->subject])
-            ->andFilterWhere(['like', 'body', $this->body]);
+            ->andFilterWhere(['like', 'body', $this->body])
+            ->andFilterWhere(['like', 'active', $this->active])
+            //->andFilterWhere(['like', 'created_at', $this->created_at])
+            //->andFilterWhere(['like', 'reviewed_at', $this->reviewed_at])
+            ;
 
         return $dataProvider;
     }

@@ -24,8 +24,8 @@ class ContactsController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['index', 'create', 'update', 'view', 'delete'],
-                        'roles' => ['moderator'],
+                        'actions' => ['index', 'create', 'update', 'view', 'review', 'unreview'],
+                        'roles' => ['admin'],
                     ]
                 ],
             ],
@@ -93,10 +93,20 @@ class ContactsController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionDelete($id)
+    public function actionReview($id)
     {
         $model = $this->findModel($id);
-        $model->status = Contacts::STATUS_DELETED;
+        $model->active = Contacts::STATUS_REVIEWED;
+        Yii::info($this->id.' - '.$this->action->id.' - id: '.$model->id.' - user: '.\Yii::$app->user->id,'admin');
+        $model->save();
+
+        return $this->redirect(['index']);
+    }
+
+    public function actionUnreview($id)
+    {
+        $model = $this->findModel($id);
+        $model->active = Contacts::STATUS_ACTIVE;
         Yii::info($this->id.' - '.$this->action->id.' - id: '.$model->id.' - user: '.\Yii::$app->user->id,'admin');
         $model->save();
 

@@ -4,6 +4,7 @@ namespace app\models;
 
 use Yii;
 use yii\base\Model;
+use yii\helpers\HtmlPurifier;
 use app\models\Contacts;
 /**
  * ContactForm is the model behind the contact form.
@@ -15,6 +16,12 @@ class ContactForm extends Model
     public $subject;
     public $body;
     public $verifyCode;
+    public $active;
+    public $created_at;
+    public $reviewed_at;
+
+    const STATUS_ACTIVE = 0;
+    const STATUS_REVIEWED = 1;
 
     /**
      * @return array the validation rules.
@@ -28,6 +35,8 @@ class ContactForm extends Model
         ['email', 'email'],
             // verifyCode needs to be entered correctly
         ['verifyCode', 'captcha'],
+        ['active', 'default', 'value' => self::STATUS_ACTIVE],
+        ['active', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_REVIEWED]],
         ];
     }
 
@@ -43,6 +52,9 @@ class ContactForm extends Model
             'subject' => 'Тема повідомлення',
             'body' => 'Текст повідомлення',
             'verifyCode' => 'Код перевірки',
+            'active' => 'Переглянуто',
+            'created_at' => 'Дата створення',
+            'reviewed_at' => 'Дата перегляду',
         ];
     }
 
@@ -65,6 +77,9 @@ class ContactForm extends Model
                 $contacts->email = $this->email;
                 $contacts->subject = $this->subject;
                 $contacts->body = $this->body;
+                $contacts->active = self::STATUS_ACTIVE;
+                //$contacts->created_at = time();
+                $contacts->reviewed_at = '1';
                 
                 if ($contacts->save()) {
                     return true;                
