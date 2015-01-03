@@ -27,7 +27,7 @@
         "claudejanz/jquery-slider": "dev-master",
         "mihaildev/yii2-ckeditor": "*",
         "mihaildev/yii2-elfinder": "*",
-        "yiisoft/yii2-authclient": "*"        
+        "yiisoft/yii2-authclient": "*"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",
