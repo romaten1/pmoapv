@@ -5,6 +5,8 @@ use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 ?>
 
+
+
 <?php
 NavBar::begin([
       'brandLabel' => 'ПМОАПВ',
@@ -13,9 +15,13 @@ NavBar::begin([
             'class' => 'navbar',
       ],
       ]);
+?>
+
+<?php
 echo Nav::widget([
       'options' => ['class' => 'navbar-nav navbar-right'],      
       'items' => [      
+            ['label' => 'Пошук на сайті', 'url' => ['/site/search']],
             !Yii::$app->user->isGuest ?
                   ['label' => 'Admin', 'url' => ['/admin']] : '',
             !Yii::$app->user->isGuest ?
