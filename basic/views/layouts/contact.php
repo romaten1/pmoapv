@@ -5,6 +5,8 @@ use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
+use app\components\widgets\allteachers\AllteacherWidget;
+use app\components\widgets\allnews\AllnewsWidget;
 use nirvana\prettyphoto\PrettyPhoto;
 /* @var $this \yii\web\View */
 /* @var $content string */
@@ -33,7 +35,10 @@ AppAsset::register($this);
             'homeLink' => ['label' => 'Головна','url' => ['/site/index']],
             ]) ?>
             <?= $content ?>
-   
+    </div>
+</div>
+
+
 <?= $this->render('_footer') ?>
 
 <?php 

@@ -7,7 +7,7 @@
 
     <div class="container">    
         <div class="jumbotron">        
-            <h2>Останні новини</h2>       
+            <h2 class="featurette-heading">Останні новини</h2>       
         </div>
         
 	        <?= $this->render('_index_loop', [

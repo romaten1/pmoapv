@@ -7,7 +7,7 @@
 
     <div class="container">    
         <div class="jumbotron">        
-            <h2>Викладачі кафедри</h2>       
+            <h2 class="featurette-heading">Викладачі кафедри</h2>       
         </div>
         
 	        <?= $this->render('_index_loop', [
