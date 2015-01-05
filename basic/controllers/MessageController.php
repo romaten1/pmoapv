@@ -1,14 +1,15 @@
 <?php
 
-namespace app\modules\admin\controllers;
+namespace app\controllers;
 
 use Yii;
-use app\modules\admin\models\Message;
-use app\modules\admin\models\MessageSearch;
+use app\models\Message;
+use app\models\MessageSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
+use yii\data\ActiveDataProvider;
 
 /**
  * MessageController implements the CRUD actions for Message model.
@@ -24,8 +25,13 @@ class MessageController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['index', 'create', 'view', 'delete'],
-                        'roles' => ['admin'],
+                        'actions' => ['create'],
+                        'roles' => ['@'],
+                    ],
+                    [
+                        'allow' => true,
+                        'actions' => ['index', 'recieve','ownmessage'],
+                        'roles' => ['@'],
                     ]
                 ],
             ],
@@ -42,28 +48,37 @@ class MessageController extends Controller
      * Lists all Message models.
      * @return mixed
      */
-    public function actionIndex()
-    {
-        $searchModel = new MessageSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+    public function actionIndex()    {
+        
+        $dataReceivedProvider = new ActiveDataProvider([
+            'query' => Message::find()->received_messages(),
+            'sort'=>[
+                'defaultOrder'=>['id' => SORT_DESC],
+            ],
+            'pagination' => [
+                'pageSize' => 10
+            ]
+        ]);
 
         return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
+            'dataReceivedProvider' => $dataReceivedProvider,
         ]);
-    }
-
-    /**
-     * Displays a single Message model.
-     * @param integer $id
-     * @return mixed
-     */
-    public function actionView($id)
+    }  
+    public function actionOwnmessage()
     {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
+        $dataOwnProvider = new ActiveDataProvider([
+            'query' => Message::find()->own_messages(),
+            'sort'=>[
+                'defaultOrder'=>['id' => SORT_DESC],
+            ],
+            'pagination' => [
+                'pageSize' => 10
+            ]
         ]);
-    }
+        return $this->render('ownmessage', [
+            'dataOwnProvider' => $dataOwnProvider,            
+        ]);
+    }   
 
     /**
      * Creates a new Message model.
@@ -73,12 +88,14 @@ class MessageController extends Controller
     public function actionCreate()
     {
         $model = new Message();
-        
+        //($model);
         if ($model->load(Yii::$app->request->post())) {
             $model->author_id = Yii::$app->user->id;
-            $model->recieved_at = 123456789;
+            $model->recieved_at = 1;
+            $model->created_at = '1';
+            $model->active = 1;
             if($model->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
+                return $this->redirect(['index', 'id' => $model->id]);
             }
             
         } else {
@@ -94,9 +111,12 @@ class MessageController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionDelete($id)
+    public function actionRecieve($id)
     {
-        $this->findModel($id)->delete();
+        $model = $this->findModel($id);
+        $model->recieved_at = time();
+        Yii::info($this->id.' - '.$this->action->id.' - id: '.$model->id.' - user: '.\Yii::$app->user->id,'admin');
+        $model->save();
 
         return $this->redirect(['index']);
     }

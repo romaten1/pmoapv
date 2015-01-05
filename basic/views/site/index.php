@@ -19,9 +19,9 @@ $this->title = 'Кафедра ПМОАПВ УНУС';
         інженерно-технологічного факультету <br />
         Уманського національного університету садівництва</p>
 
-        <!-- <p><a class="btn btn-lg btn-success" href="http://www.yiiframework.com">Get started with Yii</a></p> -->
-    </div>
-    
+        <!--<p><a class="btn btn-lg btn-success" href="http://www.yiiframework.com">Get started with Yii</a></p> 
+    </div>-->
+    <!--
     <?= philippfrenzel\yii2sly\yii2sly::widget([
         'id' => 'sp_slider',
         'items'=> [
@@ -45,7 +45,7 @@ $this->title = 'Кафедра ПМОАПВ УНУС';
             'activateOn' =>   'click'
                        
         ]
-    ]); ?>
+    ]); ?>-->
     
     <?php 
        /* SliderWidget::begin([

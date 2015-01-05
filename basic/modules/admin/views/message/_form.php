@@ -11,11 +11,13 @@ use app\modules\admin\models\Message;
 
 <div class="message-form">
 
-    <?php $form = ActiveForm::begin(); ?>    
+    <?php $form = ActiveForm::begin(); ?>  
 
     <?= $form->field($model, 'receiver_id')->textInput() ?>
 
-    <?= $form->field($model, 'text')->textarea(['rows' => 6]) ?>    
+    <?= $form->field($model, 'text')->textarea(['rows' => 6]) ?> 
+
+    <?= $form->field($model, 'recieved_at')->textInput() ?>
 
     <?= $form->field($model, 'active')->dropDownList(Message::getStatusArray())  ?>
 

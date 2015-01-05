@@ -99,6 +99,9 @@ AppAsset::register($this);
 	        <div class="row">    
 	            <div class="col-xs-2">
                     <div class="panel panel-primary">
+                        <div class="panel-heading"><h3 class="panel-title"><?= Html::a('Повідомлення користувачів', ['/admin/message']) ?></h3></div>                        
+                    </div>
+                    <div class="panel panel-primary">
                         <div class="panel-heading"><h3 class="panel-title"><?= Html::a('Новини', ['/admin/news']) ?></h3></div>
                         <div class="panel-body">
                             <?= Html::a('Створити', ['/admin/news/create']) ?></h3>
@@ -132,7 +135,7 @@ AppAsset::register($this);
                         </div>
                     </div>
                     <div class="panel panel-primary">
-                        <div class="panel-heading"><h3 class="panel-title"><?= Html::a('Повідомлення користувачів', ['/admin/contacts']) ?></h3></div>
+                        <div class="panel-heading"><h3 class="panel-title"><?= Html::a('Звернення користувачів', ['/admin/contacts']) ?></h3></div>
                         
                     </div>                       
 	            </div>

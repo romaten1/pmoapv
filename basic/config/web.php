@@ -1,6 +1,7 @@
 <?php
 
 $params = require(__DIR__ . '/params.php');
+$authClients = require(__DIR__ . '/auth/clients.php');
 
 $config = [
     'id' => 'basic',
@@ -77,6 +78,10 @@ $config = [
                     'css' => ['css/bootstrap.css'],
                 ],
             ],
+        ],
+         'authClientCollection' => [
+            'class' => 'yii\authclient\Collection',
+            'clients' => $authClients,
         ],
         /*'formatter' => [
             'dateFormat' => 'd-m-Y',

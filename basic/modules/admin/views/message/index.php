@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use app\modules\admin\models\Message;
+use dektrium\user\models\User;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\modules\admin\models\MessageSearch */
@@ -24,11 +25,19 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
-            'id',
-            'author_id',
-            'receiver_id',
+            ['class' => 'yii\grid\SerialColumn'],            
+            [
+                'attribute' => 'author_id',
+                'format' => 'html',
+                'value' => function ($model) {
+                    return User::findOne($model->author_id)->username;},                
+            ],
+            [
+                'attribute' => 'receiver_id',
+                'format' => 'html',
+                'value' => function ($model) {
+                    return User::findOne($model->receiver_id)->username;},                
+            ],            
             'text:ntext',
             [
                 'attribute' => 'created_at',

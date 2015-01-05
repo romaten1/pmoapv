@@ -25,8 +25,13 @@ echo Nav::widget([
             !Yii::$app->user->isGuest ?
                   ['label' => 'Admin', 'url' => ['/admin']] : '',
             !Yii::$app->user->isGuest ?
-                  ['label' => 'Профіль', 'url' => ['/user/settings/profile']] : '', 
-            ['label' => 'Контакти', 'url' => ['/site/contact']],                           
+                  ['label' => 'Профіль', 'url' => ['/user/settings/profile']] : '',             
+            Yii::$app->user->isGuest ?
+                  ['label' => 'Контакти', 'url' => ['/site/contact']] : '', 
+            Yii::$app->user->isGuest ?
+                  ['label' => 'Реєстрація', 'url' => ['/user/registration/register']] : '',   
+            !Yii::$app->user->isGuest ?
+                  ['label' => 'Повідомлення', 'url' => ['/message']] : '',                            
             Yii::$app->user->isGuest ?
                   ['label' => 'Вхід на сайт', 'url' => ['/user/security/login']] :
                   ['label' => 'Вийти (' . Yii::$app->user->identity->username . ')',
