@@ -19,29 +19,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= ListView::widget([
         'dataProvider' => $dataProvider,
         'itemOptions' => ['class' => 'item'],
-        'itemView' => function ($model, $key, $index, $widget) {
-        	$teacher_full_name = $model->last_name . ' ' . $model->name . ' '. $model->second_name;
-            $href = Url::to('@web/uploads/teacher/').$model->image;
-            $image = Url::to('@web/uploads/teacher/thumbs/thumb_').$model->image;
-            
-            $return = '<div class="row">
-                            <div class="col-md-2">';
-            $image_code = '<a href="'.
-                $href.
-                '" rel="prettyPhoto" title="'.$teacher_full_name.'"><img src="'.
-                $image.
-                '" alt="" /></a>';
-
-            $return .= $model->image ? $image_code : '';
-            $return .= '</div>
-                            <div class="col-md-10">';
-            $return .= Html::a(Html::encode($teacher_full_name), ['view', 'id' => $model->id]);
-            $return .= '<br />';
-            $return .= $model->job . ', ' . $model->science_status . '</p>';
-            $return .= '</div>
-                            </div><br />';
-            return $return;
-        },
+        'itemView' => '_listItem',
     ]) ?>
     <?php 
         PrettyPhoto::widget([

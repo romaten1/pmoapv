@@ -30,15 +30,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     <?= ListView::widget([
                         'dataProvider' => $dataOwnProvider,
                         'itemOptions' => ['class' => 'item'],
-                        'itemView' => function ($model, $key, $index, $widget) {
-                            return 
-                            '<div class="panel panel-default">
-                            <div class="panel-heading text-right"><span class="pull-left"><strong class="">Для '.
-                            User::findOne($model->receiver_id)->username.'</strong></span>'.
-                            date("H:i:s - d.m.y", $model->created_at).'</div>
-                                <div class="panel-body">'.$model->text.'</div>
-                            </div>';
-                        },
+                        'itemView' => '_ownlistItem',
                     ]) ?>
                 </div>
             </div> 
