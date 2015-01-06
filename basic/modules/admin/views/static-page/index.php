@@ -45,28 +45,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'parent_group_id',
                 'format' => 'html',
                 'value' => function ($model) {
-                    switch ($model->parent_group_id) {
-                        case '0':
-                            return 'Про кафедру';
-                            break;
-
-                        case '1':
-                            return 'Абітурієнту';
-                            break;
-                        
-                        case '2':
-                            return 'Студенту';
-                            break;
-
-                        case '3':
-                            return 'Наукова робота';
-                            break;
-                        default:
-                            return 'Про кафедру';
-                            break;
-                    }
-                },
-                'filter' => ['0' => 'Про кафедру', '1' => 'Абітурієнту', '2' => 'Студенту', '3' => 'Наукова робота']
+                    return $model->getParentLabel();},
+                'filter' => StaticPage::getParentArray()
             ],
             
             ['class' => 'yii\grid\ActionColumn'],

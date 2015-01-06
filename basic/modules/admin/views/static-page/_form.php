@@ -28,7 +28,7 @@ use app\modules\admin\models\StaticPage;
 
     <?= $form->field($model, 'active')->dropDownList(StaticPage::getStatusArray())  ?>
 
-    <?= $form->field($model, 'parent_group_id')->dropDownList(['0' => 'Про кафедру', '1' => 'Абітурієнту', '2' => 'Студенту', '3' => 'Наукова робота', ])  ?>
+    <?= $form->field($model, 'parent_group_id')->dropDownList(StaticPage::getParentArray())  ?>
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Створити' : 'Оновити', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>

@@ -79,4 +79,19 @@ class StaticPage extends \yii\db\ActiveRecord
         $statuses = $this->getStatusArray();
         return ArrayHelper::getValue($statuses, $this->active);
     }
+
+    public static function getParentArray()
+    {
+        return [
+            0 => 'Про кафедру', 1 => 'Абітурієнту', 2 => 'Студенту', 3 => 'Наукова робота'   
+        ];
+    }
+    
+    public function getParentLabel()
+    {
+        $parents = $this->getParentArray();
+        return ArrayHelper::getValue($parents, $this->parent_group_id);
+    }
+
+    
 }
