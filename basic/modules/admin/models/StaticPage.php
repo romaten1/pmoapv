@@ -4,7 +4,7 @@ namespace app\modules\admin\models;
 
 use Yii;
 use yii\helpers\ArrayHelper;
-
+use app\modules\admin\models\ParentGroup;
 /**
  * This is the model class for table "static_page".
  *
@@ -82,9 +82,12 @@ class StaticPage extends \yii\db\ActiveRecord
 
     public static function getParentArray()
     {
-        return [
-            0 => 'Про кафедру', 1 => 'Абітурієнту', 2 => 'Студенту', 3 => 'Наукова робота'   
-        ];
+        $group = ParentGroup::find()->asArray()->all();
+        $parentArray = [];
+        foreach($group as $val){
+            $parentArray[$val['id']] = $val['title'];
+        }
+        return $parentArray;
     }
     
     public function getParentLabel()

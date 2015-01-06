@@ -99,18 +99,23 @@ AppAsset::register($this);
 	        <div class="row">    
 	            <div class="col-xs-2">
                     <div class="panel panel-primary">
-                        <div class="panel-heading"><h3 class="panel-title"><?= Html::a('Повідомлення користувачів', ['/admin/message']) ?></h3></div>                        
-                    </div>
+                        <div class="panel-heading"><h3 class="panel-title">Повідомлення</h3></div>                        
+                        <div class="panel-body">
+                            <?= Html::a('Повідомлення гостей', ['/admin/contacts']) ?><br />
+                            <?= Html::a('Повідомлення юзерів', ['/admin/message']) ?>
+                        </div>
+                    </div>                    
                     <div class="panel panel-primary">
                         <div class="panel-heading"><h3 class="panel-title"><?= Html::a('Новини', ['/admin/news']) ?></h3></div>
                         <div class="panel-body">
-                            <?= Html::a('Створити', ['/admin/news/create']) ?></h3>
+                            <?= Html::a('Створити', ['/admin/news/create']) ?>
                         </div>
                     </div>
 	            	<div class="panel panel-primary">
                         <div class="panel-heading"><h3 class="panel-title"><?= Html::a('Статичні сторінки', ['/admin/static-page']) ?></h3></div>
                         <div class="panel-body">
-                            <?= Html::a('Створити', ['/admin/static-page/create']) ?>
+                            <?= Html::a('Створити', ['/admin/static-page/create']) ?><br />
+                            <?= Html::a('Категорії', ['/admin/parent-group']) ?>
                         </div>
                     </div>
                     <div class="panel panel-primary">
@@ -118,7 +123,7 @@ AppAsset::register($this);
                         <div class="panel-body">
                             <?= Html::a('Створити', ['/admin/teacher/create']) ?><br />
                             <?= Html::a('Викладач::Предмет', ['/admin/teach-predmet']) ?><br />
-                            <?= Html::a('Викладач::Методичка', ['/admin/teach-metodychky']) ?>
+                            <?= Html::a('Викладач::Методичка', ['/admin/teach-metodychky']) ?><br />
                             <?= Html::a('Предмет::Методичка', ['/admin/predmet-metodychky']) ?>
                         </div>
                     </div>
@@ -134,10 +139,7 @@ AppAsset::register($this);
                             <?= Html::a('Створити', ['/admin/metodychky/create']) ?>
                         </div>
                     </div>
-                    <div class="panel panel-primary">
-                        <div class="panel-heading"><h3 class="panel-title"><?= Html::a('Звернення користувачів', ['/admin/contacts']) ?></h3></div>
-                        
-                    </div>                       
+                                          
 	            </div>
 	            <div class="col-xs-10">
 	            	<?= $content ?>
