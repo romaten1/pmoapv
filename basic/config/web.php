@@ -19,7 +19,16 @@ $config = [
             'confirmWithin' => 21600,
             'cost' => 12,
             'admins' => ['admin'],
-            'enableIntlExtension' => false
+            'enableIntlExtension' => false,
+            'components' => [
+                'manager' => [
+                    // Model that is used on registration
+                    'registrationFormClass' => 'app\models\RegistrationForm',                    
+                ],
+            ],
+            'controllerMap' => [
+                'registration' => 'app\controllers\RegistrationController'
+            ],
         ],      
     ],
     'components' => [
@@ -82,6 +91,13 @@ $config = [
          'authClientCollection' => [
             'class' => 'yii\authclient\Collection',
             'clients' => $authClients,
+        ],
+        'view' => [
+            'theme' => [
+                'pathMap' => [
+                    '@dektrium/user/views' => '@app/views/user'
+                ],
+            ],
         ],
         /*'formatter' => [
             'dateFormat' => 'd-m-Y',
