@@ -19,7 +19,7 @@ $config = [
             'confirmWithin' => 21600,
             'cost' => 12,
             'admins' => ['admin'],
-            
+            //'enableIntlExtension' => false,
             'components' => [
                 'manager' => [
                     // Model that is used on registration

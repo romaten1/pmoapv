@@ -33,7 +33,8 @@ AppAsset::register($this);
             'homeLink' => ['label' => 'Головна','url' => ['/site/index']],
             ]) ?>
             <?= $content ?>
-   
+    </div> 
+</div>
 <?= $this->render('_footer') ?>
 
 <?php 

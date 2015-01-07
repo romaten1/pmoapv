@@ -79,9 +79,11 @@ $this->title = 'Кафедра ПМОАПВ УНУС';
     
     </div>
 </div>
+
+</div>
 </div>
 
-<div class="container2">
+<div class="container_upper">
     <div class="container">
       <div class="row">
         <div class="col-md-4 text-center">
@@ -157,8 +159,10 @@ $this->title = 'Кафедра ПМОАПВ УНУС';
         <?php echo AllnewsWidget::widget(); ?>    
 </div>
 
-<div class="container2">
+<!--<div class="container2">
         <?php echo AllteacherWidget::widget(); ?>        
-</div>
+</div>--> 
+
+
 
 
