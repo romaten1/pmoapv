@@ -22,9 +22,9 @@ AppAsset::register($this);
     <?php $this->head() ?>
 </head>
 <body>
-
+<?= $this->render('_newyear') ?>    
     <?php $this->beginBody() ?>
-<div class="wrap">
+<div class="">
     <?= $this->render('_header') ?>    
     
     <div class="container">

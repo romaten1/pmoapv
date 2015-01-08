@@ -108,7 +108,8 @@ AppAsset::register($this);
                     <div class="panel panel-primary">
                         <div class="panel-heading"><h3 class="panel-title"><?= Html::a('Новини', ['/admin/news']) ?></h3></div>
                         <div class="panel-body">
-                            <?= Html::a('Створити', ['/admin/news/create']) ?>
+                            <?= Html::a('Створити', ['/admin/news/create']) ?><br />
+                            <?= Html::a('Новини викладачів', ['/admin/teacher-news']) ?>
                         </div>
                     </div>
 	            	<div class="panel panel-primary">

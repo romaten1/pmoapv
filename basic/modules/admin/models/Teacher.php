@@ -98,4 +98,22 @@ class Teacher extends \yii\db\ActiveRecord
         $statuses = $this->getStatusArray();
         return ArrayHelper::getValue($statuses, $this->active);
     }
+
+    public static function getTeacherByUserId($user_id)
+    {
+        $teacher_id = UserTeacher::find()->where(['user_id'=>$user_id])->one()->teacher_id;
+        $teacher = self::findOne($teacher_id);
+        return $teacher;
+    }
+
+    public static function getUserIdTeacherNameArray()
+    {
+        $user_teacher = UserTeacher::find()->asArray()->all();
+        $teachers = [];       
+        foreach ($user_teacher as $item) {
+            $teacher = self::getTeacherByUserId($item['user_id']);
+            $teachers[$item['user_id']] = $teacher->last_name.' '.$teacher->name.' '.$teacher->second_name;
+        }
+        return $teachers;
+    }
 }

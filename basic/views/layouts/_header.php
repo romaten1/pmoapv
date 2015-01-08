@@ -61,7 +61,12 @@ echo Nav::widget([
                         ['label' => 'Матеріально-технічна база', 'url' => ['/static-page/view-alias', 'alias'=>'mattehbaza']],
                   ],
             ],
-            ['label' => 'Новини', 'url' => ['/news']],
+            ['label' => 'Новини', 
+                  'items' => [
+                        ['label' => 'Новини кафедри', 'url' => ['/news']],
+                        ['label' => 'Новини викладачів', 'url' => ['/teacher-news']],                        
+                  ],
+            ],
             ['label' => 'Абітурієнту',
                   'items' => [
                         ['label' => 'Звернення до наших абітурієнтів', 'url' => ['/static-page/view-alias', 'alias'=>'zvernennya']],

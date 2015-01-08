@@ -7,6 +7,7 @@ use app\models\Predmet;
 use app\models\TeachMetodychky;
 use app\models\Metodychky;
 use app\models\TeachPredmet;
+use app\modules\admin\models\UserTeacher;
 /**
  * This is the model class for table "teacher".
  *
@@ -75,5 +76,12 @@ class Teacher extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Predmet::className(), ['id' => 'predmet_id'])
                     ->viaTable(TeachPredmet::tableName(), ['teach_id' => 'id']);
+    }
+
+    public static function getTeacherByUserId($user_id)
+    {
+        $teacher_id = UserTeacher::find()->where(['user_id'=>$user_id])->one()->teacher_id;
+        $teacher = self::findOne($teacher_id);
+        return $teacher;
     }
 }
