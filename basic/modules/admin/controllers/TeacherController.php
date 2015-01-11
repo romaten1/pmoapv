@@ -81,24 +81,30 @@ class TeacherController extends Controller
     public function actionCreate()
     {
         $model = new Teacher();
-
+        // Получаем массив данных по загружамых файлах 
         if ($model->load(Yii::$app->request->post())) {
-        
-        // Получаем массив данных по загружамых файлах
-            $model->image = UploadedFile::getInstance($model, 'image');
+            if (isset($model->image)) {
+                    $model->image = UploadedFile::getInstance($model, 'image');
+                }                      
             if ($model->validate()) {                
-                $image_name = Yii::$app->getSecurity()->generateRandomString() ;
-                $image_full_name = $image_name . '.' . $model->image->extension;
-                $model->image->saveAs('uploads/teacher/' . $image_full_name);
-                $model->image = $image_full_name;
-                //Make a thumbnails
-                $path_from = Yii::getAlias('@webroot/uploads/teacher/' . $image_full_name);
-                $path_to = Yii::getAlias('@webroot/uploads/teacher/thumbs/thumb_') . $image_full_name;
-                $this->makeImage($path_from, $path_to, $desired_width = 60);
-                //Make an image
-                $path_from = Yii::getAlias('@webroot/uploads/teacher/' . $image_full_name);
-                $path_to = Yii::getAlias('@webroot/uploads/teacher/') . $image_full_name;
-                $this->makeImage($path_from, $path_to, $desired_width = 200);
+                if (isset($model->image)) { 
+                
+                    $image_name = Yii::$app->getSecurity()->generateRandomString() ;
+                    $image_full_name = $image_name . '.' . $model->image->extension;
+                    $model->image->saveAs('uploads/teacher/' . $image_full_name);
+                    $model->image = $image_full_name;
+                    //Make a thumbnails
+                    $path_from = Yii::getAlias('@webroot/uploads/teacher/' . $image_full_name);
+                    $path_to = Yii::getAlias('@webroot/uploads/teacher/thumbs/thumb_') . $image_full_name;
+                    $this->makeImage($path_from, $path_to, $desired_width = 60);
+                    //Make an image
+                    $path_from = Yii::getAlias('@webroot/uploads/teacher/' . $image_full_name);
+                    $path_to = Yii::getAlias('@webroot/uploads/teacher/') . $image_full_name;
+                    $this->makeImage($path_from, $path_to, $desired_width = 200);
+                }
+                else{
+                   $model->image = 'teacher.png';
+                }
             }
             if($model->save()){
                 Yii::info($this->id.' - '.$this->action->id.' - id: '.$model->id.' - user: '.\Yii::$app->user->id,'admin');

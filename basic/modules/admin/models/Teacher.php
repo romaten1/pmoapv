@@ -106,6 +106,14 @@ class Teacher extends \yii\db\ActiveRecord
         return $teacher;
     }
 
+    public static function getTeacherNameByUserId($user_id)
+    {
+        $teacher_id = UserTeacher::find()->where(['user_id'=>$user_id])->one()->teacher_id;
+        $teacher = self::findOne($teacher_id);
+        $teacher_name = $teacher->last_name.' '.$teacher->name.' '.$teacher->second_name;
+        return $teacher_name;
+    }
+
     public static function getUserIdTeacherNameArray()
     {
         $user_teacher = UserTeacher::find()->asArray()->all();

@@ -18,20 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= ListView::widget([
         'dataProvider' => $dataProvider,
         'itemOptions' => ['class' => 'item'],
-        'itemView' => function ($model, $key, $index, $widget) {
-            $return = '
-                        <div class="row">
-                            <div class="col-md-2">';
-            $return .= $model->image ? Html::img('@web/uploads/news/thumbs/thumb_'.$model->image, ['class'=>'img-thumbnail']) : '';
-            $return .= '</div>
-                            <div class="col-md-10">';
-            $return .= Html::a(Html::encode($model->title), ['view', 'id' => $model->id]);
-            $return .= '<br />';
-            $return .= Html::encode($model->description);
-            $return .= '</div>
-                            </div><br />';
-            return $return;
-        },
+        'itemView' => '_listItem',
     ]) ?>
 
     

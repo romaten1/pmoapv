@@ -25,7 +25,7 @@ class NewsController extends Controller
         
         $searchModel = new NewsSearch();
         $dataProvider = new ActiveDataProvider([
-            'query' => News::find()->where(['active'=>News::STATUS_ACTIVE])->orderBy('id DESC'),
+            'query' => News::find()->where(['active'=>News::STATUS_ACTIVE])->orderBy('updated_at DESC'),
             'pagination' => ['pageSize' => 10],
         ]);
 

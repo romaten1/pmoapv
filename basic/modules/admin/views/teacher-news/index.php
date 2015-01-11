@@ -12,8 +12,6 @@ $this->title = 'Повідомлення викладачів';
 $this->params['breadcrumbs'][] = $this->title;
 
 $userIdArray = Teacher::getUserIdTeacherNameArray();
-var_dump($userIdArray);
-
 ?>
 <div class="teacher-news-index">
 
@@ -27,6 +25,7 @@ var_dump($userIdArray);
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
+        
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
@@ -35,9 +34,9 @@ var_dump($userIdArray);
                 'attribute' => 'teacher_id',
                 'format' => 'html',
                 'value' => function ($model) {
-                    $key = $model->teacher_id;
-                    return ;},
-                'filter' => Teacher::getUserIdTeacherNameArray()
+                    
+                    return Teacher::getTeacherNameByUserId($model->teacher_id);},
+                'filter' => $userIdArray,
             ],
             'title',
             'text:ntext',

@@ -9,7 +9,9 @@
     </div>
     <div class="col-md-10">
          <?= Html::a(Html::encode($model->title), ['view', 'id' => $model->id])?>
-         '<br />'
+         <br />
+         <?= date('H:i / d-m-Y', $model->updated_at)?>
+         <br />
          <?= Html::encode($model->description)?>
     </div>
 </div>

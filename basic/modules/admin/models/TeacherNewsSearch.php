@@ -41,11 +41,12 @@ class TeacherNewsSearch extends TeacherNews
      */
     public function search($params)
     {
-        $query = TeacherNews::find();
+        $query = TeacherNews::find()->orderBy(['updated_at'=>SORT_DESC]);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
-        ]);
+            
+        ]);        
 
         if (!($this->load($params) && $this->validate())) {
             return $dataProvider;

@@ -69,7 +69,12 @@ class Contacts extends \yii\db\ActiveRecord
             'reviewed_at' => 'Дата перегляду',
         ];
     }
-
+    
+    /**
+     * Contacts::getStatusArray()
+     * 
+     * @return
+     */
     public static function getStatusArray()
     {
         return [
@@ -78,6 +83,12 @@ class Contacts extends \yii\db\ActiveRecord
         ];
     }
 
+    /**
+     * Contacts::getStatus()
+     * 
+     * @param mixed $active
+     * @return
+     */
     public static function getStatus($active)
     {
         $status = self::getStatusArray();

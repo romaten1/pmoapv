@@ -85,8 +85,11 @@ $config = [
                     'basePath' => '@webroot',
                     'baseUrl' => '@web',
                     'css' => ['css/bootstrap.css'],
-                ],
+                ],                
+                       
+                
             ],
+
         ],
          'authClientCollection' => [
             'class' => 'yii\authclient\Collection',

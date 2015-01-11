@@ -22,7 +22,12 @@ class AppAsset extends AssetBundle
         'css/newyear.css',
     ];
     public $js = [
+    	'js/swfobject.js',
     	'js/newyear.js',
+        //'js/jquery.min.js',
+        //'http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js',
+        //'js/noConflict.js',
+
     ];
     public $depends = [
         'yii\web\YiiAsset',

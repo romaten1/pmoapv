@@ -16,6 +16,7 @@ use Imagine\Imagick\Imagine;
 use Imagine\Image\ImageInterface;
 use app\helpers\TransliterateHelper;
 use yii\filters\AccessControl;
+use yii\data\ActiveDataProvider;
 
 /**
  * NewsController implements the CRUD actions for News model.
@@ -54,7 +55,10 @@ class NewsController extends Controller
     {
         
         $searchModel = new NewsSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider = new ActiveDataProvider([
+            'query' => News::find()->where(['active'=>News::STATUS_ACTIVE])->orderBy('updated_at DESC'),
+            'pagination' => ['pageSize' => 15],
+        ]);
 
         return $this->render('admin', [
             'searchModel' => $searchModel,
@@ -82,25 +86,30 @@ class NewsController extends Controller
     public function actionCreate()
     {
         $model = new News();
-
-        if ($model->load(Yii::$app->request->post())) {
-        
         // Получаем массив данных по загружамых файлах
-            $model->image = UploadedFile::getInstance($model, 'image');
-            if ($model->validate()) {                
-                $image_name = Yii::$app->getSecurity()->generateRandomString(5)
-                    .'_'.substr(TransliterateHelper::cyrillicToLatin($model->title), 0, 7);
-                $image_full_name = $image_name . '.' . $model->image->extension;
-                $model->image->saveAs(Yii::getAlias('@webroot/uploads/news/' . $image_full_name));
-                $model->image = $image_full_name;
-                //Make a thumbnails
-                $path_from = Yii::getAlias('@webroot/uploads/news/' . $image_full_name);
-                $path_to = Yii::getAlias('@webroot/uploads/news/thumbs/thumb_') . $image_full_name;
-                $this->makeImage($path_from, $path_to, $desired_width = 120);
-                //Make an image
-                $path_from = Yii::getAlias('@webroot/uploads/news/' . $image_full_name);
-                $path_to = Yii::getAlias('@webroot/uploads/news/') . $image_full_name;
-                $this->makeImage($path_from, $path_to, $desired_width = 500);
+        if ($model->load(Yii::$app->request->post())) {
+            if (isset($model->image)) {
+                        $model->image = UploadedFile::getInstance($model, 'image');
+            } 
+            if ($model->validate()) {  
+                if (isset($model->image)) { 
+                    $image_name = Yii::$app->getSecurity()->generateRandomString(5)
+                        .'_'.substr(TransliterateHelper::cyrillicToLatin($model->title), 0, 7);
+                    $image_full_name = $image_name . '.' . $model->image->extension;
+                    $model->image->saveAs(Yii::getAlias('@webroot/uploads/news/' . $image_full_name));
+                    $model->image = $image_full_name;
+                    //Make a thumbnails
+                    $path_from = Yii::getAlias('@webroot/uploads/news/' . $image_full_name);
+                    $path_to = Yii::getAlias('@webroot/uploads/news/thumbs/thumb_') . $image_full_name;
+                    $this->makeImage($path_from, $path_to, $desired_width = 120);
+                    //Make an image
+                    $path_from = Yii::getAlias('@webroot/uploads/news/' . $image_full_name);
+                    $path_to = Yii::getAlias('@webroot/uploads/news/') . $image_full_name;
+                    $this->makeImage($path_from, $path_to, $desired_width = 500);
+                }
+                else{
+                   $model->image = false;
+                }
             }
             if($model->save()){
                 Yii::info($this->id.' - '.$this->action->id.' - id: '.$model->id.' - user: '.\Yii::$app->user->id,'admin');

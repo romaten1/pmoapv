@@ -35,7 +35,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'last_name',
                 'format' => 'html',
                 'value' => function ($model) {
-                    return Html::a($model->last_name, ['/teacher/view/', 'id'=>$model->id]);},
+                    return Html::a($model->last_name, ['/admin/teacher/view/', 'id'=>$model->id]);},
                 //'filter' => ['0' => 'Неактивна', '1' => 'Активна']
             ],            
             'name',

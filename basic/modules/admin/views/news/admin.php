@@ -44,6 +44,10 @@ $this->params['breadcrumbs'][] = $this->title;
                 'format' => 'html',                
             ],
             [
+                'attribute' => 'updated_at',
+                'format' => 'date',                
+            ],
+            [
                 'attribute' => 'active',
                 'format' => 'html',
                 'value' => function ($model) {
