@@ -78,6 +78,7 @@ class MessageController extends Controller
             $model->author_id = Yii::$app->user->id;
             $model->recieved_at = 1;
             if($model->save()) {
+                Yii::info($this->id.' - '.$this->action->id.' - id: '.$model->id.' - user: '.\Yii::$app->user->id,'admin');
                 return $this->redirect(['view', 'id' => $model->id]);
             }
             
@@ -111,7 +112,7 @@ class MessageController extends Controller
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
-
+        Yii::info($this->id.' - '.$this->action->id.' - id: '.$model->id.' - user: '.\Yii::$app->user->id,'admin');
         return $this->redirect(['index']);
     }
 
