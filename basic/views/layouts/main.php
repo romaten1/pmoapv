@@ -5,10 +5,12 @@ use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
+use app\assets\MainPageAsset;
 use nirvana\prettyphoto\PrettyPhoto;
 /* @var $this \yii\web\View */
 /* @var $content string */
 
+MainPageAsset::register($this);
 AppAsset::register($this);
 ?>
 <?php $this->beginPage() ?>
