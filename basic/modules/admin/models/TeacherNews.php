@@ -56,7 +56,7 @@ class TeacherNews extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['teacher_id', 'title', 'text', 'created_at', 'updated_at', 'active'], 'required'],
+            [['teacher_id', 'title', 'text', 'active'], 'required'],
             [['teacher_id', 'created_at', 'updated_at', 'active'], 'integer'],
             [['text'], 'string'],
             [['title'], 'string', 'max' => 255]

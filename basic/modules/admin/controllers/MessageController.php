@@ -24,7 +24,7 @@ class MessageController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['index', 'create', 'view', 'delete'],
+                        'actions' => ['index', 'create', 'view', 'delete', 'update'],
                         'roles' => ['admin'],
                     ]
                 ],
@@ -76,13 +76,27 @@ class MessageController extends Controller
         
         if ($model->load(Yii::$app->request->post())) {
             $model->author_id = Yii::$app->user->id;
-            $model->recieved_at = 123456789;
+            $model->recieved_at = 1;
             if($model->save()) {
                 return $this->redirect(['view', 'id' => $model->id]);
             }
             
         } else {
             return $this->render('create', [
+                'model' => $model,
+            ]);
+        }
+    }
+    
+    public function actionUpdate($id)
+    {
+        $model = $this->findModel($id);
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            Yii::info($this->id.' - '.$this->action->id.' - id: '.$model->id.' - user: '.\Yii::$app->user->id,'admin');
+            return $this->redirect(['view', 'id' => $model->id]);
+        } else {
+            return $this->render('update', [
                 'model' => $model,
             ]);
         }

@@ -1,19 +1,26 @@
 <?php
 
 use yii\helpers\Html;
+use kartik\icons\Icon;
+use dektrium\user\models\User;
+use app\modules\admin\models\Message;
 
 /* @var $this yii\web\View */
-/* @var $model app\modules\admin\models\Message */
+/* */
+$author = User::findOne($model->author_id)->username;
+$receiver = User::findOne($model->receiver_id)->username;
+$this->title = "Повідомлення від ".$author. ' для '.$receiver;
 
-$this->title = 'Update Message: ' . ' ' . $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Messages', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = 'Update';
+
+$this->params['breadcrumbs'][] = ['label' => 'Повідомлення користувачів', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => $this->title, 'url' => ['view', 'id' => $model->id]];
+$this->params['breadcrumbs'][] = 'Оновити';
+
 ?>
-<div class="message-update">
+<div class="metodychky-update">
 
-    <h1><?= Html::encode($this->title) ?></h1>
-
+   <h1><?= Html::encode('Оновити повідомлення користувачів: '. $this->title) ?></h1>
+    
     <?= $this->render('_form', [
         'model' => $model,
     ]) ?>

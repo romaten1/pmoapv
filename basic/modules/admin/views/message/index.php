@@ -45,7 +45,15 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'attribute' => 'recieved_at',
-                'format' => 'date',                
+                'format' => 'html', 
+                'value' => function ($model) {
+                    if($model->recieved_at == 1){
+                        return "Не отримано";
+                    }
+                    else{
+                        return date('H:i / d-m-Y',$model->recieved_at);
+                    }
+                },             
             ],
             [
                 'attribute' => 'active',

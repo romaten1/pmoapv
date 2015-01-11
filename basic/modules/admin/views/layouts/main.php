@@ -25,15 +25,19 @@ AppAsset::register($this);
 <body>
 
 <?php $this->beginBody() ?>
-    <div class="wrap">
+    <div class="container-fluid">
         <?php
             NavBar::begin([
                 'brandLabel' => 'ПМОАПВ',
                 'brandUrl' => Yii::$app->homeUrl,
+                'innerContainerOptions' => [
+                    'class' => 'container-fluid',
+                ],
                 'options' => [
                     'class' => 'navbar',
                 ],
             ]);
+            echo '<div class="container-fluid">';
             echo Nav::widget([
                 'options' => ['class' => 'navbar-nav navbar-right'],
                 'items' => [
@@ -91,13 +95,16 @@ AppAsset::register($this);
                             'linkOptions' => ['data-method' => 'post']],
                 ],
             ]);
+             echo '</div>';
             NavBar::end();
         ?>
 
-        <div class="container">
+        <div class="container-fluid">
             
 	        <div class="row">    
-	            <div class="col-xs-2">
+	            
+                <div class="col-xs-2">
+                    <br />
                     <div class="panel panel-primary">
                         <div class="panel-heading"><h3 class="panel-title">Повідомлення</h3></div>                        
                         <div class="panel-body">
@@ -142,41 +149,14 @@ AppAsset::register($this);
                     </div>
                                           
 	            </div>
-	            <div class="col-xs-10">
+	            <div class="col-xs-9">
 	            	<?= $content ?>
 	            </div>
 	        </div>    
         </div>
     </div>
 
-    <footer class="footer">
-    <div class="container">
-        <div class="col-md-5">
-                <address>
-                  <strong>&copy; ПМОАПВ <?= date('Y') ?></strong><br />
-                  м. Умань, пров. Інтернаціональний, 1<br>
-                  <abbr title="Phone">Тел:</abbr> (04744) 3-98-37, 3-98-93<br />
-                  <abbr title="Mail">E-mail:</abbr> pmoapv@meta.ua, kafedra.pmo@gmail.com
-              </address>
-        </div>
-        <div class="col-md-2">                
-            <?= Html::a('Про кафедру', ['/static-page/view-alias', 'alias' => 'about']); ?><br />
-            <?= Html::a('Історія кафедри', ['/static-page/view-alias', 'alias' => 'history']); ?><br />
-            <?= Html::a('Викладацький склад', ['/teacher']); ?><br />
-            <?= Html::a('Предмети', ['/predmet']); ?>
-        </div>
-        <div class="col-md-3">                
-            <?= Html::a('Абітурієнтам', ['/static-page/view-alias', 'alias' => 'zvernennya']); ?><br />
-            <?= Html::a('Методичне забезпечення', ['/metodychky']); ?><br />
-            <?= Html::a('Наукові дослідження', ['/static-page/view-alias', 'alias' => 'napryamy-nauki']); ?><br />
-            <?= Html::a('Пропозиції виробникам', ['/static-page/view-alias', 'alias' => 'proposal']); ?>
-        </div>
-        <div class="col-md-2">                
-            <strong> <?= Html::a('Контакти', ['/site/contact']); ?></strong><br />
-
-        </div>
-    </div>        
-</footer>
+    
 
 <?php $this->endBody() ?>
 </body>

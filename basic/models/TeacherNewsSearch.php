@@ -45,7 +45,7 @@ class TeacherNewsSearch extends TeacherNews
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
-            'pagination' => ['pageSize' => 3],
+            'pagination' => ['pageSize' => 10],
         ]);
 
         if (!($this->load($params) && $this->validate())) {
