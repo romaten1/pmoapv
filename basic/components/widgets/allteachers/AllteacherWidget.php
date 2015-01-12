@@ -20,7 +20,8 @@ class AllteacherWidget extends Widget
     public function run()
     {
         
-        $models = Teacher::find()->limit('6')->orderBy(['id' => SORT_ASC])->all();
+        $models = Teacher::find()->where(['active'=>Teacher::STATUS_ACTIVE])
+            ->limit('6')->orderBy(['id' => SORT_ASC])->all();
         shuffle($models);
         return $this->render('teacher', [
             'models' => $models,

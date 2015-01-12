@@ -9,6 +9,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
+use yii\data\ActiveDataProvider;
 
 /**
  * TeacherNewsController implements the CRUD actions for TeacherNews model.
@@ -51,8 +52,11 @@ class TeacherNewsController extends Controller
     public function actionIndex()
     {
         $searchModel = new TeacherNewsSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
+        $dataProvider = new ActiveDataProvider([
+            'query' => TeacherNews::find()->where(['active'=>TeacherNews::STATUS_ACTIVE]),
+            'pagination' => ['pageSize' => 15],
+        ]);
+        
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,

@@ -20,7 +20,8 @@ class AllnewsWidget extends Widget
     public function run()
     {
         
-        $models = News::find()->limit('6')->orderBy(['id' => SORT_DESC])->all();
+        $models = News::find()->where(['active'=>News::STATUS_ACTIVE])
+            ->limit('6')->orderBy(['id' => SORT_DESC])->all();
         return $this->render('news', [
             'models' => $models,
         ]);

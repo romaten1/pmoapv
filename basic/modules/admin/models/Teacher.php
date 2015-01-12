@@ -22,10 +22,8 @@ use app\modules\admin\models\TeachPredmet;
  * @property string $description
  * @property string $active
  */
-class Teacher extends \yii\db\ActiveRecord
+class Teacher extends \app\models\Teacher
 {
-    const STATUS_PASSIVE = 0;
-    const STATUS_ACTIVE = 1;
     /**
      * @inheritdoc
      */
@@ -66,38 +64,7 @@ class Teacher extends \yii\db\ActiveRecord
             'description' => 'Короткий опис',
             'active' => 'Активно чи ні',
         ];
-    }
-    public function getMetodychky()
-    {
-        return $this->hasMany(Metodychky::className(), ['id' => 'metodychky_id'])
-                    ->viaTable(TeachMetodychky::tableName(), ['teach_id' => 'id']);
-    }
-
-    public function getPredmet()
-    {
-        return $this->hasMany(Predmet::className(), ['id' => 'predmet_id'])
-                    ->viaTable(TeachPredmet::tableName(), ['teach_id' => 'id']);
-    }
-
-    public static function getStatusArray()
-    {
-        return [
-            self::STATUS_ACTIVE => 'Активно',
-            self::STATUS_PASSIVE => 'Неактивно',
-            
-        ];
-    }
-    public static function getStatus($active)
-    {
-        $status = self::getStatusArray();
-        return $status[$active];
-    }
-
-    public function getStatusLabel()
-    {
-        $statuses = $this->getStatusArray();
-        return ArrayHelper::getValue($statuses, $this->active);
-    }
+    }    
 
     public static function getTeacherByUserId($user_id)
     {

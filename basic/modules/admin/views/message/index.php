@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use app\modules\admin\models\Message;
+use app\modules\admin\models\Teacher;
 use dektrium\user\models\User;
 
 /* @var $this yii\web\View */
@@ -36,8 +37,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'receiver_id',
                 'format' => 'html',
                 'value' => function ($model) {
-                    return Message::getPrepod($model->receiver_id);}, 
-                'filter' => Message::getPrepodsArray()               
+                    return Teacher::getPrepod($model->receiver_id);}, 
+                'filter' => Teacher::getPrepodsArray()               
             ],            
             'text:ntext',
             [
