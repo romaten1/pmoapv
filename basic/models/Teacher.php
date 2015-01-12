@@ -9,6 +9,8 @@ use app\models\Metodychky;
 use app\models\TeachPredmet;
 use app\models\TeacherNews;
 use app\modules\admin\models\UserTeacher;
+use yii\helpers\ArrayHelper;
+
 /**
  * This is the model class for table "teacher".
  *
@@ -85,6 +87,27 @@ class Teacher extends \yii\db\ActiveRecord
                     ->viaTable(UserTeacher::tableName(), ['teacher_id' => 'id']);
     }
 
+    public static function getStatusArray()
+    {
+        return [
+            self::STATUS_ACTIVE => 'Активно',
+            self::STATUS_PASSIVE => 'Неактивно',
+            
+        ];
+    }
+
+    public static function getStatus($active)
+    {
+        $status = self::getStatusArray();
+        return $status[$active];
+    }
+
+    public function getStatusLabel()
+    {
+        $statuses = $this->getStatusArray();
+        return ArrayHelper::getValue($statuses, $this->active);
+    }
+    
     public static function getTeacherByUserId($user_id)
     {
         $teacher_id = UserTeacher::find()->where(['user_id'=>$user_id])->one()->teacher_id;

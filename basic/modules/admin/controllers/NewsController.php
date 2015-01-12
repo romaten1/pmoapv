@@ -12,7 +12,7 @@ use yii\web\UploadedFile;
 use yii\imagine\Image;
 use Imagine\Image\Box;
 use Imagine\Image\Point;
-use Imagine\Imagick\Imagine;
+use Imagine\Gd\Imagine;
 use Imagine\Image\ImageInterface;
 use app\helpers\TransliterateHelper;
 use yii\filters\AccessControl;
