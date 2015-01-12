@@ -147,10 +147,23 @@ AppAsset::register($this);
                             <?= Html::a('Створити', ['/admin/metodychky/create']) ?>
                         </div>
                     </div>
+                    <div class="panel panel-primary">
+                        <div class="panel-heading"><h3 class="panel-title">Користувачі</h3></div>
+                        <div class="panel-body">
+                            <?= Html::a('Список користувачів', ['/user/admin/index']) ?>
+                        </div>
+                    </div>
                                           
 	            </div>
+                
 	            <div class="col-xs-9">
-	            	<?= $content ?>
+                    
+                        <?= Breadcrumbs::widget([
+                            'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+                            'homeLink' => ['label' => 'Головна','url' => ['/site/index']],
+                            ]) ?>
+                            <?= $content ?>
+                            	
 	            </div>
 	        </div>    
         </div>

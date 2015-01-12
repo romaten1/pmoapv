@@ -20,12 +20,16 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
+            ['class' => 'yii\grid\SerialColumn'],            
+            [
+                'attribute' => 'subject',
+                'format' => 'html',
+                'value' => function ($model) {
+                    return Html::a($model->subject, ['/admin/contacts/view/', 'id'=>$model->id]);},                
+            ],
             'name',
             'email:email',
-            'subject',
-            'body',
+            
             [
                 'attribute' => 'active',
                 'format' => 'html',
@@ -54,7 +58,15 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'attribute' => 'reviewed_at',
-                'format' => 'date'
+                'format' => 'html',
+                'value' => function ($model) {
+                    if($model->reviewed_at == 0){
+                        return "Не переглянуто";
+                    }
+                    else{
+                        return date('H:i / d-m-Y',$model->reviewed_at);
+                    }
+                },
             ],            
             ['class' => 'yii\grid\ActionColumn',
             'template' => '{view}{delete}',

@@ -7,6 +7,7 @@ use app\models\Predmet;
 use app\models\TeachMetodychky;
 use app\models\Metodychky;
 use app\models\TeachPredmet;
+use app\models\TeacherNews;
 use app\modules\admin\models\UserTeacher;
 /**
  * This is the model class for table "teacher".
@@ -77,11 +78,36 @@ class Teacher extends \yii\db\ActiveRecord
         return $this->hasMany(Predmet::className(), ['id' => 'predmet_id'])
                     ->viaTable(TeachPredmet::tableName(), ['teach_id' => 'id']);
     }
+    
+    public function getNews()
+    {
+        return $this->hasMany(TeacherNews::className(), ['teacher_id' => 'user_id'])
+                    ->viaTable(UserTeacher::tableName(), ['teacher_id' => 'id']);
+    }
 
     public static function getTeacherByUserId($user_id)
     {
         $teacher_id = UserTeacher::find()->where(['user_id'=>$user_id])->one()->teacher_id;
         $teacher = self::findOne($teacher_id);
         return $teacher;
+    }
+    
+    public static function getPrepodsArray()
+    {
+        $teachers =[];
+		$userteacher = UserTeacher::find()->all();
+		foreach($userteacher as $user ){
+			$teacher = Teacher::findOne($user->teacher_id);
+        	$teacher_fullname = $teacher->last_name.' '.$teacher->name.' '.$teacher->second_name;
+        	$teachers[$user->user_id] = $teacher_fullname;
+        }
+        return $teachers;
+    }
+        
+    public static function getPrepod($user_id)
+    {        		
+		$teacher = self::getTeacherByUserId($user_id);
+    	$teacher_fullname = $teacher->last_name.' '.$teacher->name.' '.$teacher->second_name;    	        
+        return $teacher_fullname;
     }
 }

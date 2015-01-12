@@ -13,6 +13,7 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="contacts-view">
 
+    <h3>Повідомлення від незареєстрованого користувача на тему: </h3> 
     <h1><?= Html::encode($this->title) ?></h1>   
     
     <div class="form-group">
@@ -25,9 +26,9 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'name',
-            'email:email',
             'subject',
+            'name',
+            'email:email',            
             'body',
             [
                 'attribute' => 'active',

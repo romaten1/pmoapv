@@ -9,7 +9,7 @@ use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
 use app\modules\admin\models\UserTeacher;
 use app\models\Teacher;
-use app\models\MessageQuery;
+use app\models\query\MessageQuery;
 
 /**
  * This is the model class for table "message".
@@ -110,17 +110,5 @@ class Message extends \yii\db\ActiveRecord
     {
         $statuses = $this->getStatusArray();
         return ArrayHelper::getValue($statuses, $this->active);
-    }
-    
-    public static function getPrepodsArray()
-    {
-        $teachers =[];
-		$userteacher = UserTeacher::find()->all();
-		foreach($userteacher as $user ){
-			$teacher = Teacher::findOne($user->teacher_id);
-        	$teacher_fullname = $teacher->last_name.' '.$teacher->name.' '.$teacher->second_name;
-        	$teachers[$user->user_id] = $teacher_fullname;
-        }
-        return $teachers;
-    }
+    }   
 }

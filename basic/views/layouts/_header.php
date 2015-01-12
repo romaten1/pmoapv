@@ -22,12 +22,13 @@ echo Nav::widget([
       'options' => ['class' => 'navbar-nav navbar-right'],      
       'items' => [      
             ['label' => 'Пошук на сайті', 'url' => ['/site/search']],
-            !Yii::$app->user->isGuest ?
+            Yii::$app->user->can('moderator') ?
                   ['label' => 'Admin', 'url' => ['/admin']] : '',
             !Yii::$app->user->isGuest ?
-                  ['label' => 'Профіль', 'url' => ['/user/settings/profile']] : '',             
-            Yii::$app->user->isGuest ?
-                  ['label' => 'Контакти', 'url' => ['/site/contact']] : '', 
+                  ['label' => 'Профіль', 'url' => ['/user/settings/profile']] : '',
+            Yii::$app->user->can('moderator') ?
+                  ['label' => 'Модерація', 'url' => ['/moderator']] : '',
+            ['label' => 'Контакти', 'url' => ['/site/contact']] , 
             Yii::$app->user->isGuest ?
                   ['label' => 'Реєстрація', 'url' => ['/user/registration/register']] : '',   
             !Yii::$app->user->isGuest ?

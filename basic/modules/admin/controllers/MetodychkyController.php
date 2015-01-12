@@ -4,7 +4,7 @@ namespace app\modules\admin\controllers;
 
 use Yii;
 use app\modules\admin\models\Metodychky;
-use app\modules\admin\models\MetodychkySearch;
+use app\modules\admin\models\search\MetodychkySearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;

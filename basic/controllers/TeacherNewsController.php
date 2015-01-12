@@ -4,7 +4,7 @@ namespace app\controllers;
 
 use Yii;
 use app\models\TeacherNews;
-use app\models\TeacherNewsSearch;
+use app\models\search\TeacherNewsSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -25,7 +25,7 @@ class TeacherNewsController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['index'],
+                        'actions' => ['index', 'view'],
                         'roles' => ['@'],
                     ],
                     [
@@ -57,7 +57,14 @@ class TeacherNewsController extends Controller
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
-    }    
+    } 
+    
+    public function actionView($id)
+    {
+        return $this->render('view', [
+            'model' => $this->findModel($id),
+        ]);
+    }   
 
     /**
      * Creates a new TeacherNews model.

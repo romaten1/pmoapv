@@ -6,7 +6,7 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\modules\admin\models\Message */
 
-$this->title = 'Написати повідомлення';
+$this->title = 'Написати повідомлення викладачу';
 $this->params['breadcrumbs'][] = ['label' => 'Повідомлення', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>

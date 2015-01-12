@@ -5,6 +5,7 @@ namespace app\models;
 use Yii;
 use app\models\TeachMetodychky;
 use app\models\Teacher;
+use app\models\query\MetodychkyQuery;
 /**
  * This is the model class for table "metodychky".
  *
@@ -27,6 +28,10 @@ class Metodychky extends \yii\db\ActiveRecord
         return 'metodychky';
     }
 
+    public static function find()
+    {
+        return new MetodychkyQuery(get_called_class());
+    }
     /**
      * @inheritdoc
      */

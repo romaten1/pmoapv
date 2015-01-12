@@ -1,5 +1,11 @@
 <?php
 return [
+    10 => [
+        'moderator',
+    ],
+    9 => [
+        'moderator',
+    ],
     4 => [
         'moderator',
     ],
@@ -8,5 +14,14 @@ return [
     ],
     2 => [
         'admin',
+    ],
+    8 => [
+        'moderator',
+    ],
+    7 => [
+        'moderator',
+    ],
+    6 => [
+        'moderator',
     ],
 ];

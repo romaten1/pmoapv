@@ -4,7 +4,7 @@ namespace app\controllers;
 
 use Yii;
 use app\models\Predmet;
-use app\models\PredmetSearch;
+use app\models\search\PredmetSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;

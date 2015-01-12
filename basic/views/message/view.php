@@ -4,11 +4,12 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 use dektrium\user\models\User;
 use app\models\Message;
+use app\models\Teacher;
 
 /* @var $this yii\web\View */
 /* @var $model app\modules\admin\models\Message */
 $author = User::findOne($model->author_id)->username;
-$receiver = User::findOne($model->receiver_id)->username;
+$receiver = Teacher::getPrepod($model->receiver_id);
 $this->title = "Повідомлення від ".$author. ' для '.$receiver;
 $this->params['breadcrumbs'][] = ['label' => 'Messages', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;

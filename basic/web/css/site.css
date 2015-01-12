@@ -156,5 +156,10 @@ a.desc:after {
   letter-spacing: -1px;
 }
 
+/* Detail view first column width
+------------------------- */
+.detail-view tr th {
+  max-width: 25px;
+}
 
 

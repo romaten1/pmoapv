@@ -36,7 +36,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'receiver_id',
                 'format' => 'html',
                 'value' => function ($model) {
-                    return User::findOne($model->receiver_id)->username;},                
+                    return Message::getPrepod($model->receiver_id);}, 
+                'filter' => Message::getPrepodsArray()               
             ],            
             'text:ntext',
             [

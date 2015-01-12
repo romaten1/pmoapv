@@ -4,7 +4,7 @@ namespace app\modules\admin\controllers;
 
 use Yii;
 use app\modules\admin\models\ParentGroup;
-use app\modules\admin\models\ParentGroupSearch;
+use app\modules\admin\models\search\ParentGroupSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;

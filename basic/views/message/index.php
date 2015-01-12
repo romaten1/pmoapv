@@ -2,8 +2,6 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
-use app\modules\admin\models\Message;
-use dektrium\user\models\User;
 use yii\widgets\ListView;
 
 /* @var $this yii\web\View */
@@ -19,7 +17,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Написати повідомлення', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Написати повідомлення викладачу', ['create'], ['class' => 'btn btn-success']) ?>
         <?= Html::a('Надіслані повідомлення', ['ownmessage'], ['class' => 'btn btn-default']) ?>
     </p>
     <div class="row">
