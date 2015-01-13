@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\ListView;
+use app\models\Message;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\modules\admin\models\MessageSearch */
@@ -23,7 +24,14 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="row">
         <div class="col-md-6">
             <div class="panel panel-primary">
-                <div class="panel-heading">Отримані повідомлення</div>
+                <div class="panel-heading">
+                    Отримані повідомлення
+                    
+                   <span class="pull-right">Непереглянутих: 
+                    <span class="badge"><?= Message::getNotRecievedMessageCount(); ?></span></span>
+                   
+                    
+                </div>
                 <div class="panel-body">
                     <?= ListView::widget([
                         'dataProvider' => $dataReceivedProvider,

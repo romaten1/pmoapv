@@ -2,6 +2,9 @@
 use yii\helpers\Html;
 use yii\widgets\ListView;
 use app\models\Teacher;
+use app\models\Message;
+
+
 /* @var $this yii\web\View */
 ?>
 
@@ -13,11 +16,43 @@ use app\models\Teacher;
             <div class="panel-heading">
               <h4 class="panel-title">
                 <a class="accordion-toggle" href="#collapseOne" data-toggle="collapse" data-parent="#accordion">
-                  Особисті методичні вказівки
+                  Отримані повідомлення
                 </a>
+                <span class="pull-right">Непереглянутих: 
+                    <span class="badge"><?= Message::getNotRecievedMessageCount(); ?></span></span>
+                   
               </h4>
             </div>
-            <div class="panel-collapse collapse in" id="collapseOne">
+            <div class="panel-collapse collapse" id="collapseOne">
+              <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <?= Html::a('Переглянути всі отримані повідомлення', ['/message/'], ['class' => 'btn btn-default pull-left']) ?>
+                        <?= Html::a('Створити повідомлення', ['/message/create'], ['class' => 'btn btn-success pull-right']) ?>
+                    </div>
+               </div>
+               <br />
+                <?= ListView::widget([
+                    'dataProvider' => $dataReceivedProvider,
+                    'itemOptions' => ['class' => 'item'],
+                    'itemView' => '_recievedItem',                        
+                ]) ?>
+              </div>
+            </div>
+          </div>
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h4 class="panel-title">
+                <a class="accordion-toggle" href="#collapseThree" data-toggle="collapse" data-parent="#accordion">
+                  Особисті методичні вказівки
+                </a>
+                <span class="pull-right">Всього: 
+                    <span class="badge"><?= count($metodychky); ?></span></span>
+                   
+                
+              </h4>
+            </div>
+            <div class="panel-collapse collapse" id="collapseThree">
               <div class="panel-body">
                 <div class="col-md-9">
                     <?php foreach($metodychky as $met) { 
@@ -36,6 +71,9 @@ use app\models\Teacher;
                 <a class="accordion-toggle" href="#collapseTwo" data-toggle="collapse" data-parent="#accordion">
                   Особисті предмети
                 </a>
+                <span class="pull-right">Всього: 
+                    <span class="badge"><?= count($predmet); ?></span></span>
+                   
               </h4>
             </div>
             <div class="panel-collapse collapse" id="collapseTwo">
@@ -53,6 +91,9 @@ use app\models\Teacher;
                 <a class="accordion-toggle" href="#collapseFour" data-toggle="collapse" data-parent="#accordion">
                   Особисті новини
                 </a>
+                <span class="pull-right">Всього: 
+                    <span class="badge"><?= count($news); ?></span></span>
+                   
               </h4>
             </div>
             <div class="panel-collapse collapse" id="collapseFour">
@@ -69,30 +110,7 @@ use app\models\Teacher;
               </div>
             </div>
           </div>
-          <div class="panel panel-default">
-            <div class="panel-heading">
-              <h4 class="panel-title">
-                <a class="accordion-toggle" href="#collapseThree" data-toggle="collapse" data-parent="#accordion">
-                  Отримані повідомлення
-                </a>
-                
-              </h4>
-            </div>
-            <div class="panel-collapse collapse" id="collapseThree">
-              <div class="panel-body">
-                <div class="row"> 
-                    <?= Html::a('Переглянути всі отримані повідомлення', ['/message/'], ['class' => 'btn btn-default pull-left']) ?>
-                    <?= Html::a('Створити повідомлення', ['/message/create'], ['class' => 'btn btn-success pull-right']) ?>
-               </div>
-               <br />
-                <?= ListView::widget([
-                    'dataProvider' => $dataReceivedProvider,
-                    'itemOptions' => ['class' => 'item'],
-                    'itemView' => '_recievedItem',                        
-                ]) ?>
-              </div>
-            </div>
-          </div>          
+                    
           <div class="panel panel-default">
             <div class="panel-heading">
               <h4 class="panel-title">

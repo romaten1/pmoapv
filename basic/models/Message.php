@@ -110,5 +110,16 @@ class Message extends \yii\db\ActiveRecord
     {
         $statuses = $this->getStatusArray();
         return ArrayHelper::getValue($statuses, $this->active);
-    }   
+    }  
+    
+    public static function getNotRecievedMessageCount()
+    {
+        $count = self::find()
+            ->received_messages()
+            ->where(['receiver_id'=>Yii::$app->user->id])
+            ->andWhere('recieved_at < 2')
+            ->count();
+        return $count;      
+    }
+ 
 }
