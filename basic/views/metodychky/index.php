@@ -8,6 +8,7 @@ use yii\widgets\ListView;
 /* @var $searchModel app\models\MetodychkySearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
+
 $this->title = 'Навчально-методичне забезпечення кафедри';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -22,9 +23,14 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= ListView::widget([
         'dataProvider' => $dataProvider,
-        'itemOptions' => ['class' => 'item'],
+        //'options' => ['class' => 'list-group'],
+        'itemOptions' => ['class' => 'item well'],
         'itemView' => function ($model, $key, $index, $widget) {
-            return '<p>'.Html::a(Html::encode($model->title), ['view', 'id' => $model->id]).'</p>';
+            foreach($model->teachers as $teacher){
+                $authors .= $teacher->last_name.' '.$teacher->name . ', ';
+            }
+            return '<p>'.Html::a(Html::encode($model->title), ['view', 'id' => $model->id]).'<br />
+            Автори: '.$authors.'</p>';
         },
     ]) ?>
 

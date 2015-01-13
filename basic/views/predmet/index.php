@@ -18,9 +18,13 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= ListView::widget([
         'dataProvider' => $dataProvider,
-        'itemOptions' => ['class' => 'item'],
+        'itemOptions' => ['class' => 'item well'],
         'itemView' => function ($model, $key, $index, $widget) {
-            return Html::a(Html::encode($model->title), ['view', 'id' => $model->id]);
+            foreach($model->teachers as $teacher){
+                $prepods .= $teacher->last_name.' '.$teacher->name . ', ';
+            }
+            return Html::a(Html::encode($model->title), ['view', 'id' => $model->id]).'<br />
+            Предмет викладають: '.$prepods.'</p>';
         },
     ]) ?>
 
