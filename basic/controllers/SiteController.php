@@ -52,6 +52,21 @@ class SiteController extends Controller
         return $this->render('index');
     }
 
+    public function actionAbiturient()
+    {
+        $this->layout = 'abiturient';
+        $model = new ContactForm();
+        if ($model->load(Yii::$app->request->post()) && $model->contact(Yii::$app->params['adminEmail'])) {
+            Yii::$app->session->setFlash('contactFormSubmitted');
+
+            return $this->refresh();
+        } else {
+            return $this->render('abiturient', [
+                'model' => $model,
+            ]);
+        }        
+    }
+
     public function actionSearch()
     {
         return $this->render('search');

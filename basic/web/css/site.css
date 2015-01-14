@@ -57,6 +57,10 @@ body {
     padding: 14px 24px;
 }
 
+.jumbotron p a {
+    font-size: 24px;
+}
+
 .not-set {
     color: #c55;
     font-style: italic;

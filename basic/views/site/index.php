@@ -18,7 +18,7 @@ $this->title = 'Кафедра ПМОАПВ УНУС';
         <strong>КАФЕДРИ ПРОЦЕСІВ, МАШИН ТА ОБЛАДНАННЯ АПВ </strong><br />
         інженерно-технологічного факультету <br />
         Уманського національного університету садівництва</p>
-
+        <p><a class="btn btn-success" href="<?= Url::to(['/site/abiturient']); ?>">Ви абітурієнт?</a></p>
         <!--<p><a class="btn btn-lg btn-success" href="http://www.yiiframework.com">Get started with Yii</a></p> 
     </div>-->
     <!--
