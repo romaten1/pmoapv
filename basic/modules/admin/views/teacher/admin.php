@@ -3,7 +3,7 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use kartik\icons\Icon;
-use app\modules\admin\models\Teacher;
+use app\models\Teacher;
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\TeacherSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */

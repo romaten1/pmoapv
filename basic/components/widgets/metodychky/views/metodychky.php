@@ -1,6 +1,5 @@
 <?php 
 	use yii\helpers\Html;
-	use yii\widgets\ListView;
  ?>
 
     <div class="panel panel-success" id="news-widget">

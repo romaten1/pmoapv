@@ -3,8 +3,8 @@
 namespace app\modules\admin\controllers;
 
 use Yii;
-use app\modules\admin\models\StaticPage;
-use app\modules\admin\models\search\SearchStaticPage;
+use app\models\StaticPage;
+use app\models\search\SearchStaticPage;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -58,10 +58,10 @@ class StaticPageController extends Controller
      * @param integer $id
      * @return mixed
      */
-    
+
     public function actionView($id)
     {
-       return $this->render('view', [
+        return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
     }
@@ -76,7 +76,7 @@ class StaticPageController extends Controller
         $model = new StaticPage();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            Yii::info($this->id.' - '.$this->action->id.' - id: '.$model->id.' - user: '.\Yii::$app->user->id,'admin');
+            Yii::info($this->id . ' - ' . $this->action->id . ' - id: ' . $model->id . ' - user: ' . \Yii::$app->user->id, 'admin');
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
@@ -96,7 +96,7 @@ class StaticPageController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            Yii::info($this->id.' - '.$this->action->id.' - id: '.$model->id.' - user: '.\Yii::$app->user->id,'admin');
+            Yii::info($this->id . ' - ' . $this->action->id . ' - id: ' . $model->id . ' - user: ' . \Yii::$app->user->id, 'admin');
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', [
@@ -115,7 +115,7 @@ class StaticPageController extends Controller
     {
         $model = $this->findModel($id);
         $model->active = StaticPage::STATUS_PASSIVE;
-        Yii::info($this->id.' - '.$this->action->id.' - id: '.$model->id.' - user: '.\Yii::$app->user->id,'admin');
+        Yii::info($this->id . ' - ' . $this->action->id . ' - id: ' . $id . ' - user: ' . \Yii::$app->user->id, 'admin');
         $model->save();
 
         return $this->redirect(['index']);

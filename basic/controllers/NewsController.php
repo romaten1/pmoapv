@@ -7,7 +7,6 @@ use app\models\News;
 use app\models\search\NewsSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
 use yii\data\ActiveDataProvider;
 
 /**

@@ -5,7 +5,7 @@ use yii\widgets\ListView;
 use kartik\icons\Icon;
 
 /* @var $this yii\web\View */
-/* @var $searchModel app\models\MetodychkySearch */
+/* @var $searchModel app\models\search\MetodychkySearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'Навчально-методичне забезпечення кафедри';

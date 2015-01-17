@@ -3,8 +3,6 @@
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 use kartik\icons\Icon;
-use app\modules\admin\models\TeachPredmet;
-use app\modules\admin\models\Teacher;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Predmet */

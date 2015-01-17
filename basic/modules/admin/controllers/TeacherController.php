@@ -3,13 +3,12 @@
 namespace app\modules\admin\controllers;
 
 use Yii;
-use app\modules\admin\models\Teacher;
-use app\modules\admin\models\search\TeacherSearch;
+use app\models\Teacher;
+use app\models\search\TeacherSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\UploadedFile;
-use yii\imagine\Image;
 use Imagine\Image\Box;
 use Imagine\Image\Point;
 use Imagine\Gd\Imagine;
@@ -48,7 +47,7 @@ class TeacherController extends Controller
      * Lists all Teacher models.
      * @return mixed
      */
-    
+
 
     public function actionIndex()
     {
@@ -76,7 +75,8 @@ class TeacherController extends Controller
     /**
      * Creates a new Teacher model.
      * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return mixed
+     * @return string|\yii\web\Response
+     * @throws NotFoundHttpException
      */
     public function actionCreate()
     {
@@ -84,12 +84,12 @@ class TeacherController extends Controller
         // Получаем массив данных по загружамых файлах 
         if ($model->load(Yii::$app->request->post())) {
             if (isset($model->image)) {
-                    $model->image = UploadedFile::getInstance($model, 'image');
-                }                      
-            if ($model->validate()) {                
-                if (isset($model->image)) { 
-                
-                    $image_name = Yii::$app->getSecurity()->generateRandomString() ;
+                $model->image = UploadedFile::getInstance($model, 'image');
+            }
+            if ($model->validate()) {
+                if (isset($model->image)) {
+
+                    $image_name = Yii::$app->getSecurity()->generateRandomString();
                     $image_full_name = $image_name . '.' . $model->image->extension;
                     $model->image->saveAs('uploads/teacher/' . $image_full_name);
                     $model->image = $image_full_name;
@@ -101,29 +101,29 @@ class TeacherController extends Controller
                     $path_from = Yii::getAlias('@webroot/uploads/teacher/' . $image_full_name);
                     $path_to = Yii::getAlias('@webroot/uploads/teacher/') . $image_full_name;
                     $this->makeImage($path_from, $path_to, $desired_width = 200);
-                }
-                else{
-                   $model->image = 'teacher.png';
+                } else {
+                    $model->image = 'teacher.png';
                 }
             }
-            if($model->save()){
-                Yii::info($this->id.' - '.$this->action->id.' - id: '.$model->id.' - user: '.\Yii::$app->user->id,'admin');
-                return $this->redirect(['view', 'id'=>$model->id]);
+            if ($model->save()) {
+                Yii::info($this->id . ' - ' . $this->action->id . ' - id: ' . $model->id . ' - user: ' . \Yii::$app->user->id, 'admin');
+                return $this->redirect(['view', 'id' => $model->id]);
             } else {
                 throw new NotFoundHttpException('Не удалось загрузить данные');
-            }      
+            }
         } else {
             return $this->render('create', [
                 'model' => $model,
-                ]);
-        }   
+            ]);
+        }
     }
 
     /**
      * Updates an existing Teacher model.
      * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
-     * @return mixed
+     * @param $id
+     * @return string|\yii\web\Response
+     * @throws NotFoundHttpException
      */
     public function actionUpdate($id)
     {
@@ -133,9 +133,9 @@ class TeacherController extends Controller
             if (isset($model->image)) {
                 $model->image = UploadedFile::getInstance($model, 'image');
             }
-            if ($model->validate()) {                
+            if ($model->validate()) {
                 if (isset($model->image)) {
-                    $image_name = Yii::$app->getSecurity()->generateRandomString() ;
+                    $image_name = Yii::$app->getSecurity()->generateRandomString();
                     $image_full_name = $image_name . '.' . $model->image->extension;
                     $model->image->saveAs('uploads/teacher/' . $image_full_name);
                     $model->image = $image_full_name;
@@ -147,18 +147,17 @@ class TeacherController extends Controller
                     $path_from = Yii::getAlias('@webroot/uploads/teacher/' . $image_full_name);
                     $path_to = Yii::getAlias('@webroot/uploads/teacher/') . $image_full_name;
                     $this->makeImage($path_from, $path_to, $desired_width = 200);
-                }
-                else{
-                   $model->image = $old_image;
+                } else {
+                    $model->image = $old_image;
                 }
 
             }
-            if($model->save()){
-                Yii::info($this->id.' - '.$this->action->id.' - id: '.$model->id.' - user: '.\Yii::$app->user->id,'admin');
-                return $this->redirect(['view', 'id'=>$model->id]);
+            if ($model->save()) {
+                Yii::info($this->id . ' - ' . $this->action->id . ' - id: ' . $model->id . ' - user: ' . \Yii::$app->user->id, 'admin');
+                return $this->redirect(['view', 'id' => $model->id]);
             } else {
                 throw new NotFoundHttpException('Не удалось загрузить данные');
-            }      
+            }
         } else {
             return $this->render('update', [
                 'model' => $model,
@@ -176,7 +175,7 @@ class TeacherController extends Controller
     {
         $model = $this->findModel($id);
         $model->active = Teacher::STATUS_PASSIVE;
-        Yii::info($this->id.' - '.$this->action->id.' - id: '.$model->id.' - user: '.\Yii::$app->user->id,'admin');
+        Yii::info($this->id . ' - ' . $this->action->id . ' - id: ' . $id . ' - user: ' . \Yii::$app->user->id, 'admin');
         $model->save();
 
         return $this->redirect(['index']);

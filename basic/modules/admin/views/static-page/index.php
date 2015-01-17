@@ -3,7 +3,7 @@
 use yii\helpers\Html;
 use yii\helpers\StringHelper;
 use yii\grid\GridView;
-use app\modules\admin\models\StaticPage;
+use app\models\StaticPage;
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\SearchStaticPage */
 /* @var $dataProvider yii\data\ActiveDataProvider */

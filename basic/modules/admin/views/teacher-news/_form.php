@@ -2,13 +2,13 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-use app\modules\admin\models\Teacher;
-use app\modules\admin\models\TeacherNews;
+use app\models\Teacher;
+use app\models\TeacherNews;
 use mihaildev\ckeditor\CKEditor;
 use mihaildev\elfinder\ElFinder;
 
 /* @var $this yii\web\View */
-/* @var $model app\modules\admin\models\TeacherNews */
+/* @var $model app\models\TeacherNews */
 /* @var $form yii\widgets\ActiveForm */
 
 $fullname = Teacher::getUserIdTeacherNameArray();

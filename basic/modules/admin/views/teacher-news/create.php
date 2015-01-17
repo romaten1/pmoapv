@@ -4,7 +4,7 @@ use yii\helpers\Html;
 
 
 /* @var $this yii\web\View */
-/* @var $model app\modules\admin\models\TeacherNews */
+/* @var $model app\models\TeacherNews */
 
 $this->title = 'Create Teacher News';
 $this->params['breadcrumbs'][] = ['label' => 'Teacher News', 'url' => ['index']];

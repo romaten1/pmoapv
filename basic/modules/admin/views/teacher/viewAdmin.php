@@ -2,11 +2,6 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
-use kartik\icons\Icon;
-use app\modules\admin\models\Metodychky;
-use app\modules\admin\models\TeachPredmet;
-use app\modules\admin\models\TeachMetodychky;
-use app\modules\admin\models\Predmet;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Teacher */

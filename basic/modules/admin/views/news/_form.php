@@ -4,7 +4,7 @@ use mihaildev\ckeditor\CKEditor;
 use mihaildev\elfinder\ElFinder;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-use app\modules\admin\models\News;
+use app\models\News;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\News */

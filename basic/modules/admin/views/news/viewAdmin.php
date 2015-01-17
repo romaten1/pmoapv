@@ -2,8 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
-use kartik\icons\Icon;
-use app\modules\admin\models\News;
+use app\models\News;
 /* @var $this yii\web\View */
 /* @var $model app\models\News */
 

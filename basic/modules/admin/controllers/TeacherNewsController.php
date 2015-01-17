@@ -3,8 +3,8 @@
 namespace app\modules\admin\controllers;
 
 use Yii;
-use app\modules\admin\models\TeacherNews;
-use app\modules\admin\models\search\TeacherNewsSearch;
+use app\models\TeacherNews;
+use app\models\search\TeacherNewsSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -24,9 +24,9 @@ class TeacherNewsController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['index','create', 'update',  'delete', 'view'],
+                        'actions' => ['index', 'create', 'update', 'delete', 'view'],
                         'roles' => ['admin'],
-                    ],                                        
+                    ],
                 ],
             ],
             'verbs' => [
@@ -75,7 +75,7 @@ class TeacherNewsController extends Controller
         $model = new TeacherNews();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            Yii::info($this->id.' - '.$this->action->id.' - id: '.$model->id.' - user: '.\Yii::$app->user->id,'admin');
+            Yii::info($this->id . ' - ' . $this->action->id . ' - id: ' . $model->id . ' - user: ' . \Yii::$app->user->id, 'admin');
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
@@ -95,7 +95,7 @@ class TeacherNewsController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            Yii::info($this->id.' - '.$this->action->id.' - id: '.$model->id.' - user: '.\Yii::$app->user->id,'admin');
+            Yii::info($this->id . ' - ' . $this->action->id . ' - id: ' . $model->id . ' - user: ' . \Yii::$app->user->id, 'admin');
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', [
@@ -113,7 +113,7 @@ class TeacherNewsController extends Controller
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
-        Yii::info($this->id.' - '.$this->action->id.' - id: '.$model->id.' - user: '.\Yii::$app->user->id,'admin');
+        Yii::info($this->id . ' - ' . $this->action->id . ' - id: ' . $id . ' - user: ' . \Yii::$app->user->id, 'admin');
         return $this->redirect(['index']);
     }
 

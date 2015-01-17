@@ -3,8 +3,8 @@
 namespace app\modules\admin\controllers;
 
 use Yii;
-use app\modules\admin\models\Metodychky;
-use app\modules\admin\models\search\MetodychkySearch;
+use app\models\Metodychky;
+use app\models\search\MetodychkySearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -70,51 +70,52 @@ class MetodychkyController extends Controller
     /**
      * Creates a new Metodychky model.
      * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return mixed
+     * @return string|\yii\web\Response
+     * @throws NotFoundHttpException
      */
     public function actionCreate()
     {
         $model = new Metodychky();
         $statusArray = Metodychky::getStatusArray();
         if ($model->load(Yii::$app->request->post())) {
-        
-        // Получаем массив данных по загружамых файлах
+
+            // Получаем массив данных по загружамых файлах
             if (isset($model->file)) {
                 $model->file = UploadedFile::getInstance($model, 'file');
             }
 
-            if ($model->validate()) {                
+            if ($model->validate()) {
                 if (isset($model->file)) {
                     $file_name = Yii::$app->getSecurity()->generateRandomString(5)
-                        .'_'.substr(TransliterateHelper::cyrillicToLatin($model->title), 0, 7);
+                        . '_' . substr(TransliterateHelper::cyrillicToLatin($model->title), 0, 7);
                     $file_full_name = $file_name . '.' . $model->file->extension;
                     $model->file->saveAs('uploads/metodychky/' . $file_full_name);
                     $model->file = $file_full_name;
-                } 
-                else {
+                } else {
                     $model->file = '0';
-                }    
+                }
             }
-            if($model->save()){
-                Yii::info($this->id.' - '.$this->action->id.' - id: '.$model->id.' - user: '.\Yii::$app->user->id,'admin');
-                return $this->redirect(['view', 'id'=>$model->id]);
+            if ($model->save()) {
+                Yii::info($this->id . ' - ' . $this->action->id . ' - id: ' . $model->id . ' - user: ' . \Yii::$app->user->id, 'admin');
+                return $this->redirect(['view', 'id' => $model->id]);
             } else {
                 throw new NotFoundHttpException('Не удалось загрузить данные');
-            }      
+            }
         } else {
             return $this->render('create', [
                 'model' => $model,
                 'statusArray' => $statusArray,
-                ]);
-        }   
+            ]);
+        }
     }
-        
+
 
     /**
      * Updates an existing Metodychky model.
      * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
-     * @return mixed
+     * @param $id
+     * @return string|\yii\web\Response
+     * @throws NotFoundHttpException
      */
     public function actionUpdate($id)
     {
@@ -125,25 +126,24 @@ class MetodychkyController extends Controller
             if (isset($model->file)) {
                 $model->file = UploadedFile::getInstance($model, 'file');
             }
-            if ($model->validate()) {                
+            if ($model->validate()) {
                 if (isset($model->file)) {
                     $file_name = Yii::$app->getSecurity()->generateRandomString(5)
-                        .'_'.substr(TransliterateHelper::cyrillicToLatin($model->title), 0, 7);
+                        . '_' . substr(TransliterateHelper::cyrillicToLatin($model->title), 0, 7);
                     $file_full_name = $file_name . '.' . $model->file->extension;
                     $model->file->saveAs('uploads/metodychky/' . $file_full_name);
                     $model->file = $file_full_name;
-                }
-                else{
-                   $model->file = $old_file;
+                } else {
+                    $model->file = $old_file;
                 }
 
             }
-            if($model->save()){
-                Yii::info($this->id.' - '.$this->action->id.' - id: '.$model->id.' - user: '.\Yii::$app->user->id,'admin');
-                return $this->redirect(['view', 'id'=>$model->id]);
+            if ($model->save()) {
+                Yii::info($this->id . ' - ' . $this->action->id . ' - id: ' . $model->id . ' - user: ' . \Yii::$app->user->id, 'admin');
+                return $this->redirect(['view', 'id' => $model->id]);
             } else {
                 throw new NotFoundHttpException('Не удалось загрузить данные');
-            }      
+            }
         } else {
             return $this->render('update', [
                 'model' => $model,
@@ -162,7 +162,7 @@ class MetodychkyController extends Controller
     {
         $model = $this->findModel($id);
         $model->active = Metodychky::STATUS_PASSIVE;
-        Yii::info($this->id.' - '.$this->action->id.' - id: '.$model->id.' - user: '.\Yii::$app->user->id,'admin');
+        Yii::info($this->id . ' - ' . $this->action->id . ' - id: ' . $id . ' - user: ' . \Yii::$app->user->id, 'admin');
         $model->save();
 
         return $this->redirect(['index']);

@@ -2,12 +2,13 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
-use app\modules\admin\models\Message;
-use app\modules\admin\models\Teacher;
+use app\models\Message;
+use app\models\Teacher;
 use dektrium\user\models\User;
 
 /* @var $this yii\web\View */
-/* @var $searchModel app\modules\admin\models\MessageSearch */
+/* @var $searchModel app\models\search\MessageSearch */
+/* @var $model app\models\Message */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'Повідомлення';
@@ -61,7 +62,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'active',
                 'format' => 'html',
                 'value' => function ($model) {
-                    return $model->getStatusLabel();},
+                    return Message::getStatus($model->active);},
                 'filter' => Message::getStatusArray()
             ],
 

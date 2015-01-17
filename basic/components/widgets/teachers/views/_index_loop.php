@@ -1,11 +1,7 @@
 <?php
 /**
- * Представление цикла последних постов.
- * @var yii\base\View $this Представление
- * @var common\modules\blogs\models\Post $models Массив моделей
+ *
  */
-
-
 use yii\helpers\Html;
 
 if ($models) {

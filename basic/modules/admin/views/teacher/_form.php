@@ -2,10 +2,9 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-use dosamigos\tinymce\TinyMce;
 use mihaildev\ckeditor\CKEditor;
 use mihaildev\elfinder\ElFinder;
-use app\modules\admin\models\Teacher;
+use app\models\Teacher;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Teacher */

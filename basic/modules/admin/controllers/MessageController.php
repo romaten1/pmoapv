@@ -3,8 +3,8 @@
 namespace app\modules\admin\controllers;
 
 use Yii;
-use app\modules\admin\models\Message;
-use app\modules\admin\models\search\MessageSearch;
+use app\models\Message;
+use app\models\search\MessageSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -73,28 +73,28 @@ class MessageController extends Controller
     public function actionCreate()
     {
         $model = new Message();
-        
+
         if ($model->load(Yii::$app->request->post())) {
             $model->author_id = Yii::$app->user->id;
             $model->recieved_at = 1;
-            if($model->save()) {
-                Yii::info($this->id.' - '.$this->action->id.' - id: '.$model->id.' - user: '.\Yii::$app->user->id,'admin');
+            if ($model->save()) {
+                Yii::info($this->id . ' - ' . $this->action->id . ' - id: ' . $model->id . ' - user: ' . \Yii::$app->user->id, 'admin');
                 return $this->redirect(['view', 'id' => $model->id]);
             }
-            
+
         } else {
             return $this->render('create', [
                 'model' => $model,
             ]);
         }
     }
-    
+
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            Yii::info($this->id.' - '.$this->action->id.' - id: '.$model->id.' - user: '.\Yii::$app->user->id,'admin');
+            Yii::info($this->id . ' - ' . $this->action->id . ' - id: ' . $model->id . ' - user: ' . \Yii::$app->user->id, 'admin');
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', [
@@ -112,7 +112,7 @@ class MessageController extends Controller
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
-        Yii::info($this->id.' - '.$this->action->id.' - id: '.$model->id.' - user: '.\Yii::$app->user->id,'admin');
+        Yii::info($this->id . ' - ' . $this->action->id . ' - id: ' . $id . ' - user: ' . \Yii::$app->user->id, 'admin');
         return $this->redirect(['index']);
     }
 

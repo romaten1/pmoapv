@@ -6,6 +6,7 @@ use Yii;
 use yii\behaviors\TimestampBehavior;
 use app\behaviors\PurifierBehavior;
 use yii\db\ActiveRecord;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "teacher_news".
@@ -18,7 +19,7 @@ use yii\db\ActiveRecord;
  * @property integer $updated_at
  * @property integer $active
  */
-class TeacherNews extends \yii\db\ActiveRecord
+class TeacherNews extends ActiveRecord
 {
     const STATUS_PASSIVE = 0;
     const STATUS_ACTIVE = 1;
@@ -26,21 +27,22 @@ class TeacherNews extends \yii\db\ActiveRecord
     public function behaviors()
     {
         return [
-                'timestampBehavior' => [
-                    'class' => TimestampBehavior::className(),
-                    'attributes' => [
-                        ActiveRecord::EVENT_BEFORE_INSERT => ['created_at', 'updated_at'],
-                        ActiveRecord::EVENT_BEFORE_UPDATE => ['updated_at'],
-                    ]
-                ],
-                'purifierBehavior' => [
-                    'class' => PurifierBehavior::className(),
-                    'textAttributes' => [
-                        ActiveRecord::EVENT_BEFORE_INSERT => ['text'],
-                    ]
+            'timestampBehavior' => [
+                'class' => TimestampBehavior::className(),
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => ['created_at', 'updated_at'],
+                    ActiveRecord::EVENT_BEFORE_UPDATE => ['updated_at'],
                 ]
-            ];
+            ],
+            'purifierBehavior' => [
+                'class' => PurifierBehavior::className(),
+                'textAttributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => ['text'],
+                ]
+            ]
+        ];
     }
+
     /**
      * @inheritdoc
      */
@@ -79,12 +81,13 @@ class TeacherNews extends \yii\db\ActiveRecord
             'active' => 'Активно',
         ];
     }
+
     public static function getStatusArray()
     {
         return [
             self::STATUS_ACTIVE => 'Активно',
             self::STATUS_PASSIVE => 'Неактивно',
-            
+
         ];
     }
 

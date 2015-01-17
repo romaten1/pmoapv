@@ -4,10 +4,10 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\grid\GridView;
 use kartik\icons\Icon;
-use app\modules\admin\models\Metodychky;
+use app\models\Metodychky;
 
 /* @var $this yii\web\View */
-/* @var $searchModel app\models\MetodychkySearch */
+/* @var $searchModel app\models\search\MetodychkySearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'Навчально-методичне забезпечення кафедри - журнал';
@@ -49,7 +49,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'active',
                 'format' => 'html',
                 'value' => function ($model) {
-                    return $model->getStatusLabel();},
+                    return Metodychky::getStatus($model->active);},
                 'filter' => Metodychky::getStatusArray()
             ],
 

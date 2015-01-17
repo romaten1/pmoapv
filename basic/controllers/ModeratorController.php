@@ -6,7 +6,6 @@ use Yii;
 use yii\filters\AccessControl;
 use yii\data\ActiveDataProvider;
 use app\models\Message;
-use app\models\search\MessageSearch;
 use app\models\Teacher;
 
 class ModeratorController extends \yii\web\Controller

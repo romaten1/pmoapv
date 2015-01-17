@@ -3,10 +3,8 @@
 namespace app\models;
 
 use Yii;
-use app\models\Teacher;
-use app\models\TeachPredmet;
-use app\models\PredmetMetodychky;
-use app\models\Metodychky;
+use app\behaviors\PurifierBehavior;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "predmet".
@@ -16,10 +14,29 @@ use app\models\Metodychky;
  * @property string $description
  * @property integer $active
  */
-class Predmet extends \yii\db\ActiveRecord
+class Predmet extends ActiveRecord
 {
+
     const STATUS_PASSIVE = 0;
     const STATUS_ACTIVE = 1;
+
+    /**
+     * @return array
+     */
+    public function behaviors()
+    {
+        return [
+
+            'purifierBehavior' => [
+                'class' => PurifierBehavior::className(),
+                'textAttributes' => [
+                    ActiveRecord::EVENT_BEFORE_UPDATE => ['description'],
+                    ActiveRecord::EVENT_BEFORE_INSERT => ['description'],
+                ]
+            ]
+        ];
+    }
+
     /**
      * @inheritdoc
      */
@@ -29,7 +46,7 @@ class Predmet extends \yii\db\ActiveRecord
     }
 
     /**
-     * @inheritdoc
+     * @return array
      */
     public function rules()
     {
@@ -44,7 +61,7 @@ class Predmet extends \yii\db\ActiveRecord
     }
 
     /**
-     * @inheritdoc
+     * @return array
      */
     public function attributeLabels()
     {
@@ -56,15 +73,53 @@ class Predmet extends \yii\db\ActiveRecord
         ];
     }
 
+    /**
+     * @return static
+     */
     public function getTeachers()
     {
         return $this->hasMany(Teacher::className(), ['id' => 'teach_id'])
-                    ->viaTable(TeachPredmet::tableName(), ['predmet_id' => 'id']);
+            ->viaTable(TeachPredmet::tableName(), ['predmet_id' => 'id']);
     }
 
+    /**
+     * @return static
+     */
     public function getMetodychkies()
     {
         return $this->hasMany(Metodychky::className(), ['id' => 'metodychky_id'])
-                    ->viaTable(PredmetMetodychky::tableName(), ['predmet_id' => 'id']);
+            ->viaTable(PredmetMetodychky::tableName(), ['predmet_id' => 'id']);
     }
+
+    /**
+     * @return array
+     */
+    public static function getStatusArray()
+    {
+        return [
+            self::STATUS_ACTIVE => 'Активно',
+            self::STATUS_PASSIVE => 'Неактивно',
+
+        ];
+    }
+
+    /**
+     * @param $active
+     * @return mixed
+     */
+    public static function getStatus($active)
+    {
+        $status = self::getStatusArray();
+        return $status[$active];
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getStatusLabel()
+    {
+        $statuses = $this->getStatusArray();
+        return ArrayHelper::getValue($statuses, $this->active);
+    }
+
 }

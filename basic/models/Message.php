@@ -7,8 +7,6 @@ use yii\behaviors\TimestampBehavior;
 use app\behaviors\PurifierBehavior;
 use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
-use app\modules\admin\models\UserTeacher;
-use app\models\Teacher;
 use app\models\query\MessageQuery;
 
 /**
@@ -22,7 +20,7 @@ use app\models\query\MessageQuery;
  * @property integer $recieved_at
  * @property integer $active
  */
-class Message extends \yii\db\ActiveRecord
+class Message extends ActiveRecord
 {
     const STATUS_PASSIVE = 0;
     const STATUS_ACTIVE = 1;
@@ -30,19 +28,19 @@ class Message extends \yii\db\ActiveRecord
     public function behaviors()
     {
         return [
-                'timestampBehavior' => [
-                    'class' => TimestampBehavior::className(),
-                    'attributes' => [
-                        ActiveRecord::EVENT_BEFORE_INSERT => ['created_at'],
-                    ]
-                ],
-                'purifierBehavior' => [
-                    'class' => PurifierBehavior::className(),
-                    'textAttributes' => [
-                        ActiveRecord::EVENT_BEFORE_INSERT => ['text'],
-                    ]
+            'timestampBehavior' => [
+                'class' => TimestampBehavior::className(),
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => ['created_at'],
                 ]
-            ];
+            ],
+            'purifierBehavior' => [
+                'class' => PurifierBehavior::className(),
+                'textAttributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => ['text'],
+                ]
+            ]
+        ];
     }
 
     /**
@@ -96,7 +94,7 @@ class Message extends \yii\db\ActiveRecord
         return [
             self::STATUS_ACTIVE => 'Активно',
             self::STATUS_PASSIVE => 'Неактивно',
-            
+
         ];
     }
 
@@ -110,16 +108,16 @@ class Message extends \yii\db\ActiveRecord
     {
         $statuses = $this->getStatusArray();
         return ArrayHelper::getValue($statuses, $this->active);
-    }  
-    
+    }
+
     public static function getNotRecievedMessageCount()
     {
         $count = self::find()
             ->received_messages()
-            ->where(['receiver_id'=>Yii::$app->user->id])
+            ->where(['receiver_id' => Yii::$app->user->id])
             ->andWhere('recieved_at < 2')
             ->count();
-        return $count;      
+        return $count;
     }
- 
+
 }

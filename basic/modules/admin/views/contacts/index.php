@@ -2,8 +2,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
-use app\modules\admin\models\Contacts;
-use yii\jui\DatePicker;
+use app\models\Contacts;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\modules\admin\models\SearchContacts */

@@ -7,7 +7,6 @@ use app\models\Predmet;
 use app\models\search\PredmetSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
 use yii\data\ActiveDataProvider;
 
 /**

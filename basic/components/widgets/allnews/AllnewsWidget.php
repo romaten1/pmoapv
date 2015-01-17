@@ -3,7 +3,6 @@ namespace app\components\widgets\allnews;
 
 use Yii;
 use yii\base\Widget;
-use yii\helpers\Html;
 use app\models\News;
 
 class AllnewsWidget extends Widget

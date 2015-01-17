@@ -1,9 +1,7 @@
 <?php
 
 use yii\helpers\Html;
-use kartik\icons\Icon;
 use dektrium\user\models\User;
-use app\modules\admin\models\Message;
 
 /* @var $this yii\web\View */
 /* */

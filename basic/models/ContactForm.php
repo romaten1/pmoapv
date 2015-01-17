@@ -6,6 +6,7 @@ use Yii;
 use yii\base\Model;
 use yii\helpers\HtmlPurifier;
 use app\models\Contacts;
+
 /**
  * ContactForm is the model behind the contact form.
  */
@@ -30,13 +31,13 @@ class ContactForm extends Model
     {
         return [
             // name, email, subject and body are required
-        [['name', 'email', 'subject', 'body'], 'required'],
+            [['name', 'email', 'subject', 'body'], 'required'],
             // email has to be a valid email address
-        ['email', 'email'],
+            ['email', 'email'],
             // verifyCode needs to be entered correctly
-        ['verifyCode', 'captcha'],
-        ['active', 'default', 'value' => self::STATUS_ACTIVE],
-        ['active', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_REVIEWED]],
+            ['verifyCode', 'captcha'],
+            ['active', 'default', 'value' => self::STATUS_ACTIVE],
+            ['active', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_REVIEWED]],
         ];
     }
 
@@ -60,7 +61,7 @@ class ContactForm extends Model
 
     /**
      * Sends an email to the specified email address using the information collected by this model.
-     * @param  string  $email the target email address
+     * @param  string $email the target email address
      * @return boolean whether the model passes validation
      */
     public function contact($email)
@@ -72,20 +73,20 @@ class ContactForm extends Model
                 ->setSubject($this->subject)
                 ->setTextBody($this->body)
                 ->send();*/
-                $contacts = new Contacts();
-                $contacts->name = $this->name;
-                $contacts->email = $this->email;
-                $contacts->subject = $this->subject;
-                $contacts->body = $this->body;
-                $contacts->active = self::STATUS_ACTIVE;
-                //$contacts->created_at = time();
-                $contacts->reviewed_at = '1';
-                
-                if ($contacts->save()) {
-                    return true;                
-                } else {
-                    return false;
-                }
+            $contacts = new Contacts();
+            $contacts->name = $this->name;
+            $contacts->email = $this->email;
+            $contacts->subject = $this->subject;
+            $contacts->body = $this->body;
+            $contacts->active = self::STATUS_ACTIVE;
+            //$contacts->created_at = time();
+            $contacts->reviewed_at = '1';
+
+            if ($contacts->save()) {
+                return true;
+            } else {
+                return false;
             }
         }
     }
+}

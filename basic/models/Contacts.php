@@ -6,6 +6,8 @@ use Yii;
 use yii\behaviors\TimestampBehavior;
 use app\behaviors\PurifierBehavior;
 use yii\db\ActiveRecord;
+use yii\helpers\ArrayHelper;
+
 /**
  * This is the model class for table "contacts".
  *
@@ -15,7 +17,7 @@ use yii\db\ActiveRecord;
  * @property string $subject
  * @property string $body
  */
-class Contacts extends \yii\db\ActiveRecord
+class Contacts extends ActiveRecord
 {
     const STATUS_ACTIVE = 0;
     const STATUS_REVIEWED = 1;
@@ -26,7 +28,7 @@ class Contacts extends \yii\db\ActiveRecord
             'timestampBehavior' => [
                 'class' => TimestampBehavior::className(),
                 'attributes' => [
-                    ActiveRecord::EVENT_BEFORE_INSERT => ['created_at'],                    
+                    ActiveRecord::EVENT_BEFORE_INSERT => ['created_at'],
                 ]
             ],
             'purifierBehavior' => [
@@ -37,6 +39,7 @@ class Contacts extends \yii\db\ActiveRecord
             ]
         ];
     }
+
     /**
      * @inheritdoc
      */
@@ -74,5 +77,33 @@ class Contacts extends \yii\db\ActiveRecord
             'reviewed_at' => 'Дата перегляду',
 
         ];
+    }
+
+    /**
+     * @return array
+     */
+    public static function getStatusArray()
+    {
+        return [
+            self::STATUS_ACTIVE => 'Непереглянуто',
+            self::STATUS_REVIEWED => 'Переглянуто',
+        ];
+    }
+
+    /**
+     * Вертає 'Непереглянуто' або 'Переглянуто'
+     * @param $active
+     * @return mixed
+     */
+    public static function getStatus($active)
+    {
+        $status = self::getStatusArray();
+        return $status[$active];
+    }
+
+    public function getStatusLabel()
+    {
+        $statuses = $this->getStatusArray();
+        return ArrayHelper::getValue($statuses, $this->active);
     }
 }

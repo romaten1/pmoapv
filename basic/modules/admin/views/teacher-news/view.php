@@ -2,10 +2,10 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
-use app\modules\admin\models\Teacher;
+use app\models\Teacher;
 
 /* @var $this yii\web\View */
-/* @var $model app\modules\admin\models\TeacherNews */
+/* @var $model app\models\TeacherNews */
 
 $this->title = $model->title;
 $this->params['breadcrumbs'][] = ['label' => 'Teacher News', 'url' => ['index']];

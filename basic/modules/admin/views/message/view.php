@@ -3,10 +3,10 @@
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 use dektrium\user\models\User;
-use app\modules\admin\models\Message;
+use app\models\Message;
 
 /* @var $this yii\web\View */
-/* @var $model app\modules\admin\models\Message */
+/* @var $model app\models\Message */
 $author = User::findOne($model->author_id)->username;
 $receiver = User::findOne($model->receiver_id)->username;
 $this->title = "Повідомлення від ".$author. ' для '.$receiver;

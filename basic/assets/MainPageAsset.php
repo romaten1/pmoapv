@@ -21,8 +21,8 @@ class MainPageAsset extends AssetBundle
         'css/newyear.css',
     ];
     public $js = [
-    	'js/swfobject.js',
-    	'js/newyear.js', 
+        'js/swfobject.js',
+        'js/newyear.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',

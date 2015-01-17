@@ -1,16 +1,16 @@
 <?php
 
-namespace app\modules\admin\models\search;
+namespace app\models\search;
 
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\modules\admin\models\TeacherNews;
+use app\models\Contacts;
 
 /**
- * TeacherNewsSearch represents the model behind the search form about `app\modules\admin\models\TeacherNews`.
+ * SearchContacts represents the model behind the search form about `app\modules\admin\models\Contacts`.
  */
-class TeacherNewsSearch extends TeacherNews
+class SearchContacts extends Contacts
 {
     /**
      * @inheritdoc
@@ -18,8 +18,8 @@ class TeacherNewsSearch extends TeacherNews
     public function rules()
     {
         return [
-            [['id', 'teacher_id', 'created_at', 'updated_at', 'active'], 'integer'],
-            [['title', 'text'], 'safe'],
+            [['id'], 'integer'],
+            [['name', 'email', 'subject', 'body', 'active'], 'safe'],
         ];
     }
 
@@ -41,12 +41,11 @@ class TeacherNewsSearch extends TeacherNews
      */
     public function search($params)
     {
-        $query = TeacherNews::find()->orderBy(['updated_at'=>SORT_DESC]);
+        $query = Contacts::find();
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
-            
-        ]);        
+        ]);
 
         if (!($this->load($params) && $this->validate())) {
             return $dataProvider;
@@ -54,14 +53,16 @@ class TeacherNewsSearch extends TeacherNews
 
         $query->andFilterWhere([
             'id' => $this->id,
-            'teacher_id' => $this->teacher_id,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
-            'active' => $this->active,
         ]);
 
-        $query->andFilterWhere(['like', 'title', $this->title])
-            ->andFilterWhere(['like', 'text', $this->text]);
+        $query->andFilterWhere(['like', 'name', $this->name])
+            ->andFilterWhere(['like', 'email', $this->email])
+            ->andFilterWhere(['like', 'subject', $this->subject])
+            ->andFilterWhere(['like', 'body', $this->body])
+            ->andFilterWhere(['like', 'active', $this->active])
+            //->andFilterWhere(['like', 'created_at', $this->created_at])
+            //->andFilterWhere(['like', 'reviewed_at', $this->reviewed_at])
+            ;
 
         return $dataProvider;
     }

@@ -4,7 +4,7 @@ use yii\helpers\Html;
 
 
 /* @var $this yii\web\View */
-/* @var $model app\modules\admin\models\Message */
+/* @var $model app\models\Message */
 
 $this->title = 'Створити повідомлення';
 $this->params['breadcrumbs'][] = ['label' => 'Повідомлення', 'url' => ['index']];

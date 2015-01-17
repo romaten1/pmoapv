@@ -7,8 +7,6 @@ use app\models\Metodychky;
 use app\models\search\MetodychkySearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
-use yii\web\UploadedFile;
 use yii\data\ActiveDataProvider;
 
 /**

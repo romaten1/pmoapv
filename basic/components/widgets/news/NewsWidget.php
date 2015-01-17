@@ -3,7 +3,6 @@ namespace app\components\widgets\news;
 
 use Yii;
 use yii\base\Widget;
-use yii\helpers\Html;
 use app\models\News;
 
 class NewsWidget extends Widget
@@ -25,7 +24,7 @@ class NewsWidget extends Widget
         $models = News::find()->where(['active'=>News::STATUS_ACTIVE])->limit(5)->orderBy(['updated_at' => SORT_DESC])->all();
         return $this->render('news', [
             'models' => $models,
-            'title' => $title,
+            'title' => $this->title,
         ]);
     }
 

@@ -4,8 +4,9 @@ namespace app\models\query;
 
 use yii\db\ActiveQuery;
 use Yii;
+
 /**
- * Class MessageQuery 
+ * Class MessageQuery
  */
 class MessageQuery extends ActiveQuery
 {
@@ -30,5 +31,5 @@ class MessageQuery extends ActiveQuery
         $this->andWhere(['author_id' => Yii::$app->user->id]);
         return $this;
     }
-    
+
 }

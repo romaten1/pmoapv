@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use mihaildev\ckeditor\CKEditor;
 use mihaildev\elfinder\ElFinder;
-use app\modules\admin\models\Predmet;
+use app\models\Predmet;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Predmet */

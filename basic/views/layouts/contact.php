@@ -1,12 +1,7 @@
 <?php
 use yii\helpers\Html;
-use yii\helpers\Url;
-use yii\bootstrap\Nav;
-use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
-use app\components\widgets\allteachers\AllteacherWidget;
-use app\components\widgets\allnews\AllnewsWidget;
 use nirvana\prettyphoto\PrettyPhoto;
 /* @var $this \yii\web\View */
 /* @var $content string */
@@ -43,6 +38,7 @@ AppAsset::register($this);
 
 <?php 
         PrettyPhoto::widget([
+
             'target' => "a[rel^='prettyPhoto']",
             'pluginOptions' => [
                 'opacity' => 0.60,

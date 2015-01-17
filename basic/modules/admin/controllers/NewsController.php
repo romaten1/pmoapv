@@ -3,13 +3,12 @@
 namespace app\modules\admin\controllers;
 
 use Yii;
-use app\modules\admin\models\News;
-use app\modules\admin\models\search\NewsSearch;
+use app\models\News;
+use app\models\search\NewsSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\UploadedFile;
-use yii\imagine\Image;
 use Imagine\Image\Box;
 use Imagine\Image\Point;
 use Imagine\Gd\Imagine;
@@ -25,7 +24,7 @@ class NewsController extends Controller
 {
     public function behaviors()
     {
-        
+
         return [
             'access' => [
                 'class' => AccessControl::className(),
@@ -33,7 +32,7 @@ class NewsController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['index','create', 'update', 'view', 'delete'],
+                        'actions' => ['index', 'create', 'update', 'view', 'delete'],
                         'roles' => ['moderator'],
                     ]
                 ],
@@ -53,7 +52,7 @@ class NewsController extends Controller
      */
     public function actionIndex()
     {
-        
+
         $searchModel = new NewsSearch();
         $dataProvider = new ActiveDataProvider([
             'query' => News::find()->orderBy('updated_at DESC'),
@@ -81,7 +80,8 @@ class NewsController extends Controller
     /**
      * Creates a new News model.
      * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return mixed
+     * @return string|\yii\web\Response
+     * @throws NotFoundHttpException
      */
     public function actionCreate()
     {
@@ -89,12 +89,12 @@ class NewsController extends Controller
         // Получаем массив данных по загружамых файлах
         if ($model->load(Yii::$app->request->post())) {
             if (isset($model->image)) {
-                        $model->image = UploadedFile::getInstance($model, 'image');
-            } 
-            if ($model->validate()) {  
-                if (isset($model->image)) { 
+                $model->image = UploadedFile::getInstance($model, 'image');
+            }
+            if ($model->validate()) {
+                if (isset($model->image)) {
                     $image_name = Yii::$app->getSecurity()->generateRandomString(5)
-                        .'_'.substr(TransliterateHelper::cyrillicToLatin($model->title), 0, 7);
+                        . '_' . substr(TransliterateHelper::cyrillicToLatin($model->title), 0, 7);
                     $image_full_name = $image_name . '.' . $model->image->extension;
                     $model->image->saveAs(Yii::getAlias('@webroot/uploads/news/' . $image_full_name));
                     $model->image = $image_full_name;
@@ -106,29 +106,29 @@ class NewsController extends Controller
                     $path_from = Yii::getAlias('@webroot/uploads/news/' . $image_full_name);
                     $path_to = Yii::getAlias('@webroot/uploads/news/') . $image_full_name;
                     $this->makeImage($path_from, $path_to, $desired_width = 500);
-                }
-                else{
-                   $model->image = false;
+                } else {
+                    $model->image = false;
                 }
             }
-            if($model->save()){
-                Yii::info($this->id.' - '.$this->action->id.' - id: '.$model->id.' - user: '.\Yii::$app->user->id,'admin');
-                return $this->redirect(['view', 'id'=>$model->id]);
+            if ($model->save()) {
+                Yii::info($this->id . ' - ' . $this->action->id . ' - id: ' . $model->id . ' - user: ' . \Yii::$app->user->id, 'admin');
+                return $this->redirect(['view', 'id' => $model->id]);
             } else {
                 throw new NotFoundHttpException('Не удалось загрузить данные');
-            }      
+            }
         } else {
             return $this->render('create', [
                 'model' => $model,
-                ]);
-        }   
+            ]);
+        }
     }
 
     /**
      * Updates an existing News model.
      * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
-     * @return mixed
+     * @param $id
+     * @return string|\yii\web\Response
+     * @throws NotFoundHttpException
      */
     public function actionUpdate($id)
     {
@@ -138,10 +138,10 @@ class NewsController extends Controller
             if (isset($model->image)) {
                 $model->image = UploadedFile::getInstance($model, 'image');
             }
-            if ($model->validate()) {                
+            if ($model->validate()) {
                 if (isset($model->image)) {
                     $image_name = Yii::$app->getSecurity()->generateRandomString(5)
-                        .'_'.substr(TransliterateHelper::cyrillicToLatin($model->title), 0, 7);
+                        . '_' . substr(TransliterateHelper::cyrillicToLatin($model->title), 0, 7);
                     $image_full_name = $image_name . '.' . $model->image->extension;
                     $model->image->saveAs('uploads/news/' . $image_full_name);
                     $model->image = $image_full_name;
@@ -153,19 +153,18 @@ class NewsController extends Controller
                     $path_from = Yii::getAlias('@webroot/uploads/news/' . $image_full_name);
                     $path_to = Yii::getAlias('@webroot/uploads/news/') . $image_full_name;
                     $this->makeImage($path_from, $path_to, $desired_width = 500);
-                }
-                else{ 
-                   $model->image = $old_image;
+                } else {
+                    $model->image = $old_image;
                 }
 
             }
 
-            if($model->save()){
-                Yii::info($this->id.' - '.$this->action->id.' - id: '.$model->id.' - user: '.\Yii::$app->user->id,'admin');
-                return $this->redirect(['view', 'id'=>$model->id]);
+            if ($model->save()) {
+                Yii::info($this->id . ' - ' . $this->action->id . ' - id: ' . $model->id . ' - user: ' . \Yii::$app->user->id, 'admin');
+                return $this->redirect(['view', 'id' => $model->id]);
             } else {
                 throw new NotFoundHttpException('Не удалось загрузить данные');
-            }      
+            }
         } else {
             return $this->render('update', [
                 'model' => $model,
@@ -183,7 +182,7 @@ class NewsController extends Controller
     {
         $model = $this->findModel($id);
         $model->active = News::STATUS_PASSIVE;
-        Yii::info($this->id.' - '.$this->action->id.' - id: '.$model->id.' - user: '.\Yii::$app->user->id,'admin');
+        Yii::info($this->id . ' - ' . $this->action->id . ' - id: ' . $id . ' - user: ' . \Yii::$app->user->id, 'admin');
         $model->save();
 
         return $this->redirect(['index']);
@@ -204,6 +203,7 @@ class NewsController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+
     protected function makeImage($path_from, $path_to, $desired_width)
     {
         $imagine = new Imagine();

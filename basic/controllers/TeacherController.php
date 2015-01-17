@@ -7,8 +7,6 @@ use app\models\Teacher;
 use app\models\search\TeacherSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
-use yii\web\UploadedFile;
 use yii\data\ActiveDataProvider;
 
 /**

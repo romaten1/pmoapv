@@ -3,6 +3,10 @@
 namespace app\models;
 
 use Yii;
+use yii\helpers\ArrayHelper;
+use app\modules\admin\models\ParentGroup;
+use app\behaviors\PurifierBehavior;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "static_page".
@@ -14,10 +18,23 @@ use Yii;
  * @property integer $active
  * @property integer $parent_group_id
  */
-class StaticPage extends \yii\db\ActiveRecord
+class StaticPage extends ActiveRecord
 {
     const STATUS_PASSIVE = 0;
     const STATUS_ACTIVE = 1;
+
+    public function behaviors()
+    {
+        return [
+            'purifierBehavior' => [
+                'class' => PurifierBehavior::className(),
+                'textAttributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => ['text'],
+                ]
+            ]
+        ];
+    }
+
     /**
      * @inheritdoc
      */
@@ -56,5 +73,58 @@ class StaticPage extends \yii\db\ActiveRecord
             'active' => 'Активно чи ні',
             'parent_group_id' => 'Код групи',
         ];
+    }
+
+    /**
+     * @return array
+     */
+    public static function getStatusArray()
+    {
+        return [
+            self::STATUS_ACTIVE => 'Активно',
+            self::STATUS_PASSIVE => 'Неактивно',
+
+        ];
+    }
+
+    /**
+     * @param $active
+     * @return mixed
+     */
+    public static function getStatus($active)
+    {
+        $status = self::getStatusArray();
+        return $status[$active];
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getStatusLabel()
+    {
+        $statuses = $this->getStatusArray();
+        return ArrayHelper::getValue($statuses, $this->active);
+    }
+
+    /**
+     * @return array
+     */
+    public static function getParentArray()
+    {
+        $group = ParentGroup::find()->asArray()->all();
+        $parentArray = [];
+        foreach($group as $val){
+            $parentArray[$val['id']] = $val['title'];
+        }
+        return $parentArray;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getParentLabel()
+    {
+        $parents = $this->getParentArray();
+        return ArrayHelper::getValue($parents, $this->parent_group_id);
     }
 }

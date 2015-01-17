@@ -2,10 +2,10 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-use app\modules\admin\models\Message;
+use app\models\Message;
 
 /* @var $this yii\web\View */
-/* @var $model app\modules\admin\models\Message */
+/* @var $model app\models\Message */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 

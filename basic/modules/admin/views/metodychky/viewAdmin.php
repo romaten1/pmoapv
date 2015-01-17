@@ -4,9 +4,7 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\DetailView;
 use kartik\icons\Icon;
-use app\modules\admin\models\TeachMetodychky;
-use app\modules\admin\models\Teacher;
-use app\modules\admin\models\Metodychky;
+use app\models\Metodychky;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Metodychky */

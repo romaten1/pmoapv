@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use mihaildev\ckeditor\CKEditor;
 use mihaildev\elfinder\ElFinder;
-use app\modules\admin\models\StaticPage;
+use app\models\StaticPage;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\StaticPage */

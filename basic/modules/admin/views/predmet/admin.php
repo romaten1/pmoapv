@@ -2,7 +2,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
-use app\modules\admin\models\Predmet;
+use app\models\Predmet;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\PredmetSearch */

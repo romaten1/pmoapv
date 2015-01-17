@@ -3,8 +3,8 @@
 namespace app\modules\admin\controllers;
 
 use Yii;
-use app\modules\admin\models\Contacts;
-use app\modules\admin\models\search\SearchContacts;
+use app\models\Contacts;
+use app\models\search\SearchContacts;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -63,7 +63,8 @@ class ContactsController extends Controller
         return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
-    }  
+    }
+
     /**
      * Deletes an existing Contacts model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
@@ -74,7 +75,7 @@ class ContactsController extends Controller
     {
         $model = $this->findModel($id);
         $model->active = Contacts::STATUS_REVIEWED;
-        Yii::info($this->id.' - '.$this->action->id.' - id: '.$model->id.' - user: '.\Yii::$app->user->id,'admin');
+        Yii::info($this->id . ' - ' . $this->action->id . ' - id: ' . $model->id . ' - user: ' . \Yii::$app->user->id, 'admin');
         $model->save();
 
         return $this->redirect(['index']);
@@ -84,7 +85,7 @@ class ContactsController extends Controller
     {
         $model = $this->findModel($id);
         $model->active = Contacts::STATUS_ACTIVE;
-        Yii::info($this->id.' - '.$this->action->id.' - id: '.$model->id.' - user: '.\Yii::$app->user->id,'admin');
+        Yii::info($this->id . ' - ' . $this->action->id . ' - id: ' . $model->id . ' - user: ' . \Yii::$app->user->id, 'admin');
         $model->save();
 
         return $this->redirect(['index']);

@@ -3,7 +3,6 @@ namespace app\components\widgets\metodychky;
 
 use Yii;
 use yii\base\Widget;
-use yii\helpers\Html;
 use app\models\Metodychky;
 
 class MetodychkyWidget extends Widget
@@ -25,7 +24,7 @@ class MetodychkyWidget extends Widget
         $models = Metodychky::find()->where(['active'=>Metodychky::STATUS_ACTIVE])->limit(5)->orderBy(['id' => SORT_DESC])->all();
         return $this->render('metodychky', [
             'models' => $models,
-            'title' => $title,
+            'title' => $this->title,
         ]);
     }
 

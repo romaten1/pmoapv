@@ -3,8 +3,7 @@ namespace app\modules\admin\components\contacts;
 
 use Yii;
 use yii\base\Widget;
-use yii\helpers\Html;
-use app\modules\admin\models\Contacts;
+use app\models\Contacts;
 
 class ContactsWidget extends Widget
 {

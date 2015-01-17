@@ -2,10 +2,10 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
-use app\modules\admin\models\Teacher;
+use app\models\Teacher;
 
 /* @var $this yii\web\View */
-/* @var $searchModel app\modules\admin\models\TeacherNewsSearch */
+/* @var $searchModel app\models\TeacherNewsSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'Повідомлення викладачів';

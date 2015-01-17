@@ -70,7 +70,7 @@ $this->title = 'Абітурієнту';
                 <ul class="nav navbar-nav navbar-right">
                     
                     <li>
-                        <a class="page-scroll" href="#page-top">Початок</a>
+                        <a class="page-scroll" href="#page-top">Вітаємо</a>
                     </li>
                     <li>
                         <a class="page-scroll" href="#services">Ми пропонуємо</a>
