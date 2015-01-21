@@ -163,7 +163,7 @@ a.desc:after {
 /* Detail view first column width
 ------------------------- */
 .detail-view tr th {
-  max-width: 25px;
+  max-width: 400px;
 }
 
 

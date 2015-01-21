@@ -19,7 +19,10 @@ class TeacherSearch extends Teacher
     {
         return [
             [['id'], 'integer'],
-            [['name', 'second_name', 'last_name', 'image', 'job', 'science_status', 'org_status', 'description'], 'safe'],
+            [
+                ['name', 'second_name', 'last_name', 'image', 'job', 'science_status', 'org_status', 'description'],
+                'safe'
+            ],
         ];
     }
 

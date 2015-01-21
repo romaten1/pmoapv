@@ -7,6 +7,8 @@ use app\modules\admin\models\UserTeacher;
 use yii\helpers\ArrayHelper;
 use app\behaviors\PurifierBehavior;
 use yii\db\ActiveRecord;
+use app\modules\admin\models\TeachMetodychky;
+use app\modules\admin\models\TeachPredmet;
 
 /**
  * This is the model class for table "teacher".

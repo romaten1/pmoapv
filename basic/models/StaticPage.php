@@ -113,7 +113,7 @@ class StaticPage extends ActiveRecord
     {
         $group = ParentGroup::find()->asArray()->all();
         $parentArray = [];
-        foreach($group as $val){
+        foreach ($group as $val) {
             $parentArray[$val['id']] = $val['title'];
         }
         return $parentArray;

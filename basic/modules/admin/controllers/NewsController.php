@@ -110,6 +110,8 @@ class NewsController extends Controller
                     $model->image = false;
                 }
             }
+            $model->created_at = 1;
+            $model->updated_at = 1;
             if ($model->save()) {
                 Yii::info($this->id . ' - ' . $this->action->id . ' - id: ' . $model->id . ' - user: ' . \Yii::$app->user->id, 'admin');
                 return $this->redirect(['view', 'id' => $model->id]);
@@ -224,3 +226,5 @@ class NewsController extends Controller
         $resized_image->save($path_to, $options);
     }
 }
+
+

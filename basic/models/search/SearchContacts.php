@@ -62,7 +62,7 @@ class SearchContacts extends Contacts
             ->andFilterWhere(['like', 'active', $this->active])
             //->andFilterWhere(['like', 'created_at', $this->created_at])
             //->andFilterWhere(['like', 'reviewed_at', $this->reviewed_at])
-            ;
+        ;
 
         return $dataProvider;
     }

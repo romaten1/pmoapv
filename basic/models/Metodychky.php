@@ -3,8 +3,7 @@
 namespace app\models;
 
 use Yii;
-use app\models\TeachMetodychky;
-use app\models\Teacher;
+use app\modules\admin\models\TeachMetodychky;
 use app\models\query\MetodychkyQuery;
 use yii\behaviors\TimestampBehavior;
 use app\behaviors\PurifierBehavior;

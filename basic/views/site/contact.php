@@ -24,7 +24,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <abbr title="Phone">Телефон:</abbr> <br />
             (04744) 3-98-37, 3-98-93 <br />
             <abbr title="Mail">Email:</abbr><br />
-            pmoapv@meta.ua, kafedra.pmo@gmail.com
+            pmoapv@meta.ua
         </div>
         <div class="col-md-7">
             <iframe src="https://mapsengine.google.com/map/embed?mid=zWdXVPtDflqc.ka15_zYzVfWc" width="640" height="480"></iframe>
