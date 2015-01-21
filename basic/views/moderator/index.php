@@ -28,7 +28,7 @@ use app\models\Message;
                 <div class="row">
                     <div class="col-md-12">
                         <?= Html::a('Переглянути всі отримані повідомлення', ['/message/'], ['class' => 'btn btn-default pull-left']) ?>
-                        <?= Html::a('Створити повідомлення', ['/message/create'], ['class' => 'btn btn-success pull-right']) ?>
+                        <?= Html::a('Написати повідомлення викладачу', ['/message/create'], ['class' => 'btn btn-success pull-right']) ?>
                     </div>
                </div>
                <br />

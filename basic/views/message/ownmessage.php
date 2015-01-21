@@ -21,7 +21,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a('Отримані повідомлення', ['index'], ['class' => 'btn btn-default']) ?>
     </p>
     <div class="row">        
-        <div class="col-md-6">
+        <div class="col-md-8">
             <div class="panel panel-primary">
                 <div class="panel-heading">Надіслані повідомлення</div>
                 <div class="panel-body">

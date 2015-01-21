@@ -65,7 +65,7 @@ class Message extends ActiveRecord
     public function rules()
     {
         return [
-            [['author_id', 'text', 'created_at', 'active'], 'required'],
+            [['author_id', 'text'], 'required'],
             [['author_id', 'receiver_id', 'created_at', 'recieved_at', 'active'], 'integer'],
             [['text'], 'string'],
             ['active', 'default', 'value' => self::STATUS_ACTIVE],

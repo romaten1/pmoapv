@@ -32,14 +32,26 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'author_id',
                 'format' => 'html',
                 'value' => function ($model) {
-                    return User::findOne($model->author_id)->username;},                
+	                if(Teacher::getTeacherByUserId($model->author_id)){
+		                $name = Teacher::getPrepod($model->author_id);
+	                }
+	                else {
+		                $name = User::findOne($model->author_id)->username;
+	                }
+	                return $name; },
             ],
             [
                 'attribute' => 'receiver_id',
                 'format' => 'html',
                 'value' => function ($model) {
-                    return Teacher::getPrepod($model->receiver_id);}, 
-                'filter' => Teacher::getPrepodsArray()               
+	                if(Teacher::getTeacherByUserId($model->receiver_id)){
+		                $name = Teacher::getPrepod($model->receiver_id);
+	                }
+	                else {
+		                $name = User::findOne($model->receiver_id)->username;
+	                }
+	                return $name; },
+                //'filter' => Teacher::getPrepodsArray()
             ],            
             'text:ntext',
             [

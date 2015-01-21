@@ -34,6 +34,8 @@ class MessageSearch extends Message
     }
 
     /**
+     * Only with received_messages
+     *
      * Creates data provider instance with search query applied
      *
      * @param array $params
@@ -68,4 +70,40 @@ class MessageSearch extends Message
 
         return $dataProvider;
     }
+
+	/**
+	 * Creates data provider instance with search query applied
+	 *
+	 * @param array $params
+	 *
+	 * @return ActiveDataProvider
+	 */
+	public function searchAll($params)
+	{
+		$query = Message::find();
+
+		$dataProvider = new ActiveDataProvider([
+			'query' => $query,
+			'pagination' => [
+				'pageSize' => 10
+			]
+		]);
+
+		if (!($this->load($params) && $this->validate())) {
+			return $dataProvider;
+		}
+
+		$query->andFilterWhere([
+			'id' => $this->id,
+			'author_id' => $this->author_id,
+			'receiver_id' => $this->receiver_id,
+			'created_at' => $this->created_at,
+			'recieved_at' => $this->recieved_at,
+			'active' => $this->active,
+		]);
+
+		$query->andFilterWhere(['like', 'text', $this->text]);
+
+		return $dataProvider;
+	}
 }

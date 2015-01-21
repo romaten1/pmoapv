@@ -29,7 +29,7 @@ class MessageController extends Controller
                     ],
                     [
                         'allow' => true,
-                        'actions' => ['index', 'recieve','ownmessage'],
+                        'actions' => ['index', 'recieve','ownmessage', 'user-message'],
                         'roles' => ['@'],
                     ]
                 ],
@@ -90,19 +90,35 @@ class MessageController extends Controller
         //($model);
         if ($model->load(Yii::$app->request->post())) {
             $model->author_id = Yii::$app->user->id;
-            $model->recieved_at = 1;
-            $model->created_at = '1';
-            $model->active = 1;
             if($model->save()) {
                 return $this->redirect(['index', 'id' => $model->id]);
             }
-            
+
         } else {
             return $this->render('create', [
                 'model' => $model,
             ]);
         }
     }
+
+	public function actionUserMessage($receiver_id)
+	{
+		$model = new Message();
+		//($model);
+		if ($model->load(Yii::$app->request->post())) {
+			$model->author_id = Yii::$app->user->id;
+			$model->receiver_id = $receiver_id;
+			if($model->save()) {
+				return $this->redirect(['index', 'id' => $model->id]);
+			}
+
+		} else {
+			return $this->render('user_message', [
+				'model' => $model,
+				'receiver_id' => $receiver_id,
+			]);
+		}
+	}
 
     /**
      * Deletes an existing Message model.
