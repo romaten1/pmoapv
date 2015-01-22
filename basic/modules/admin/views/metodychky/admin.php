@@ -8,6 +8,7 @@ use app\models\Metodychky;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\search\MetodychkySearch */
+/* @var $model app\models\Metodychky */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'Навчально-методичне забезпечення кафедри - журнал';
@@ -49,7 +50,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'active',
                 'format' => 'html',
                 'value' => function ($model) {
-                    return Metodychky::getStatus($model->active);},
+                    return $model->getStatusLabel();},
                 'filter' => Metodychky::getStatusArray()
             ],
 

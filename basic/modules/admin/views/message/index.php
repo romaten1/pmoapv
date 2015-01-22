@@ -74,7 +74,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'active',
                 'format' => 'html',
                 'value' => function ($model) {
-                    return Message::getStatus($model->active);},
+                    return $model->getStatusLabel();},
                 'filter' => Message::getStatusArray()
             ],
 

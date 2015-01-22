@@ -98,17 +98,19 @@ class Message extends ActiveRecord
         ];
     }
 
-    public static function getStatus($active)
-    {
-        $status = self::getStatusArray();
-        return $status[$active];
-    }
 
-    public function getStatusLabel()
-    {
-        $statuses = $this->getStatusArray();
-        return ArrayHelper::getValue($statuses, $this->active);
-    }
+	public function getStatusLabel()
+	{
+		$statuses = $this->getStatusArray();
+		if($this->active == self::STATUS_ACTIVE ){
+			$return = '<span class="label label-success">'.ArrayHelper::getValue($statuses, $this->active).'</span>';
+		}
+		else {
+			$return = '<span class="label label-warning">'.ArrayHelper::getValue($statuses, $this->active).'</span>';
+		}
+		return $return;
+	}
+
 
     public static function getNotRecievedMessageCount()
     {

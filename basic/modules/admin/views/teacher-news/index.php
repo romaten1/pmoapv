@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use app\models\Teacher;
+use app\models\TeacherNews;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\TeacherNewsSearch */
@@ -45,7 +46,13 @@ $userIdArray = Teacher::getUserIdTeacherNameArray();
                 'format' => 'date'
             ],
             // 'updated_at',
-            // 'active',
+	        [
+		        'attribute' => 'active',
+		        'format' => 'html',
+		        'value' => function ($model) {
+			        return $model->getStatusLabel();},
+		        'filter' => TeacherNews::getStatusArray()
+	        ],
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

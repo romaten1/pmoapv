@@ -104,6 +104,12 @@ class Contacts extends ActiveRecord
     public function getStatusLabel()
     {
         $statuses = $this->getStatusArray();
-        return ArrayHelper::getValue($statuses, $this->active);
+	    if($this->active == self::STATUS_REVIEWED ){
+	        $return = '<span class="label label-success">'.ArrayHelper::getValue($statuses, $this->active).'</span>';
+	    }
+	    else {
+		    $return = '<span class="label label-warning">'.ArrayHelper::getValue($statuses, $this->active).'</span>';
+	    }
+        return $return;
     }
 }

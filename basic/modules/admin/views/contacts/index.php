@@ -60,7 +60,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'format' => 'html',
                 'value' => function ($model) {
                     if($model->reviewed_at == 0){
-                        return "Не переглянуто";
+                        return '<span class="label label-warning">Не дивилися</span>';
                     }
                     else{
                         return date('H:i / d-m-Y',$model->reviewed_at);
