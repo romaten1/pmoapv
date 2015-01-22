@@ -166,4 +166,9 @@ a.desc:after {
   max-width: 400px;
 }
 
+/*for labels on abiturient landing page*/
+section#contact label.control-label {
+    color: white;
+}
+
 
