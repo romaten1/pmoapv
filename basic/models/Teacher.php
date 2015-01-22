@@ -9,6 +9,7 @@ use app\behaviors\PurifierBehavior;
 use yii\db\ActiveRecord;
 use app\modules\admin\models\TeachMetodychky;
 use app\modules\admin\models\TeachPredmet;
+use dektrium\user\models\User;
 
 /**
  * This is the model class for table "teacher".
@@ -160,6 +161,13 @@ class Teacher extends ActiveRecord
         $teacher = self::findOne($teacher_id);
         return $teacher;
     }
+
+	public static function getUserByTeacherId($teacher_id)
+	{
+		$user_id = UserTeacher::find()->where(['teacher_id' => $teacher_id])->one()->user_id;
+		$user = User::findOne($user_id);
+		return $user;
+	}
 
     /**
      * вертає Повне ПІБ викладача на основі $user_id користувача, якщо користувач  є викладачем

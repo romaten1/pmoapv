@@ -1,9 +1,7 @@
 <?php
 
 use yii\helpers\Html;
-use yii\widgets\DetailView;
-use kartik\icons\Icon;
-
+use app\models\Teacher;
 /* @var $this yii\web\View */
 /* @var $model app\models\Teacher */
 
@@ -13,12 +11,13 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="teacher-view">
 
-    <h2><?= Html::encode($this->title) ?></h2>
+    <h2><?= Html::encode($this->title) ?> </h2>
 
-    
     <p><?= $model->image ? Html::img('@web/uploads/teacher/'.$model->image) : '' ?></p>
 
-    <p><?= 'Посада: '.Html::encode($model->job) ?></p>
+	<?= Html::a( "Звернутись до викладача", [ '/message/user-message', 'receiver_id' => Teacher::getUserByTeacherId($model->id)->id ], ['class' => 'btn btn-success'] ) ?>
+
+	<p><?= 'Посада: '.Html::encode($model->job) ?></p>
 
     <p><?= 'Науковий ступінь: '.Html::encode($model->science_status) ?></p>
 
