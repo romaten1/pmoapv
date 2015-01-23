@@ -61,14 +61,22 @@ class TeacherNewsController extends Controller
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
-    } 
-    
-    public function actionView($id)
-    {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
-    }   
+    }
+
+	/**
+	* @throws NotFoundHttpException
+	*/
+	public function actionView($id)
+	{
+		$model = $this->findModel($id);
+		if ($model->active == TeacherNews::STATUS_ACTIVE) {
+			return $this->render('view', [
+				'model' => $model,
+			]);
+		} else {
+			throw new NotFoundHttpException('Запис не активний');
+		}
+	}
 
     /**
      * Creates a new TeacherNews model.

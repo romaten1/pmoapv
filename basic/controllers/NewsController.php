@@ -38,13 +38,19 @@ class NewsController extends Controller
      * Displays a single News model.
      * @param integer $id
      * @return mixed
+     * @throws NotFoundHttpException
      */
-    public function actionView($id)
-    {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
-    }
+	public function actionView($id)
+	{
+		$model = $this->findModel($id);
+		if ($model->active == News::STATUS_ACTIVE) {
+			return $this->render('view', [
+				'model' => $model,
+			]);
+		} else {
+			throw new NotFoundHttpException('Запис не активний');
+		}
+	}
 
     
     /**

@@ -9,7 +9,7 @@ $this->title = 'Кафедра ПМОАПВ УНУС';
 <div class="site-index">
 
     <div class="jumbotron">
-        <img src="<?= Url::to('@web/uploads/logo.jpg', true) ?>">'
+        <img src="<?= Url::to('@web/uploads/logo.png', true) ?>">'
         <h1>ВІТАЄМО!</h1>
 
         <p class="lead">Раді бачити вас на сайті <br />

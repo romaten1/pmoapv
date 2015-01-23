@@ -9,6 +9,7 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use yii\data\ActiveDataProvider;
+use yii\helpers\HtmlPurifier;
 
 /**
  * MessageController implements the CRUD actions for Message model.
@@ -90,7 +91,8 @@ class MessageController extends Controller
         //($model);
         if ($model->load(Yii::$app->request->post())) {
             $model->author_id = Yii::$app->user->id;
-            if($model->save()) {
+	        $model->text =  HtmlPurifier::process($model->text);
+	        if($model->save()) {
                 return $this->redirect(['index', 'id' => $model->id]);
             }
 

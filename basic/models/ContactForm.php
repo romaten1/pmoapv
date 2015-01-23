@@ -5,7 +5,6 @@ namespace app\models;
 use Yii;
 use yii\base\Model;
 use yii\helpers\HtmlPurifier;
-use app\models\Contacts;
 
 /**
  * ContactForm is the model behind the contact form.
@@ -74,10 +73,10 @@ class ContactForm extends Model
                 ->setTextBody($this->body)
                 ->send();*/
             $contacts = new Contacts();
-            $contacts->name = $this->name;
-            $contacts->email = $this->email;
-            $contacts->subject = $this->subject;
-            $contacts->body = $this->body;
+            $contacts->name = HtmlPurifier::process($this->name);
+            $contacts->email = HtmlPurifier::process($this->email);
+	        $contacts->subject = HtmlPurifier::process($this->subject);
+            $contacts->body = HtmlPurifier::process($this->body);
             $contacts->active = self::STATUS_ACTIVE;
             //$contacts->created_at = time();
             $contacts->reviewed_at = '1';

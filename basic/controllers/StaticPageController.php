@@ -16,16 +16,22 @@ class StaticPageController extends Controller
 
     /**
      * Displays a single StaticPage model.
-     * @param integer $id
+     * @param integer $alias
      * @return mixed
+     * @throws NotFoundHttpException
      */
     public function actionViewAlias($alias)
     {
-       //var_dump($this->findModelByAlias($alias));
-        return $this->render('view', [
-            'model' => $this->findModelByAlias($alias),
-        ]);
+	    $model = $this->findModelByAlias($alias);
+	    if ($model->active == StaticPage::STATUS_ACTIVE) {
+		    return $this->render('view', [
+			    'model' => $model,
+		    ]);
+	    } else {
+		    throw new NotFoundHttpException('Запис не активний');
+	    }
     }
+
  
     protected function findModelByAlias($alias)
     {

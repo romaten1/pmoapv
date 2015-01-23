@@ -1,41 +1,36 @@
 <?php
-
 use yii\helpers\Html;
-use yii\widgets\DetailView;
+use yii\helpers\Url;
+use app\models\Teacher;
+use yii\helpers\StringHelper;
 
-/* @var $this yii\web\View */
-/* @var $model app\models\TeacherNews */
+$teacher = Teacher::getTeacherByUserId($model->teacher_id);
 
-$this->title = $model->title;
-$this->params['breadcrumbs'][] = ['label' => 'Новини викладачів', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+$teacher_full_name = $teacher->last_name . ' ' . $teacher->name . ' '. $teacher->second_name;
+$href = Url::to('@web/uploads/teacher/').$teacher->image;
+$image = Url::to('@web/uploads/teacher/thumbs/thumb_').$teacher->image;
+$image_code = '<a href="'.
+              $href.
+              '" rel="prettyPhoto" title="'.$teacher_full_name.'"><img src="'.
+              $image.
+              '" alt="" /></a>';
 ?>
-<div class="teacher-news-view">
+<div class="row">
+	<div class="col-md-7">
+		<h3><?= $model->title;?></h3>
+		<br />
+		<?= date('H:i / d-m-Y', $model->updated_at);?>
+		<br />
+		<?= $model->text?>
+	</div>
+	<div class="col-md-1">
+		<?= $teacher->image ? $image_code : '';?>
+	</div>
+	<div class="col-md-4">
+		<?= Html::a(Html::encode($teacher_full_name), ['/teacher/view', 'id' => $teacher->id]);?>
+		<br />
+		<?=$teacher->job?>, <?=$teacher->science_status?>
+	</div>
 
-    <h1><?= Html::encode($this->title) ?></h1>
+</div><br />
 
-    <p>
-        <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->id], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
-                'method' => 'post',
-            ],
-        ]) ?>
-    </p>
-
-    <?= DetailView::widget([
-        'model' => $model,
-        'attributes' => [
-            'id',
-            'teacher_id',
-            'title',
-            'text:ntext',
-            'created_at',
-            'updated_at',
-            'active',
-        ],
-    ]) ?>
-
-</div>

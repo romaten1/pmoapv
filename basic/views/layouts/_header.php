@@ -18,7 +18,7 @@ echo Nav::widget([
     'options' => ['class' => 'navbar-nav navbar-right'],
     'items' => [
         ['label' => 'Пошук на сайті', 'url' => ['/site/search']],
-        Yii::$app->user->can('moderator') ?
+        Yii::$app->user->can('admin') ?
             ['label' => 'Admin', 'url' => ['/admin']] : '',
         !Yii::$app->user->isGuest ?
             ['label' => 'Профіль', 'url' => ['/user/settings/profile']] : '',

@@ -75,12 +75,18 @@ class MetodychkyController extends Controller
      * Displays a single Metodychky model.
      * @param integer $id
      * @return mixed
+     * @throws NotFoundHttpException
      */
     public function actionView($id)
     {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
+	    $model = $this->findModel($id);
+	    if ($model->active == Metodychky::STATUS_ACTIVE) {
+		    return $this->render('view', [
+			    'model' => $model,
+		    ]);
+	    } else {
+		    throw new NotFoundHttpException('Запис не активний');
+	    }
     }
 
     /**

@@ -13,6 +13,11 @@ $this->title = Yii::t('user', 'Sign up');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="row">
+	<div class="alert alert-default" role="alert">Просимо дотримуватися культури
+		спілкування та не застосовувати лайливі вислови при спілкуванні з користувачами сайту.
+		При порушенні вас буде забанено. Свої запитання та зауваження ви можете задати на сторінці контактів
+		<?= Html::a('контактів', ['/site/contact']) ?>
+	</div>
     <div class="col-md-4 col-md-offset-4">
         <div class="panel panel-default">
             <div class="panel-heading">

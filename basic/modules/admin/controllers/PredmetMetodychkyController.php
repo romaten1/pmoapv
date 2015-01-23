@@ -25,7 +25,7 @@ class PredmetMetodychkyController extends Controller
                     [
                         'allow' => true,
                         'actions' => ['index', 'create', 'update', 'view', 'delete'],
-                        'roles' => ['moderator'],
+                        'roles' => ['admin'],
                     ]
                 ],
             ],

@@ -2,6 +2,7 @@
 use yii\helpers\Html;
 use yii\helpers\Url;
 use app\models\Teacher;
+use yii\helpers\StringHelper;
 
 $teacher = Teacher::getTeacherByUserId($model->teacher_id);
 
@@ -16,11 +17,11 @@ $image_code = '<a href="'.
  ?>     
 <div class="row">
     <div class="col-md-7">
-        <h3><?= $model->title;?></h3>
+        <h3><?= Html::a(Html::encode($model->title), ['/teacher-news/view', 'id' => $model->id]);?></h3>
     <br />
         <?= date('H:i / d-m-Y', $model->updated_at);?>
     <br />
-        <?=$model->text?>
+        <?= StringHelper::truncateWords($model->text, 30)?>
     </div>
     <div class="col-md-1">
         <?= $teacher->image ? $image_code : '';?>
@@ -28,7 +29,7 @@ $image_code = '<a href="'.
     <div class="col-md-4">
         <?= Html::a(Html::encode($teacher_full_name), ['/teacher/view', 'id' => $teacher->id]);?>
     <br />
-        <?=$teacher->job?> , <?=$teacher->science_status?>
+        <?=$teacher->job?>, <?=$teacher->science_status?>
     </div>
     
 </div><br />
