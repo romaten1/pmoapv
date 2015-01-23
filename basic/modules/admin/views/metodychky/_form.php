@@ -5,6 +5,7 @@ use yii\widgets\ActiveForm;
 use mihaildev\ckeditor\CKEditor;
 use mihaildev\elfinder\ElFinder;
 use app\models\Metodychky;
+use app\helpers\FileHelper;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Metodychky */
@@ -27,7 +28,7 @@ use app\models\Metodychky;
     ]); ?>
 
     <? if (!empty($model->file)) {
-        echo Html::encode($model->file);
+        echo "Присутній файл:" . Html::encode($model->file). ". Розмір файлу: " . FileHelper::Size2Str($model->size);
     } ?>
 
     <?= $form->field($model, 'file')->fileInput() ?>

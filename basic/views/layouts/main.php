@@ -2,12 +2,12 @@
 use yii\helpers\Html;
 use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
-use app\assets\MainPageAsset;
+//use app\assets\MainPageAsset;
 use nirvana\prettyphoto\PrettyPhoto;
 /* @var $this \yii\web\View */
 /* @var $content string */
 
-MainPageAsset::register($this);
+//MainPageAsset::register($this);
 AppAsset::register($this);
 ?>
 <?php $this->beginPage() ?>
@@ -21,9 +21,9 @@ AppAsset::register($this);
     <?php $this->head() ?>
 </head>
 <body>
-<?= $this->render('_newyear') ?>    
+<?= ''; //$this->render('_newyear') ?>
     <?php $this->beginBody() ?>
-<div class="">
+<div class="header">
     <?= $this->render('_header') ?>    
     
     <div class="container">

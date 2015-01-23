@@ -14,8 +14,12 @@ $this->params['breadcrumbs'][] = $this->title;
     <h2><?= Html::encode($this->title) ?> </h2>
 
     <p><?= $model->image ? Html::img('@web/uploads/teacher/'.$model->image) : '' ?></p>
+	<?php if(!Yii::$app->user->isGuest) {
+		echo Html::a( "Звернутись до викладача",
+			[ '/message/user-message', 'receiver_id' => Teacher::getUserByTeacherId( $model->id )->id ],
+			[ 'class' => 'btn btn-success' ] );
+	}?>
 
-	<?= Html::a( "Звернутись до викладача", [ '/message/user-message', 'receiver_id' => Teacher::getUserByTeacherId($model->id)->id ], ['class' => 'btn btn-success'] ) ?>
 
 	<p><?= 'Посада: '.Html::encode($model->job) ?></p>
 

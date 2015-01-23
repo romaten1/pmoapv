@@ -3,7 +3,6 @@
 use yii\helpers\Html;
 use yii\widgets\ListView;
 
-
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\MetodychkySearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -25,13 +24,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         //'options' => ['class' => 'list-group'],
         'itemOptions' => ['class' => 'item well'],
-        'itemView' => function ($model, $key, $index, $widget) {
-            foreach($model->teachers as $teacher){
-                $authors .= $teacher->last_name.' '.$teacher->name . ', ';
-            }
-            return '<p>'.Html::a(Html::encode($model->title), ['view', 'id' => $model->id]).'<br />
-            Автори: '.$authors.'</p>';
-        },
+        'itemView' => '_listItem',
     ]) ?>
 
 </div>

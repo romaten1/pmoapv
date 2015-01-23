@@ -5,6 +5,7 @@ use yii\helpers\Url;
 use yii\widgets\DetailView;
 use kartik\icons\Icon;
 use app\models\Metodychky;
+use app\helpers\FileHelper;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Metodychky */
@@ -55,7 +56,10 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'updated_at',
                 'format' => 'date'
             ],
-
+	        [
+		        'attribute' => 'size',
+		        'value' => FileHelper::Size2Str($model->size),
+	        ],
         ],
     ]) ?>
 

@@ -83,19 +83,19 @@ class MetodychkyController extends Controller
             if (isset($model->file)) {
                 $model->file = UploadedFile::getInstance($model, 'file');
             }
-
-            if ($model->validate()) {
-                if (isset($model->file)) {
-                    $file_name = Yii::$app->getSecurity()->generateRandomString(5)
-                        . '_' . substr(TransliterateHelper::cyrillicToLatin($model->title), 0, 7);
-                    $file_full_name = $file_name . '.' . $model->file->extension;
-                    $model->file->saveAs('uploads/metodychky/' . $file_full_name);
-                    $model->file = $file_full_name;
-                } else {
-                    $model->file = '0';
-                }
-            }
-            if ($model->save()) {
+	        if (isset($model->file)) {
+		        $file_name = Yii::$app->getSecurity()->generateRandomString(5)
+		                     . '_' . substr(TransliterateHelper::cyrillicToLatin($model->title), 0, 7);
+		        $file_full_name = $file_name . '.' . $model->file->extension;
+		        $model->size = $model->file->size;
+		        $model->file->saveAs('uploads/metodychky/' . $file_full_name);
+		        $model->file = $file_full_name;
+	        }
+	        else {
+		        $model->file = '0';
+		        $model->size = '0';
+	        }
+            if ($model->validate() && $model->save()) {
                 Yii::info($this->id . ' - ' . $this->action->id . ' - id: ' . $model->id . ' - user: ' . \Yii::$app->user->id, 'admin');
                 return $this->redirect(['view', 'id' => $model->id]);
             } else {
@@ -122,23 +122,24 @@ class MetodychkyController extends Controller
         $model = $this->findModel($id);
         $statusArray = Metodychky::getStatusArray();
         $old_file = $model->file;
+	    $old_size = $model->size;
         if ($model->load(Yii::$app->request->post())) {
             if (isset($model->file)) {
                 $model->file = UploadedFile::getInstance($model, 'file');
             }
-            if ($model->validate()) {
-                if (isset($model->file)) {
-                    $file_name = Yii::$app->getSecurity()->generateRandomString(5)
-                        . '_' . substr(TransliterateHelper::cyrillicToLatin($model->title), 0, 7);
-                    $file_full_name = $file_name . '.' . $model->file->extension;
-                    $model->file->saveAs('uploads/metodychky/' . $file_full_name);
-                    $model->file = $file_full_name;
-                } else {
-                    $model->file = $old_file;
-                }
-
-            }
-            if ($model->save()) {
+	        if (isset($model->file)) {
+		        $file_name = Yii::$app->getSecurity()->generateRandomString(5)
+		                     . '_' . substr(TransliterateHelper::cyrillicToLatin($model->title), 0, 7);
+		        $file_full_name = $file_name . '.' . $model->file->extension;
+		        $model->size = $model->file->size;
+		        $model->file->saveAs('uploads/metodychky/' . $file_full_name);
+		        $model->file = $file_full_name;
+	        }
+	        else {
+		        $model->file = $old_file;
+		        $model->size = $old_size;
+	        }
+            if ($model->validate() && $model->save()) {
                 Yii::info($this->id . ' - ' . $this->action->id . ' - id: ' . $model->id . ' - user: ' . \Yii::$app->user->id, 'admin');
                 return $this->redirect(['view', 'id' => $model->id]);
             } else {

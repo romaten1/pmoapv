@@ -8,6 +8,8 @@ use app\models\search\MetodychkySearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\data\ActiveDataProvider;
+use yii\filters\AccessControl;
+use yii\filters\VerbFilter;
 
 /**
  * MetodychkyController implements the CRUD actions for Metodychky model.
@@ -15,7 +17,41 @@ use yii\data\ActiveDataProvider;
 class MetodychkyController extends Controller
 {
     public $layout = 'static';
-    /**
+
+	public function behaviors()
+	{
+		return [
+			'access' => [
+				'class' => AccessControl::className(),
+				//'only' => ['admin', 'create', 'update', 'delete'], //only be applied to
+				'rules' => [
+					[
+						'allow' => true,
+						'actions' => ['index', 'view'],
+						'roles' => ['@'],
+					],
+					[
+						'allow' => true,
+						'actions' => ['create', 'update'],
+						'roles' => ['moderator'],
+					],
+					[
+						'allow' => true,
+						'actions' => ['delete'],
+						'roles' => ['admin'],
+					]
+				],
+			],
+			'verbs' => [
+				'class' => VerbFilter::className(),
+				'actions' => [
+					'delete' => ['post'],
+				],
+			],
+		];
+	}
+
+	/**
      * Lists all Metodychky models.
      * @return mixed
      */

@@ -5,6 +5,7 @@ use yii\helpers\Url;
 use yii\grid\GridView;
 use kartik\icons\Icon;
 use app\models\Metodychky;
+use app\helpers\FileHelper;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\search\MetodychkySearch */
@@ -33,7 +34,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'title',
                 'format' => 'html',
                 'value' => function ($model) {
-                    return Html::a($model->title, ['/metodychky/view/', 'id'=>$model->id]);},
+                    return Html::a($model->title, ['/admin/metodychky/view/', 'id'=>$model->id]);},
                 //'filter' => ['0' => 'Неактивна', '1' => 'Активна']
             ],
             //'description:ntext',            
@@ -53,6 +54,16 @@ $this->params['breadcrumbs'][] = $this->title;
                     return $model->getStatusLabel();},
                 'filter' => Metodychky::getStatusArray()
             ],
+	        [
+		        'attribute' => 'updated_at',
+		        'format' => 'date',
+	        ],
+	        [
+		        'attribute' => 'size',
+		        'format' => 'html',
+		        'value' => function ($model) {
+			        return FileHelper::Size2Str($model->size);}
+	        ],
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

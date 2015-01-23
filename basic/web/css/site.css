@@ -50,6 +50,7 @@ body {
     text-align: center;
     background-color: transparent;
     padding-bottom: 0px;
+    color: #2c3e50;
 }
 
 .jumbotron .btn {
@@ -169,6 +170,22 @@ a.desc:after {
 /*for labels on abiturient landing page*/
 section#contact label.control-label {
     color: white;
+}
+
+.header {
+    background-image: url('/img/index/fon3.jpg');
+    background-repeat: none;
+    background-attachment: scroll;
+    background-position: center center;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    background-size: cover;
+    -o-background-size: cover;
+    text-align: center;
+}
+
+.navbar-nav.navbar-left a {
+    color: #2c3e50;
 }
 
 

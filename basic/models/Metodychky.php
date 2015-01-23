@@ -18,6 +18,7 @@ use yii\helpers\ArrayHelper;
  * @property string $description
  * @property string $file
  * @property integer $active
+ * @property string $size
  */
 class Metodychky extends ActiveRecord
 {
@@ -66,7 +67,7 @@ class Metodychky extends ActiveRecord
         return [
             [['title', 'description', 'active'], 'required'],
             [['description'], 'string'],
-            [['active'], 'integer'],
+            [['active', 'size'], 'integer'],
             [['title', 'file'], 'string', 'max' => 255],
             ['active', 'default', 'value' => self::STATUS_ACTIVE],
             ['active', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_PASSIVE]],
@@ -86,6 +87,7 @@ class Metodychky extends ActiveRecord
             'active' => 'Активно чи ні',
             'created_at' => 'Дата створення запису',
             'updated_at' => 'Дата оновлення запису',
+            'size' => 'Розмір файлу',
         ];
     }
 
@@ -120,6 +122,4 @@ class Metodychky extends ActiveRecord
 		}
 		return $return;
 	}
-
-
 }
