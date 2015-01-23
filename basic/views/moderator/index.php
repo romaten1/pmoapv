@@ -60,7 +60,7 @@ use app\models\Message;
                     . '<br />';}  ?>
                 </div>
                 <div class="col-md-3">
-                    <?= Html::a('Створити методичку', ['/admin/metodychky/create'], ['class' => 'btn btn-success']) ?>
+                    <?= Html::a('Створити методичку', ['/metodychky/create'], ['class' => 'btn btn-success']) ?>
                 </div>
               </div>
             </div>

@@ -14,7 +14,11 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="metodychky-view">
 
 	<h2><?= Html::encode( $this->title ) ?></h2>
-
+	<p>
+		<?php if(Yii::$app->user->can('moderator')){
+					echo Html::a('Оновити методичні вказівки', ['/metodychky/update/', 'id' => $model->id ], ['class' => 'btn btn-success']);
+				} ?>
+	</p>
 	<p><?= $model->description ?></p>
 
 	<p>
@@ -22,7 +26,7 @@ $this->params['breadcrumbs'][] = $this->title;
 		<?php
 		echo $model->file ?
 			' <a href=' . Url::to( '/basic/web/uploads/metodychky/' . $model->file,	true ) .
-			' >' . $model->title . '</a>' .	'Розмір файлу: ' . FileHelper::Size2Str( $model->size )
+			' >' . $model->title . '</a>' .	'<br />Розмір файлу: ' . FileHelper::Size2Str( $model->size )
 			: 'Файл на сайті відсутній';
 		echo '<br />Додано: ' . date( 'd.m.Y', $model->updated_at );;
 		?>
