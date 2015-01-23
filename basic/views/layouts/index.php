@@ -1,9 +1,11 @@
 <?php
 use yii\helpers\Html;
-use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
 //use app\assets\MainPageAsset;
-use nirvana\prettyphoto\PrettyPhoto;
+
+/**
+ * Layout for index page - main page of site
+ */
 /* @var $this \yii\web\View */
 /* @var $content string */
 
@@ -23,31 +25,15 @@ AppAsset::register($this);
 <body>
 <?= ''; //$this->render('_newyear') ?>
     <?php $this->beginBody() ?>
-<div class="wrap">
+<div class="header">
     <?= $this->render('_header') ?>    
     
     <div class="container">
-        <?= Breadcrumbs::widget([
-            'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-            'homeLink' => ['label' => 'Головна','url' => ['/site/index']],
-            ]) ?>
-            <?= $content ?>
+        <?= $content ?>
     </div> 
 </div>
 <?= $this->render('_footer') ?>
 
-<?php 
-        PrettyPhoto::widget([
-            'target' => "a[rel^='prettyPhoto']",
-            'pluginOptions' => [
-                'opacity' => 0.60,
-                'theme' => PrettyPhoto::THEME_LIGHT_ROUNDED,
-                'social_tools' => false,
-                'autoplay_slideshow' => false,
-                'modal' => true
-            ],
-        ]);        
-     ?>
 <?php $this->endBody() ?>
 </body>
 </html>

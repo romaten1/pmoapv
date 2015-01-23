@@ -42,6 +42,7 @@ $config = [
         'user' => [
             'identityClass' => 'app\models\User',
             'enableAutoLogin' => true,
+            'class' => 'auth\components\User',
         ],
         'errorHandler' => [
             'errorAction' => 'site/error',
@@ -73,9 +74,6 @@ $config = [
         'authManager' => [
             'class' => '\yii\rbac\PhpManager',
             
-        ],
-        'user' => [
-            'class' => 'auth\components\User',
         ],
         'db' => require(__DIR__ . '/db.php'),
         'assetManager' => [

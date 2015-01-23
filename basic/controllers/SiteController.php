@@ -11,7 +11,7 @@ use app\models\ContactForm;
 
 class SiteController extends Controller
 {
-    public function behaviors()
+	public function behaviors()
     {
         return [
             'access' => [
@@ -49,7 +49,8 @@ class SiteController extends Controller
 
     public function actionIndex()
     {
-        return $this->render('index');
+	    $this->layout = 'index';
+	    return $this->render('index');
     }
 
     public function actionAbiturient()

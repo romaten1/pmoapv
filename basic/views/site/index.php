@@ -1,8 +1,6 @@
 <?php
 /* @var $this yii\web\View */
 use yii\helpers\Url;
-use claudejanz\jquerySlider\widgets\SliderWidget;
-use yii\web\JsExpression;
 use app\components\widgets\allteachers\AllteacherWidget;
 use app\components\widgets\allnews\AllnewsWidget;
 
@@ -17,66 +15,9 @@ $this->title = 'Кафедра ПМОАПВ УНУС';
         <p class="lead">Раді бачити вас на сайті <br />
         <strong>КАФЕДРИ ПРОЦЕСІВ, МАШИН ТА ОБЛАДНАННЯ АПВ </strong><br />
         інженерно-технологічного факультету <br />
-        Уманського національного університету садівництва</p>
-        <p><a class="btn btn-success" href="<?= Url::to(['/site/abiturient']); ?>">Ви абітурієнт?</a></p>
-        <!--<p><a class="btn btn-lg btn-success" href="http://www.yiiframework.com">Get started with Yii</a></p> 
-    </div>-->
-    <!--
-    <?= philippfrenzel\yii2sly\yii2sly::widget([
-        'id' => 'sp_slider',
-        'items'=> [
-            ['content' => '<a href=' . Url::to('@web/uploads/images/big/01.jpeg') . ' rel="prettyPhoto"> <img src="' . Url::to('@web/uploads/images/001.jpeg') . '"></img> </a>'],
-            ['content' => '<a href=' . Url::to('@web/uploads/images/big/02.jpeg') . ' rel="prettyPhoto"> <img src="' . Url::to('@web/uploads/images/002.jpeg') . '"></img> </a>'],
-            ['content' => '<a href=' . Url::to('@web/uploads/images/big/03.jpeg') . ' rel="prettyPhoto"> <img src="' . Url::to('@web/uploads/images/003.jpeg') . '"></img> </a>'],
-            ['content' => '<a href=' . Url::to('@web/uploads/images/big/04.jpeg') . ' rel="prettyPhoto"> <img src="' . Url::to('@web/uploads/images/004.jpeg') . '"></img> </a>'],
-            ['content' => '<a href=' . Url::to('@web/uploads/images/big/05.jpeg') . ' rel="prettyPhoto"> <img src="' . Url::to('@web/uploads/images/005.jpeg') . '"></img> </a>'],
-            ['content' => '<a href=' . Url::to('@web/uploads/images/big/06.jpeg') . ' rel="prettyPhoto"> <img src="' . Url::to('@web/uploads/images/006.jpeg') . '"></img> </a>'],
-            ['content' => '<a href=' . Url::to('@web/uploads/images/big/07.jpeg') . ' rel="prettyPhoto"> <img src="' . Url::to('@web/uploads/images/007.jpeg') . '"></img> </a>'],
-            
-        ],
-        'options' => [
-            'style' => "height:200px;",
+        Уманського національного університету садівництва</p><br />
+        <p><a class="btn btn-success" href="<?= Url::to(['/site/abiturient']); ?>">Ви абітурієнт?</a></p><br />
 
-        ],
-        'clientOptions' => [
-            'horizontal' => 1,
-            'activateMiddle' => 1,
-            'itemNav' => 'centered',
-            'activateOn' =>   'click'
-                       
-        ]
-    ]); ?>-->
-    
-    <?php 
-       /* SliderWidget::begin([
-            'responsive' => true,
-            'options'=>['style'=>'position: relative; top: 0px; left: 0px; width: 600px; height: 300px;'],
-            'pluginOptions' => [
-                '$AutoPlay' => true,
-                '$AutoPlayInterval' => 6000,
-                '$SlideDuration' => 800,
-                '$SlideshowOptions' => [
-                    '$Class' => new JsExpression('$JssorSlideshowRunner$'),
-                    '$Transitions' => [
-                        ['$Duration' => 700, '$Opacity' => 2, '$Brother' => ['$Duration' => 1000, '$Opacity' => 2]]
-                    ]
-                ]
-            ]
-        ]);
-        echo '<div u="slides" style="cursor: move; position: absolute; overflow: hidden; left: 0px; top: 0px; width: 1600px; height: 1066px;">
-                            <div><img u="image" src="' . Url::to('@web/img/jssor/01.jpg') . '"></img>
-                            <div><img u="image" src="' . Url::to('@web/img/jssor/02.jpg') . '"></img>
-                            <div><img u="image" src="' . Url::to('@web/img/jssor/03.jpg') . '"></img>
-                            <div><img u="image" src="' . Url::to('@web/img/jssor/04.jpg') . '"></img>
-                            <div><img u="image" src="' . Url::to('@web/img/jssor/05.jpg') . '"></img>
-                            <div><img u="image" src="' . Url::to('@web/img/jssor/06.jpg') . '"></img>
-                            <div><img u="image" src="' . Url::to('@web/img/jssor/07.jpg') . '"></img>
-                            <div><img u="image" src="' . Url::to('@web/img/jssor/08.jpg') . '"></img>
-                        </div>';
-        SliderWidget::end();*/
-
-     ?>
-    
     </div>
 </div>
 
