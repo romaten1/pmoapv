@@ -102,18 +102,25 @@ class TeacherNewsController extends Controller
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
+     * @throws NotFoundHttpException
      */
-    public function actionUpdate($id)
-    {
-        $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['index']);
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
-        }
+	public function actionUpdate($id)
+    {
+	    if (\Yii::$app->user->can('updateTeacherNews', ['teacherNews_id' => $id])) {
+	        $model = $this->findModel($id);
+
+	        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+	            return $this->redirect(['index']);
+	        } else {
+	            return $this->render('update', [
+	                'model' => $model,
+	            ]);
+	        }
+	    }
+	    else {
+		    throw new NotFoundHttpException('Ви не маєте права виконувати цю дію');
+	    }
     }
 
     /**

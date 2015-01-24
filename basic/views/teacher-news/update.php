@@ -5,10 +5,10 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\TeacherNews */
 
-$this->title = 'Update Teacher News: ' . ' ' . $model->title;
+$this->title = 'Оновити повідомлення викладача: ' . ' ' . $model->title;
 $this->params['breadcrumbs'][] = ['label' => 'Новини викладачів', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->title, 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = 'Update';
+$this->params['breadcrumbs'][] = 'Оновити';
 ?>
 <div class="teacher-news-update">
 

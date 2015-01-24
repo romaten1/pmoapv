@@ -21,6 +21,10 @@ $image_code = '<a href="'.
 		<br />
 		<?= date('H:i / d-m-Y', $model->updated_at);?>
 		<br />
+		<?php if(\Yii::$app->user->can('updateTeacherNews', ['teacherNews_id' => $model->id])){
+			echo Html::a('Оновити новину', ['/teacher-news/update/', 'id' => $model->id ], ['class' => 'btn btn-success']);
+		} ?>
+		<br />
 		<?= $model->text?>
 	</div>
 	<div class="col-md-1">

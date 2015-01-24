@@ -108,4 +108,9 @@ class TeacherNews extends ActiveRecord
 		}
 		return $return;
 	}
+
+	public function getTeacher()
+	{
+		return $this->hasOne(Teacher::className(), ['id' => 'teach_id']);
+	}
 }

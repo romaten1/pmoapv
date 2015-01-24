@@ -30,6 +30,11 @@ class RbacController extends Controller
 	    $updateMetodychka->description = 'Update Metodychka';
 	    $auth->add($updateMetodychka);
 
+	    // add "updateTeacherNews" permission
+	    $updateTeacherNews = $auth->createPermission('updateTeacherNews');
+	    $updateTeacherNews->description = 'Update TeacherNews';
+	    $auth->add($updateTeacherNews);
+
         $moderator = $auth->createRole('moderator');
         $moderator->description = 'Moderator';
         $auth->add($moderator);
@@ -46,13 +51,28 @@ class RbacController extends Controller
 
 	    // "updateOwnMetodychka" will be used from "updateMetodychka"
 	    $auth->addChild($updateOwnMetodychka, $updateMetodychka);
-	    // allow "author" to update their own posts
+	    // allow "moderator" to update their own posts
 	    $auth->addChild($moderator, $updateOwnMetodychka);
+
+	    // add the rule
+	    $rule = new \app\rbac\AuthorTeacherNewsRule;
+	    $auth->add($rule);
+	    // add the "updateOwnTeacherNews" permission and associate the rule with it.
+	    $updateOwnTeacherNews = $auth->createPermission('updateOwnTeacherNews');
+	    $updateOwnTeacherNews->description = 'Update own TeacherNews';
+	    $updateOwnTeacherNews->ruleName = $rule->name;
+	    $auth->add($updateOwnTeacherNews);
+
+	    // "updateOwnTeacherNews" will be used from "updateTeacherNews"
+	    $auth->addChild($updateOwnTeacherNews, $updateTeacherNews);
+	    // allow "moderator" to update their own TeacherNews
+	    $auth->addChild($moderator, $updateOwnTeacherNews);
 
         $admin = $auth->createRole('admin');
         $admin->description = 'Administrator';
         $auth->add($admin);
 	    $auth->addChild($admin, $updateMetodychka);
+	    $auth->addChild($admin, $updateTeacherNews);
         $auth->addChild($admin, $moderator);
         $auth->addChild($admin, $adminUsers);
     }
