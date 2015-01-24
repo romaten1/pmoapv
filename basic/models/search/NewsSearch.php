@@ -62,4 +62,25 @@ class NewsSearch extends News
 
         return $dataProvider;
     }
+
+	public function searchActive($params)
+	{
+		$query = News::find()->active_news();
+
+		$dataProvider = new ActiveDataProvider([
+			'query' => $query,
+			'pagination' => ['pageSize' => 10],
+			'sort' => ['defaultOrder' => ['updated_at'=>SORT_DESC]]
+		]);
+
+		if (!($this->load($params) && $this->validate())) {
+			return $dataProvider;
+		}
+
+		$query->andFilterWhere(['like', 'title', $this->title])
+		      ->andFilterWhere(['like', 'description', $this->description])
+		      ->andFilterWhere(['like', 'text', $this->text]);
+
+		return $dataProvider;
+	}
 }

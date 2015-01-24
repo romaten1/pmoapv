@@ -62,7 +62,7 @@ class MetodychkySearch extends Metodychky
 
 		$dataProvider = new ActiveDataProvider([
 			'query' => $query,
-			'pagination' => ['pageSize' => 5],
+			'pagination' => ['pageSize' => 10],
 			'sort' => ['defaultOrder' => ['updated_at'=>SORT_DESC]]
 		]);
 

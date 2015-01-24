@@ -7,6 +7,7 @@ use yii\behaviors\TimestampBehavior;
 use app\behaviors\PurifierBehavior;
 use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
+use app\models\query\NewsQuery;
 
 /**
  * This is the model class for table "news".
@@ -49,6 +50,11 @@ class News extends ActiveRecord
     {
         return 'news';
     }
+
+	public static function find()
+	{
+		return new NewsQuery(get_called_class());
+	}
 
     /**
      * @inheritdoc

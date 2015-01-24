@@ -21,17 +21,14 @@ class NewsController extends Controller
      */
     public function actionIndex()
     {
-        
-        $searchModel = new NewsSearch();
-        $dataProvider = new ActiveDataProvider([
-            'query' => News::find()->where(['active'=>News::STATUS_ACTIVE])->orderBy('updated_at DESC'),
-            'pagination' => ['pageSize' => 10],
-        ]);
 
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
+	    $searchModel = new NewsSearch();
+	    $dataProvider = $searchModel->searchActive(Yii::$app->request->queryParams);
+
+	    return $this->render('index', [
+		    'searchModel' => $searchModel,
+		    'dataProvider' => $dataProvider,
+	    ]);
     }
 
     /**
