@@ -15,19 +15,13 @@ use yii\widgets\ActiveForm;
         'method' => 'get',
     ]); ?>
 
-    <?= $form->field($model, 'id') ?>
-
     <?= $form->field($model, 'title') ?>
 
     <?= $form->field($model, 'description') ?>
 
-    <?= $form->field($model, 'file') ?>
-
-    <?= $form->field($model, 'active') ?>
-
     <div class="form-group">
-        <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>
-        <?= Html::resetButton('Reset', ['class' => 'btn btn-default']) ?>
+        <?= Html::submitButton('Пошук', ['class' => 'btn btn-primary']) ?>
+        <?= Html::resetButton('Відмінити', ['class' => 'btn btn-default']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

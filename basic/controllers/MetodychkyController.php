@@ -59,11 +59,8 @@ class MetodychkyController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new MetodychkySearch();
-        $dataProvider = new ActiveDataProvider([
-            'query' => Metodychky::find()->where(['active'=>Metodychky::STATUS_ACTIVE])->orderBy('id DESC'),
-            'pagination' => ['pageSize' => 10],
-        ]);
+	    $searchModel = new MetodychkySearch();
+        $dataProvider = $searchModel->searchActive(Yii::$app->request->queryParams);
 
         return $this->render('index', [
             'searchModel' => $searchModel,

@@ -51,15 +51,28 @@ class MetodychkySearch extends Metodychky
             return $dataProvider;
         }
 
-        $query->andFilterWhere([
-            'id' => $this->id,
-            'active' => $this->active,
-        ]);
-
         $query->andFilterWhere(['like', 'title', $this->title])
-            ->andFilterWhere(['like', 'description', $this->description])
-            ->andFilterWhere(['like', 'file', $this->file]);
+            ->andFilterWhere(['like', 'description', $this->description]);
 
         return $dataProvider;
     }
+	public function searchActive($params)
+	{
+		$query = Metodychky::find()->active_metodychky();
+
+		$dataProvider = new ActiveDataProvider([
+			'query' => $query,
+			'pagination' => ['pageSize' => 5],
+			'sort' => ['defaultOrder' => ['updated_at'=>SORT_DESC]]
+		]);
+
+		if (!($this->load($params) && $this->validate())) {
+			return $dataProvider;
+		}
+
+		$query->andFilterWhere(['like', 'title', $this->title])
+		      ->andFilterWhere(['like', 'description', $this->description]);
+
+		return $dataProvider;
+	}
 }

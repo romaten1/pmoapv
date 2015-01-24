@@ -14,7 +14,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="metodychky-index">
 
    <h1><?= Icon::show('book', [], Icon::BSG).Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+    <?php echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
         <?= ''; //Html::a('Створити методичні вказівки', ['create'], ['class' => 'btn btn-success']) ?>
