@@ -7,7 +7,6 @@ use app\models\Metodychky;
 use app\models\search\MetodychkySearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\web\UploadedFile;
@@ -61,8 +60,7 @@ class MetodychkyController extends Controller
     {
 	    $searchModel = new MetodychkySearch();
         $dataProvider = $searchModel->searchActive(Yii::$app->request->queryParams);
-
-        return $this->render('index', [
+		return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
@@ -154,38 +152,44 @@ class MetodychkyController extends Controller
 	 */
 	public function actionUpdate($id)
 	{
-		$model = $this->findModel($id);
-		$statusArray = Metodychky::getStatusArray();
-		$old_file = $model->file;
-		$old_size = $model->size;
-		if ($model->load(Yii::$app->request->post())) {
-			if (isset($model->file)) {
-				$model->file = UploadedFile::getInstance($model, 'file');
-			}
-			if (isset($model->file)) {
-				$file_name = Yii::$app->getSecurity()->generateRandomString(5)
-				             . '_' . substr(TransliterateHelper::cyrillicToLatin($model->title), 0, 7);
-				$file_full_name = $file_name . '.' . $model->file->extension;
-				$model->size = $model->file->size;
-				$model->file->saveAs('uploads/metodychky/' . $file_full_name);
-				$model->file = $file_full_name;
-			}
-			else {
-				$model->file = $old_file;
-				$model->size = $old_size;
-			}
-			if ($model->validate() && $model->save()) {
-				Yii::info($this->id . ' - ' . $this->action->id . ' - id: ' . $model->id . ' - user: ' . \Yii::$app->user->id, 'admin');
-				return $this->redirect(['view', 'id' => $model->id]);
+		if (\Yii::$app->user->can('updateMetodychka', ['metodychka_id' => $id])) {
+			$model = $this->findModel($id);
+			$statusArray = Metodychky::getStatusArray();
+			$old_file = $model->file;
+			$old_size = $model->size;
+			if ($model->load(Yii::$app->request->post())) {
+				if (isset($model->file)) {
+					$model->file = UploadedFile::getInstance($model, 'file');
+				}
+				if (isset($model->file)) {
+					$file_name = Yii::$app->getSecurity()->generateRandomString(5)
+					             . '_' . substr(TransliterateHelper::cyrillicToLatin($model->title), 0, 7);
+					$file_full_name = $file_name . '.' . $model->file->extension;
+					$model->size = $model->file->size;
+					$model->file->saveAs('uploads/metodychky/' . $file_full_name);
+					$model->file = $file_full_name;
+				}
+				else {
+					$model->file = $old_file;
+					$model->size = $old_size;
+				}
+				if ($model->validate() && $model->save()) {
+					Yii::info($this->id . ' - ' . $this->action->id . ' - id: ' . $model->id . ' - user: ' . \Yii::$app->user->id, 'admin');
+					return $this->redirect(['view', 'id' => $model->id]);
+				} else {
+					throw new NotFoundHttpException('Не удалось загрузить данные');
+				}
 			} else {
-				throw new NotFoundHttpException('Не удалось загрузить данные');
+				return $this->render('update', [
+					'model' => $model,
+					'statusArray' => $statusArray,
+				]);
 			}
-		} else {
-			return $this->render('update', [
-				'model' => $model,
-				'statusArray' => $statusArray,
-			]);
 		}
+		else {
+			throw new NotFoundHttpException('Ви не маєте права виконувати цю дію');
+		}
+
 	}
 
 	/**

@@ -10,6 +10,7 @@ use app\helpers\FileHelper;
 $this->title                   = $model->title;
 $this->params['breadcrumbs'][] = [ 'label' => 'Методичні вказівки', 'url' => [ 'index' ] ];
 $this->params['breadcrumbs'][] = $this->title;
+
 ?>
 <div class="metodychky-view">
 

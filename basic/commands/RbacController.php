@@ -25,14 +25,34 @@ class RbacController extends Controller
         $adminUsers->description = 'Administrate users and teachers';
         $auth->add($adminUsers);
 
+	    // add "updateMetodychka" permission
+	    $updateMetodychka = $auth->createPermission('updateMetodychka');
+	    $updateMetodychka->description = 'Update Metodychka';
+	    $auth->add($updateMetodychka);
+
         $moderator = $auth->createRole('moderator');
         $moderator->description = 'Moderator';
         $auth->add($moderator);
         $auth->addChild($moderator, $adminNews);
 
+	    // add the rule
+	    $rule = new \app\rbac\AuthorMetodychkaRule;
+	    $auth->add($rule);
+	    // add the "updateOwnMetodychka" permission and associate the rule with it.
+	    $updateOwnMetodychka = $auth->createPermission('updateOwnMetodychka');
+	    $updateOwnMetodychka->description = 'Update own Metodychka';
+	    $updateOwnMetodychka->ruleName = $rule->name;
+	    $auth->add($updateOwnMetodychka);
+
+	    // "updateOwnMetodychka" will be used from "updateMetodychka"
+	    $auth->addChild($updateOwnMetodychka, $updateMetodychka);
+	    // allow "author" to update their own posts
+	    $auth->addChild($moderator, $updateOwnMetodychka);
+
         $admin = $auth->createRole('admin');
         $admin->description = 'Administrator';
         $auth->add($admin);
+	    $auth->addChild($admin, $updateMetodychka);
         $auth->addChild($admin, $moderator);
         $auth->addChild($admin, $adminUsers);
     }
