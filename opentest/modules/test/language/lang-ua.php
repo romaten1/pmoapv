@@ -1,0 +1,86 @@
+<?php
+if (INDEXPHP!=1) die ("You can't access this file directly...");
+
+define("_GROUP_NO_GROUP", "У даній категорії немає жодної групи!");
+define("_GROUP_NO_G_KEYWORD", "У даній категорії немає жодної групи, яка містить ключове слово!");
+define("_GROUP_NO_G_LETTER", "У даній категорії немає жодної групи, яка починається з вказаної букви!");
+	
+define("_GCATEGORY_NO_CATEGORY", "У базі даних немає жодної категорії користувачів!");
+define("_GCATEGORY_NO_C_KEYWORD", "У базі даних немає жодної категорії користувачів, яка містить ключове слово!");
+define("_GCATEGORY_NO_C_LETTER", "У базі даних немає жодної категорії користувачів, яка починається з вказаної букви!");
+	
+define("_GROUP_NO_USERS", "У базі даних немає жодної категорії користувачів!");
+define("_GROUP_NO_U_KEYWORD", "У базі даних немає жодної категорії користувачів, яка містить ключове слово!");
+define("_GROUP_NO_U_LETTER", "У базі даних немає жодної категорії користувачів, яка починається з вказаної букви!");
+
+define("_TCATEGORY_NO_CATEGORY", "У базі даних немає жодної категорії тестів!");
+define("_TCATEGORY_NO_C_KEYWORD", "У базі даних немає жодної категорії тестів, яка містить ключове слово!");
+define("_TCATEGORY_NO_C_LETTER", "У базі даних немає жодної категорії тестів, яка починається з вказаної букви!");
+	
+define("_TEST_NO_TEST", "У даній категорії немає жодного включеного тесту до якого є допуск у вибраної групи!");
+define("_TEST_NO_T_KEYWORD", "У даній категорії немає жодного включеного тесту, до якого є допуск у вибраної групи, що містить ключове слово!");
+define("_TEST_NO_T_LETTER", "У даній категорії немає жодного включеного тесту, до якого є допуск у вибраної групи, яка починається з вказаної букви!");
+
+define('_INVALID_PARAMETER_TESTING_SESSION','Невірний параметр сеансу тестування!');
+
+define('_TESTING','Тестування');
+define('_NO_TEST_TOLERANCE','Ви не маєте доступу до тесту, зверніться до викладача!');
+define('_AUTHENTICATION_ERROR','Помилка авторизації, повторіть запуск тесту!');
+define('_NOT_ENOUGHT_QUESION','В тесті замало включених запитань! Потрібно змінити параметри сеансу тестування. Зверніться до викладача!');
+define('_TEST_RESULTS','Результати тестування');
+define('_BLOCKED_CONFLICT_TESTIND_SESSION','Заблоковано спробу створення колізії сеансів тестування. Зверніться до адміністратора OpenTEST!');
+define('_MEMBERS_GROUP','В поточній групі наступні користувачі:');
+define('_SELECT_TESTS_CATEGORY','Виберіть категорію тестів:');
+define('_CATEGORY_NAME','Назва категорії');
+define('_GROUP_NAME','Назва групи');
+define("_USER_NAME","Ім'я користувача");
+define('_SELECT_TEST','Виберіть тест:');
+define('_TESTS_CATEGORY_NAME','Назва категорії тесту');
+define('_ENTER_PASSWORD_OR_CHANGE_TEST_MODE','Введіть пароль на тест або ввійдіть в режим запуску тесту викладачем:');
+define('_TESTS_NAME','Назва тесту');
+define('_ENTER_TEST_PASSWORD','Введіть пароль на тест:');
+define('_ENTER_TEST','Ввійти');
+define('_ENTER_TECHER_RUN_MODE','Ввійти в режим запуску тесту викладачем');
+define('_TECHER_RUN_TEST_MODE','Режим запуску тесту викладачем:');
+define('_NO_TESTS_TOLERANCE','У Вас намає доступу до тесту, зверніться до викладача!');
+define('_NO_TESTS_ATTEMPT','У Вас відсутні спроби на проходження тесту, зверніться до викладача!');
+define('_CANNOT_REETER_TEST_SESSION','Ви не можете повторно ввійти в уже активований сеанс тестування, зверніться до викладача!');
+define('_WAITING_RUN_TEST','Чекання запуску тесту викладачем');
+define('_TECHER_RUN_LOCKED','Режим запуску тесту викладачем заблокований, зверніться до викладача!');
+define('_TIMEOUT_RUN_TEST','Закінчився час запуску тесту, зверніться до викладача!');
+define('_PASSWORD_RUN_LOCKED','Вхід по паролю для цього тесту заблокований, зверніться до викладача!');
+define('_WRONG_TEST_PASSWORD','Невірно введений пароль на тест, зверніться до викладача!');
+define('_SELECT_USERS_CATEGORY','Виберіть категорію користувачів:');
+define('_AUTO_SCALE','автоматична');
+
+define('_VERY_BAD','дуже погано');
+define('_BAD','погано');
+define('_NORMAL','задовільно');
+define('_GOOD','добре');
+define('_EXCELLENT','відмінно');
+
+define('_TEST','Тест:');
+define('_USER','Користувач:');
+define('_ASK_QUESTION','Задано запитань');
+define('_PERCENT_CORECT_ANSWERS','Процент правильних відповідей на запитання / зкорегований');
+define('_CORECT_ANSWERS','Правильних відповідей');
+define('_OF','з');
+define('_GET_BALLS','Набрано балів');
+define('_AVARAGE_ALTERNATIVE','Середня альтернативність запитання в сеансі');
+define('_TIME_SPENT','Затрачений час');
+define('_TESTS_EVALUATION','Відмітка за тест');
+define('_SCALE','шкала');
+define('_NATIONAL_STATIC','національна статична');
+define('_ECTS_STATIC','ECTS статична');
+define('_BACK_TO_BEGIN','Повернутися до початку');
+define('_SEC','сек.');
+
+define('_BALANCE_TIME','Остаток часу:');
+define('_QUESTION_NUMBER','Запитання №');
+define('_NOT_SELECTED','не вибране');
+define('_END_TEST','Закінчити тест');
+define('_DO_NOT_FORGET_REPLY','Не забувайте натистуни кнопку "Відповісти"!');
+define('_REPLY','Відповісти');
+define('_ANSWER_READY','Відповідь готова');
+
+define('_SELECT_GROUP','Виберіть групу:');

@@ -1,0 +1,8 @@
+<?php
+if (INDEXPHP!=1) die ("You can't access this file directly...");
+
+define("_AUTH_ERROR_LIMIT_ATTEMPTS","Превышено количесво попыток, пожалуйста попробуйте позже");
+define("_AUTH_ERROR_WRONG_LOGIN","Неправильный логин или пароль");
+@define("_AUTH_MENU_CATEGORY","Категория пользователя"); 
+@define("_ACCOUNT_DISABLED","Аккаунт заблокирован"); 
+@define("_AUTH_NEED_LOGIN","Пожалуйста авторизируйтесь для входа в модуль");

@@ -1,0 +1,162 @@
+<?php
+
+function import_group($xml_file,$group_category_id,$insert_to_db=0) {
+	global $dom,$config;
+	if (@$dom=domxml_open_mem($xml_file)) {
+		echo "<br>XML is well-formed OK<br>";
+		$root = $dom->document_element();
+		$ctx_n1=xpath_new_context($root);
+		$xpo_n1=xpath_eval($ctx_n1,"group");
+		$node=$xpo_n1->nodeset;
+		$root=$node[0];
+		if ($root->tagname()=="group" ) {
+			// OK parsing content
+         $group_node=$root;
+         $group_disabled=$group_node->get_attribute('disabled');
+
+         $ctx_n1=xpath_new_context($root);
+         $xpo_n1=xpath_eval($ctx_n1,"group_name",$root );
+         
+         
+         $node=$xpo_n1->nodeset;
+        
+         $group_name=$node[0]->get_content();
+
+         echo "
+         XML type: ".$root->tagname()." <br>
+          <br>
+         Content <br>
+
+         <style>
+         .im_header1 {color:#5864A7}
+         .im_header2 {color:#5864A7;padding-left:20px;}
+         .im_header3 {color:#5864A7;padding-left:30px;}
+         .im_header4 {color:#5864A7;padding-left:40px;}
+         </style>
+
+               <table>
+                <tr>
+                 <td class='im_header1'>Group name:</td>
+                 <td>$group_name</td>
+                 <td class='im_header1'>Disabled:</td>
+                 <td >$group_disabled</td>
+                </tr>
+
+            ";
+
+
+         //-- save to db
+         if ($insert_to_db)
+             {
+             $valid_group_name=check_group_name($group_category_id,$group_name);	
+             
+             sql_query("insert into groups
+                        (group_id,group_category_id,group_name,group_disable)
+                        values
+                        ('','$group_category_id','$valid_group_name','$group_disabled')
+                        ");
+             $ins_group_id=mysql_insert_id();
+             }
+         else
+             {
+             $ins_group_id="";
+             }
+         //--
+
+         $xpo_n1=xpath_eval($ctx_n1,"group/content/user");
+
+         $nodes=$xpo_n1->nodeset;
+         
+         if (count($nodes)>=1 )
+          {
+          foreach ($nodes as $node)
+            {
+            get_users_node($node,$group_category_id,$insert_to_db,$ins_group_id);
+            }
+          }
+
+         echo "
+               </table>
+              ";
+         }
+     else
+         {
+         echo "<p style='color:red;'><b>ERROR:</b> Not-valid package (\"".$root->tagname()."\"), need \"test\"</p>";
+         }
+     }
+ else
+     {
+     echo "<p style='color:red;'><b>ERROR:</b> XML is not well-formed</p>";
+     }
+ }
+
+function get_users_node($user_node,$group_category_id,$insert_to_db=0,$ins_group_id="",$prefix='')
+     {
+
+     $user_disabled=$user_node->get_attribute('disabled');
+     $user_asu_user_id=$user_node->get_attribute('asu_user_id');
+     
+
+     $ctx_n1=xpath_new_context($user_node);
+     
+     $xpo_n1=xpath_eval($ctx_n1,"user_name",$user_node);
+     $node=$xpo_n1->nodeset;
+     $user_name=$node[0]->get_content();
+     $login_present=0;
+     
+     $user_login="";
+     $user_password="";
+
+     echo "
+            <tr>
+             <td class='im_header2'>User name:</td>
+             <td>$user_name</td>
+             
+             
+             <td class='im_header2'>Disabled:</td>
+             <td >$user_disabled</td>
+             <td class='im_header2'>Asu User ID:</td>
+             <td >$user_asu_user_id</td>
+
+            </tr>
+
+        ";
+
+     //-- save to db
+     if ($insert_to_db and !$login_present)
+         {
+         $sql="insert into users
+                    (user_id,group_id,user_name,user_login, user_password,user_disable)
+                    values
+                    ('','$ins_group_id','".addslashes($user_name)."','".addslashes($user_login)."', '".addslashes($user_password)."', '$user_disabled')
+                    ";
+         sql_query($sql);
+         $ins_user_id=mysql_insert_id();
+         }
+     else
+         {
+         $ins_user_id="";
+         }
+
+     }
+
+function check_group_name($group_category,$group_name,$iteration=0) {
+	if ($iteration!=0) {
+		$group_name_end=$group_name."_".$iteration;
+	} else {
+		$group_name_end=$group_name;
+	}
+	$f_group=mysql_fetch_row(mysql_query("select count(*) from groups
+		where 
+		groups.group_category_id='$group_category' and
+		groups.group_name='$group_name_end'
+		"));
+    if ($f_group[0]>=1) {
+		echo "present";
+        $iteration++;
+        $group_name_end=check_group_name($group_category,$group_name,$iteration);
+        return $group_name_end;
+	} else {
+		return $group_name_end;
+	}
+}

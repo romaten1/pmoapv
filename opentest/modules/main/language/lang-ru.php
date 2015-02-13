@@ -1,0 +1,59 @@
+﻿<?php
+if (INDEXPHP!=1) die ("You can't access this file directly...");
+
+define("_DEFAULT1","Тестирование");
+define("_DEFAULT2","Управление тестами");
+define("_DEFAULT3","Управление пользователями");
+define("_TESTCONTROL","Управление тестированием");
+define("_STATISTICS","Статистика");
+define("_DEFAULT4","Результаты тестирования");
+define("_DEFAULT5","Администрирование");
+define("_DEFAULT6","<img class='img_icon' src='themes/opentest2/images/icons/trinux-sb_r8_c18.gif' align=absmiddle> Меню основных модулей");     
+define("_MENU1","<img class='img_icon'  src='themes/opentest2/images/icons/trinux-sb_r8_c18.gif' align=absmiddle> Меню основных модулей");
+define("_MENU2","<img class='img_icon'  src='themes/opentest2/images/icons/trinux-sb_r4_c16.gif' align=absmiddle> Проверить локальные настройки");
+define("_MENU3","<img class='img_icon'  src='themes/opentest2/images/icons/trinux-sb_r12_c16.gif' align=absmiddle> Платная поддержка");
+define("_MENU4","<img class='img_icon'  src='themes/opentest2/images/icons/trinux-sb_r14_c8.gif' align=absmiddle> Изменить язык интерфейса");
+define("_MENU5","Общие задачи");
+define("_MENU6","Авторизация");
+define("_MENU7","Ваш логин");
+define("_MENU8","Пароль");
+define("_MENU9","Войти");
+define("_MENU_AUTHORIZATION","Авторизация");
+define("_MENU_GROUP","Группа");
+define("_MENU_USER","Пользователь");
+define("_MENU_EXIT","Выход");
+define("_MENU10","<img  class='img_icon' src='themes/opentest2/images/icons/trinux-sb_r6_c16.gif' align=absmiddle> Забыли ваш пароль?");
+define("_MENU11","<img  class='img_icon' src='themes/opentest2/images/icons/trinux-sb_r6_c20.gif' align=absmiddle> Зарегистрироваться");
+define("_CHANGELANG1","<img  class='img_icon' src='themes/opentest2/images/icons/trinux-sb_r14_c8.gif' align=absmiddle>  Изменение языка интерфейса");
+define("_TESTLOCALSET1","<img  class='img_icon' src='themes/opentest2/images/icons/trinux-sb_r4_c16.gif' align=absmiddle> Проверка локальных настроек");
+define("_SUPPORT1","<img  class='img_icon' src='themes/opentest2/images/icons/trinux-sb_r12_c16.gif' align=absmiddle> Платная поддержка частных и корпоративных пользователей");
+define("_SUPPORT24","Платная поддержка");
+
+global $status_text;
+$status_text = array(
+	"lang_changed"       => "Язык интерфейса успешно изменён",
+	"lang_not_found"     => "Не найден языковый файл! Язык интерфейса установлен по умолчанию!",
+	"op_not_permitted"	  => "Для данной операции не хватает привилегий!",
+	"user_renamed"        	=> "Информация о пользователе была успешно изменена");
+
+define("_SUPPORT_HTML_PAGE","
+<img src='themes/opentest2/images/icons/support24.png' align=absmiddle><br>
+<h3>Платная поддержка частных и корпоративных пользователей</h3><br>
+Создатель программы тестирования OpenTEST2 предоставляет на коммерческой основе поддержку пользователей OpenTEST2.<br>
+<ul>
+<li>Установка и настройка</li>
+<li>Брендирование</li>
+<li>Изменение программы</li>
+<li>Администрирование и поддержка</li>
+<li>Обучение персонала</li>
+<li>Консультации</li>
+</ul>
+
+Говорить о какой-либо платности самого дистрибутива конечно же не надо. <br>OpenTEST2 — открытая и бесплатная программа, такой она пока и останется, не смотря на появившуюся платную поддержку.
+	<br><br>
+	<b>Заказать платную поддержку:</b> premium@opentest.com.ua <br>
+	
+");
+
+define('_SELECT_LANGUAGE','Выберите язык интерфейса');
+define('_APPLY_LANGUAGE','применить');

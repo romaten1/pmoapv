@@ -1,0 +1,164 @@
+<?php
+	define("INDEXPHP",1);
+	require_once($_SERVER['DOCUMENT_ROOT'].substr($_SERVER['PHP_SELF'],0,strpos($_SERVER['PHP_SELF'],'modules'))."include/config.php");	
+	require_once($_SERVER['DOCUMENT_ROOT'].substr($_SERVER['PHP_SELF'],0,strpos($_SERVER['PHP_SELF'],'modules'))."include/db.php");
+	$inc_path = ini_get("include_path");	
+	if (!defined("PATH_SEPARATOR")) {
+	        define("PATH_SEPARATOR", substr(php_uname(), 0, 3) == 'Win' ? ';' : ':');
+	}	
+	ini_set("include_path",$_SERVER['DOCUMENT_ROOT'].substr($_SERVER['PHP_SELF'],0,strpos($_SERVER['PHP_SELF'],'modules')));
+
+
+/*===========================================================================*/	
+@$op=$_REQUEST['op'];
+
+@include_once("modules/auth/language/lang-".$currentlang.".php");
+
+$cookie_opentest_user_id=$GLOBALS['config']['auth_cookie_opentest_user_id'];
+@$cur_cookie_opentest_user_id=$_COOKIE[$cookie_opentest_user_id];
+@$get_module=$_REQUEST['module'];
+     
+
+     if ($module=='tests' or
+         $module=='users' or
+         $module=='testcontrol' or
+         $module=='results' or
+         $module=='admin' or
+		 $module=='debug' or
+         ($module=='main' and $op=="login")
+         or
+         ($module=='main' and $op!="login" and $cur_cookie_opentest_user_id!='')  or
+         $cur_cookie_opentest_user_id!=''
+
+         )
+         {
+         $auth_result=authorize_user($_REQUEST);
+         // results are:
+         // $auth_result['authorized'] = false | true
+         // $auth_result['user'] = current user's database record (from table 'users')
+	
+         if ($auth_result['authorized'])
+            {
+            // page to load if user was succesfully authorized
+            
+            
+            
+            
+				if(isset($_REQUEST['q_id']))
+					$q_id = $_REQUEST['q_id'];
+				else $q_id = "0";	
+				$answers = sql_query("SELECT answer_id, answer_sample FROM answers a, questions q WHERE a.question_id=q.question_id AND q.question_id='$q_id'");	
+				
+?>
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+	<head>
+		<title>Audio Properties</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<meta content="noindex, nofollow" name="robots">
+		<script src="../../dialog/common/fck_dialog_common.js" type="text/javascript"></script>
+		<link href="../../dialog/common/fck_dialog_common.css" rel="stylesheet" type="text/css" />
+		<script language="javascript">
+
+var oEditor = window.parent.InnerDialogLoaded() ;
+var FCKLang = oEditor.FCKLang ;
+var FCK		= oEditor.FCK ;
+
+
+window.onload = function ()
+{
+	// First of all, translate the dialog box texts
+	oEditor.FCKLanguageManager.TranslatePage( document ) ;
+
+	window.parent.SetAutoSize( true ) ;
+
+	// Activate the "OK" button.
+	//window.parent.SetOkButton( true ) ;
+}
+
+function Ok(label)
+{
+	FCK.InsertHtml(label);	
+	window.parent.close();
+	return true;
+}
+		</script>
+	</head>
+	<body scroll="no" style="OVERFLOW: hidden">
+		<table height="100%" cellSpacing="0" cellPadding="0" width="100%" border="0">
+		   <tr>
+			   <td>			   		
+				   <table cellspacing="5" cellpadding="0" width="100%" border="0">
+				   <tr>
+				   	<td><span fckLang="AnswersInsert">Insert</span></td>
+				   	<td width="100%"><span fckLang="AnswersModel">Model</span></td>
+				   </tr>				   
+				   <?php while ($answer = mysql_fetch_assoc($answers)) {?>
+				   	<tr>
+				   		<td>
+				   			<input id="btn[<?php echo $answer['answer_id'];?>]" onclick="Ok(this.value);" type="button" class="Button" value="[_A<?php echo $answer['answer_id'];?>]"  NAME="btnBrowse">
+				   		</td>
+				   		<td><?php echo $answer['answer_sample'];?></td>
+				   	</tr>
+				   <?php }?>
+				   </table>
+			   </td>
+		   </tr>
+		</table>
+	</body>
+</html>
+<?php				
+				
+				
+             }
+         else
+            {
+				exit();
+            }
+
+         }
+     else
+         {
+         $auth_result['authorized']=false;
+         }
+
+
+
+
+
+
+
+
+
+
+
+function authorize_user($request_vars)
+     {
+     global $_SERVER,$_COOKIE, $config;
+     @$auth_action=$request_vars['op'];
+     $current_user=false;
+	 $current_group=false;
+	 $current_group_category=false;
+        if ($auth_action=="login")
+            {
+            require_once("modules/auth/include/identification.php");
+            }
+        elseif ($auth_action=="logout")
+            {
+            require_once("modules/auth/include/logout.php");
+            }
+        else
+            {
+            require_once ("modules/auth/include/authorization.php");
+            }
+     $return_array['authorized']=$identificated;
+     $return_array['user']=$current_user;
+     $return_array['group']=$current_group;
+	 $return_array['group_category']=$current_group_category;
+
+     return ($return_array);
+     }
+/*===========================================================================*/	
+	
+?>

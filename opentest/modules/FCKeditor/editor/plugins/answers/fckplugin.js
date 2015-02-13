@@ -1,0 +1,7 @@
+﻿// Register the related command.
+FCKCommands.RegisterCommand( 'Answers', new FCKDialogCommand( 'Answers', FCKLang.AnswersDlgTitle, FCKPlugins.Items['answers'].Path + 'fck_answers.php?q_id='+FCKConfig.QuestionID, 450, 300 ) ) ;
+
+// Create the "Answers" toolbar button.
+var oAnswersItem = new FCKToolbarButton( 'Answers', FCKLang.AnswersBtn ) ;
+oAnswersItem.IconPath = FCKPlugins.Items['answers'].Path + 'answers.gif' ;
+FCKToolbarItems.RegisterItem( 'Answers', oAnswersItem ) ;

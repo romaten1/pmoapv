@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+	<xsl:output method="xml" version="1.0" encoding="UTF-8" indent="yes"/>
+
+<xsl:variable name="lcletters">abcdefghijklmnopqrstuvwxyz</xsl:variable>
+<xsl:variable name="ucletters">ABCDEFGHIJKLMNOPQRSTUVWXYZ</xsl:variable>
+
+		
+	<xsl:template match="img">
+	<xsl:element name="opentest_multimedia">
+					<xsl:attribute name="type"><xsl:value-of select="@opentest_type"/></xsl:attribute>
+					<xsl:attribute name="href"><xsl:value-of select="@src"/></xsl:attribute>
+					<render_options>
+						<xsl:for-each select="@*[name()!='src' and name()!='opentest_type']">
+							<opentest2_param name="{translate(name(),$ucletters,$lcletters)}" value="{.}" />
+						</xsl:for-each>
+					</render_options>
+				</xsl:element>
+	</xsl:template>
+	
+	
+	<xsl:template match="embed">
+		<xsl:choose>
+			<xsl:when test="@opentest_type='flash'">
+				<xsl:element name="opentest_multimedia">
+					<xsl:attribute name="type"><xsl:value-of select="@opentest_type"/></xsl:attribute>
+					<xsl:attribute name="href"><xsl:value-of select="@src"/></xsl:attribute>
+					<render_options>
+						<xsl:for-each select="@*[name()!='src' and name()!='type' and name()!='pluginspage' and name()!='opentest_type' and name()!='quality']">
+							<opentest2_param name="{translate(name(),$ucletters,$lcletters)}" value="{.}" />
+						</xsl:for-each>
+					</render_options>
+				</xsl:element>
+			</xsl:when>
+			
+	<xsl:when test="@opentest_type='audio'">
+				<xsl:element name="opentest_multimedia">
+					<xsl:attribute name="type"><xsl:value-of select="@opentest_type"/></xsl:attribute>
+					<xsl:attribute name="href"><xsl:value-of select="@src"/></xsl:attribute>
+					<render_options>
+						<xsl:for-each select="@*[name()!='FileName' and name()!='filename' and name()!='src' and name()!='SRC' and name()!='Src'  and name()!='type' and name()!='pluginspage' and name()!='opentest_type' and name()!='AutoStart']">
+							<opentest2_param name="{translate(name(),$ucletters,$lcletters)}" value="{.}" />
+						</xsl:for-each>
+					</render_options>
+				</xsl:element>
+			</xsl:when>			
+			
+<xsl:when test="@opentest_type='video'">
+				<xsl:element name="opentest_multimedia">
+					<xsl:attribute name="type"><xsl:value-of select="@opentest_type"/></xsl:attribute>
+					<xsl:attribute name="href"><xsl:value-of select="@src"/></xsl:attribute>
+					<render_options>
+						<xsl:for-each select="@*[name()!='FileName' and name()!='filename' and name()!='src' and name()!='SRC' and name()!='Src' and name()!='type' and name()!='pluginspage' and name()!='opentest_type' and name()!='AutoStart' and name()!='autostart']">
+							<opentest2_param name="{translate(name(),$ucletters,$lcletters)}" value="{.}" />
+						</xsl:for-each>
+					</render_options>
+				</xsl:element>
+			</xsl:when>						
+		</xsl:choose>
+	</xsl:template>
+</xsl:stylesheet>

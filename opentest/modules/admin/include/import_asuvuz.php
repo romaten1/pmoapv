@@ -1,0 +1,302 @@
+﻿<?php
+/************************************************************************/
+/* OpenTEST System: The System Of Computer Testing Knowleges            */
+/* ============================================                         */
+/*                                                                      */
+/* Copyright (c) 2002-2005 by OpenTEST Team                             */
+/* http://opentest.com.ua                                               */
+/* e-mail: opentest@opentest.com.ua                                     */
+/*                                                                      */
+/************************************************************************/
+/* 11/01/2005 08:00:00								                    */
+/************************************************************************/
+if (INDEXPHP!=1) {die ("You can't access this file directly...");}
+
+if(!is_allow(5,0,5,0,1)) {
+		echo "<META HTTP-EQUIV='Refresh' CONTENT='0; URL=index.php?module=".$module."&status_code=0&status_num=op_not_permitted'>";
+		exit;
+	}
+
+include("./include/meta.php");
+error_reporting(E_ALL ^ E_NOTICE);
+
+ignore_user_abort();
+ini_set ("max_execution_time","160000");
+
+mb_internal_encoding("windows-1251");
+
+//--header
+themeleftbox(_MENU_IMPORT_ASUVUZ,"","",true);
+echo "<tr><td> <br>";
+
+switch(@$_POST['go'])
+        {
+        case "1":
+                {
+                $file=fopen($_FILES[users_file][tmp_name],"r");
+                $count=0;
+                echo "<span style='font-size:10px;font-family:verdana;'>";
+
+                sql_query("delete from tmp_users");
+				$group_category_id=$_REQUEST['group_category_id'];
+				
+         while($pr_row=fgets($file) )
+                {
+                                $count++;
+                                //echo $count."<br>";
+
+                $pr_row=str_replace("\n","",$pr_row);
+                $pr_row=str_replace("\r","",$pr_row);
+				$pr_row=iconv("windows-1251","utf-8",$pr_row);
+				$pr_row=addslashes($pr_row);
+                $row=csv_split($pr_row,";");
+				/*
+				foreach($row as $col)
+					{
+					$row2[]=addslashes($col);
+					}
+					
+				$row=$row2;
+				*/
+				//print_r($row);
+
+
+                                $res_ins=sql_query("insert into tmp_users
+                                        (tmp_user_id,facultet ,user_name , group_name ,col1 )
+                                   values
+                                   ('', '".addslashes($row[0])."','".addslashes($row[1])."','".addslashes($row[2])."','".addslashes($row[3])."')
+                                                                ");
+
+
+
+                //print_r($row);
+                //echo "<br>";
+                }
+                echo "<p>Found   $count users in CSV file </p>";
+
+                // processing groups:
+                echo " ---------------------- processing groups ----------------------  <br>";
+
+
+
+                $res_tmp_groups=sql_query("select distinct group_name from tmp_users");
+                while ($f_tmp_group=mysql_fetch_array($res_tmp_groups))
+                        {
+                        echo "<br> <b> processing group \"".$f_tmp_group[group_name]."\" </b>";
+                        $res_local_group=sql_query("select * from groups where 
+								group_name='$f_tmp_group[group_name]' and 
+								group_category_id='$group_category_id'
+								");
+                        if (mysql_num_rows($res_local_group)>=1)
+                                {
+
+                                $f_local_group=mysql_fetch_array($res_local_group);
+                                echo "<dd> <span style='color:green'>Local group found. Disabling all users </span>";
+                                
+								$res_users_in_group=sql_query("select * from users
+								                                 where users.group_id='$f_local_group[group_id]' 
+								                                  ");										
+                                while ($f_user_in_group=mysql_fetch_array($res_users_in_group))
+                                        {
+                                        sql_query("update users set user_disable='1' where user_id='$f_user_in_group[user_id]' ");
+                                        }
+
+
+                                echo "<dd> ---------- processing users in group $f_local_group[group_name] ---------";
+                                $res_tmp_users=sql_query("select * from tmp_users where group_name='$f_tmp_group[group_name]' ");
+                                while($f_tmp_user=mysql_fetch_array($res_tmp_users))
+                                        {
+                                                                              
+                                        $test_local_user=sql_query("select users.* from users
+                                                               where 
+                                                               users.group_id='{$f_local_group[group_id]}' and
+                                                               users.asu_user_id='$f_tmp_user[col1]'
+                                                                
+                                                                                                                       ");														
+                                        if (mysql_num_rows($test_local_user)>=1)
+                                                {
+                                                $f_test_local_user=mysql_fetch_array($test_local_user);
+                                                echo "<dd> updatig user $f_tmp_user[user_name] ";
+                                                sql_query(" update users set user_disable=0,
+                                                			user_name='$f_tmp_user[user_name]'
+                                                
+                                                 where user_id='{$f_test_local_user[user_id]}' ");
+                                                }
+                                        else
+                                                {
+                                                echo "<dd> adding user $f_tmp_user[user_name] ";
+                                                sql_query("insert into users
+												(user_id, group_id, user_name ,user_login ,user_password , last_log_date ,
+												user_disable,asu_user_id )
+												values
+                                        ('','$f_local_group[group_id]','$f_tmp_user[user_name]','','','','0', '$f_tmp_user[col1]')
+                                                                 ");
+                                                
+                                        $local_user_id=mysql_insert_id();
+
+
+
+                                                }
+
+
+                                        }
+                                //set_permissions(array(0=>$f_local_group[group_id]));
+                                }
+                        else
+                                {
+                                echo "<dd> <span style='color:red'>Local group not found. Creating local group </span>";
+                                sql_query("insert into groups
+                                                (group_id,group_name,group_category_id)
+                                                values
+                                                ('','$f_tmp_group[group_name]','$group_category_id')
+                                        ");
+                                echo "<dd> Local group \"$f_tmp_group[group_name]\" has been created ";
+                                $local_group_id=mysql_insert_id();
+                                $res_tmp_users=sql_query("select * from tmp_users where group_name='$f_tmp_group[group_name]' ");
+                                while($f_tmp_user=mysql_fetch_array($res_tmp_users))
+                                        {
+                                        sql_query("insert into users
+                                                        (user_id, group_id, user_name ,user_login ,user_password , last_log_date ,
+                                                        user_disable,asu_user_id )
+                                                        values
+                                                        ('','$local_group_id','$f_tmp_user[user_name]','','','','0','$f_tmp_user[col1]')
+                                                                                                ");
+                                        $local_user_id=mysql_insert_id();
+										
+                                        echo "<dd> User \"$f_tmp_user[user_name]\" added to local group $f_tmp_group[group_name]";
+                                        }
+                                }
+
+                        }
+
+
+                break;
+                }
+        default:
+                {
+                $res_categories=sql_query("select * from group_categories");
+                echo "
+                        <form method=post enctype='multipart/form-data'>
+                                        <input type=hidden name='go' value='1'>
+                         <select name='group_category_id'>
+                                        ";
+                while($f_category=mysql_fetch_array($res_categories))
+                      {
+                      echo "<option value='".$f_category['group_category_id']."'>".$f_category['group_category_name']."</option>";
+                      }
+                echo " </select>
+                                CSV File: <input type=file name='users_file'> <br>
+                                <input type=submit>
+                        </form>
+                        ";
+                }
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+function csv_split($line,$delim=',',$removeQuotes=false) {
+#$line: the csv line to be split
+#$delim: the delimiter to split by
+#$removeQuotes: if this is false, the quotation marks won't be removed from the fields
+   $fields = array();
+   $fldCount = 0;
+   $inQuotes = false;
+   for ($i = 0; $i < strlen($line); $i++) {
+       if (!isset($fields[$fldCount])) $fields[$fldCount] = "";
+       $tmp = substr($line,$i,strlen($delim));
+       if ($tmp === $delim && !$inQuotes) {
+           $fldCount++;
+           $i += strlen($delim)-1;
+       } else if ($fields[$fldCount] == "" && $line[$i] == '"' && !$inQuotes) {
+           if (!$removeQuotes) $fields[$fldCount] .= $line[$i];
+           $inQuotes = true;
+       } else if ($line[$i] == '"') {
+           if ($line[$i+1] == '"') {
+               $i++;
+               $fields[$fldCount] .= $line[$i];
+           } else {
+               if (!$removeQuotes) $fields[$fldCount] .= $line[$i];
+               $inQuotes = false;
+           }
+       } else {
+           $fields[$fldCount] .= $line[$i];
+       }
+   }
+   return $fields;
+}
+
+
+
+
+
+
+
+function set_permissions($primary_groups)
+        {
+        global $mysql_dbname;
+        $secondary_group='3';
+
+        // какие права передавать
+        $permission_owner=0;
+
+        mysql_selectdb($mysql_dbname);
+
+
+        foreach($primary_groups as $primary_group)
+          {
+          echo $primary_group." ";
+          $res_users=sql_query("select * from object_relation where
+                          relation_type=0 and
+                          in_object_id='$secondary_group'
+                          ");
+          while ($f_user=mysql_fetch_array($res_users))
+                {
+                $res_check_exists=sql_query("select * from permissions where
+                                  object_code='21' and
+                                  object_id='$primary_group' and
+                                  user_id='$f_user[object_id]' and
+                                  group_id='$secondary_group'
+                                  ");
+
+                if (mysql_num_rows($res_check_exists)<=0)
+                  {
+                  sql_query("insert into permissions
+                        (permission_id, object_code, object_id,user_id, group_id,
+                        permission_read, permission_write, permission_execute,
+        permission_modify, permission_owner)
+                        values
+                        ('', '21', '$primary_group','$f_user[object_id]', '$secondary_group',
+                        '', '', '', '', '$permission_owner')
+                                  ");
+                  }
+                else
+                  {
+                sql_query("update permissions
+                                  set
+                                  permission_read=0,
+                                  permission_owner='$permission_owner'
+                                  where
+                                  object_code='21' and
+                                  object_id='$primary_group' and
+                                  user_id='$f_user[object_id]' and
+                                  group_id='$secondary_group'
+                                  ");
+                  }
+                }
+
+
+
+          }
+
+
+
+        }

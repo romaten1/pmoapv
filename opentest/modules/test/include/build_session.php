@@ -1,0 +1,56 @@
+<?php
+/************************************************************************/
+/* OpenTEST 2                                                           */
+/* ============================================                         */
+/*                                                                      */
+/* Copyright (c) 2002-2013 by OpenTEST Team                             */
+/* http://opentest.com.ua                                               */
+/* e-mail: nserv@opentest.com.ua                                        */
+/*                                                                      */
+/************************************************************************/
+
+if (INDEXPHP!=1) {die ("You can't access this file directly...");}
+if (DEFAULTTEST!=1) {die ("You can't access this file directly...");}
+
+// Формирование сессии
+$query = "SELECT session_id
+		FROM sessions 
+		WHERE user_id='$user_id' and test_id='$test_id' and group_id='$group_id' and teacher_id='$teacher_id'
+		";
+$result=sql_query($query);
+$row_num = mysql_num_rows($result);
+if($row_num>0) 
+{
+   	include_once("include/header.php");
+    OpenTable();
+	themeleftbox(_INVALID_PARAMETER_TESTING_SESSION,"","",false);
+	echo "<tr><td> <br>";
+	echo _BLOCKED_CONFLICT_TESTIND_SESSION;
+    CloseTable();
+    include_once("include/footer.php");	
+	exit;
+}
+// Получаем кол-во вопросов на тест
+$query = "SELECT num_questions
+		FROM test_access 
+		WHERE user_id='$user_id' and test_id='$test_id' and group_id='$group_id' and teacher_id='$teacher_id'
+		";
+$result=sql_query($query);
+$row=mysql_fetch_assoc($result);
+$num_questions=$row['num_questions'];
+
+
+$start_test_time = time();
+$query = "INSERT 
+		 INTO sessions (user_id,test_id,group_id,teacher_id,start_test_time, num_questions, last_log_host, last_log_date)
+		 VALUES ('$user_id','$test_id','$group_id','$teacher_id','".date("Y-m-d H:i:s" , $start_test_time )."','$num_questions','$_SERVER[REMOTE_ADDR]','".date("Y-m-d H:i:s" , $current_time )."')
+		 ";
+		 $row=sql_query($query);
+		 
+$query = "UPDATE test_access 
+	SET last_end_test_status=1, status_date=NOW(), user_ip =
+	'$_SERVER[REMOTE_ADDR]' 
+	WHERE test_id='$test_id' and user_id='$user_id' and group_id='$group_id' and
+	teacher_id='$teacher_id'
+";
+sql_query($query);

@@ -1,0 +1,200 @@
+<?php
+    
+	if (INDEXPHP!=1)
+		die ("You can't access this file directly...");
+
+		
+	define("_MENU_SHOW_RESULTS", 	 	"Viewing of results");		
+	define("_MENU_SYSTOGRAMMS", 	 	"Frequency analysis of results");		
+	define("_MENU_LOGS", 	 		"Ravines of testing sessions");		
+	define("_MENU_TEST_STATS", 	 	"Statistical descriptions of tests");		
+	define("_MENU_USER_STATS", 	 	"Statistics of knowledges of users");
+	define("_MENU_PRINTS", 	 	"Lists for a print");				
+	
+	define("_STATISTICS", 	 	"Statistics");		
+	
+	
+		
+	define("_MENU_BASIC_MENU",	 	 	"Menu of the basic modules");
+	define("_MENU_RESULTS_ROOT",	 	 	"Initial menu of the module");
+	
+	
+	define("_MENU_COMMON_TASKS", 	 	"General tasks");
+	define("_MENU_AUTHORIZATION",	 	"Authorization");
+	define("_MENU_GROUP",		 	"Group");
+	define("_MENU_USER",		 	 	"User");
+	define("_MENU_EXIT",		 	 	"Exit");
+	define("_MENU_RETURN_TO_VIEW",		"To go back to viewing");
+	define("_MENU_VIEW",		 	 	"Active tasks");
+	define("_MENU_VIEW_ROOT",		 	 "Functions of the module");
+	define("_MENU_LEAVE_CATEGORY",	 	"To leave a current category");		
+	
+	define("_VIEWING_RESULTS",			"Viewing of results");
+	define("_NEW_TEST",				"To choose a new test");
+	define("_NEW_GROUP", 		 	"To choose a new group");
+	define("_NUMBER",				"№");
+	define("_NAME",				"Name");
+	define("_START_TIME",			"Start time");
+	define("_MARK",				"Mark");
+	define("_PERCENT", 				"%");
+	define("_PERCENT_SIMPLE",			"% (simple)");
+	define("_CHOOSE", 	  		  	"For viewing of results choose the test and group");
+	define("_NO_TESTED_USERS",			"There is none user, passing testing");
+	define("_NO_USERS", 	 			"There is none user in this group!");
+
+	
+	define("_SELECTION_TEST",	 		"Test");
+	define("_SELECTION_GROUP",			"Group");
+	
+	define("_SELECTION_ALL_TESTS",	 		"All of groups");
+
+	define("_TCATEGORY_VIEW",			"To look over tests in this category");
+	define("_TCATEGORY_CHOOSE_HEADER",	 	"Choice of category of tests");
+	define("_TCATEGORY_NO_CATEGORY",	 	"There is none category of tests in a database!");
+	define("_TCATEGORY_NO_C_KEYWORD",	 	"In a database there is none category of tests, containing a keyword!");
+	define("_TCATEGORY_NO_C_LETTER",	 	"In a database there is no category of tests, beginning from the indicated letter!");
+	define("_TCATEGORY_CHOOSE_CATEGORY", 	"Choose a category, which contains a test that must be chosen");
+
+	define("_GCATEGORY_VIEW",		 	"To look over groups in this category");
+	define("_GCATEGORY_CHOOSE_HEADER",	 	"Choice of category of users");
+	define("_GCATEGORY_NO_CATEGORY",	 	"There is no category of users in a database!");
+	define("_GCATEGORY_NO_C_KEYWORD",	 	"In a database there is no category of users, containing a keyword!");
+	define("_GCATEGORY_NO_C_LETTER",	 	"In a database there is no category of users, beginning from the indicated letter!");
+	define("_GCATEGORY_CHOOSE_CATEGORY", 	"Choose a category, which contains group that must be chosen");	
+
+	define("_TEST_CHOOSE_HEADER",		"Choice of test");
+	define("_TEST_CHOOSE_TEST",			"To choose this test");
+	define("_TEST_NO_TEST", 			"There is no test in this category!");
+	define("_TEST_NO_T_KEYWORD",		"In this category there is no test, containing a keyword!");
+	define("_TEST_NO_T_LETTER", 		"In this category there is no test, beginning from the indicated letter!");
+
+
+	define("_GROUP_CHOOSE_HEADER",		"Choice of group");
+	define("_GROUP_CHOOSE_GROUP",		"To choose this group");
+	define("_GROUP_NO_GROUP", 			"There is no group in this category!");
+	define("_GROUP_NO_G_KEYWORD",		"In this category there is no group, containing a keyword!");
+	define("_GROUP_NO_G_LETTER",		"In this category there is no group, beginning from the indicated letter!");
+
+	define("_TEACHER","Teacher");
+	define("_ALL_TEACHERS","All of teachers");
+	define("_TOTAL_UNIT","Absolute mark");
+	
+	define("_ACTIONS","To delete the diagram");
+	define("_CHECK_ITEMS","Check");
+	define("_DELETE_CHECKED_RESULTS","To delete the checked diagram");	
+	define("_CURRENT_SELECTION_GRAPH"," Current diagram");	
+	
+	define("_GRAPH_NUMBER","Diagram №");	
+	define("_COUNT_PERCENTS"," Total");	
+	define("_COUNT_USERS"," Amount of persons");	
+	define("_DYSPLAY_GRAPH_OPTIONS","Parameters of display of the diagram");	
+	
+	
+	define("_GRAPH_STYLE","Style of display");
+	define("_LINEPOINTS","Lines with points");
+	define("_BARS","Columns");
+	define("_THINBARS","Narrow columns");
+	define("_POINTS","Points");
+	define("_SQUARED","Squares");
+	define("_AREA","Area");
+	define("_APPROX_STEP","Step of approximation");
+	define("_BAL","Ball");
+	define("_BALA","Ball");
+	define("_BALS","Balls");
+	define("_DYSPLAY_MODE","Method of display");
+	define("_DYSPLAY_SEPARATED_GRAPHS","Every diagram separately");
+	define("_DYSPLAY_COMBINED_GRAPH","All of the diagrams are in one");
+	define("_REFRESH","Refresh");
+	
+	
+	define("_ADDITIONAL_RESULTS_ON_GRAPH","Additional results, present on diagram arts:");
+	define("_ADD_ADDITIONAL_RESULTS","To save current results on the diagram and choose additional");
+	
+	
+	
+	define("_VIEWING_LOG","Viewing of testing session");	
+	define("_QUESTION_TEXT","Text of question");	
+	define("_QUESTION_TYPE","Type of question");	
+	define("_QUESTION_DIFFICULTY","Difficulty of question");	
+	define("_QUESTION_CHARASTERISTICS","Descriptions of question");	
+	define("_ANSWERS","Answers");	
+	define("_SELECTED_ANSWERS","Chosen answers");	
+	define("_UNIT","Estimation for a question");	
+	define("_QUESTION_TYPE_1","One from several");	
+	define("_QUESTION_TYPE_2","A few from a few");	
+	define("_QUESTION_TYPE_3","Free input");	
+	define("_QUESTION_TYPE_4","Conformity");	
+	
+	define("_QUESTION_SHOW_LATER","Delay of answers");	
+	define("_SECONDS","sec");	
+	
+	define("_ANSWER_CORRECT","correct");	
+	define("_ANSWER_INCORRECT","incorrect");	
+	define("_ANSWER_PARTIALY_CORRECT","partly correct");	
+	
+	
+    define("_GROUP_CAT_","Category of group");
+    define("_GROUP","Group");
+    define("_USER","User");
+ 	define("_TEST_CAT","Category of tests");
+    define("_TEST","Test");
+    
+    
+    define("_TOTAL_QUESTIONS","Total number of questions");
+    define("_TOTAL_MARK","Final mark");
+    //define("_START_TIME","Began time");
+    define("_STOP_TIME","Time of completion");
+    define("_AVERAGE_ALTERNATIVE","Average alternative");
+
+###================================================================================
+
+define("_MENU_LOG_TEST_TABLE","Matrix of testings results");
+define("_MENU_LOG_TEST_TABLE_EXPORT","Export of the table");
+define("_QUESTION","Question");
+
+define("_FILTER_BY_DIFFICULTY","To show difficult questions  only");
+
+define("_MENU_LOG_TABLE_QUESTION","Analysis of the test tasks");
+
+define("_SELECT_OTHER_QUESTION","To choose other question");
+define("_SELECT_TOPIC","To choose a thema");
+define("_SELECT_QUESTION","To choose a question");
+define("_SELECT_QUESTION_BELOW","Choose a necessary question from the list given below ");
+
+
+define("_MENU_LOG_TABLE_TOPIC","Thematic analysis of the test");
+define("_TOPIC","Thema");
+
+define("_QUESTION_ALTERNATIVE","Probability of guessing of a question");
+define ("_QUESTION_TRUDNOST", "Difficulty");
+//Form 1 and 2 strings
+define("_MENU_TEST_LIST","List of the tests");
+define("_MENU_TEST_RESULTS","Results of testing");
+define("_FROM","from");
+define("_TO","to");
+define("_TIME","Time");
+define("_QUESTIONS_NUM","The number of questions");
+define("_MENU_SHOW_TESTS","List of the tests");
+define("_TEST_NAME","Name of the test");
+define("_GROUP_NAME","Name of group");
+define("_UNIT_SCALE",	"Rating");
+define("_PRINT_VERSION", "Print view");
+define("_TEST_TIME","Time of testing");
+define("_CHOOSED_GROUPS","Chosen groups ");
+define("_CHOOSED_TESTS","Chosen tests");
+define("_COUNT_TOPICS","The number of thema(subjects) in test ");
+define("_COUNT_RESULTS","The number of participations");
+
+global $status_text;
+$status_text = array("op_permited"	=> "There are no privileges for operation performance"  );
+
+// перевести!!!
+
+define("_ALL_TESTS", "All tests");
+define("_MORE_THAN_ONE_TEACHER","Больше одного преподавателя");
+define("_NO_RESULTS","Нет результатов");
+define("_NO_CORRELATION","Корреляция отсутствует");
+define("_CHOOSE_GROUP", "Выберите группу");
+define("_CHOOSE_TEST", "Выберите тест");
+define("_OVERALL_BY_TEST", "Итого по тесту");
+define("_CHOOSED_OBJECTS", "Выбранные объекты");

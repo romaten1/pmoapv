@@ -1,0 +1,198 @@
+<?php
+
+	if (INDEXPHP!=1)
+		die ("You can't access this file directly...");
+
+
+	define("_MENU_SHOW_RESULTS", 	 	"Перегляд результатів");
+	define("_MENU_SYSTOGRAMMS", 	 	"Частотний аналіз результатів");
+	define("_MENU_LOGS", 	 		"Логи сеансів тестування");
+	define("_MENU_TEST_STATS", 	 	"Статистичні характеристики тестів");
+	define("_MENU_USER_STATS", 	 	"Статистика знань користувачів");
+	define("_MENU_PRINTS", 	 	"Відомості для друку");
+
+	define("_STATISTICS", 	 	"Статистика");
+
+
+
+	define("_MENU_BASIC_MENU",	 	 	"Меню основних модулів");
+	define("_MENU_RESULTS_ROOT",	 	 	"Початкове меню модуля");
+
+
+	define("_MENU_COMMON_TASKS", 	 	"Загальні задачі");
+	define("_MENU_AUTHORIZATION",	 	"Авторизація");
+	define("_MENU_GROUP",		 	"Група");
+	define("_MENU_USER",		 	 	"Користувач");
+	define("_MENU_EXIT",		 	 	"Вихід");
+	define("_MENU_RETURN_TO_VIEW",		"Повернутися до перегляду");
+	define("_MENU_VIEW",		 	 	"Активні задачі");
+	define("_MENU_VIEW_ROOT",		 	 "Функції модуля");
+	define("_MENU_LEAVE_CATEGORY",	 	"Покинути поточну категорію");
+
+	define("_VIEWING_RESULTS",			"Перегляд результатів");
+	define("_NEW_TEST",				"Вибрати новий тест");
+	define("_NEW_GROUP", 		 	"Вибрати нову групу");
+	define("_NUMBER",				"№");
+	define("_NAME",				"П.І.Б.");
+	define("_START_TIME",			"Час початку");
+	define("_MARK",				"Оцінка");
+	define("_PERCENT", 				"%");
+		define("_CHOOSE", 	  		  	"Для перегляду результатів вибіріть тест та групу");
+	define("_NO_TESTED_USERS",			"Немає жодного користувача, який пройшов тестування");
+	define("_NO_USERS", 	 			"У даній групі немає жодного користувача!");
+
+
+	define("_SELECTION_TEST",	 		"Тест");
+	define("_SELECTION_GROUP",			"Група");
+
+	define("_SELECTION_ALL_TESTS",	 		"Усі групи");
+
+	define("_TCATEGORY_VIEW",			"Переглянути тести в цій категорії");
+	define("_TCATEGORY_CHOOSE_HEADER",	 	"Вибір категорії тестів");
+	define("_TCATEGORY_NO_CATEGORY",	 	"У базі даних немає жодної категорії тестів!");
+	define("_TCATEGORY_NO_C_KEYWORD",	 	"У базі даних немає жодної категорії тестів, яка містить ключове слово!");
+	define("_TCATEGORY_NO_C_LETTER",	 	"У базі даних немає жодної категорії тестів, яка починається з вказаної букви!");
+	define("_TCATEGORY_CHOOSE_CATEGORY", 	"Виберіть категорію, де знаходиться тест, який необхідно вибрати");
+
+	define("_GCATEGORY_VIEW",		 	"Проглянути групи в цій категорії");
+	define("_GCATEGORY_CHOOSE_HEADER",	 	"Вибір категорії користувачів");
+	define("_GCATEGORY_NO_CATEGORY",	 	"У базі даних немає жодної категорії користувачів!");
+	define("_GCATEGORY_NO_C_KEYWORD",	 	"У базі даних немає жодної категорії користувачів, яка містить ключове слово!");
+	define("_GCATEGORY_NO_C_LETTER",	 	"У базі даних немає жодної категорії користувачів, яка починається з вказаної букви!");
+	define("_GCATEGORY_CHOOSE_CATEGORY", 	"Виберіть категорію, де знаходиться група, яку необхідно вибрати");
+
+	define("_TEST_CHOOSE_HEADER",		"Вибір тесту");
+	define("_TEST_CHOOSE_TEST",			"Вибрати цей тест");
+	define("_TEST_NO_TEST", 			"У даній категорії немає жодного тесту!");
+	define("_TEST_NO_T_KEYWORD",		"У даній категорії немає жодного тесту, який містить ключове слово!");
+	define("_TEST_NO_T_LETTER", 		"У даній категорії немає жодного тесту, який починається з вказаної букви!");
+
+
+	define("_GROUP_CHOOSE_HEADER",		"Вибір групи");
+	define("_GROUP_CHOOSE_GROUP",		"Вибрати цю групу");
+	define("_GROUP_NO_GROUP", 			"У даній категорії немає жодної групи!");
+	define("_GROUP_NO_G_KEYWORD",		"У даній категорії немає жодної групи, яка містить ключове слово!");
+	define("_GROUP_NO_G_LETTER",		"У даній категорії немає жодної групи, яка починається з вказаної букви!");
+
+	define("_TEACHER","Викладач");
+	define("_ALL_TEACHERS","Усі викладачі");
+	define("_TOTAL_UNIT","Абсолютний бал");
+
+	define("_ACTIONS","Вилучити графік");
+	define("_CHECK_ITEMS","Відмітити");
+	define("_DELETE_CHECKED_RESULTS","Вилучити графіки, які відмічені ");
+	define("_CURRENT_SELECTION_GRAPH"," Поточний графік");
+
+	define("_GRAPH_NUMBER","Графік №");
+	define("_COUNT_PERCENTS"," Набрані бали");
+	define("_COUNT_USERS"," Кількість чоловік");
+	define("_DYSPLAY_GRAPH_OPTIONS","Параметри відображення графіка");
+
+
+	define("_GRAPH_STYLE","Стиль відображення");
+	define("_LINEPOINTS","Лінії з крапками");
+	define("_BARS","Колонки");
+	define("_THINBARS","Вузькі колонки");
+	define("_POINTS","Крапки");
+	define("_SQUARED","Квадрати");
+	define("_AREA","Область");
+	define("_APPROX_STEP","Крок апроксимації");
+	define("_BAL","Бал");
+	define("_BALA","Бала");
+	define("_BALS","Балів");
+	define("_DYSPLAY_MODE","Метод відображення");
+	define("_DYSPLAY_SEPARATED_GRAPHS","Кожен графік окремо");
+	define("_DYSPLAY_COMBINED_GRAPH","Усі графіки в одному");
+	define("_REFRESH","Обновити");
+
+
+	define("_ADDITIONAL_RESULTS_ON_GRAPH","Додаткові результати, присутні на графіку:");
+	define("_ADD_ADDITIONAL_RESULTS","Зберегти поточні результати на графік і вибрати додаткові");
+
+
+
+	define("_VIEWING_LOG","Перегляд сеансу тестування");
+	define("_QUESTION_TEXT","Текст запитання");
+	define("_QUESTION_TYPE","Тип запитання");
+	define("_QUESTION_DIFFICULTY","Вага запитання");
+	define("_QUESTION_CHARASTERISTICS","Характеристики запитання");
+	define("_ANSWERS","Відповіді");
+	define("_SELECTED_ANSWERS","Вибрані відповіді");
+	define("_UNIT","Оцінка за запитання");
+	define("_QUESTION_TYPE_1","Один з декілька");
+	define("_QUESTION_TYPE_2","Вибір декількох правильних відповідей");
+	define("_QUESTION_TYPE_3","Вільний ввод");
+	define("_QUESTION_TYPE_4","Відповідність");
+
+	define("_QUESTION_SHOW_LATER","Затримка виведення відповідей");
+	define("_SECONDS","сек");
+
+	define("_ANSWER_CORRECT","вірний");
+	define("_ANSWER_INCORRECT","невірний");
+	define("_ANSWER_PARTIALY_CORRECT","частково вірний");
+
+
+    define("_GROUP_CAT_","Категорія групи");
+    define("_GROUP","Група");
+    define("_USER","Користувач");
+ 	define("_TEST_CAT","Категорія тестів");
+    define("_TEST","Тест");
+
+
+    define("_TOTAL_QUESTIONS","Всього запитань");
+    define("_TOTAL_MARK","Підсумкова оцінка");
+    //define("_START_TIME","Час початку");
+    define("_STOP_TIME","Час закінчення");
+    define("_AVERAGE_ALTERNATIVE","Сердня альтернативність");
+
+###================================================================================
+
+define("_MENU_LOG_TEST_TABLE","Матриця результатів тестувань");
+define("_MENU_LOG_TEST_TABLE_EXPORT","Експорт таблиці");
+define("_QUESTION","Запитання");
+
+define("_FILTER_BY_DIFFICULTY","Показати тільки запитання з трудністю");
+
+define("_MENU_LOG_TABLE_QUESTION","Аналіз тестових завдань");
+
+define("_SELECT_OTHER_QUESTION","Вибрати інше запитання");
+define("_SELECT_TOPIC","Вибрати тему");
+define("_SELECT_QUESTION","Вибрати запитання");
+define("_SELECT_QUESTION_BELOW","Вибрати необхідне запитання з нижченаведенного списку");
+
+
+define("_MENU_LOG_TABLE_TOPIC","Тематичний аналіз тесту");
+define("_TOPIC","Тема");
+
+define("_QUESTION_ALTERNATIVE","Імовірність угадування запитання");
+define("_QUESTION_TRUDNOST","Трудність");
+
+//Form 1 and 2 strings
+define("_MENU_TEST_LIST","Список тестів");
+define("_MENU_TEST_RESULTS","Результати тестування");
+define("_FROM","З ");
+define("_TO","До ");
+define("_TIME","Час");
+define("_QUESTIONS_NUM","Кількість запитань");
+define("_MENU_SHOW_TESTS","Список тестів");
+define("_TEST_NAME","І'мя тесту");
+define("_GROUP_NAME","І'мя групи");
+define("_UNIT_SCALE",	"Бальність");
+define("_PRINT_VERSION", "Версія для друку");
+define("_TEST_TIME","Час тестування");
+define("_CHOOSED_GROUPS","Обрані групи");
+define("_CHOOSED_TESTS","Обрані тести");
+define("_COUNT_TOPICS","Кількість тем в тесті");
+define("_COUNT_RESULTS","Кількість  участей");
+
+global $status_text;
+$status_text = array("op_permited"	=> "Для виконання операції немє привілей"  );
+
+define("_ALL_TESTS", "Усі тести");
+define("_MORE_THAN_ONE_TEACHER","Больше одного преподавателя");
+define("_NO_RESULTS","Нет результатов");
+define("_NO_CORRELATION","Корреляция отсутствует");
+define("_CHOOSE_GROUP", "Выберите группу");
+define("_CHOOSE_TEST", "Выберите тест");
+define("_OVERALL_BY_TEST", "Итого по тесту");
+define("_CHOOSED_OBJECTS", "Выбранные объекты");

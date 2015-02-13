@@ -1,0 +1,7 @@
+<?php
+if (INDEXPHP!=1) {die ("You can't access this file directly...");}
+themeleftbox(_SUPPORT1,"","",false);
+?>
+<tr><td> 
+<?php echo _SUPPORT_HTML_PAGE ?>
+</td></tr>

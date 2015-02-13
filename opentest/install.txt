@@ -1,0 +1,48 @@
+/************************************************************************/
+/* OpenTEST System: The System Of Computer Testing Knowleges         		   	*/
+/* ==============================================================		  	*/
+/*                                                                												      	*/
+/* Copyright (c) 2002-2013 by OpenTEST Team                     						        */
+/* http://opentest.com.ua                                           								    	*/
+/*                          						          	*/
+/*                                                                   													*/
+/************************************************************************/
+
+Software requirements:
+OS: any Unix, Linux or Windows machine 
+Webserver: Apache 2 +
+Mysql: 5 +
+PHP: 5 + 
+	PHP GD library 
+	PHP CURL library
+	PHP MBSTRING library
+	PHP XSL library
+	PHP GZIP library
+ 
+
+
+TO install OpenTETS2, just copy the source files into your web folder and open the default root url in your browser. 
+Then follow the installation instructions on your screen. Installation is very simple and fast. 
+
+Платная поддержка частных и корпоративных пользователей
+
+Заказать платную поддержку:
+
+premium@opentest.com.ua 
+Телефон:    +38 063 742 7888
+
+Создатель программы тестирования OpenTEST2 предоставляет на коммерческой основе поддержку пользователей OpenTEST2.
+
+Установка и настройка
+Брендирование
+Изменение программы
+Администрирование и поддержка
+Обучение персонала
+Консультации
+Говорить о какой-либо платности самого дистрибутива конечно же не надо. 
+OpenTEST2 — открытая и бесплатная программа, такой она пока и останется, не смотря на появившуюся платную поддержку.
+
+Заказать платную поддержку:
+
+premium@opentest.com.ua 
+Телефон:    +38 063 742 7888

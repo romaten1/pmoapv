@@ -1,0 +1,23 @@
+<?php
+if (INDEXPHP!=1) die ("You can't access this file directly...");
+
+$page = test_page(@$_REQUEST['page']);
+
+if(!isset($_REQUEST['action'])) $action="";
+	else $action=$_REQUEST['action'];                
+
+get_lang($module);
+
+if(($action=="first_test_authorization" or $action=="first_pwd_authorization") or ($page=="test")) {}
+else {
+	include_once("include/header.php");
+	OpenTable();
+}
+
+include_once("modules/$module/include/$page.php");
+
+if(($action=="first_test_authorization" or $action=="first_pwd_authorization") or ($page=="test")) {}
+else {
+	CloseTable();
+	include_once("include/footer.php");
+}

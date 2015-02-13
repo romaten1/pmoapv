@@ -1,0 +1,33 @@
+<?php
+	if (INDEXPHP!=1)
+		die ("You can't access this file directly...");
+		
+	if(isset($_REQUEST['action']))
+		$action = $_REQUEST['action'];
+	else
+		$action = "";	
+	
+	//--header
+	themeleftbox(_ADMIN_HEADER,"","",true);
+	echo "<tr><td>";
+		
+	switch($action)
+	{		
+		default:						
+			echo "<strong><big>&middot;</big></strong>&nbsp;<a href='index.php?module=".$module."&page=t_category'>"._TCATEGORY_OVERVIEW_HEADER."</a><br>
+				<strong><big>&middot;</big></strong>&nbsp;<a href='index.php?module=".$module."&page=t_category&action=crt_category_frm'>"._MENU_NEW_TEST_CATEGORY."</a><br>
+				<strong><big>&middot;</big></strong>&nbsp;<a href='index.php?module=".$module."&page=g_category'>"._GCATEGORY_OVERVIEW_HEADER."</a><br>
+				<strong><big>&middot;</big></strong>&nbsp;<a href='index.php?module=".$module."&page=g_category&action=crt_category_frm'>"._MENU_NEW_GROUP_CATEGORY."</a><br>
+            	<strong><big>&middot;</big></strong>&nbsp;<a href='index.php?module=".$module."&page=import_asuvuz'>"._MENU_IMPORT_ASUVUZ."</a><br>
+				<br>
+				<br>
+				OpenTEST version <b>".VERSION." </b><br>
+				Check for Update on <a href='http://opentest.com.ua'>http://opentest.com.ua</a>
+				
+				<script>var img = new Image();img.src = 'http://opentest.com.ua/ot2st/img.gif'</script>
+				
+				<br>";
+				
+		break;
+	}
+?>

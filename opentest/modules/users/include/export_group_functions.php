@@ -1,0 +1,46 @@
+<?php
+if (INDEXPHP!=1) die ("You can't access this file directly...");
+
+function export_group($group_id) {
+	global $domxml;
+	$xml = "<?xml version=\"1.0\" encoding=\"utf-8\" ?><opentest_xml type=\"group_xml\" format_version=\"2.0\" ></opentest_xml>";
+
+	$domxml=domxml_open_mem($xml);
+	$domxml->charset="utf-8";
+	$root_node=$domxml->document_element ();
+	$res_group=sql_query("select * from groups where group_id='$group_id' ");
+	while ($f_group=mysql_fetch_array($res_group)) {
+		$group_node1=$domxml->create_element("group");
+		$root_node=$root_node->append_child($group_node1);
+		$group_node=$root_node;
+
+		$root_node->set_attribute("disabled", $f_group['group_disable']);
+		$group_name_node=$domxml->create_element("group_name");
+		$group_name_text=$domxml->create_text_node($f_group['group_name']);
+		$group_name_node->append_child($group_name_text);
+		$group_node->append_child($group_name_node);
+
+		$content_node=$domxml->create_element("content");
+		$res_users=sql_query("select * from users where group_id='".$f_group['group_id']."' ");
+		while ($f_user=mysql_fetch_array($res_users)) {
+			append_user($content_node,$f_user);
+		}
+
+		$root_node->append_child($content_node);
+	}
+	$return=$domxml->dump_mem(true,"utf-8");
+	return($return);
+}
+
+function append_user($content_node,$f_user) {
+	global $domxml;
+	$user_node=$domxml->create_element("user");
+	$content_node->append_child($user_node);
+	$user_node->set_attribute("disabled", $f_user['user_disable']);
+	$user_node->set_attribute("asu_user_id", $f_user['asu_user_id']);
+
+	$user_name_node=$domxml->create_element("user_name");
+	$user_name_text=$domxml->create_text_node($f_user['user_name']);
+	$user_name_node->append_child($user_name_text);
+	$user_node->append_child($user_name_node); 
+}

@@ -1,0 +1,27 @@
+<?php
+if (INDEXPHP!=1) die ("You can't access this file directly...");
+
+ob_start();		
+if (!isset($_SERVER['HTTP_REFERER'])) $_SERVER['HTTP_REFERER']="index.php?module=default"; 
+
+$page = test_page(@$_REQUEST['page']);
+
+get_lang($module);
+
+include_once("include/header.php");
+OpenTable();
+require_once("modules/$module/include/deleting.php");
+include_once("modules/$module/include/$page.php");
+CloseTable();
+include_once("include/footer.php");
+
+$page_content=ob_get_contents();
+ob_end_clean();
+
+if (@$GLOBALS['download']=='') echo $page_content;
+else {
+	header("HTTP/1.1 200 OK");
+	header("Content-Disposition: attachment; filename=\"".$GLOBALS['filename']."\"");
+	header("Content-type: application/octet-stream");
+	echo $GLOBALS['download'];
+}

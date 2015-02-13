@@ -1,0 +1,307 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+	<head>
+		<title>Video Properties</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<meta content="noindex, nofollow" name="robots">
+		<script src="../../dialog/common/fck_dialog_common.js" type="text/javascript"></script>
+		<link href="../../dialog/common/fck_dialog_common.css" rel="stylesheet" type="text/css" />
+		<script language="javascript">
+
+var oEditor = window.parent.InnerDialogLoaded() ;
+var FCKLang = oEditor.FCKLang ;
+var FCK		= oEditor.FCK ;
+var oVideoOriginal ;
+
+// Get the selected Video (if available).
+var oVideo = FCK.Selection.GetSelectedElement() ;
+
+if ( oVideo && (oVideo.tagName != 'EMBED' || oVideo.opentest_type != oEditor.FCKConfig.VideoOType))
+{	
+	oVideo = null ;
+}
+
+window.onload = function ()
+{
+	// First of all, translate the dialog box texts
+	oEditor.FCKLanguageManager.TranslatePage( document ) ;
+
+	var oObj = document.createElement( 'EMBED' );
+	oObj.id='videoPreview';
+	oObj.type=oEditor.FCKConfig.VideoType;
+    oObj.style.display = 'none';
+	//GetE('flshPrv').appendChild(oObj);
+	//GetE('vidPrv').innerHTML=oObj.outerHTML;
+
+	if  (navigator.appName == "Microsoft Internet Explorer")
+		GetE('vidPrv').innerHTML=oObj.outerHTML;
+	else
+		GetE('vidPrv').appendChild(oObj);	
+
+	// Load the selected element information (if any).
+	LoadSelection() ;
+
+	// Show/Hide the "Browse Server" button.
+	GetE('tdBrowse').style.display = oEditor.FCKConfig.VideoBrowser ? '' : 'none' ;
+
+//	UpdateOriginal() ;
+
+	window.parent.SetAutoSize( true ) ;
+
+	// Activate the "OK" button.
+	window.parent.SetOkButton( true ) ;
+}
+
+function LoadSelection()
+{
+	if ( ! oVideo ) return ;
+
+	var sUrl = oVideo.src ;
+
+	GetE('txtUrl').value    = sUrl ;
+	GetE('cmbAlign').value	= GetAttribute( oVideo, 'align', '' ) ;
+
+/*	GetE('txtAlt').value    = GetAttribute( oVideo, 'alt', '' ) ;
+	GetE('txtVSpace').value	= GetAttribute( oVideo, 'vspace', '' ) ;
+	GetE('txtHSpace').value	= GetAttribute( oVideo, 'hspace', '' ) ;
+	GetE('txtBorder').value	= GetAttribute( oVideo, 'border', '' ) ;
+	GetE('txtAttTitle').value		= oVideo.title ;*/
+
+
+	if ( oVideo.style.pixelWidth > 0 )
+		GetE('txtWidth').value  = oVideo.style.pixelWidth ;
+	else
+		GetE('txtWidth').value  = GetAttribute( oVideo, "width", '' ) ;
+
+	if ( oVideo.style.pixelHeight > 0 )
+		GetE('txtHeight').value  = oVideo.style.pixelHeight ;
+	else
+		GetE('txtHeight').value = GetAttribute( oVideo, "height", '' ) ;
+
+	UpdatePreview() ;
+}
+
+function Ok()
+{
+	if ( GetE('txtUrl').value.length == 0 )
+	{
+		GetE('txtUrl').focus() ;
+		return false ;
+	}
+
+	if ( oVideo )	
+	{		
+		oVideo.removeNode();
+	}
+	
+	oVideo = FCK.EditorDocument.createElement( 'EMBED' ) ;
+	oVideo.type=oEditor.FCKConfig.VideoType;
+	SetAttribute(oVideo,"pluginspage",oEditor.FCKConfig.VideoPlugin);
+	UpdateVideo( oVideo ) ;
+	oVideo.src = GetE('txtUrl').value;
+	oVideo.removeAttribute('filename');
+	
+	//oVideo.id=oEditor.FCKConfig.VideoID;
+	oVideo.opentest_type = oEditor.FCKConfig.VideoOType;
+	var sHTML=oVideo.outerHTML;
+	FCK.InsertElement(oVideo);
+
+	return true ;
+}
+
+function BrowseServer()
+{
+	// Set the browser window feature.
+	var iWidth	= oEditor.FCKConfig.VideoBrowserWindowWidth ;
+	var iHeight	= oEditor.FCKConfig.VideoBrowserWindowHeight ;
+
+	var iLeft = (screen.width  - iWidth) / 2 ;
+	var iTop  = (screen.height - iHeight) / 2 ;
+
+	var sOptions = "toolbar=no,status=no,resizable=yes,dependent=yes" ;
+	sOptions += ",width=" + iWidth ;
+	sOptions += ",height=" + iHeight ;
+	sOptions += ",left=" + iLeft ;
+	sOptions += ",top=" + iTop ;
+
+	// Open the browser window.
+	var oWindow = window.open( oEditor.FCKConfig.VideoBrowserURL, "FCKBrowseWindow", sOptions ) ;
+}
+
+function SetUrl( url, width, height, alt )
+{
+	GetE('txtUrl').value = oEditor.FCKConfig.BaseHref+url ;
+	GetE('txtWidth').value = width ? width : '150' ;
+	GetE('txtHeight').value = height ? height : '150' ;
+
+	if ( alt )
+	{
+		GetE('txtAlt').value = alt;
+		GetE('txtTitle').value = alt;
+	}
+
+	UpdatePreview() ;
+//	UpdateOriginal( true ) ;
+}
+
+function UpdateOriginal( resetSize )
+{
+	oVideoOriginal = document.createElement( 'EMBED' ) ;	// new Video() ;
+
+	if ( resetSize )
+	{
+		oVideoOriginal.onload = function()
+		{
+			this.onload = null ;
+			ResetSizes() ;
+		}
+	}
+
+	oVideoOriginal.type=oEditor.FCKConfig.VideoType;
+    SetAttribute(oVideoOriginal,"pluginspage",oEditor.FCKConfig.VideoPlugin);
+	oVideoOriginal.src = GetE('videoPreview').src;
+}
+
+function UpdatePreview()
+{
+    var vidPrev = GetE('videoPreview');
+    if ( GetE('txtUrl').value.length == 0 )
+		vidPrev.style.display = 'none' ;
+	else
+    {
+		if(oVideo)
+			vidPrev.removeAttribute('filename');	
+		UpdateVideo(vidPrev) ;
+        vidPrev.style.width='';
+        vidPrev.style.height='';
+        vidPrev.style.display = '' ;		
+    }
+}
+
+function UpdateVideo( e )
+{
+    e.autostart = 0;
+	SetAttribute( e, "filename", GetE('txtUrl').value ) ;
+	SetAttribute( e, "width"   , GetE('txtWidth').value ) ;
+	SetAttribute( e, "height"  , GetE('txtHeight').value ) ;
+	SetAttribute( e, "align"   , GetE('cmbAlign').value ) ;
+
+/*	SetAttribute( e, "alt"     , GetE('txtAlt').value ) ;
+	SetAttribute( e, "vspace"  , GetE('txtVSpace').value ) ;
+	SetAttribute( e, "hspace"  , GetE('txtHSpace').value ) ;
+	SetAttribute( e, "border"  , GetE('txtBorder').value ) ;
+	SetAttribute( e, "title"   , GetE('txtAttTitle').value ) ;*/
+}
+
+		</script>
+	</head>
+	<body scroll="no" style="OVERFLOW: hidden">
+		<table height="100%" cellSpacing="0" cellPadding="0" width="100%" border="0">
+		   <tr>
+			   <td>
+				   <table cellspacing="5" cellpadding="0" width="100%" border="0">
+					  <tr>
+						  <td width="100%">
+							  <span fckLang="VideoDlgURL">URL</span>
+						  </td>
+						  <td id="tdBrowse" style="DISPLAY: none" nowrap rowspan="2" valign="bottom">
+							  &nbsp;
+							  <input id="btnBrowse" onclick="BrowseServer();" type="button"
+								  value="Browse Server" fckLang="DlgBtnBrowseServer" NAME="btnBrowse">
+						  </td>
+					  </tr>
+					  <tr>
+						  <td valign="top">
+							 <input id="txtUrl" style="WIDTH: 100%" type="text" onblur="UpdatePreview();">
+						  </td>
+					  </tr>
+					  <!--
+					  <tr>
+						  <td>
+							  <span fckLang="VideoDlgAlt">Short Description</span><br>
+							  <input id="txtAlt" style="WIDTH: 100%" type="text"><br>
+						  </td>
+						  <td>
+							  <span fckLang="VideoDlgAttTitle">Title</span><br>
+							  <input id="txtAttTitle" style="WIDTH: 100%" type="text"><br>
+						  </td>
+					  </tr>
+					  -->
+					  <tr height="100%">
+							<td valign="top" colspan="2">
+								<table cellspacing="0" cellpadding="0" width="100%" border="0" height="100%">
+									<tr>
+										<td valign="top">
+											<br>
+											<table cellspacing="0" cellpadding="0" border="0">
+												<tr>
+													<td nowrap><span fckLang="VideoDlgWidth">Width</span>&nbsp;</td>
+													<td>
+														<input type="text" size="3" id="txtWidth" onkeyup="UpdatePreview() ;"></td>
+												</tr>
+												<tr>
+													<td nowrap><span fckLang="VideoDlgHeight">Height</span>&nbsp;</td>
+													<td>
+														<input type="text" size="3" id="txtHeight" onkeyup="UpdatePreview() ;"></td>
+												</tr>
+											</table>
+											<br>
+											<table cellspacing="0" cellpadding="0" border="0">
+												<!--
+												<tr>
+													<td nowrap><span fckLang="VideoDlgBorder">Border</span>&nbsp;</td>
+													<td>
+														<input type="text" size="2" value="" id="txtBorder" onkeyup="UpdatePreview();"></td>
+												</tr>
+												<tr>
+													<td nowrap><span fckLang="VideoDlgHSpace">HSpace</span>&nbsp;</td>
+													<td>
+														<input type="text" size="2" id="txtHSpace" onkeyup="UpdatePreview();"></td>
+												</tr>
+												<tr>
+													<td nowrap><span fckLang="VideoDlgVSpace">VSpace</span>&nbsp;</td>
+													<td>
+														<input type="text" size="2" id="txtVSpace" onkeyup="UpdatePreview();"></td>
+												</tr>
+												-->
+												<tr>
+													<td nowrap><span fckLang="VideoDlgAlign">Align</span><br><select id="cmbAlign" onchange="UpdatePreview();">
+															<option value="" selected></option>
+															<option fckLang="VideoDlgAlignLeft" value="left">Left</option>
+															<option fckLang="VideoDlgAlignAbsBottom" value="absBottom">Abs Bottom</option>
+															<option fckLang="VideoDlgAlignAbsMiddle" value="absMiddle">Abs Middle</option>
+															<option fckLang="VideoDlgAlignBaseline" value="baseline">Baseline</option>
+															<option fckLang="VideoDlgAlignBottom" value="bottom">Bottom</option>
+															<option fckLang="VideoDlgAlignMiddle" value="middle">Middle</option>
+															<option fckLang="VideoDlgAlignRight" value="right">Right</option>
+															<option fckLang="VideoDlgAlignTextTop" value="textTop">Text Top</option>
+															<option fckLang="VideoDlgAlignTop" value="top">Top</option>
+														</select>
+													</td>
+												</tr>
+											</table>
+										</td>
+										<td>&nbsp;&nbsp;&nbsp;</td>
+										<td width="100%" valign="top">
+											<table cellpadding="0" cellspacing="0" width="100%" style="TABLE-LAYOUT: fixed">
+												<tr>
+													<td><span fckLang="VideoDlgPreview">Preview</span></td>
+												</tr>
+												<tr>
+													<td valign="top">
+														<div class="ImagePreviewArea" id="vidPrv">
+														</div>
+													</td>
+												</tr>
+											</table>
+										</td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+				   </table>
+			   </td>
+		   </tr>
+		</table>
+	</body>
+</html>

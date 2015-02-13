@@ -1,0 +1,254 @@
+<?php
+     /************************************************************************/
+     /* OpenTEST System: The System Of Computer Testing Knowleges            */
+     /* ============================================                         */
+     /*                                                                      */
+     /* Copyright (c) 2002-2005 by OpenTEST Team                             */
+     /* http://opentest.com.ua                                               */
+     /* e-mail: opentest@opentest.com.ua                                     */
+     /*                                                                      */
+	 /************************************************************************/
+     /* 11/01/2005 08:00:00                                                                                    */
+     /************************************************************************/
+     if (INDEXPHP!=1)
+          die ("You can't access this file directly...");
+
+     //проверка прав на модуль
+     if(!is_allow(5,0,5,0,1))
+     {
+     	echo "<META HTTP-EQUIV='Refresh' CONTENT='0; URL=index.php?module=".$module."&status_code=0&status_num=op_not_permitted'>";
+        exit;
+     }
+
+     // получаем, определяем и проверяем входяшие данные
+     if(isset($_REQUEST['action']))
+          $action = $_REQUEST['action'];
+	 else $action="";
+	 if(isset($_REQUEST['next_action']))
+          $next_action = $_REQUEST['next_action'];
+	 else $next_action="";
+
+     if(isset($_REQUEST['group_id']))
+          $group_id = (int)$_REQUEST['group_id'];
+     else $group_id="";
+
+     if(isset($_REQUEST['group_name']))
+          $group_name = $_REQUEST['group_name'];
+     else $group_name="";
+
+    if(isset($_REQUEST['for_cat_id']))
+        $for_cat_id = $_REQUEST['for_cat_id'];
+    else $for_cat_id="";
+
+    if(isset($_REQUEST['for_gr_cat_id']))
+                $for_gr_cat_id = $_REQUEST['for_gr_cat_id'];
+    else $for_gr_cat_id="";
+	
+	if(isset($_REQUEST['for_module']))
+    	$for_module = $_REQUEST['for_module'];
+    else
+    	$for_module = "";
+
+    if($for_cat_id!="")
+    {
+    	$tmp_obj="for_cat_id";
+        $tmp_obj_id=$for_cat_id;
+    }
+    elseif($for_gr_cat_id!="")
+    {
+    	$tmp_obj="for_gr_cat_id";
+        $tmp_obj_id=$for_gr_cat_id;
+    }
+    elseif($for_module!="")
+    {
+        $tmp_obj="for_module";
+        $tmp_obj_id=$for_module;
+        $tmp_obj_code=$for_module;
+    }
+//   Переменные из формы ввода 
+  if(isset($_REQUEST['user_name']))
+          $user_name = $_REQUEST['user_name'];
+     else $user_name="";
+  if(isset($_REQUEST['user_name']))
+          $user_login = $_REQUEST['user_login'];
+     else $user_login="";
+  if(isset($_REQUEST['user_name']))
+          $user_password = $_REQUEST['user_password'];
+     else $user_password=""; 
+  if(isset($_REQUEST['user_password_confirm']))
+          $user_password_confirm = $_REQUEST['user_password_confirm'];
+     else $user_password_confirm="";  
+  if(isset($_REQUEST['user_disable']))
+          $user_disable = $_REQUEST['user_disable'];
+     else $user_disable="";  
+  if(isset($_REQUEST['user_cant_change_pass']))
+          $user_cant_change_pass = $_REQUEST['user_cant_change_pass'];
+     else $user_cant_change_pass="";  
+   
+/////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////
+
+
+     if(!isset($_REQUEST['page_num']))
+          $page_num=0;
+     else
+          $page_num=(int)$_REQUEST['page_num']-1;
+
+     if(!isset($_REQUEST['letter']))
+          $letter="";
+     else
+		  $letter=$_REQUEST['letter'];
+
+	 if(!isset($_REQUEST['keyword']))
+		  $keyword="";
+	 else
+		  $keyword=$_REQUEST['keyword'];
+
+	 if(isset($_REQUEST['return_up']))
+		  $return_up = (int)$_REQUEST['return_up'];
+	 else
+		  $return_up= 0;
+		  
+	
+     
+    if(isset($_REQUEST['for_test_id']))
+		$for_test_id = (int)$_REQUEST['for_test_id'];
+    else
+		$for_test_id="";
+     
+     
+	 if ($for_test_id!="") {$tmp_obj="for_test_id";$tmp_obj_id=(int)$for_test_id;}
+
+	 // Проверка полученных переменных
+	 $return_up = intval($return_up);
+
+     switch($action)
+     {
+          // ============= Блок реализующий вывод списка пользователей  =============
+          case "view_group":
+               // Вывод списка пользователей в указаной группе
+
+				/*if(!is_allow(14,$group_id,1))
+				{
+					echo "<META HTTP-EQUIV='Refresh' CONTENT='0; URL=index.php?module=".$module."&page=group_category&status_code=0&status_num=op_not_permitted'>";					
+					exit;
+				};*/
+				
+               switch ($next_action)
+                {
+ 		case "edit_permissions_u":
+                       switch($tmp_obj)
+                        {
+                            case "for_cat_id":
+                                $res=sql_single_query("SELECT test_category_name AS name FROM test_categories WHERE test_category_id='".$for_cat_id."'");
+                                $tmp_obj_code=11;
+                            break;
+
+                            case "for_gr_cat_id":
+                                $res=sql_single_query("SELECT group_category_name AS name FROM group_categories WHERE group_category_id='".$for_gr_cat_id."'");
+                                $tmp_obj_code=13;
+                            break;
+
+                            case "for_module":
+                                $res = array('name'=>$modules[$tmp_obj_code-1]);
+                            break;
+                        }
+                        themeleftbox(GROUP_CATEGORY_USER_SELECT_HEADER,"","",true);
+                        echo "
+                              <tr><td>  <br>
+                              <b>".GROUP_USER_SELECT."</b>: <u><i>".$res['name']."</i></u><br><br>
+                              ";
+                    break;
+					/*default:
+						  themeleftbox(_GROUP_VIEW_HEADER,"","",true);
+						  echo "
+								<tr><td>  <br>
+								<b>"._GROUP_CHOOSE_USER_DEF."</b><br><br>
+							   ";
+						  $next_action="view_user";
+					break;*/
+               }
+						
+			   $row_num=get_count($group_id, 3, 0, $keyword, $letter);
+
+               // Вывод алфавита
+               show_abc('index.php?module=tests&page=group&action='.$action.'&next_action='.$next_action.'&group_id='.$group_id.'&letter=');
+
+			   if ($row_num==0)
+                    echo "<b>"._GROUP_NO_USERS."</b>";
+			   else
+			   {
+					// выводим список пользователей в данной группе...
+					if ($keyword!='')
+					$query = "SELECT user_id,user_name,user_disable
+							  FROM users
+							  WHERE group_id='$group_id'
+							  AND user_name
+							  RLIKE '.*$keyword.*'
+							  ORDER BY user_name ASC
+							  LIMIT ".$page_num*$limit_page.",".$limit_page
+							  ;
+					else
+					if ($letter=='')
+						$query="SELECT user_id,user_name,user_disable
+							   FROM users
+							   WHERE group_id='$group_id'
+							   ORDER BY user_name ASC
+							   LIMIT ".$page_num*$limit_page.",".$limit_page;
+                    else
+						$query="SELECT user_id,user_name,user_disable
+	                           FROM users
+	                           WHERE group_id='$group_id'
+	                           AND user_name
+							   RLIKE '^$letter.*'
+	                           ORDER BY user_name ASC
+							   LIMIT ".$page_num*$limit_page.",".$limit_page;
+					$result=sql_query($query);
+
+                   	CloseTable();
+                    $n=0;
+               	 	
+	                $col_width=100/$limit_col;
+
+                    echo '<table border="0"style="width:100%"><tr><td width='.$col_width.'%>';
+
+                    while ($row=mysql_fetch_assoc($result))
+					{
+                         if ($n==$limit_row)
+	                     {
+	                        echo"<td width=".$col_width."%>";
+                            $n=0;
+
+	                     }
+						 $n++;
+
+
+						if($row['user_disable']==1)
+						{
+						
+						}
+						//-------------------------
+						echo "<table cellpadding=0 cellspacing=0 border=".$config['debug_table'].">
+						<tr><td nowrap>";
+						//-------------------------
+
+						if ($next_action=="edit_permissions_u")
+						{
+							 echo "<a href='index.php?module=".$module."&page=rights&action=edit_permissions_u&".$tmp_obj."=".$tmp_obj_id."&user_id=".$row['user_id']."'><img  align='absmiddle' src='themes/".$current_theme."/images/view.png'></a>";
+						}
+						/*else
+						 echo "<a href='index.php?module=".$module."&page=user&action=view_user&user_id=".$row['user_id']."'><img title='"._GROUP_VIEW_USERS."' align='middle' src='themes/".$current_theme."/images/view.png'></a>&nbsp;
+							   <a href='index.php?module=".$module."&page=user&action=view_rename_form&return_up=1&user_id=".$row['user_id']."'><img title='"."' align='middle' src='themes/".$current_theme."/images/rename.png'></a>&nbsp;
+							   <a href='index.php?module=".$module."&page=user&action=".$on_off."&return_up=1&letter=".$letter."&keyword=".$keyword."&user_id=".$row['user_id']."'><img title='".$on_off_str."' align='middle' src='themes/".$current_theme."/images/".$img."'></a>&nbsp;
+							   <a href='index.php?module=".$module."&page=user&action=view_delete_form&return_up=1&letter=".$letter."&keyword=".$keyword."&user_id=".$row['user_id']."'><img title='"."' align='middle' src='themes/".$current_theme."/images/delete.png'></a>&nbsp; ".$row['user_name']."<br>";*/
+						//-------------------------
+						echo "</td><td>&nbsp; ".$row['user_name']."</td></tr></table>";
+						//-------------------------
+					}
+	                echo "<tr><td colspan=".$limit_col."><br>";
+					echo nav_bar($row_num,"index.php?module=groups&page=group&action=".$action."&group_id=".$group_id."&letter=".$letter."&page_num=");
+			   }
+          break;
+     }
+?>

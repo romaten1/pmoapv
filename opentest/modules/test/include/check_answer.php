@@ -1,0 +1,118 @@
+<?php
+/************************************************************************/
+/* OpenTEST 2                                                           */
+/* ============================================                         */
+/*                                                                      */
+/* Copyright (c) 2002-2013 by OpenTEST Team                             */
+/* http://opentest.com.ua                                               */
+/* e-mail: nserv@opentest.com.ua                                        */
+/*                                                                      */
+/************************************************************************/
+
+if (INDEXPHP!=1) {die ("You can't access this file directly...");}
+if (TESTTEST!=1) {die ("You can't access this file directly...");}
+
+// Получаем сессию
+$query = "SELECT last_prepared_question_id,check_number,question_type,start_show_answers,show_later 
+		FROM sessions 
+		WHERE user_id='$user_id' and test_id='$test_id' and group_id='$group_id' and teacher_id='$teacher_id'
+		";
+$row=sql_single_query($query);
+
+$last_prepared_question_id=$row['last_prepared_question_id'];
+$check_number_db=$row['check_number'];
+$question_type=$row['question_type'];
+$start_show_answers=$row['start_show_answers'];
+$show_later=(int)$row['show_later'];
+
+// Проверка: вычерпано ли время показа вариантов ответов
+
+if($show_later > 0)
+{
+	$query = "SELECT user_id 
+		FROM sessions 
+		WHERE user_id='$user_id' and test_id='$test_id' and group_id='$group_id' and teacher_id='$teacher_id'
+		AND start_show_answers > DATE_SUB(NOW(), INTERVAL $show_later SECOND)
+		";
+		$result=sql_query($query);
+		$num_rows=mysql_num_rows($result);
+	
+	if ($num_rows==1) {}
+	else 
+	{
+		echo"<META HTTP-EQUIV=Refresh CONTENT='0; URL=index.php?module=$module&page=test&number=$number'>";
+	}
+}
+
+if($question_type=='1')
+{
+	// Ставим selected выбранным
+	$query = "UPDATE prepared_answers 
+				SET selected=0
+				WHERE prepared_question_id='$last_prepared_question_id'
+			 ";
+	sql_query($query);
+	
+	// Убираем selected у всех
+	if ( isset($answer_id[1]) )
+	{
+		$query = "UPDATE prepared_answers 
+					SET selected=1
+					WHERE answer_id='$answer_id[1]' and prepared_question_id='$last_prepared_question_id'
+				 ";
+		sql_query($query);
+	}
+}
+if($question_type=='2')
+{
+	// Ставим selected выбранным
+	$query = "UPDATE prepared_answers 
+			SET selected=0
+			WHERE prepared_question_id='$last_prepared_question_id'
+		 ";
+	sql_query($query);
+
+	// Ставим selected выбранным
+	if ( isset($answer_id) and is_array($answer_id))
+	{
+		while( list($var, $value) = each($answer_id) )
+		{
+			$query = "UPDATE prepared_answers 
+						SET selected=1
+						WHERE answer_id='$value' and prepared_question_id='$last_prepared_question_id'
+					 ";
+			sql_query($query);
+		}
+	}
+}
+if($question_type=='3')
+{
+	// Ставим выбранное значение
+	if ( is_array($answer_id) )
+	{
+		while( list($var, $value) = each($answer_id) )
+		{
+			$query = "UPDATE prepared_answers 
+						SET selected_sample = '$value'
+						WHERE answer_id='$var' and prepared_question_id='$last_prepared_question_id'
+					 ";
+			sql_query($query);
+		}	
+	}
+}
+if($question_type=='4')
+{
+	// Ставим значения выбранным
+	if ( isset($answer_id) )
+	{
+		$answer_value=$_REQUEST['answer_value'];
+		while( list($var, $value) = each($answer_id) )
+		{
+			$query = "UPDATE prepared_answers 
+						SET selected_sample = '$answer_value[$var]'
+						WHERE answer_id='$value' and prepared_question_id='$last_prepared_question_id'
+					 ";
+			sql_query($query);
+		}
+	}
+}

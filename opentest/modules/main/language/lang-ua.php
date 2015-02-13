@@ -1,0 +1,60 @@
+<?php
+     /************************************************************************/
+     /* OpenTEST System: The System Of Computer Testing Knowleges            */
+     /* ============================================                         */
+     /*                                                                      */
+     /* Copyright (c) 2002-2005 by OpenTEST Team                             */
+     /* http://opentest.com.ua                                               */
+     /* e-mail: opentest@opentest.com.ua                                     */
+     /*                                                                      */
+     /************************************************************************/
+     /* 11/01/2005 08:00:00                                                                                    */
+     /************************************************************************/
+     if (INDEXPHP!=1)
+          die ("You can't access this file directly...");
+
+     define("_DEFAULT1","Тестування");
+     define("_DEFAULT2","Управління тестами");
+     define("_DEFAULT3","Управління користувачами");
+     define("_TESTCONTROL","Управління тестуванням");
+     define("_STATISTICS","Статистика");
+     define("_DEFAULT4","Результати тестування");
+     define("_DEFAULT5","Адміністрування");
+     define("_DEFAULT6","<img class='img_icon' src='themes/opentest2/images/icons/trinux-sb_r8_c18.gif' align=absmiddle> Меню основних модулів");     
+     define("_MENU1","<img class='img_icon'  src='themes/opentest2/images/icons/trinux-sb_r8_c18.gif' align=absmiddle> Меню основних модулів");
+     define("_MENU2","<img class='img_icon'  src='themes/opentest2/images/icons/trinux-sb_r4_c16.gif' align=absmiddle> Перевірити локальні настроювання");
+     define("_MENU3","<img class='img_icon'  src='themes/opentest2/images/icons/trinux-sb_r12_c16.gif' align=absmiddle> Служба технічної підтримки");
+     define("_MENU4","<img class='img_icon'  src='themes/opentest2/images/icons/trinux-sb_r14_c8.gif' align=absmiddle> Змінити мову інтерфейсу");
+     define("_MENU5","Загальні задачі");
+     define("_MENU6","Авторизація");
+     define("_MENU7","Ваш логін");
+     define("_MENU8","Пароль");
+     define("_MENU9","Увійти");
+
+     define("_MENU_AUTHORIZATION","Авторизація");
+     define("_MENU_GROUP","Група");
+     define("_MENU_USER","Користувач");
+     define("_MENU_EXIT","Вихід");
+
+
+     define("_MENU10","<img  class='img_icon' src='themes/opentest2/images/icons/trinux-sb_r6_c16.gif' align=absmiddle> Забули ваш пароль?");
+     define("_MENU11","<img  class='img_icon' src='themes/opentest2/images/icons/trinux-sb_r6_c20.gif' align=absmiddle>Зареєструватися");
+     define("_CHANGELANG1","<img  class='img_icon' src='themes/opentest2/images/icons/trinux-sb_r14_c8.gif' align=absmiddle>  Зміна мови інтерфейсу");
+     define("_TESTLOCALSET1","<img  class='img_icon' src='themes/opentest2/images/icons/trinux-sb_r4_c16.gif' align=absmiddle> Перевірка локальних настройок");
+     define("_SUPPORT1","<img  class='img_icon' src='themes/opentest2/images/icons/trinux-sb_r12_c16.gif' align=absmiddle> Служба технічної підтримки");
+
+     global $status_text;
+     $status_text = array(
+         "lang_changed"       => "Мова інтерфейсу успішно змінена",
+         "lang_not_found"     => "Не знайдено мовного файла! Мова інтерфейсу встановлена за замовченням!",
+	  "op_not_permitted"	  => "Для даної операції не вистачає привілеїв!",
+	  "user_renamed"        	=> "Інформація про користувача була успішно змінена");
+
+define("_SUPPORT_HTML_PAGE","
+	<b>Сайт: </b> http://opentest.com.ua <br>
+	<b>Технічна підтримка:</b> support@opentest.com.ua <br>
+	<b>Інші питання:</b> opentest@opentest.com.ua <br>
+");
+
+define('_SELECT_LANGUAGE','Оберіть мову інтерфейса');
+define('_APPLY_LANGUAGE','застосувати');

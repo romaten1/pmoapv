@@ -1,0 +1,379 @@
+<?php
+if (INDEXPHP!=1) die ("You can't access this file directly...");
+
+//-- page params
+$limit_col=2;
+$limit_row=10;
+$limit_page=$limit_col*$limit_row;
+
+// получаем, определяем и проверяем входяшие данные
+if(isset($_REQUEST['action']))
+	$action = $_REQUEST['action'];
+else $action="";
+
+if(isset($_REQUEST['next_action']))
+	$next_action = $_REQUEST['next_action'];
+else $next_action="";
+
+if(isset($_REQUEST['group_id']))
+	$group_id = (int)$_REQUEST['group_id'];
+else $group_id="";
+
+if(isset($_REQUEST['group_name']))
+	$group_name = $_REQUEST['group_name'];
+else $group_name="";
+
+//   Переменные из формы ввода
+if(isset($_REQUEST['user_name'])) $user_name = $_REQUEST['user_name'];
+else $user_name="";
+
+if(isset($_REQUEST['user_name'])) $user_login = $_REQUEST['user_login'];
+else $user_login="";
+
+if(isset($_REQUEST['user_name'])) $user_password = $_REQUEST['user_password'];
+else $user_password=""; 
+
+if(isset($_REQUEST['user_password_confirm'])) $user_password_confirm = $_REQUEST['user_password_confirm'];
+else $user_password_confirm="";
+
+if(isset($_REQUEST['user_disable'])) $user_disable = $_REQUEST['user_disable'];
+else $user_disable=0;
+
+if(isset($_REQUEST['user_cant_change_pass'])) $user_cant_change_pass = $_REQUEST['user_cant_change_pass'];
+else $user_cant_change_pass="0";  
+
+if(!isset($_REQUEST['page_num'])) $page_num=0;
+else $page_num=(int)$_REQUEST['page_num']-1;
+
+if(!isset($_REQUEST['letter'])) $letter="";
+else $letter=$_REQUEST['letter'];
+
+if(!isset($_REQUEST['keyword'])) $keyword="";
+else $keyword=$_REQUEST['keyword'];
+
+if(isset($_REQUEST['return_up'])) $return_up = (int)$_REQUEST['return_up'];
+else $return_up= 0;
+
+if(isset($_REQUEST['for_group_id'])) $for_group_id = (int)$_REQUEST['for_group_id'];
+else $for_group_id="";
+
+if ($for_group_id!="") {$tmp_obj="for_group_id";$tmp_obj_id=(int)$for_group_id;}
+
+// Проверка полученных переменных
+$return_up = intval($return_up);
+
+switch($action) {
+	// ============= Блок реализующий вывод списка пользователей  =============
+	case "view_group":
+	// Вывод списка пользователей в указаной группе
+		add_recent(1,$group_category_id,$group_id,$GLOBALS['auth_result']['user']['user_id']);
+		switch ($next_action) {
+			case "edit_permissions_u":
+				$query="SELECT group_name FROM groups WHERE group_id='".$for_group_id."'";
+				$res=sql_single_query($query);
+				themeleftbox(_GROUPS_CATEGORY_CH_U_R_H,"","",true);
+				echo "<tr><td><br>
+					<b>"._GROUPS_CATEGORY_CH_USER."</b>: <u><i>".$res['group_name']."</i></u><br><br>
+					";
+			break;
+
+			default:
+				themeleftbox(_GROUP_VIEW_HEADER,"","",true);
+				echo "<tr><td>  <br>
+					<b>"._GROUP_CHOOSE_USER_DEF."</b><br><br>";
+				$next_action="view_user";
+			break;
+		}
+
+		$row_num=get_count($group_id, 3, 0, $keyword, $letter);
+
+		// Вывод алфавита
+		show_abc('index.php?module=users&page=group&action='.$action.'&next_action='.$next_action.'&group_id='.$group_id.'&letter=');
+
+		if ($row_num==0) echo "<b>"._GROUP_NO_USERS."</b>";
+		else {
+			// выводим список пользователей в данной группе...
+			if ($keyword!='')
+				$query = "SELECT user_id,user_name,user_disable
+					FROM users
+					WHERE group_id='".$group_id."'
+					AND user_name
+					RLIKE '.*".$keyword.".*'
+					ORDER BY user_name
+					LIMIT ".$page_num*$limit_page.",".$limit_page;
+	        else
+				if ($letter=='')
+					$query="SELECT user_id,user_name,user_disable
+						FROM users
+						WHERE group_id='".$group_id."'
+						ORDER BY user_name
+						LIMIT ".$page_num*$limit_page.",".$limit_page;
+				else
+					$query="SELECT user_id,user_name,user_disable
+						FROM users
+						WHERE group_id='".$group_id."'
+						AND user_name
+						RLIKE '^".$letter.".*'
+						ORDER BY user_name
+						LIMIT ".$page_num*$limit_page.",".$limit_page;
+			$result=sql_query($query);
+			CloseTable();
+			$n=0;
+			$col_width=100/$limit_col;
+			echo '<table border="0"style="width:100%"><tr><td width='.$col_width.'%>';
+			while ($row=mysql_fetch_assoc($result)) {
+				if ($n==$limit_row) {
+					echo"<td width=".$col_width."%>";
+					$n=0;
+				}
+				$n++;
+				if($row['user_disable']==1) {
+					$on_off_str = "";
+					$on_off = "on";
+					$img = "on.png";
+				} else {
+					$on_off_str = "";
+					$on_off = "off";
+					$img = "off.png";
+				}
+				echo "<table cellpadding=0 cellspacing=0 border=".$config['debug_table'].">
+					<tr><td nowrap>";
+				if ($next_action=="edit_permissions_u") {
+					echo "<a href='index.php?module=".$module."&page=rights&action=edit_permissions_u&".$tmp_obj."=".$tmp_obj_id."&user_id=".$row['user_id']."'><img title='"._GROUP_VIEW_USERS."' align='absmiddle' src='themes/".$current_theme."/images/view.png'></a>";
+				} else
+					echo "<a href='index.php?module=".$module."&page=user&action=view_user&user_id=".$row['user_id']."'><img title='"._GROUP_VIEW_USERS."' align='absmiddle' src='themes/".$current_theme."/images/view.png'></a>&nbsp;
+				   <a href='index.php?module=".$module."&page=user&action=view_rename_form&return_up=1&user_id=".$row['user_id']."'><img title='"."' align='absmiddle' src='themes/".$current_theme."/images/rename.png'></a>&nbsp;
+				   <a href='index.php?module=".$module."&page=user&action=".$on_off."&return_up=1&letter=".$letter."&keyword=".$keyword."&user_id=".$row['user_id']."'><img title='".$on_off_str."' align='absmiddle' src='themes/".$current_theme."/images/".$img."'></a>&nbsp;
+						   <a href='index.php?module=".$module."&page=user&action=view_delete_form&return_up=1&letter=".$letter."&keyword=".$keyword."&user_id=".$row['user_id']."'><img title='"."' align='absmiddle' src='themes/".$current_theme."/images/delete.png'></a>";
+
+				echo "</td><td>&nbsp; ".$row['user_name']."</td></tr></table>";
+			}
+			echo "<tr><td colspan=".$limit_col."><br>";
+			echo nav_bar($row_num,"index.php?module=users&page=group&action=".$action."&group_id=".$group_id."&letter=".$letter."&page_num=");
+		}
+	break;
+
+	// ============= Блок реализующий "Добавить нового пользователя"  =============
+	case "add_user_form":
+		if(!is_allow(14,$group_category_id,$group_id,0,1)) {
+			echo "<META HTTP-EQUIV='Refresh' CONTENT='0; URL=".$_SERVER['HTTP_REFERER']."&status_code=0&status_num=op_not_permitted'>";
+			exit;
+		};
+		themeleftbox(_GROUP_CREATE_HEADER,"","",true);
+
+		echo "<tr><td>  <br>
+                    <b>"._GROUP_CREATE_USER_TEXT."</b>:<br><br>
+                    <form method=POST action='index.php?module=$module&page=group&action=add_user&group_id=".$group_id."'>
+                    "._GROUP_USER_DETAIL."
+                    <input type=text name=user_name><br><br>
+                    "._GROUP_USER_LOGIN."
+                    <input type=text name=user_login><br><br>
+                    "._GROUP_USER_PASSWORD."
+                    <input type=password name=user_password><br><br>
+                    "._GROUP_USER_PASSWORD_C."
+                    <input type=password name=user_password_confirm><br><br>
+                    "._GROUP_USER_OFF."
+                    <input type=checkbox name=user_disable value=1><br><br>
+                    "._GROUP_USER_CANT_CH_PASS."
+                    <input type=checkbox name=user_cant_change_pass value=1><br><br>
+                    <input type=submit value='"._GROUP_CREATE_BUTTON."'>
+                    </form>
+                    ";
+	break;
+
+	case "add_user":
+		if(!is_allow(14,$group_category_id,$group_id,0,1)) {
+			echo "<META HTTP-EQUIV='Refresh' CONTENT='0; URL=".$_SERVER['HTTP_REFERER']."&status_code=0&status_num=op_not_permitted'>";
+			exit;
+		};
+
+		// Сравнение пароля с проверочным полем
+		// + Наверное надо сделать ограничение на длину пароля
+		if ($user_password != $user_password_confirm)
+			echo "<META HTTP-EQUIV='Refresh' CONTENT='0; URL=index.php?module=".$module."&page=group&action=add_user_form&group_id=".$group_id."&status_code=0&status_num=password_incorrect'>";
+                       
+		// проверка имени пользователя на уникальность в пределах группы
+		$query = "SELECT COUNT(*)
+			FROM users
+			WHERE group_id='".$group_id."'
+			AND user_name='".$user_name."'";
+		$row = sql_single_query($query);
+		if ($row['COUNT(*)']!=0) {
+			//редирект на форму добавления пользователя
+			echo "<META HTTP-EQUIV='Refresh' CONTENT='0; URL=index.php?module=".$module."&page=group&action=add_user_form&group_id=".$group_id."&status_code=0&status_num=user_exist'>";
+			break;
+		}
+			   
+		//проверка логина пользователя на уникальность 
+		if ($user_login!="") {
+			$query = "SELECT COUNT(*)
+				FROM users
+				WHERE user_login='".$user_login."'";
+			$row = sql_single_query($query);
+			if ($row['COUNT(*)']!=0) {
+				//редирект на форму добавления пользователя
+				echo "<META HTTP-EQUIV='Refresh' CONTENT='0; URL=index.php?module=".$module."&page=group&action=add_user_form&group_id=".$group_id."&status_code=0&status_num=user_login_exist'>";
+				break;
+			}
+		}
+		// Скрипт создания нового пользователя
+		$query = "INSERT INTO users (group_id,user_name,user_disable,user_login,user_password,user_cant_change_pass)
+			VALUES('".$group_id."','".$user_name."','".$user_disable."','".$user_login."','".$user_password."','".$user_cant_change_pass."')";
+
+		sql_query($query);
+		// получаем id созданного пользователя
+		$user_id = mysql_insert_id();
+		//редирект на вывод информации о пользователе
+		// занести в статус сообщение о том, что пользователь с заданным именем был успешно создан
+		echo "<META HTTP-EQUIV='Refresh' CONTENT='0; URL=index.php?module=".$module."&page=user&action=view_user&user_id=".$user_id."&status_code=1&status_num=user_added'>";
+	break;
+
+	// =============Блок реализующий "Переименовать" =============
+	case "view_rename_form":
+		if(!is_allow(14,$group_category_id,$group_id,0,1)) {
+			echo "<META HTTP-EQUIV='Refresh' CONTENT='0; URL=".$_SERVER['HTTP_REFERER']."&status_code=0&status_num=op_not_permitted'>";
+			exit;
+		};
+		themeleftbox(_GROUP_RENAME_HEADER,"","",true);
+		//запрос к БД на имя группы
+		$query = "SELECT group_name
+			FROM groups
+			WHERE group_id='".$group_id."'";
+		$row = sql_single_query($query);
+		// Форма переименования теста
+		echo "
+			<tr><td>  <br>
+			<b>"._GROUP_RENAME_TEXT."</b>:<br><br>
+			<form method=POST action='index.php?module=$module&page=group&action=rename&return_up=".$return_up."&group_id=".$group_id."'>
+			<input type=text name=group_name value='".htmlspecialchars($row['group_name'],ENT_QUOTES)."'><br><br>
+			<input type=submit value='"._GROUP_RENAME_BUTTON."'>
+			</form>";
+	break;
+
+	case "rename":
+		if(!is_allow(14,$group_category_id,$group_id,0,1)) {
+			echo "<META HTTP-EQUIV='Refresh' CONTENT='0; URL=".$_SERVER['HTTP_REFERER']."&status_code=0&status_num=op_not_permitted'>";
+			exit;
+		};
+           
+		// проверка имени группы на уникальность в пределах категории
+		//находим id категории, в котрой лежит текущая группа
+		$query = "SELECT group_category_id
+			FROM groups
+			WHERE group_id='".$group_id."'";
+		$row = sql_single_query($query);
+		$group_category_id = $row['group_category_id'];
+		//находим количество тестов с заданным именем в категории с найденным id
+		$query = "SELECT COUNT(*)
+			FROM groups
+			WHERE group_category_id='".$group_category_id."'
+			AND group_name='".$group_name."'
+			AND group_id<>'".$group_id."'";
+		$row = sql_single_query($query);
+		if ($row['COUNT(*)']!=0) {
+			// редирект на форму переименования теста
+			echo "<META HTTP-EQUIV='Refresh' CONTENT='0; URL=index.php?module=".$module."&page=group&action=view_rename_form&return_up=".$return_up."&group_id=".$group_id."&status_code=0&status_num=group_exist'>";
+			break;
+		}
+		// изменяем соответсвующую запись в БД
+		$query = "UPDATE groups
+			SET group_name='".$group_name."'
+			WHERE group_id='".$group_id."'";
+		sql_query($query);
+
+		if($return_up==1)
+			$url = "index.php?module=".$module."&page=group_category&action=view_category&group_category_id=".$group_category_id;
+		else
+			$url = "index.php?module=".$module."&page=group&action=view_group&group_id=".$group_id;
+		// редирект на вывод списка тем в переименованном тесте
+		// занести в статус сообщение о том, что тест с заданным именем был успешно переименован
+		echo "<META HTTP-EQUIV='Refresh' CONTENT='0; URL=".$url."&status_code=1&status_num=group_renamed'>";
+	break;
+
+	// ============= Блок реализующий "Удалить"  =============
+	case "view_delete_form":
+		if(!is_allow(14,$group_category_id,$group_id,0,1)) {
+			echo "<META HTTP-EQUIV='Refresh' CONTENT='0; URL=".$_SERVER['HTTP_REFERER']."&status_code=0&status_num=op_not_permitted'>";
+			exit;
+		};
+		//  Форма удаления теста
+		themeleftbox(_GROUP_DELETE_HEADER,"","",false);
+		if($return_up==1) {
+			// определение текущей категории для вывода тестов после удаления
+			$query = "SELECT group_category_id
+				FROM groups
+				WHERE group_id='".$group_id."'";
+			$row = sql_single_query($query);
+			$url = "index.php?module=".$module."&page=group_category&action=view_category&letter=".$letter."&keyword=".$keyword."&group_category_id=".$row['group_category_id'];
+		} else
+			$url = "index.php?module=".$module."&page=group&action=view_group&group_id=".$group_id;
+		echo "<tr><td>  <br>
+			<b>"._GROUP_DELETING_CONFIRM."</b><br><br>
+			<a href='index.php?module=".$module."&page=group&action=delete&letter=".$letter."&keyword=".$keyword."&group_id=".$group_id."'>"._YES."</a>&nbsp;&nbsp;
+			<a href='".$url."'>"._NO."</a>
+			";
+	break;
+
+	case "delete":
+		if(!is_allow(14,$group_category_id,$group_id,0,1)) {
+			echo "<META HTTP-EQUIV='Refresh' CONTENT='0; URL=".$_SERVER['HTTP_REFERER']."&status_code=0&status_num=op_not_permitted'>";
+			exit;
+		};
+		//определение текущей категории для вывода групп после удаления
+		$query = "SELECT group_category_id
+			FROM groups
+			WHERE group_id='".$group_id."'";
+		$row1 = sql_single_query($query);
+		if (delete_group($group_id)) {
+			$status_code = 1;
+			$status_num = "group_deleted";
+		} else {
+			$status_code = 0;
+			$status_num = "group_not_deleted";
+		}
+		//редирект на вывод списка тестов в текущей категории
+		// занести в статус сообщение о том, что тест был успешно удален
+		echo "<META HTTP-EQUIV='Refresh' CONTENT='0; URL=index.php?module=".$module."&page=group_category&action=view_category&letter=".$letter."&keyword=".$keyword."&group_category_id=".$row1['group_category_id']."&status_code=".$status_code."&status_num=".$status_num."'>";
+	break;
+	
+	case "on":
+	case "off":
+		if(!is_allow(14,$group_category_id,$group_id,0,1)) {
+			echo "<META HTTP-EQUIV='Refresh' CONTENT='0; URL=".$_SERVER['HTTP_REFERER']."&status_code=0&status_num=op_not_permitted'>";
+			exit;
+		};
+		$stat_str = "&status_code=1&status_num=";
+
+		if($action=="on") {
+			$disable=0;
+			$stat_str.="group_on";
+		} else {
+			$disable=1;
+			$stat_str.="group_off";
+		}
+		
+		disable($group_id,4,$disable);
+
+		if($return_up==1) {
+			$row = sql_single_query("SELECT group_category_id
+				FROM groups
+				WHERE group_id='".$group_id."'");
+
+			$url = "index.php?module=".$module."&page=group_category&action=view_category&letter=".$letter."&keyword=".$keyword."&group_category_id=".$row['group_category_id'];
+		} else
+			$url = "index.php?module=".$module."&page=group&action=view_group&group_id=".$group_id;
+
+		//редирект на вывод списка тем в текущем тесте
+		// занести в статус сообщение о том, что тест с заданным именем был успешно включен/выключен
+		echo "<META HTTP-EQUIV='Refresh' CONTENT='0; URL=".$url.$stat_str."'>";
+	break;
+
+	// ============= Блок реализующий "Экспорт группы в ХМЛ"  =============
+	case "export_group":
+		if(!is_allow(14,$group_category_id,$group_id,0,1)) {
+			echo "<META HTTP-EQUIV='Refresh' CONTENT='0; URL=".$_SERVER['HTTP_REFERER']."&status_code=0&status_num=op_not_permitted'>";
+			exit;
+			};
+		include("export_group.php");
+	break;
+}

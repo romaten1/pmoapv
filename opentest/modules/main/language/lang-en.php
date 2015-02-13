@@ -1,0 +1,61 @@
+<?php
+     /************************************************************************/
+     /* OpenTEST System: The System Of Computer Testing Knowleges            */
+     /* ============================================                         */
+     /*                                                                      */
+     /* Copyright (c) 2002-2005 by OpenTEST Team                             */
+     /* http://opentest.com.ua                                               */
+     /* e-mail: opentest@opentest.com.ua                                     */
+     /*                                                                      */
+     /************************************************************************/
+     /* 11/01/2005 08:00:00                                                                                    */
+     /************************************************************************/
+     if (INDEXPHP!=1)
+          die ("You can't access this file directly...");
+
+     define("_DEFAULT1","Testing");
+     define("_DEFAULT2","Test control");
+     define("_DEFAULT3","User control");
+     define("_TESTCONTROL","Testing control");
+     define("_STATISTICS","Statistics");
+     define("_DEFAULT4","Testing results");
+     define("_DEFAULT5","Administration");
+     define("_DEFAULT6","<img class='img_icon' src='themes/opentest2/images/icons/trinux-sb_r8_c18.gif' align=absmiddle> Menu of the basic modules");     
+     define("_MENU1","<img class='img_icon'  src='themes/opentest2/images/icons/trinux-sb_r8_c18.gif' align=absmiddle> Menu of the basic modules");
+     define("_MENU2","<img class='img_icon'  src='themes/opentest2/images/icons/trinux-sb_r4_c16.gif' align=absmiddle> To check up the local settings");
+     define("_MENU3","<img class='img_icon'  src='themes/opentest2/images/icons/trinux-sb_r12_c16.gif' align=absmiddle> Service of technical support");
+     define("_MENU4","<img class='img_icon'  src='themes/opentest2/images/icons/trinux-sb_r14_c8.gif' align=absmiddle> To change the language of interface");
+     define("_MENU5","General tasks");
+     define("_MENU6","Authorizing");
+     define("_MENU7","Your login");
+     define("_MENU8","Password");
+     define("_MENU9","Login");
+
+     define("_MENU_AUTHORIZATION","Authorizing");
+     define("_MENU_GROUP","Group");
+     define("_MENU_USER","User");
+     define("_MENU_EXIT","Exit");
+
+
+     define("_MENU10","<img  class='img_icon' src='themes/opentest2/images/icons/trinux-sb_r6_c16.gif' align=absmiddle> Did forget your password?");
+     define("_MENU11","<img  class='img_icon' src='themes/opentest2/images/icons/trinux-sb_r6_c20.gif' align=absmiddle> Registered");
+     define("_CHANGELANG1","<img  class='img_icon' src='themes/opentest2/images/icons/trinux-sb_r14_c8.gif' align=absmiddle>  Change of language of interface");
+     define("_TESTLOCALSET1","<img  class='img_icon' src='themes/opentest2/images/icons/trinux-sb_r4_c16.gif' align=absmiddle> Verification of the local settings");
+     define("_SUPPORT1","<img  class='img_icon' src='themes/opentest2/images/icons/trinux-sb_r12_c16.gif' align=absmiddle> Service of technical support");
+
+     global $status_text;
+     $status_text = array(
+         "lang_changed"       => "The language of interface is successfully changed",
+         "lang_not_found"     => "A language file is not found! The language of interface is set by default!",
+	  "op_not_permitted"	  => "For this operation privileges are not enough!",
+	"user_renamed"        	=> "User information was successfully changed");
+	  
+	  
+define("_SUPPORT_HTML_PAGE","
+	<b>Website: </b> http://opentest.com.ua <br>
+	<b>Support: </b> support@opentest.com.ua <br>
+	<b>Other issues: </b> opentest@opentest.com.ua <br>
+");	  
+
+define('_SELECT_LANGUAGE','Select Language');
+define('_APPLY_LANGUAGE','apply');

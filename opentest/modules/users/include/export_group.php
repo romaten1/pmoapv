@@ -1,0 +1,21 @@
+<?php
+if (INDEXPHP!=1) die ("You can't access this file directly...");
+
+ignore_user_abort();
+
+if (version_compare(PHP_VERSION,'5','>='))
+	require_once('modules/domxml_php4_php5/domxml-php4-to-php5.php'); //Load the PHP5 converter
+if (version_compare(PHP_VERSION,'5','>=')&&extension_loaded('xsl'))
+	require_once('modules/domxml_php4_php5/xslt-php4-to-php5.php');
+
+require_once('export_group_functions.php');
+
+mb_internal_encoding($GLOBALS['default_internal_encoding']);
+
+$group_id=intval($_GET['group_id']);
+$res=export_group($group_id);
+
+$GLOBALS['filename']='group.xml';
+$GLOBALS['download']=$res;
+
+ini_set ("include_path","./;");

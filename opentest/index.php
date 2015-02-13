@@ -1,0 +1,69 @@
+<?php
+define('VERSION','2.3.0');
+define('INDEXPHP','1');
+
+require_once('include/function.php');
+require_once('include/config.php');
+
+if ($config['opentest_installed']) require_once('include/db.php');
+$config['debug_errors'] ? error_reporting(E_ALL) : error_reporting(0);
+
+if ($config['debug_query']==1) ob_start();
+
+if ( (isset($_COOKIE['current_theme'])) && (!ereg('([^_a-z]+)',$_COOKIE['current_theme'])) )
+	$current_theme = $_COOKIE['current_theme'];
+else $current_theme = $config['default_theme'];
+
+isset($_REQUEST["status_code"]) ? $status_code = (int)$_REQUEST["status_code"] : $status_code = -1;
+isset($_REQUEST["status_num"]) ? $status_num = $_REQUEST["status_num"] : $status_num = '';
+
+if( (isset($_REQUEST['setcurrentlang'])) && (!ereg('([^_a-z]+)',$_REQUEST['setcurrentlang'])) ) {
+	setcookie('currentlang',$_REQUEST['setcurrentlang']);
+	$_COOKIE['currentlang'] = $_REQUEST['setcurrentlang'];
+}
+
+if ( (isset($_COOKIE['currentlang'])) && (!ereg('([^_a-z]+)',$_COOKIE['currentlang'])) )
+	$currentlang = $_COOKIE['currentlang'];
+else $currentlang = $config['default_language'];
+
+if (file_exists("language/lang-$currentlang.php")){
+	include_once("language/lang-$currentlang.php");
+	$def_lang=0;
+} else {
+	include_once("language/lang-{$config['default_language']}.php");
+	$def_lang=1;
+}
+
+if (isset($_REQUEST['setcurrentlang']) and $def_lang==1) {
+	$status_code=0;
+	$status_num="lang_not_found";
+} else if (isset($_REQUEST['setcurrentlang'])){
+	$status_code=1;
+	$status_num="lang_changed";
+}
+
+$mtime = microtime();
+$mtime = explode(' ',$mtime);
+$mtime = $mtime[1] + $mtime[0];
+$start_time = $mtime;
+
+$limit_col=3;
+$limit_row=25;
+$limit_page=$limit_col*$limit_row;
+
+$GLOBALS['default_internal_encoding']=mb_internal_encoding();
+mb_internal_encoding('UTF-8');
+
+if (is_dir('install'))	$module='../install';
+else {
+	if ( 	(isset($_REQUEST['module'])) &&
+			(!preg_match('/([^_a-z]+)/',$_REQUEST['module'])) &&
+			(file_exists ("modules/{$_REQUEST['module']}/index.php")) &&
+			$_REQUEST['module'] != 'auth'
+		) $module=$_REQUEST['module'];
+	else $module = 'main';
+
+	require_once('modules/auth/index.php');  
+}
+
+include_once("modules/$module/index.php");

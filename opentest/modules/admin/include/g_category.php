@@ -1,0 +1,242 @@
+<?php
+if (INDEXPHP!=1) die ("You can't access this file directly...");
+
+if(isset($_REQUEST['action']))
+	$action = $_REQUEST['action'];
+else
+	$action = "";
+	
+if(!isset($_REQUEST['letter']))
+	$letter="";
+else
+	$letter=$_REQUEST['letter'];
+
+if(!isset($_REQUEST['keyword']))
+	$keyword="";
+else
+	$keyword=$_REQUEST['keyword'];
+
+if(!isset($_REQUEST['page_num']))
+	$page_num=0;
+else
+	$page_num=(int)$_REQUEST['page_num']-1;
+	
+if(isset($_REQUEST['group_category_name']))
+	$group_category_name = $_REQUEST['group_category_name'];
+else
+	$group_category_name = "";    
+	
+$page_buf = "";
+	
+switch($action) {
+//-- форма создания категории тестов
+case "crt_category_frm":
+	//проверка прав на модуль
+	if(!is_allow(5,0,5,0,1)) {
+		echo "<META HTTP-EQUIV='Refresh' CONTENT='0; URL=index.php?module=".$module."&status_code=0&status_num=op_not_permitted'>";
+		exit;
+	}
+	themeleftbox(_GCATEGORY_CREATE_HEADER,"","",true);
+
+	$page_buf .= "<tr><td><b>"._CRT_ENTER_GCATEGORY_NAME."</b><br>
+		<form method='post' action='index.php?module=".$module."&page=".$page."&action=crt_category'>
+		"._NEW_CATEGORY_NAME.": <input type='text' name='group_category_name'><br><br>
+		<input type='submit' value='"._CREATE_CATEGORY."'>&nbsp;
+		<input type='button' value='"._CANCEL."' onclick='history.back();'>
+		</form>";
+break;
+
+//-- создание категории тестов
+case "crt_category":
+	//проверка прав на модуль
+	if(!is_allow(5,0,5,0,1)) {
+		echo "<META HTTP-EQUIV='Refresh' CONTENT='0; URL=index.php?module=".$module."&status_code=0&status_num=op_not_permitted'>";
+		exit;
+	}
+	
+	$count = sql_single_query("SELECT COUNT(*)
+		FROM group_categories 
+		WHERE group_category_name='$group_category_name'");
+
+	if($count['COUNT(*)']==0) {
+		$result = sql_query("INSERT INTO group_categories (group_category_name) VALUES ('$group_category_name')");
+
+		//-- если вставки не было 
+		if(!mysql_affected_rows())			
+			$stat_str = "&staus_code=0&status_num=gcategory_crt_err";							
+		else {
+			$stat_str = "&group_category_id=".(mysql_insert_id())."&action=gcateg_actions&status_code=1&status_num=gcategory_created";
+			//раздача прав создателю
+			sql_query("INSERT INTO permissions (object_code, object_id,group_category_id,group_id,user_id,
+				permission_read,permission_write,permission_owner)
+				VALUES ('13','".mysql_insert_id()."','0','0','".$GLOBALS['auth_result']['user']['user_id']."','1','1','1'),
+						('13','".mysql_insert_id()."','".$GLOBALS['auth_result']['group']['group_category_id']."','0','0','1','1','1')");
+		}
+	} else $stat_str = "&status_code=0&status_num=gcategory_exists";
+
+	$page_buf = "<META HTTP-EQUIV='Refresh' CONTENT='0; URL=index.php?module=".$module."&page=".$page.$stat_str."'>";
+break;
+
+//-- форма переименования категории тестов
+case "ren_category_frm":
+	//проверка прав на модуль
+	if(!is_allow(5,0,5,0,1)) {
+		echo "<META HTTP-EQUIV='Refresh' CONTENT='0; URL=index.php?module=".$module."&status_code=0&status_num=op_not_permitted'>";
+		exit;
+	}
+	themeleftbox(_GCATEGORY_RENAME_HEADER,"","",true);
+
+	$category = sql_single_query("SELECT group_category_name
+		FROM group_categories
+		WHERE group_category_id=".$group_category_id);
+	
+	$category['group_category_name'] = htmlspecialchars($category['group_category_name']);
+
+	$page_buf .= "<tr><td><b>"._REN_ENTER_GCATEGORY_NAME."</b><br>
+		<form method='post' action='index.php?module=".$module."&page=".$page."&action=ren_category&group_category_id=".$group_category_id."'>
+		"._NEW_CATEGORY_NAME.": <input type='text' name='group_category_name' value=\"".$category['group_category_name']."\"><br><br>
+		<input type='submit' value='"._RENAME_CATEGORY."'>&nbsp;
+		<input type='button' value='"._CANCEL."' onclick='history.back();'>
+		</form>";
+break;
+
+//-- переименование категории тестов
+case "ren_category":
+	//проверка прав на модуль
+	if(!is_allow(5,0,5,0,1)) {
+		echo "<META HTTP-EQUIV='Refresh' CONTENT='0; URL=index.php?module=".$module."&status_code=0&status_num=op_not_permitted'>";
+		exit;
+	}
+	
+	$count = sql_single_query("SELECT COUNT(*)
+		FROM group_categories
+		WHERE group_category_name='$group_category_name' AND group_category_id<>'$group_category_id'");
+
+	if($count['COUNT(*)']==0) {
+		$result = sql_query("UPDATE group_categories
+			SET group_category_name='$group_category_name'
+			WHERE group_category_id='$group_category_id'");
+
+		//-- если обновление не было
+		if(!mysql_affected_rows())
+			$stat_str = "&staus_code=0&status_num=gcategory_ren_err";
+		else
+			$stat_str = "&group_category_id=".$group_category_id."&action=gcateg_actions&status_code=1&status_num=gcategory_renamed";
+	} else $stat_str = "&status_code=0&status_num=gcategory_exists";
+
+	$page_buf = "<META HTTP-EQUIV='Refresh' CONTENT='0; URL=index.php?module=".$module."&page=".$page.$stat_str."'>";
+break;
+
+//-- форма удаления категории тестов
+case "del_category_frm":
+	//проверка прав на модуль
+	if(!is_allow(5,0,5,0,1)) {
+		echo "<META HTTP-EQUIV='Refresh' CONTENT='0; URL=index.php?module=".$module."&status_code=0&status_num=op_not_permitted'>";
+		exit;
+	}
+	themeleftbox(_GCATEGORY_DELETE_HEADER,"","",true);
+
+	$category = sql_single_query("SELECT group_category_name
+		FROM group_categories
+		WHERE group_category_id=".$group_category_id);
+
+	$page_buf .= "<tr><td><b>"._GCATEGORY_DELETE_CONFIRM." &ldquo;".$category['group_category_name']."&rdquo;?</b><br>
+		<form name='del_frm' method='post' action='index.php?module=".$module."&page=".$page."&group_category_id=".$group_category_id."&keyword=".$keyword."&letter=".$letter."'>
+		<input type='hidden' name='action' value='del_category'>
+		<input type='submit' value='"._DELETE_CATEGORY."'>&nbsp;
+		<input type='submit' value='"._CANCEL."' onclick='document.all.action.value=\"\";'>";
+break;
+
+//-- удаление категории тестов
+case "del_category":
+	//проверка прав на модуль
+	if(!is_allow(5,0,5,0,1)) {
+		echo "<META HTTP-EQUIV='Refresh' CONTENT='0; URL=index.php?module=".$module."&status_code=0&status_num=op_not_permitted'>";
+		exit;
+	}
+	$groups = sql_query("SELECT group_id FROM groups WHERE group_category_id='$group_category_id'");
+
+	while($group_row = mysql_fetch_assoc($groups)) {
+		if(!delete_group($group_row['group_id'])) {                	
+			echo "<META HTTP-EQUIV='Refresh' CONTENT='0; URL=index.php?module=".$module."&page=".$page."&keyword=".$keyword."&letter=".$letter."&status_code=0&status_num=gcategory_del_err'>";
+			exit;
+		}
+	}
+
+	sql_query("DELETE FROM permissions WHERE object_code=13 AND object_id='$group_category_id'");
+	sql_query("DELETE FROM permissions WHERE group_category_id='$group_category_id'");
+	sql_query("DELETE FROM group_categories WHERE group_category_id='$group_category_id'");
+	
+	if(!mysql_affected_rows())
+		$stat_str = "&status_code=0&status_num=gcategory_del_err";
+	else
+		$stat_str = "&status_code=1&status_num=gcategory_deleted";
+
+	$page_buf = "<META HTTP-EQUIV='Refresh' CONTENT='0; URL=index.php?module=admin&page=g_category&keyword=".$keyword."&letter=".$letter.$stat_str."'>";
+break;
+
+default:
+	themeleftbox(_GCATEGORY_OVERVIEW_HEADER,"","",true);
+	echo "<tr><td>";
+	if ($keyword!='') {	
+		$null_message = _GCATEGORY_NO_C_KEYWORD;
+	} elseif ($letter=='') {
+		$null_message = _GCATEGORY_NO_CATEGORY;
+	} else {	
+		$null_message = _GCATEGORY_NO_C_LETTER;
+	}	
+	$count = get_count(0,6,0,$keyword,$letter);
+
+	// Вывод алфавита
+	if(!($letter=='' && $count==0 && $keyword==''))
+		show_abc('index.php?module='.$module.'&page='.$page.'&letter=');
+
+	if ($count==0) 
+		echo "<center><b>".$null_message."</b></center>";
+	else {  
+		if($keyword!='')
+			$query = "SELECT *
+				FROM group_categories
+				WHERE group_category_name RLIKE '.*$keyword.*'
+				ORDER BY group_category_name ASC
+				LIMIT ".$page_num*$limit_page.",".$limit_page;
+
+		elseif ($letter=='')
+			$query = "SELECT *
+				FROM group_categories
+				ORDER BY group_category_name ASC
+				LIMIT ".$page_num*$limit_page.",".$limit_page;
+		else $query = "SELECT *
+				FROM group_categories
+				WHERE group_category_name RLIKE '^$letter.*'
+				ORDER BY group_category_name ASC
+				LIMIT ".$page_num*$limit_page.",".$limit_page;
+		$result=sql_query($query);
+	
+		CloseTable();
+		$n=0;
+		$col_width=100/$limit_col;
+	
+		$page_buf = '<table border="0"style="width:100%"><tr><td width="'.$col_width.'%">';
+
+		while ($row=mysql_fetch_assoc($result)) {
+			if ($n==$limit_row) {
+				$page_buf .= "<td width=".$col_width."%>";
+				$n=0;
+			}
+			$n++;
+
+			$page_buf .= "<table cellpadding=0 cellspacing=0 border=".$config['debug_table'].">
+				<tr><td nowrap>
+				<a href='index.php?module=".$module."&page=".$page."&action=ren_category_frm&group_category_id=".$row['group_category_id']."&keyword=".$keyword."&letter=".$letter."'><img title='"._CATEGORY_RENAME."' align='absmiddle' src='themes/".$current_theme."/images/rename.png'></a>&nbsp;
+				<a href='index.php?module=".$module."&page=".$page."&action=del_category_frm&group_category_id=".$row['group_category_id']."&keyword=".$keyword."&letter=".$letter."'><img title='"._CATEGORY_DELETE."' align='absmiddle' src='themes/".$current_theme."/images/delete.png'></a>&nbsp;
+				<a href='index.php?module=".$module."&page=rights&for_gr_cat_id=".$row['group_category_id']."&keyword=".$keyword."&letter=".$letter."'><img title='"._PERMISSIONS."' align='absmiddle' src='themes/".$current_theme."/images/permissions.png'></a>
+				</td><td>
+				&nbsp;".$row['group_category_name']."
+				</td></tr></table>";
+		}
+		$page_buf .= "<tr><td colspan=".$limit_col."><br>".nav_bar($count,"index.php?module=".$module."&page=".$page."&letter=".$letter."&page_num=")."</center>";
+	}
+break;
+}
+echo $page_buf;

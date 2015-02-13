@@ -1,0 +1,115 @@
+<?php
+if (INDEXPHP!=1) die ("You can't access this file directly...");
+
+isset($_REQUEST['action']) ? $action = $_REQUEST['action'] : $action=''; 
+isset($_REQUEST['group_category_id']) ? $group_category_id = (int)$_REQUEST['group_category_id'] : $group_category_id='';
+isset($_REQUEST['group_id']) ? $group_id = (int)$_REQUEST['group_id'] : $group_id='';
+isset($_REQUEST['user_id']) ? $user_id = (int)$_REQUEST['user_id'] : $user_id='';
+isset($_REQUEST['for_group_id']) ? $for_group_id = (int)$_REQUEST['for_group_id'] : $for_group_id='';
+isset($_REQUEST['perm_read']) ? $perm_read = (int)$_REQUEST['perm_read'] : $perm_read='';
+isset($_REQUEST['perm_write']) ? $perm_write = (int)$_REQUEST['perm_write'] : $perm_write='';
+isset($_REQUEST['perm_owner']) ? $perm_owner = (int)$_REQUEST['perm_owner'] : $perm_owner='';
+isset($_REQUEST['hid']) ? $hid = $_REQUEST['hid'] : $hid="";
+
+if ($group_category_id!='') {
+	$tmp_to_obj='group_category_id';
+	$tmp_to_obj_id=$group_category_id;
+} else if ($group_id!='') {
+	$tmp_to_obj='group_id';
+	$tmp_to_obj_id=$group_id;
+} else {
+	$tmp_to_obj='user_id';
+	$tmp_to_obj_id=$user_id;
+}; 
+
+if(!is_allow(14,$group_category_id,$for_group_id,0,0,1)){
+	echo "<META HTTP-EQUIV='Refresh' CONTENT='0; URL={$_SERVER['HTTP_REFERER']}&status_code=0&status_num=op_not_permitted'>";
+	exit;
+}
+
+switch($action){
+	case 'do_category_permissions':
+		if ($hid=='true'){
+			$query = "INSERT INTO permissions
+				(object_code, object_id,group_category_id,group_id,user_id,permission_read,permission_write,permission_owner) VALUES
+				(14,'$for_group_id','$group_category_id','$group_id','$user_id','$perm_read','$perm_write','$perm_owner')";
+			sql_query($query);
+		} elseif (($perm_read=='') && ($perm_write=='') && ($perm_owner=='')) {
+			$query = "DELETE FROM permissions WHERE permission_id='$hid'";
+			sql_query($query);
+		} else {
+			$query = "UPDATE permissions SET  group_id='$group_id',user_id='$user_id',permission_read='$perm_read',
+						permission_write='$perm_write',permission_owner='$perm_owner'
+					WHERE object_code=14 AND object_id='$for_group_id' AND $tmp_to_obj='$tmp_to_obj_id'";
+			sql_query($query);
+		};
+		echo "<META HTTP-EQUIV='Refresh' CONTENT='0; URL=index.php?module=$module&page=rights&for_group_id=$for_group_id'>";	
+	break;
+	case 'edit_permissions_g':
+	case 'edit_permissions_u':
+	case 'edit_permissions':
+		themeleftbox(RIGHTS_CH_RIGHTS_HEADER,'','',true);
+		echo '<tr><td>';
+		$query = "SELECT * FROM permissions
+			WHERE object_code=14 AND object_id='$for_group_id' AND $tmp_to_obj='$tmp_to_obj_id'";
+		$result = sql_query($query);
+		$row=mysql_fetch_assoc($result);     
+		$r_check='';
+		$o_check='';
+		$w_check='';
+		$new='true';
+		if ($row['permission_read']=='1')  {$r_check='checked';$new=$row['permission_id'];} 
+		if ($row['permission_write']=='1') {$w_check='checked';$new=$row['permission_id'];}
+		if ($row['permission_owner']=='1') {$o_check='checked';$new=$row['permission_id'];}
+		$str="<form method=POST action='index.php?module=$module&page=rights&action=do_category_permissions&for_group_id=$for_group_id&$tmp_to_obj=$tmp_to_obj_id'>
+			<input type=checkbox name=perm_read value=1 $r_check> ".RIGHTS_READ."<br>
+			<input type=checkbox name=perm_write value=1 $w_check> ".RIGHTS_WRITE."<br>
+			<input type=checkbox name=perm_owner value=1 $o_check> ".RIGHTS_OWNER."<br>
+			<input type=hidden name=hid value=$new>
+			<input type=submit value='"._USER_APPLY_BUTTON."'></form>";
+		echo $str;
+	break;
+	default:
+		themeleftbox(RIGHTS_RIGHTS_HEADER,'','',true);
+		$query="SELECT group_name FROM groups WHERE group_id='$for_group_id'";
+		$res=sql_single_query($query);
+		echo '<tr><td><br>';
+		echo RIGHTS_LIST."</b>: <u><i>{$res['group_name']}</i></u><br><br>";
+		$query = "SELECT * FROM permissions
+			WHERE object_code=14 AND group_category_id!=0 AND object_id='$for_group_id'";
+		$result = sql_query($query);
+		echo "<b><br>".RIGHTS_CAT."</b> &nbsp;&nbsp;&nbsp;&nbsp;<a href='index.php?module=$module&page=group_category&next_action=edit_permissions&for_group_id=$for_group_id'>".RIGHTS_ADD."</a><br>";
+		while ($row=mysql_fetch_assoc($result)){
+			$query = "SELECT group_category_name FROM group_categories WHERE group_category_id='{$row['group_category_id']}'";
+			$row1=sql_single_query($query);
+			if ($row['permission_read']=='1')  $str='R'; else $str='_';
+			if ($row['permission_write']=='1') $str.='W'; else $str.='_';
+			if ($row['permission_owner']=='1') $str.='O'; else $str.='_';
+			echo $row1['group_category_name'].' - '.$str.' <a href="index.php?module=users&page=rights&action=edit_permissions&group_category_id='.$row['group_category_id'].'&for_group_id='.$for_group_id.'"> '.RIGHTS_CHANGE.'</a><br>';
+		}
+		$query = "SELECT * FROM permissions
+			WHERE object_code=14 AND group_id!=0 AND object_id='$for_group_id'";
+		$result = sql_query($query);
+		echo "<b><br>".RIGHTS_GROUP."</b> &nbsp;&nbsp;&nbsp;&nbsp;<a href='index.php?module=$module&page=group_category&next_action=edit_permissions_g&for_group_id=".$for_group_id."'>".RIGHTS_ADD."</a><br>";
+		while ($row=mysql_fetch_assoc($result)){
+			$query = "SELECT group_name FROM groups WHERE group_id='{$row['group_id']}'";
+			$row1=sql_single_query($query);
+			if ($row['permission_read']=='1')  $str='R'; else $str='_';
+			if ($row['permission_write']=='1') $str.='W'; else $str.='_';
+			if ($row['permission_owner']=='1') $str.='O'; else $str.='_';
+			echo $row1['group_name'].' - '.$str.' <a href="index.php?module=users&page=rights&action=edit_permissions&group_id='.$row['group_id'].'&for_group_id='.$for_group_id.'"> '.RIGHTS_CHANGE.'</a><br>';
+		}
+		$query = "SELECT * FROM permissions
+			WHERE object_code=14 AND user_id!=0 AND object_id='$for_group_id'";
+		$result = sql_query($query);
+		echo "<b><br>".RIGHTS_USERS."</b> &nbsp;&nbsp;&nbsp;&nbsp;<a href='index.php?module=$module&page=group_category&next_action=edit_permissions_u&for_group_id=".$for_group_id."'>".RIGHTS_ADD."</a><br>";
+		while ($row=mysql_fetch_assoc($result)){
+			$query = "SELECT user_name FROM users WHERE user_id='{$row['user_id']}'";
+			$row1=sql_single_query($query);
+			if ($row['permission_read']=='1')  $str='R'; else $str='_';
+			if ($row['permission_write']=='1') $str.='W'; else $str.='_';
+			if ($row['permission_owner']=='1') $str.='O'; else $str.='_';
+			echo $row1['user_name'].' - '.$str.' <a href="index.php?module=users&page=rights&action=edit_permissions&user_id='.$row['user_id'].'&for_group_id='.$for_group_id.'"> '.RIGHTS_CHANGE.'</a><br>';
+		}
+	break;    
+}

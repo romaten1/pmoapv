@@ -1,0 +1,401 @@
+<?php
+if (INDEXPHP!=1) die ("You can't access this file directly...");
+
+$orders = array("ASC"=>"DESC","DESC"=>"ASC");
+
+if(isset($_REQUEST['action'])) $action = $_REQUEST['action'];
+	else $action = "";
+
+if(isset($_REQUEST['difficulty_filter'])) $difficulty_filter = $_REQUEST['difficulty_filter'];
+	else $difficulty_filter = "";
+
+		
+if(isset($_REQUEST['new_teacher_id'])) $new_teacher_id = $_REQUEST['new_teacher_id'];
+	else $new_teacher_id = 0;
+	
+if(isset($_REQUEST['topic_id'])) $topic_id = $_REQUEST['topic_id'];
+	else $topic_id = "";	
+
+if(isset($_REQUEST['question_id'])) $question_id = $_REQUEST['question_id'];
+	else $question_id = "";		
+	
+if(isset($_REQUEST['order'])) $order = $_REQUEST['order'];
+	else $order = "ASC";
+
+if(isset($_REQUEST['field'])) $field = $_REQUEST['field'];
+	else $field = "user_name";
+
+//@$group_id=$_REQUEST['group_id'];
+//@$test_id=$_REQUEST['new_test_id'];
+
+if ($action!="show_questions") 
+	themeleftbox(_MENU_LOG_TABLE_TOPIC,"","",true);
+	
+$page_buf = "<tr><td>";	
+
+ini_set ("max_execution_time","160000000");
+set_time_limit(0);
+ignore_user_abort(false);
+
+switch($action) {
+	case "show_questions":
+		//$group_id=$_GET['group_id'];
+		$test_id=$_GET['test_id'];
+		$topic_id=$_GET['topic_id'];
+		if( ($test_id) and !is_allow(12,$test_category_id,$test_id,1) )
+			$page_buf = "<META HTTP-EQUIV='Refresh' CONTENT='0; URL=index.php?module=".$module."&page=log_test_table&status_code=0&status_num=op_permited'>";
+		else {
+			if (($topic_id>=0 and $test_id)) {
+				// exporting to csv
+				$res_questions=mysql_query("select distinct questions.* from questions,topics
+								where
+									questions.topic_id=topics.topic_id and
+									topics.topic_id='$topic_id' and 
+									topics.test_id='$test_id' 
+						");
+				
+				$buffer="<table>";
+				while ($f_question=mysql_fetch_array($res_questions))
+					{
+					
+					$buffer.="<tr>
+					<td><input type=button value=' -> ' onclick='parent.document.getElementById(\"question_id\").value=\"".$f_question['question_id']."\";parent.document.getElementById(\"selection\").submit();'></td>
+					<td style='font-family:arial;font-size:10px;border:solid;border-width:1'> ".$f_question['question_text']."  </td></tr>";
+					}
+				$buffer.="</table>";
+				$GLOBALS['without_headers']=1;
+				//$GLOBALS['download']=iconv("utf-8","cp1251",$buffer);	
+				$GLOBALS['download']=$buffer;	
+			}
+		}
+	break;
+	
+	default:
+		if( ($test_id) and !is_allow(12,$test_category_id,$test_id,1) )
+			$page_buf = "<META HTTP-EQUIV='Refresh' CONTENT='0; URL=index.php?module=".$module."&page=log_test_table&status_code=0&status_num=op_permited'>";
+		else {
+			if($group_id<=0) {
+				$result_test = sql_query("SELECT DISTINCT test_id, test_name, test_category_name
+					FROM recent_objects, tests, test_categories
+					WHERE test_id = object_id
+					AND object_code =0
+					AND test_categories.test_category_id = object_category_id
+					AND recent_objects.user_id = '$teacher_id'
+					ORDER BY last_used DESC");
+			} else {
+				$result_test = sql_query("SELECT DISTINCT tests.test_id, test_name, test_category_name
+					FROM results, tests, test_categories
+					WHERE results.test_id = tests.test_id											
+					AND results.group_id='$group_id'
+					AND test_categories.test_category_id = tests.test_category_id
+					AND (results.teacher_id = '$teacher_id' OR hide_result='0')");
+			}
+			if($test_id<=0) {
+				$result_group = sql_query("SELECT DISTINCT group_id, group_name, group_category_name
+					FROM recent_objects, groups, group_categories
+					WHERE group_id = object_id
+					AND object_code =1
+					AND group_categories.group_category_id = object_category_id
+					AND user_id = '$teacher_id'
+					ORDER BY last_used DESC");			
+			} else {
+				$result_group = sql_query("SELECT DISTINCT groups.group_id, group_name, group_category_name
+					FROM results, groups, group_categories
+					WHERE results.group_id = groups.group_id
+					AND results.test_id='$test_id'
+					AND group_categories.group_category_id = groups.group_category_id
+					AND (results.teacher_id = '$teacher_id' OR hide_result='0')");
+				}
+
+			$page_buf .=   "<form method='post' name='selection' id='selection' action='index.php?module=".$module."&page=log_table_topic'>
+				<input type='hidden' name='order' value='".$order."'>
+				<input type='hidden' name='field' value='".$field."'>
+				
+				<table  border=0>
+				<tr align='center'>
+				<td></td>
+				<td>"._SELECTION_TEST."</td>
+				<td>"._SELECTION_GROUP."</td>
+				<td></td>
+				<td>"._TEACHER."</td>
+				</tr>
+				<tr align='center'>
+				<td>
+				<a href='index.php?module=".$module."&page=t_category&next_action=return_log_table_topic&test_id=".$test_id."&group_id=".$group_id."'>"._NEW_TEST."</a>
+				</td>
+				<td  style='width:70%'><input type='hidden' name='test_id' value=".$test_id.">
+				<select  name='new_test_id' onchange='document.selection.submit();'  style='width:100%'>
+				<option value=0></option>";
+
+			while($row = mysql_fetch_assoc($result_test))
+				$page_buf .=  "<option value=".$row['test_id']." ".($test_id==$row['test_id']?'selected':'').">".$row['test_category_name']."/".$row['test_name']."</option>";
+
+			$page_buf .= "</td><td  style='width:30%'><input type='hidden' name='group_id' value=$group_id>
+				<select  name='new_group_id' onchange='document.selection.submit();'  style='width:100%'>
+				<option value='0'>"._SELECTION_ALL_TESTS."</option>";
+
+			while($row = mysql_fetch_assoc($result_group))
+				$page_buf .=  "<option value=".$row['group_id']." ".($group_id==$row['group_id']?'selected':'').">".$row['group_category_name']."/".$row['group_name']."</option>";
+
+			$page_buf .= "</td><td>
+				<a href='index.php?module=".$module."&page=g_category&next_action=return_log_table_topic&test_id=".$test_id."&group_id=".$group_id."'>"._NEW_GROUP."</a></td>";
+
+			if($test_id >0 && $group_id >=0) {
+				$teachers = sql_query("SELECT DISTINCT teacher_id, user_name
+					FROM results, users
+					WHERE test_id='".$test_id."'
+					
+					".( ($group_id=="0")?"":" and results.group_id='$group_id'  " )."
+					AND users.user_id=results.teacher_id
+					AND hide_result=0");
+
+				if(mysql_num_rows($teachers)>1) {				
+					$teachers_opts = "<select name=\"new_teacher_id\" onchange='document.selection.submit();'>
+						<option value=\"0\">"._ALL_TEACHERS."</option>";
+
+					while($teacher = mysql_fetch_assoc($teachers))
+						$teachers_opts.="<option value=\"".$teacher['teacher_id']."\" ".($new_teacher_id==$teacher['teacher_id']?"selected":"").">".$teacher['user_name']."</option>";				
+
+					$teachers_opts .= "</select>";
+				} else {
+					$teacher = mysql_fetch_assoc($teachers);
+					$teachers_opts=$teacher['user_name'];
+				}
+			} else $teachers_opts=$GLOBALS['auth_result']['user']['user_name'];			
+
+			$page_buf .= "<td>".$teachers_opts."</td></tr></table>";
+			
+			//$page_buf .= "</form>";
+
+			if($test_id >0 && $group_id >=0) {
+				if($new_teacher_id>0)
+					$query_add = " AND teacher_id='".$new_teacher_id."' ";
+				else $query_add = "";
+
+				
+				
+				
+				$page_buf .=draw_topic_table($test_id,$group_id,$new_teacher_id);
+				
+				$count_results=mysql_fetch_row(sql_query("SELECT count(*)
+												FROM results where
+												".( ($group_id=="0")?"":"results.group_id='$group_id' and  " )." 							   
+						".( ($new_teacher_id=="0")?"":"  results.teacher_id='$new_teacher_id'  and" )."
+						results.test_id='$test_id' "));
+				
+				
+				if ($count_results[0]>=1)
+					{
+					$count_topics=mysql_fetch_row(sql_query("select count(*) from topics where test_id='$test_id' "));
+				
+					$M_simple=sql_query("select sum(percent_simple)/count(*) from results
+							where 
+							".( ($group_id=="0")?"":"results.group_id='$group_id' and  " )." 							   
+							".( ($new_teacher_id=="0")?"":"  results.teacher_id='$new_teacher_id'  and" )."
+							results.test_id='$test_id' 
+							");
+					$M=mysql_fetch_row($M_simple);
+					
+							
+					$res_sigma=mysql_fetch_row(sql_query("select sum( pow(percent_simple - $M[0],2) ) ,count(*) from results
+							where 
+							".( ($group_id=="0")?"":"results.group_id='$group_id' and  " )." 							   
+							".( ($new_teacher_id=="0")?"":"  results.teacher_id='$new_teacher_id'  and" )."
+							results.test_id='$test_id'  "));
+					
+					
+					$sigma_chislitel=$res_sigma[0];
+					$count_users=$res_sigma[1];
+					$SIGMA=@sqrt($sigma_chislitel/ ($count_users-1));
+					
+					
+					
+					$page_buf .="<p>
+					"._COUNT_TOPICS.": $count_topics[0] <br>
+					M = ".round($M[0],2)."   SIGMA= ".round($SIGMA,2)."   </p>";
+					}
+				
+					
+				}
+			$page_buf .= "</form>
+					";
+			
+		}
+	break;
+
+	case "add_new_test":
+		if(is_allow(12,$test_category_id,$new_test_id,1)) {
+			add_recent(0,$test_category_id,$new_test_id,$teacher_id);
+			$page_buf = "<META HTTP-EQUIV='Refresh' CONTENT='0; URL=index.php?module=".$module."&page=log_table_topic&test_id=".$new_test_id."&new_test_id=".$new_test_id."&group_id=".$group_id."'>";
+		} else
+			$page_buf = "<META HTTP-EQUIV='Refresh' CONTENT='0; URL=index.php?module=".$module."&next_action=return_log_table_topic&page=test&test_id=".$test_id."&group_id=".$group_id."&test_category_id=".$test_category_id."&status_code=0&status_num=op_permited'>";
+	break;
+	
+	case "add_new_group":
+		if(is_allow(14,$group_category_id,$new_group_id,1)) {
+			add_recent(1,$group_category_id,$new_group_id,$teacher_id);
+			$page_buf = "<META HTTP-EQUIV='Refresh' CONTENT='0; URL=index.php?module=".$module."&page=log_table_topic&test_id=".$test_id."&group_id=".$new_group_id."&new_group_id=".$new_group_id."'>";
+		} else				
+			$page_buf = "<META HTTP-EQUIV='Refresh' CONTENT='0; URL=index.php?module=".$module."&next_action=return_log_table_topic&page=group&test_id=".$test_id."&group_id=".$group_id."&group_category_id=".$group_category_id."&status_code=0&status_num=op_permited'>";
+	break;
+}
+	
+echo $page_buf;
+
+
+
+
+
+
+
+
+function draw_topic_table($test_id,$group_id,$teacher_id)
+	{
+
+	$res_topics=sql_query("select * from topics where test_id='$test_id' ");
+	$buffer="  <table> 
+			<tr class='tab' align='center'>
+						<td width='100px' nowrap>"._TOPIC."</td>
+						<td width='10%'>K</td>
+						<td width='10%'>N</td>
+						<td width='10%'>T</td>
+						<td width='10%'>A</td>
+						<td width='10%'>R</td>
+						<td width='10%'>&#945;</td>
+			</tr>
+		";		
+	while ($f_topic=mysql_fetch_array($res_topics))
+		{
+		$res_questions=sql_query("select * from questions where topic_id='".$f_topic['topic_id']."' ");
+		$count_questions=mysql_num_rows($res_questions);
+		$res_questions_history_testing=sql_query("select count(*),sum(unit),sum(question_difficulty) from history_testing,users where 
+											history_testing.topic_id='".$f_topic['topic_id']."' and
+											history_testing.test_id='$test_id' and 
+											users.user_id=history_testing.user_id
+											".( ($group_id=="0")?"":" and users.group_id='$group_id'  " )."
+											".( ($teacher_id=="0")?"":" and history_testing.teacher_id='$teacher_id'  " )."
+											
+											");
+		$count_questions_history_testing=mysql_fetch_row($res_questions_history_testing);
+		if ($count_questions_history_testing[2]>0)
+			{$average_difficulty=round($count_questions_history_testing[1]/$count_questions_history_testing[2],2);}
+		else 
+			{$average_difficulty="-";}
+			
+		if ($count_questions>0)
+			{
+			//$average_count_q=round($count_questions_history_testing[0]/$count_questions,2);
+			$average_count_q=round($count_questions_history_testing[0],2);
+			}
+		else 
+			{$average_count_q="-";}
+		
+		//print_r($count_questions_history_testing);
+		
+			
+			
+		$sum_x_2=sql_query("
+		SELECT pow(sum(history_testing.unit),2), pow((results.percent_simple),2), 
+		sum(history_testing.unit)*(results.percent_simple) ,results.percent_simple
+		   FROM history_testing,results WHERE 
+				 
+				".( ($group_id=="0")?"":"results.group_id='$group_id' and  " )." 							   
+						results.test_id='$test_id' 
+						".( ($teacher_id=="0")?"":" and results.teacher_id='$teacher_id'  " )."
+						
+						and history_testing.result_id=results.result_id
+						and history_testing.topic_id='".$f_topic['topic_id']."'  
+						
+				group by history_testing.result_id
+				 
+		");	
+						
+		$total_sum_x2=0;
+		$total_sum_y2=0;
+		$total_sum_xy=0;
+		$total_sum_percent_simple=0;
+		//echo "<p>$f_topic[topic_name]</p>";
+		while($f_sum_x_2=mysql_fetch_row($sum_x_2))
+			{
+			$total_sum_x2+=$f_sum_x_2[0];
+			$total_sum_y2+=$f_sum_x_2[1];
+			$total_sum_xy+=$f_sum_x_2[2];
+			$total_sum_percent_simple+=$f_sum_x_2[3];
+			//echo "<br>";
+			//print_r($f_sum_x_2);
+			}
+		//echo "<br>total_sum_x2=$total_sum_x2 <br>total_sum_y2=$total_sum_y2";
+		
+		$count_T=mysql_fetch_row(sql_query("select sum(history_testing.unit)/sum(history_testing.question_difficulty),
+						$total_sum_x2-pow(sum(history_testing.unit),2)/count(distinct results.result_id),
+						$total_sum_y2-pow($total_sum_percent_simple,2)/count(distinct results.result_id),
+						$total_sum_xy-sum(history_testing.unit)*$total_sum_percent_simple/count(distinct results.result_id),
+						count(distinct results.result_id)
+						
+						from results,history_testing
+						where 
+						".( ($group_id=="0")?"":"results.group_id='$group_id' and  " )." 							   
+						results.test_id='$test_id' 
+						".( ($teacher_id=="0")?"":" and results.teacher_id='$teacher_id'  " )."
+						
+						and history_testing.result_id=results.result_id
+						and history_testing.topic_id='".$f_topic['topic_id']."'  
+						
+						"));
+			
+		$A_questions=sql_query("select * from questions where topic_id='".$f_topic['topic_id']."' ");
+		$total_p=0;
+		while($A_question=mysql_fetch_array($A_questions))
+			{
+			$total_p+=question_alternative($A_question['question_id']);
+			}
+		
+		if ($total_p>0)
+			{
+			$A=$count_questions/$total_p;
+			}
+		if ($count_T[2]*$count_T[1]!=0)
+			{
+			$buffer.="
+				<tr align='center'>
+								<td style='border:1px solid #dddddd;'  nowrap align=left>".$f_topic['topic_name']."</td>
+								<td style='border:1px solid #dddddd; '>$count_questions</td>
+								<td style='border:1px solid #dddddd; '>".$average_count_q."</td>
+								<td style='border:1px solid #dddddd; '>".$average_difficulty."</td> 
+								<td style='border:1px solid #dddddd; '>".round($A,2)."</td>
+								<td style='border:1px solid #dddddd; ' nowrap>
+								
+								
+								
+								<!--<br>-->
+								Rxy=  ".@round( $count_T[3] / sqrt($count_T[2]*$count_T[1]) ,3 )."
+                                                                <!--
+								<br>
+								SSx=  ".($count_T[1])."
+								<br>
+								SSy=  ".($count_T[2])."
+								<br>
+								SPxy=  ".($count_T[3])." <br>
+								N=".($count_T[4])." <br>
+								<br>
+								total_sum_x2=$total_sum_x2
+								<br>
+								total_sum_y2=$total_sum_y2
+								<br>
+								total_sum_xy=$total_sum_xy
+								-->
+								</td>
+								<td style='border:1px solid #dddddd; '>
+								
+								
+								</td>
+					</tr>
+			";
+			}
+		}
+	$buffer.="</table>";
+	
+	
+	return $buffer;
+	
+	}

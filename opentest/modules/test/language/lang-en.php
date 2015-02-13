@@ -1,0 +1,86 @@
+<?php
+if (INDEXPHP!=1) die ("You can't access this file directly...");
+
+define("_GROUP_NO_GROUP", "There is no any group in this category!");
+define("_GROUP_NO_G_KEYWORD", "In this category there is no group, containing a keyword!");
+define("_GROUP_NO_G_LETTER", "In this category there is no group, beginning from the indicated letter!");
+	
+define("_GCATEGORY_NO_CATEGORY", "There is no category of users in a database!");
+define("_GCATEGORY_NO_C_KEYWORD", "In a database there is not a single category of users, containing a keyword!");
+define("_GCATEGORY_NO_C_LETTER", "In a database there is not a single category of users, beginning from the indicated letter!");
+	
+define("_GROUP_NO_USERS", "There is no category of users in a database!");
+define("_GROUP_NO_U_KEYWORD", "In a database there is not a single category of users, containing a keyword!");
+define("_GROUP_NO_U_LETTER", "In a database there is not a single category of users, beginning from the indicated letter!");
+	
+define("_TCATEGORY_NO_CATEGORY", "There is no category of tests in a database!");
+define("_TCATEGORY_NO_C_KEYWORD", "In a database there is not a single category of tests, containing a keyword!");
+define("_TCATEGORY_NO_C_LETTER", "In a database there is not a single category of tests, beginning from the indicated letter!");
+	
+define("_TEST_NO_TEST", "There is no test, included to this category, which has access for the chosen group!");
+define("_TEST_NO_T_KEYWORD", "There is no test, included to this category, which has access for the chosen group, containing a keyword!");
+define("_TEST_NO_T_LETTER", "There is no test, included to this category, which has access for the chosen group, beginning from the indicated letter!");
+
+define('_INVALID_PARAMETER_TESTING_SESSION','Invalid parameter of the testing session!');
+
+define('_TESTING','Testing');
+define('_NO_TEST_TOLERANCE','You have no access to the test, ask the trainer!');
+define('_AUTHENTICATION_ERROR','Authentication Error, please launch the test again!');
+define('_NOT_ENOUGHT_QUESION','In the testing is not enough included questions! There is a necessary to change the parameters of the  test session. Ask the teacher!');
+define('_TEST_RESULTS','Test results');
+define('_BLOCKED_CONFLICT_TESTIND_SESSION','Blocked an attempt by creating a conflict of testing sessions. Please contact OpenTEST!');
+define('_MEMBERS_GROUP','This group contains the following members:');
+define('_SELECT_TESTS_CATEGORY','Select a category of tests:');
+define('_CATEGORY_NAME','Category name');
+define('_GROUP_NAME','Group name');
+define('_USER_NAME','User name');
+define('_SELECT_TEST','Select a test:');
+define('_TESTS_CATEGORY_NAME','Test category name');
+define('_ENTER_PASSWORD_OR_CHANGE_TEST_MODE','Enter the password to log in, or change test mode as a teacher:');
+define('_TESTS_NAME','Tests name');
+define('_ENTER_TEST_PASSWORD','Enter a password for the test:');
+define('_ENTER_TEST','Enter');
+define('_ENTER_TECHER_RUN_MODE','Log in to the run test as a teacher');
+define('_TECHER_RUN_TEST_MODE','Start-up test in the teacher mode:');
+define('_NO_TESTS_TOLERANCE','You have no access to the test, ask the trainer!');
+define('_NO_TESTS_ATTEMPT','You have no attempt to test, ask the teacher!');
+define('_CANNOT_REETER_TEST_SESSION','You can not re-enter, the testing session is already active, contact the teacher!');
+define('_WAITING_RUN_TEST','Waiting for launch test by the teacher');
+define('_TECHER_RUN_LOCKED','Start-up test tutor for this test is locked, contact the teacher!');
+define('_TIMEOUT_RUN_TEST','The start-up time has run out, contact the teacher!');
+define('_PASSWORD_RUN_LOCKED','Enter by password for this test is locked, contact the teacher!');
+define('_WRONG_TEST_PASSWORD','Wrong password for the test, contact the teacher!');
+define('_SELECT_USERS_CATEGORY','Select a category of users:');
+define('_AUTO_SCALE','automatic');
+
+define('_VERY_BAD','very bad');
+define('_BAD','bad');
+define('_NORMAL','normal');
+define('_GOOD','good');
+define('_EXCELLENT','excellent');
+
+define('_TEST','Test:');
+define('_USER','User:');
+define('_ASK_QUESTION','Questions had been asked');
+define('_PERCENT_CORECT_ANSWERS','The percentage of correct answers to questions / adjusted');
+define('_CORECT_ANSWERS','Correct answers');
+define('_OF','of');
+define('_GET_BALLS','got points');
+define('_AVARAGE_ALTERNATIVE','Average alternativeness of question in session');
+define('_TIME_SPENT','Time spent');
+define('_TESTS_EVALUATION','Rating under the test');
+define('_SCALE','Scale');
+define('_NATIONAL_STATIC','national static');
+define('_ECTS_STATIC','ECTS static');
+define('_BACK_TO_BEGIN','Back to begin');
+define('_SEC','sec.');
+
+define('_BALANCE_TIME','Rest of time:');
+define('_QUESTION_NUMBER','Question #');
+define('_NOT_SELECTED','not selected');
+define('_END_TEST','Finish the test');
+define('_DO_NOT_FORGET_REPLY','Do not forget to click the button Reply!');
+define('_REPLY','Reply');
+define('_ANSWER_READY','The answer is ready');
+
+define('_SELECT_GROUP','Select a group:');

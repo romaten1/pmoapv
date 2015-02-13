@@ -1,0 +1,21 @@
+<?php
+if (INDEXPHP!=1) {die ("You can't access this file directly...");}
+
+define("_META1","UTF-8");  
+define("_DB1","Неможливо з'єднатися з базою! Перевірте дані необхідні для з'єднання з базою MySQL! Дані знаходяться в файлі config.php <br>");
+define("_DB2","Знайти базу з таким ім'ям не вдалося! <br>");
+define("_DB3","УВАГА! SQL запит повернув не єдиний результат!");
+define("_HEADER1","Помилка! Не вдалося підключити графічну тему! Перевірте, чи співпадає назва папки теми з назвою, яка знаходиться в файлі config.php в змінній \$config['theme']");
+define("_HEADER2","OpenTEST 2.3.0");
+define("_MAINFILE3","Статус");
+define("_MAINFILE_CURRENT_PAGE","Поточна сторінка: &nbsp;");
+define("_MAINFILE_PAGE_NO","Сторінка №: &nbsp;");
+define("_MAINFILE_TOTAL_PAGES",". Всього сторінок: &nbsp;");
+define("_MAINFILE_BUTTON_GOTO","Перейти");
+define("_MAINFILE_KEYWORD_SEARCH","Пошук по ключовому слову");
+define("_MAINFILE_BUTTON_SEARCH","Знайти");
+define("_TEXT_FOR_ABC","Для фільтрування виберіть першу букву об'єкта пошуку");
+
+global $rus_alf, $eng_alf;
+$rus_alf = array('Всі','А','Б','В','Г','Д','Е','Ё','Ж','З','И','Й','К','Л','М','Н','О','П','Р','С','Т','У','Ф','Х','Ц','Ч','Ш','Щ','Э','Ю','Я','І');
+$eng_alf = array('All','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z');

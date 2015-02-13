@@ -1,0 +1,63 @@
+<?php
+/************************************************************************/
+/* OpenTEST 2                                                           */
+/* ============================================                         */
+/*                                                                      */
+/* Copyright (c) 2002-2013 by OpenTEST Team                             */
+/* http://opentest.com.ua                                               */
+/* e-mail: nserv@opentest.com.ua                                        */
+/*                                                                      */
+/************************************************************************/
+
+if (INDEXPHP!=1) {die ("You can't access this file directly...");}
+define("TESTTEST","1");
+
+if(!isset($_COOKIE[$config['cookie_opentest_test_hash']]))
+$test_hash=""; else $test_hash=$_COOKIE[$config['cookie_opentest_test_hash']];
+if(!isset($_COOKIE[$config['cookie_opentest_test_id']]))
+$test_id=""; else $test_id=$_COOKIE[$config['cookie_opentest_test_id']];
+if(!isset($_COOKIE[$config['cookie_opentest_group_id']]))
+$group_id=""; else $group_id=$_COOKIE[$config['cookie_opentest_group_id']];
+if(!isset($_COOKIE[$config['cookie_opentest_user_id']]))
+$user_id=""; else $user_id=$_COOKIE[$config['cookie_opentest_user_id']];
+if(!isset($_COOKIE[$config['cookie_opentest_teacher_id']]))
+$teacher_id=""; else $teacher_id=$_COOKIE[$config['cookie_opentest_teacher_id']];
+if(!isset($_REQUEST['action']))
+$action=""; else $action=$_REQUEST['action'];
+if(!isset($_REQUEST['number']))
+$number=""; else $number=$_REQUEST['number'];
+if(!isset($_REQUEST['check_number']))
+$check_number=""; else $check_number=$_REQUEST['check_number'];
+if(!isset($_REQUEST['answer_id']))
+$answer_id=""; else $answer_id=$_REQUEST['answer_id'];
+if(!isset($_REQUEST['timer']))
+$timer=""; else $timer=$_REQUEST['timer'];
+
+include("authorization.php");
+
+// Подключаем шапку
+include_once("include/header.php");
+// Элемент дизайна - открыаем таблицу
+OpenTable();
+themeleftbox(_TESTING,"","",false);
+echo"<tr><td>";
+
+switch($action)
+{
+	case "end_test":
+		include("end_test.php");
+	break;
+
+	case "check_answer":
+		include("check_answer.php");
+	default:
+		include("show_question.php");
+	break;
+}
+
+// Элемент дизайна - закрываем таблицу
+CloseTable();
+// Подключаем низ
+include_once("include/footer.php");
+?>
+</td></tr>

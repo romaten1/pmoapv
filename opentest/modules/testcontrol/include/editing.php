@@ -1,0 +1,360 @@
+<?php
+if (INDEXPHP!=1) die ("You can't access this file directly...");		
+
+	// Проверка входящих переменных
+	if(isset($_REQUEST['action']))
+	   $action = $_REQUEST['action'];
+	else $action = "";
+
+	if(isset($_REQUEST['test_access_id']))
+	   if(is_array($_REQUEST['test_access_id']))
+		  $test_access_id = $_REQUEST['test_access_id'];
+	   else  $test_access_id = intval($_REQUEST['test_access_id']);
+	else $test_access_id = 0;
+	
+	
+	if(isset($_REQUEST['user_id']))
+	   if(is_array($_REQUEST['user_id']))
+		   $user_id = $_REQUEST['user_id'];
+	   else $user_id = intval($_REQUEST['user_id']);
+	else $user_id = 0;
+
+	if(isset($_REQUEST['num_try']))
+		$num_try = $_REQUEST['num_try'];
+	else $num_try = "";
+
+	if(isset($_REQUEST['num_questions']))
+		$num_questions = $_REQUEST['num_questions'];
+	else $num_questions = "";
+
+	if(isset($_REQUEST['test_time']))
+		$test_time = $_REQUEST['test_time'];
+	else $test_time = "";
+
+	if(isset($_REQUEST['start_type']))
+		$start_type = intval($_REQUEST['start_type']);
+	else $start_type = 0;	
+	
+	if($action != "set_all_save")
+	{
+		$num_try = intval($num_try);
+		$num_questions = intval($num_questions);
+		$test_time = intval($test_time);		
+	}else
+		$params = array("num_try" => $num_try,
+						"num_questions" => $num_questions,
+						"test_time" => $test_time,
+						"start_type" => $start_type);					
+	
+
+	switch($action)
+	{
+		/************************************/
+		/* Просмотр твблицы допуска         */
+		/************************************/
+		case "view_table":
+		default:
+			themeleftbox(_EDITING,"","",true);
+			//Подключение выпадающих списков
+			require_once("modules/".$module."/include/selection.php");
+
+			if($test_id>0 && $group_id>0)
+			{
+				// Выборка имени пользователя
+				$result_users = sql_query("SELECT user_id, user_name, user_disable
+										   FROM users
+										   WHERE group_id = '".$group_id."'
+										   ORDER BY user_name ASC");
+
+				if(mysql_num_rows($result_users)>0)
+				{
+					$hidden_inputs = "";
+					$user_num=0;
+					$accepted_users = 0;
+
+					// функции увеличения/уменьшения числа в полях ввода
+					$page_buf .= "<script language = 'javascript'>
+								   var reg=/^\d+$/
+								   function add(field)
+								   {
+									if(reg.test(field.value)||field.value=='')
+									   field.value++;
+								   }
+
+								   function sub(field)
+								   {
+									if(reg.test(field.value)&&field.value>0)
+									   field.value--;
+								   }
+								  </script>";
+
+					// шапка таблицы
+					$page_buf .=  "<table border=0 width=100%>
+						   <tr class='tab' align='center'>
+							<td>"._NUMBER."</td>
+							<td>"._NAME."</td>
+							<td>"._NUM_TRY."</td>
+							<td>"._NUM_QUESTIONS."</td>
+							<td>"._TEST_TIME.",("._EDITING_MIN.")</td>
+							<td>"._START_TYPE."</td>
+							<td>"._EDITING_SAVE."</td>
+						   </tr>";
+
+					while($row_user = mysql_fetch_assoc($result_users))
+					{
+						// выборка параметров допуска пользователя
+						$result = sql_query("SELECT test_access_id, num_try, num_questions, test_time, start_type
+											 FROM test_access
+											 WHERE user_id = '".$row_user['user_id']."'
+											  AND group_id = '".$group_id."'
+											  AND test_id = '".$test_id."'
+											  AND teacher_id = '".$teacher_id."'");
+
+						$row = mysql_fetch_assoc($result);
+
+						// имена полей ввода и полей записи в таблице
+						$fields = array("num_try", "num_questions", "test_time");
+						
+						if($row_user['user_disable'])
+							$user_name = "<font color=red>".$row_user['user_name']."</font>";
+						else
+							$user_name = $row_user['user_name'];						
+
+						// имя и номер пользователя
+						$page_buf .= "<form name='access".$row_user['user_id']."' method=POST action='index.php?module=".$module."&page=".$page."&test_access_id=".$row['test_access_id']."&user_id=".$row_user['user_id']."&test_id=".$test_id."&group_id=".$group_id."'>
+							   <tr align='center'><td>".++$user_num."</td>
+							   <td align='left'>".$user_name."</td>";
+
+						// поля ввода
+						for($i=0;$i<count($fields);$i++)
+							$page_buf .= "<td><nobr>
+										   <img title='"._EDITING_SUB."' src='themes/".$current_theme."/images/sub.png' style='cursor:hand;' onclick='sub(document.access".$row_user['user_id'].".".$fields[$i].");'>
+										   <input type=text size=10 name='".$fields[$i]."' value=".$row[$fields[$i]].">
+										   <img title='"._EDITING_ADD."' src='themes/".$current_theme."/images/add.png' style='cursor:hand;' onclick='add(document.access".$row_user['user_id'].".".$fields[$i].");'>
+										  </nobr></td>";
+
+						// выбор типа старта
+						$page_buf .= "<td><select name='start_type'>";
+
+                        $pwd = sql_single_query("SELECT COUNT(*)
+                                                 FROM test_passwords
+                                                 WHERE test_id='".$test_id."'
+                                                  AND group_id='".$group_id."'
+                                                  AND teacher_id='".$teacher_id."'");
+
+                        if($pwd['COUNT(*)']==0)
+                           $n=1;
+                        else
+                           $n=3;
+
+                        // тип старта
+						for($i=0;$i<$n;$i++)
+						   $page_buf .= "<option value=".($i+1)." ".($i+1==$row['start_type']?'selected':'').">".$type_of_start[$i]."</option>";
+
+						$page_buf .= "</select></td>
+							   <td><input type='hidden' name='action' value='save_one'><img src='themes/".$current_theme."/images/save.png' title='"._EDITING_SAVE."' style='cursor:hand;' onclick='document.access".$row_user['user_id'].".submit();'>";
+							
+						if($row['test_access_id'])
+						{
+							$page_buf .= "&nbsp;<img src='themes/".$current_theme."/images/delete.png' title='"._EDITING_DELETE."' style='cursor:hand;' onclick='document.access".$row_user['user_id'].".action.value=\"del_one\";document.access".$row_user['user_id'].".submit();'>";
+							++$accepted_users;
+						}					
+						
+	   
+						$page_buf .= "</td>
+							  </tr></form>";
+
+						// Для исключения лишних запросов к базе
+						$hidden_inputs .= " <input type='hidden' name='user_id[]' value=".$row_user['user_id'].">\n
+										   <input type='hidden' name='test_access_id[]' value=".$row['test_access_id']."> ";
+					}
+
+					$page_buf .= " <tr><td colspan=7><hr size=1 style='COLOR:#dddddd'></td></tr>
+						   <form name='all_access' method=POST action='index.php?module=".$module."&page=editing&group_id=".$group_id."&test_id=".$test_id."'>
+						   <tr align='center'>
+							<td colspan='2'>"._ALL.$hidden_inputs."</td>";
+
+					// поля ввода для всех
+					for($i=0;$i<count($fields);$i++)
+					   $page_buf .= "<td><nobr>
+									 <img title='"._EDITING_SUB."' src='themes/".$current_theme."/images/sub.png' style='cursor:hand;' onclick='sub(document.all_access.".$fields[$i].");'>
+									 <input type=text size=10 name='".$fields[$i]."'>
+									 <img title='"._EDITING_ADD."' src='themes/".$current_theme."/images/add.png' style='cursor:hand;' onclick='add(document.all_access.".$fields[$i].");'>
+									 </nobr></td>";
+
+					// выбор типа старта
+					$page_buf .= "<td><select name='start_type'>
+									<option value=-1></option>";
+						
+						// тип старта
+						for($i=0;$i<$n;$i++)
+						   $page_buf .= "<option value=".($i+1).">".$type_of_start[$i]."</option>";
+
+						$page_buf .= "</select></td>
+						   <td><input type='hidden' name='action' value='set_all_save'><img src='themes/".$current_theme."/images/save.png' title='"._EDITING_SAVE."' style='cursor:hand;' onclick='document.all_access.submit();'>";
+						
+						if($accepted_users)
+							$page_buf .= "&nbsp;<img src='themes/".$current_theme."/images/delete.png' title='"._EDITING_DELETE."' style='cursor:hand;' onclick='document.all_access.action.value=\"del_all\";document.all_access.submit();'>";
+   
+						$page_buf .= "</td>
+						   </tr>
+						  </table>";
+				}
+				else $page_buf .= "<p align='center'><font color=red>"._EDITING_GROUP_NO_USERS."</font></p>";
+			}
+			else $page_buf .= "<p align='center'><b>"._EDITING_CHOOSE."</b></p>";
+		break;
+
+		/**************************************************/
+		/* Cохранение параметров допуска для одного юзера */
+		/**************************************************/
+		case "save_one":
+			  if(get_count($test_id,1,true)>=$num_questions)
+			  {
+				  if($num_questions>0 && $num_try>0 && $test_time>0)
+				  {					  
+					  // Запрос изменения параментров допуска для одного полоьзователя
+					  if($test_access_id==0)
+						 $query = "INSERT INTO test_access (test_id, user_id, group_id, teacher_id, num_try, num_questions, test_time, start_type)
+									VALUES('$test_id', '$user_id', '$group_id', '$teacher_id', '$num_try', '$num_questions','$test_time', '$start_type')";
+					  else
+						 $query = "UPDATE test_access
+								   SET num_try='".$num_try."', num_questions='".$num_questions."', test_time='".$test_time."', start_type='".$start_type."'
+								   WHERE user_id = '".$user_id."'
+									  AND group_id = '".$group_id."'
+									  AND test_id = '".$test_id."'
+									  AND teacher_id = '".$teacher_id."'";
+
+					  sql_query($query);
+
+					  $stat_str = "&status_code=1&status_num=access_one_saved";
+				  }
+				  else $stat_str = "&status_code=0&status_num=one_zero";
+			  }
+			  else $stat_str = "&status_code=0&status_num=too_many_questions";
+
+			  //редирект на вывод таблицы
+			  $page_buf = "<META HTTP-EQUIV='Refresh' CONTENT='0; URL=index.php?module=".$module."&page=".$page."&action=view_table&test_id=".$test_id."&group_id=".$group_id.$stat_str."'>";
+		break;
+
+		/********************************************************************/
+		/* Установка и сохранение всем юзерам одинаковых параметров допуска */
+		/********************************************************************/
+		case "set_all_save":
+			  $stat_str = "";
+			  if($num_try===""||$num_questions===""||$test_time===""||$start_type==-1)
+			  {
+				if(get_count($test_id,1,true)>=$num_questions)
+				{
+					$query = "";
+					foreach($params as $key => $value)					
+						if(strlen($value)!=0 && $value!=-1)
+						
+							if($key!='start_type' && $value=="0")
+							{
+								$stat_str = "&status_code=0&status_num=one_zero";
+							}
+						else
+							$query .= $key."=".$value.",";				
+					
+					if($query)
+					{
+						sql_query("UPDATE test_access
+								   SET ".substr($query,0,-1)."
+								   WHERE test_id='".$test_id."'
+								    AND group_id='".$group_id."'
+								    AND teacher_id='".$teacher_id."'");						
+						
+						if(mysql_affected_rows())
+							$stat_str = "&status_code=1&status_num=access_all_saved";
+					}					
+				}
+				else $stat_str = "&status_code=0&status_num=too_many_questions";
+			  }			  
+			  elseif(get_count($test_id,1,true)>=$num_questions)
+			  {
+				  if($num_questions>0 && $num_try>0 && $test_time>0)
+				  {
+					  // Заготовка запроса
+					  $insert_query = "INSERT INTO test_access (test_id, group_id, teacher_id, num_try, num_questions, test_time, start_type, user_id)
+									   VALUES";
+					  // заготовка VALUES
+					  $values = "(".$test_id.", ".$group_id.", ".$teacher_id.", ".$num_try.", ".$num_questions.", ".$test_time.", ".$start_type.", ";
+
+					  for($i=0;$i<count($user_id);$i++)
+					  {
+						  // Если данный пользователь еще не имеет домуска то он добавляется в таблицу допуска
+						  if($test_access_id[$i]==0)
+							 $insert_query .= $values.$user_id[$i]."),";
+					  }
+
+					  // Сначала обновим все существующие записи
+					  sql_query("UPDATE test_access
+								 SET num_try='".$num_try."', num_questions='".$num_questions."', test_time='".$test_time."', start_type='".$start_type."'
+								 WHERE test_id='".$test_id."'
+								  AND group_id='".$group_id."'
+								  AND teacher_id='".$teacher_id."'");
+
+					  // Затем, если были новые пользователи, выполнить запрос на вставку записей
+					  if(substr($insert_query,-1)==",")
+						 sql_query(substr($insert_query,0,strlen($insert_query)-1));
+
+					  $stat_str = "&status_code=1&status_num=access_all_saved";
+				  }
+				  else $stat_str = "&status_code=0&status_num=one_zero";
+			  }
+			  else $stat_str = "&status_code=0&status_num=too_many_questions";
+
+			  //редирект на вывод таблицы
+			  $page_buf = "<META HTTP-EQUIV='Refresh' CONTENT='0; URL=index.php?module=".$module."&page=".$page."&action=view_table&test_id=".$test_id."&group_id=".$group_id.$stat_str."'>";
+		break;
+
+		case "add_new_test":
+        	if(is_allow(12,$test_category_id,$new_test_id,1))
+            {
+    			add_recent(0,$test_category_id,$new_test_id,$teacher_id);
+
+    			$page_buf = "<META HTTP-EQUIV='Refresh' CONTENT='0; URL=index.php?module=".$module."&page=".$page."&action=view_table&test_id=".$new_test_id."&group_id=".$group_id."'>";
+            }
+            else
+            {
+            	$page_buf = "<META HTTP-EQUIV='Refresh' CONTENT='0; URL=index.php?module=".$module."&page=test&test_category_id=".$test_category_id."&test_id=".$test_id."&group_id=".$group_id."&status_code=0&status_num=op_permited'>";
+            }
+		break;
+
+		case "add_new_group":
+            if(is_allow(14,$group_category_id,$new_group_id,1))
+            {
+                add_recent(1,$group_category_id,$new_group_id,$teacher_id);
+
+    			$page_buf = "<META HTTP-EQUIV='Refresh' CONTENT='0; URL=index.php?module=".$module."&page=".$page."&action=view_table&test_id=".$test_id."&group_id=".$new_group_id."'>";
+            }
+            else
+            {
+            	$page_buf = "<META HTTP-EQUIV='Refresh' CONTENT='0; URL=index.php?module=".$module."&page=group&group_category_id=".$group_category_id."&test_id=".$test_id."&group_id=".$group_id."&status_code=0&status_num=op_permited'>";
+            }
+		break;
+		
+		case "del_one":
+			sql_query("DELETE FROM test_access
+					   WHERE user_id = '".$user_id."'
+						AND group_id = '".$group_id."'
+						AND test_id = '".$test_id."'
+						AND teacher_id = '".$teacher_id."'");
+			$page_buf = "<META HTTP-EQUIV='Refresh' CONTENT='0; URL=index.php?module=".$module."&page=".$page."&action=view_table&test_id=".$test_id."&group_id=".$group_id."&status_code=1&status_num=access_one_deleted'>";
+		break;
+		
+		/***************************************/
+		/* удаление допуска всем пользователям */
+		/***************************************/
+		case "del_all":
+			sql_query("DELETE FROM test_access
+					   WHERE group_id = '".$group_id."'
+						AND test_id = '".$test_id."'
+						AND teacher_id = '".$teacher_id."'");
+			
+			//-- редирект
+			$page_buf = "<META HTTP-EQUIV='Refresh' CONTENT='0; URL=index.php?module=".$module."&page=".$page."&action=view_table&test_id=".$test_id."&group_id=".$group_id."&status_code=1&status_num=access_all_deleted'>";
+		break;
+	}	
+echo $page_buf;

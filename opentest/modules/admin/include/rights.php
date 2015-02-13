@@ -1,0 +1,343 @@
+<?php
+	/************************************************************************/
+    /* OpenTEST System: The System Of Computer Testing Knowleges            */
+    /* ============================================                         */
+    /*                                                                      */
+    /* Copyright (c) 2002-2005 by OpenTEST Team                             */
+    /* https://opentest.com.ua                                               */
+    /* e-mail: opentest@opentest.com.ua                                     */
+    /*                                                                      */
+    /************************************************************************/
+    /* 11/01/2005 08:00:00                                                                                    */
+    /************************************************************************/
+
+
+    if (INDEXPHP!=1)
+		die ("You can't access this file directly...");
+
+    //проверка прав на модуль
+    if(!is_allow(5,0,5,0,1))
+    {
+        echo "<META HTTP-EQUIV='Refresh' CONTENT='0; URL=index.php?module=".$module."&status_code=0&status_num=op_not_permitted'>";
+        exit;
+    }
+
+    // Получение переменых из суперглобальных массивов
+    if(isset($_REQUEST['action']))
+      	$action = $_REQUEST['action'];
+    else $action="";
+
+    if(isset($_REQUEST['next_action']))
+      	$next_action = $_REQUEST['next_action'];
+    else $next_action="";
+
+    if(isset($_REQUEST['group_category_id']))
+		$group_category_id = $_REQUEST['group_category_id'];
+    else $group_category_id="";
+
+    if(isset($_REQUEST['group_id']))
+    	$group_id = $_REQUEST['group_id'];
+    else $group_id=0;
+
+    if(isset($_REQUEST['user_id']))
+    	$user_id = $_REQUEST['user_id'];
+    else $user_id=0;
+
+    if(isset($_REQUEST['for_cat_id']))
+    	$for_cat_id = $_REQUEST['for_cat_id'];
+    else $for_cat_id="";
+
+    if(isset($_REQUEST['for_gr_cat_id']))
+		$for_gr_cat_id = $_REQUEST['for_gr_cat_id'];
+    else $for_gr_cat_id="";
+
+    if(isset($_REQUEST['for_module']))
+    	$for_module = $_REQUEST['for_module'];
+    else
+    	$for_module = "";
+
+    if($for_cat_id!="")
+    {
+    	$tmp_obj="for_cat_id";
+        $tmp_obj_id=$for_cat_id;
+    }
+    elseif($for_gr_cat_id!="")
+    {
+    	$tmp_obj="for_gr_cat_id";
+        $tmp_obj_id=$for_gr_cat_id;
+    }
+    elseif($for_module!="")
+    {
+        $tmp_obj="for_module";
+        $tmp_obj_id=$for_module;
+        $tmp_obj_code=$for_module;
+    }
+
+
+    if(isset($_REQUEST['perm_create']))
+		$perm_create = $_REQUEST['perm_create'];
+    else $perm_create=0;
+    
+    if(isset($_REQUEST['perm_read']))
+		$perm_read = $_REQUEST['perm_read'];
+    else $perm_read=0;
+
+    if(isset($_REQUEST['perm_write']))
+		$perm_write = $_REQUEST['perm_write'];
+    else $perm_write=0;
+
+    if(isset($_REQUEST['perm_owner']))
+		$perm_owner = $_REQUEST['perm_owner'];
+    else $perm_owner=0;
+
+    if(isset($_REQUEST['hid']))
+    	$hid = $_REQUEST['hid'];
+    else $hid="";
+
+    if(!isset($_REQUEST['letter']))
+      	$letter="";
+    else
+      	$letter=$_REQUEST['letter'];
+
+    if(!isset($_REQUEST['keyword']))
+      	$keyword="";
+    else $keyword=$_REQUEST['keyword'];
+
+    if(isset($_REQUEST['return_up']))
+      	$return_up = intval($_REQUEST['return_up']);
+    else $return_up= 0;
+
+    if ($group_category_id!="") {$tmp_to_obj="group_category_id";$tmp_to_obj_id=$group_category_id;}
+    		else if ($group_id!="") {$tmp_to_obj="group_id";$tmp_to_obj_id=$group_id;}
+    			else if ($user_id!="") {$tmp_to_obj="user_id";$tmp_to_obj_id=$user_id;}
+
+
+
+	switch($action)
+    {
+		case "do_category_permissions":
+            if ($tmp_obj=="for_cat_id")
+            	$tmp_obj_code=11;
+            elseif ($tmp_obj=="for_gr_cat_id")
+            	$tmp_obj_code=13;
+
+            if (($hid=="true") && ($perm_read=="") && ($perm_create=="") && ($perm_write=="") && ($perm_owner==""))
+            	;//echo "new record, empty - NOT recorded";
+            elseif ($hid=="true")
+            {
+                //echo "new record - not empty-recorded";
+                $query = "INSERT INTO permissions (object_code, object_id,group_category_id,group_id,user_id,permission_execute,permission_read,permission_write,permission_owner)
+                VALUES('$tmp_obj_code','$tmp_obj_id','$group_category_id','$group_id','$user_id','$perm_create','$perm_read','$perm_write','$perm_owner')";
+                sql_query($query);
+            }
+            elseif (($hid!="true") && ($perm_read=="") && ($perm_create=="") && ($perm_write=="") && ($perm_owner==""))
+            {
+                //echo "old record. Empty - deleted";
+                $query = "DELETE FROM permissions WHERE permission_id='$hid'";
+                sql_query($query);
+            }
+            else
+            {
+                //echo "old record. not empty - updated";
+                $query = "UPDATE permissions SET  group_id='$group_id',user_id='$user_id',permission_execute='$perm_create',permission_read='$perm_read',
+                permission_write='$perm_write',permission_owner='$perm_owner'
+                WHERE object_code='$tmp_obj_code' AND object_id='$tmp_obj_id' AND $tmp_to_obj='$tmp_to_obj_id'";
+                sql_query($query);
+            }
+            echo "<META HTTP-EQUIV='Refresh' CONTENT='0; URL=index.php?module=".$module."&page=rights&".$tmp_obj."=".$tmp_obj_id."'>";
+            //echo "<br><a href='index.php?module=".$module."&page=rights&".$tmp_obj."=".$tmp_obj_id."'>Continue</a>";
+    	break;
+
+        case "edit_permissions_g":
+        case "edit_permissions_u":
+        case "edit_permissions":			
+            if ($tmp_obj=="for_gr_cat_id")
+            	$tmp_obj_code=13;
+            elseif ($tmp_obj=="for_cat_id")
+            	$tmp_obj_code=11;			
+
+            themeleftbox(RIGHTS_CH_RIGHTS_HEADER,"","",true);
+            echo "<tr><td>";
+            $query = "SELECT *
+            	      FROM permissions
+                      WHERE object_code='$tmp_obj_code'
+                       AND object_id='$tmp_obj_id'
+                       AND $tmp_to_obj='$tmp_to_obj_id'";
+            $result = sql_query($query);
+            $row=mysql_fetch_assoc($result);
+			$c_check="";
+            $r_check="";
+            $o_check="";
+            $w_check="";
+            $new="true";
+            if ($row['permission_execute']=="1")
+            {
+            	$c_check="checked";
+                $new=$row['permission_id'];
+            }
+        	if ($row['permission_read']=="1")
+            {
+            	$r_check="checked";
+                $new=$row['permission_id'];
+            }
+        	if ($row['permission_write']=="1")
+            {
+            	$w_check="checked";
+                $new=$row['permission_id'];
+            }
+        	if ($row['permission_owner']=="1")
+            {
+            	$o_check="checked";
+                $new=$row['permission_id'];
+            }
+
+            $str="<form method=POST action='index.php?module=".$module."&page=rights&action=do_category_permissions&".$tmp_obj."=".$tmp_obj_id."&".$tmp_to_obj."=".$tmp_to_obj_id."'>
+                <input type=checkbox name=perm_read value=1 $r_check>".RIGHTS_READ."<br>";
+            if($tmp_obj!="for_module")
+				$str.="
+             	<input type=checkbox name=perm_create value=1 $c_check>".RIGHTS_CREATE."<br>
+				<input type=checkbox name=perm_write value=1 $w_check>".RIGHTS_WRITE."<br>";
+            $str.="<input type=checkbox name=perm_owner value=1 $o_check>".RIGHTS_OWNER."<br>
+                <input type=hidden name=hid value=$new>";
+
+			$str.="<input type=submit value='"._APPLY_BUTTON."'></form>";
+            ////////////////////////////////////////////////////////////
+            echo $str;
+            ////////////////////////////////////////////////////////
+        break;
+
+        default:
+            themeleftbox(RIGHTS_RIGHTS_HEADER,"","",true);
+            switch($tmp_obj)
+            {
+            	case "for_cat_id":
+                    $res=sql_single_query("SELECT test_category_name AS name FROM test_categories WHERE test_category_id='".$for_cat_id."'");
+                	$tmp_obj_code=11;
+                break;
+
+                case "for_gr_cat_id":
+                    $res=sql_single_query("SELECT group_category_name AS name FROM group_categories WHERE group_category_id='".$for_gr_cat_id."'");
+                	$tmp_obj_code=13;
+                break;
+
+                case "for_module":
+                	$res = array('name'=>$modules[$tmp_obj_code-1]);
+                break;
+            }
+            /*if($tmp_obj=='for_cat_id')
+            {
+                $query="SELECT test_category_name AS name FROM test_categories WHERE test_category_id='".$for_cat_id."'";
+                $tmp_obj_code=11;
+            }
+            elseif($tmp_obj=='for_gr_cat_id')
+        	{
+            	$query="SELECT group_category_name AS name FROM group_categories WHERE group_category_id='".$for_gr_cat_id."'";
+                $tmp_obj_code=13;
+            }   */
+            echo "<tr><td> <br>".($tmp_obj!="for_module"?RIGHTS_LIST_CAT:RIGHTS_LIST_MOD)."</b>: <u><i>".$res['name']."</i></u><br><br>";
+
+            $query = "SELECT *
+                     FROM permissions
+                     WHERE object_code='$tmp_obj_code'
+                      AND group_category_id!=0
+                      AND object_id='$tmp_obj_id'";
+            $result = sql_query($query);
+
+            echo "<b><br>".RIGHTS_CAT."</b> &nbsp;&nbsp;&nbsp;&nbsp;<a href='index.php?module=$module&page=group_category&next_action=edit_permissions&".$tmp_obj."=".$tmp_obj_id."'>".RIGHTS_ADD."</a><br>";
+            while ($row=mysql_fetch_assoc($result))
+            {
+            	$query = "SELECT group_category_name FROM group_categories WHERE group_category_id=".$row['group_category_id'];
+            	$row1=sql_single_query($query);
+
+            	$str="";
+
+            	if ($row['permission_read']=="1")
+                	$str.="R";
+            	else $str.="_";
+                if($tmp_obj_code>5)
+                {
+                	if ($row['permission_execute']=="1")
+                		$str.="C";
+            		else $str.="_";
+                	if ($row['permission_write']=="1")
+                    	$str.="W";
+                    else $str.="_";
+                }
+            	if ($row['permission_owner']=="1")
+                	$str.="O";
+                else $str.="_";
+
+            	echo $row1['group_category_name'].' - '.$str.' <a href="index.php?module=admin&page=rights&action=edit_permissions&group_category_id='.$row['group_category_id'].'&'.$tmp_obj.'='.$tmp_obj_id.'">'.RIGHTS_CHANGE.'</a><br>';
+            }
+            $query = "SELECT *
+                      FROM permissions
+                      WHERE object_code='$tmp_obj_code'
+                       AND group_id!=0
+                       AND object_id='$tmp_obj_id'";
+            $result = sql_query($query);
+
+            echo "<b><br>".RIGHTS_GR."</b> &nbsp;&nbsp;&nbsp;&nbsp;<a href='index.php?module=$module&page=group_category&next_action=edit_permissions_g&".$tmp_obj."=".$tmp_obj_id."'>".RIGHTS_ADD."</a><br>";
+            while ($row=mysql_fetch_assoc($result))
+            {
+            	$query = "SELECT group_name FROM groups WHERE group_id=".$row['group_id'];
+            	$row1=sql_single_query($query);
+
+            	$str="";
+	               
+            	if ($row['permission_read']=="1")
+                	$str.="R";
+                else $str.=" _";
+               	if($tmp_obj_code>5)
+               	{
+               		if ($row['permission_execute']=="1")
+	                	$str.="C";
+	                else $str.=" _";
+                	if ($row['permission_write']=="1")
+                    	$str.="W";
+                    else $str.=" _";
+               	}
+            	if ($row['permission_owner']=="1")
+            		$str.="O";
+                else $str.=" _";
+
+            	echo $row1['group_name'].RIGHTS_RIGHTS.$str.' <a href="index.php?module=admin&page=rights&action=edit_permissions&next_action=edit_permissions_g&group_id='.$row['group_id'].'&'.$tmp_obj.'='.$tmp_obj_id.'">'.RIGHTS_CHANGE.'</a><br>';
+            }
+            $query = "SELECT *
+                      FROM permissions
+                      WHERE object_code='$tmp_obj_code'
+                       AND user_id!=0
+                       AND object_id='$tmp_obj_id'";
+            $result = sql_query($query);
+
+            echo "<b><br>".RIGHTS_USER."</b> &nbsp;&nbsp;&nbsp;&nbsp;<a href='index.php?module=$module&page=group_category&next_action=edit_permissions_u&".$tmp_obj."=".$tmp_obj_id."'>".RIGHTS_ADD."</a><br>";
+            while ($row=mysql_fetch_assoc($result))
+            {
+            	$query = "SELECT user_name
+                	      FROM users
+                          WHERE user_id='".$row['user_id']."'";
+            	$row1=sql_single_query($query);
+
+            	$str="";
+	                
+            	if ($row['permission_read']=="1")
+                	$str.="R";
+                else $str.=" _";
+                if($tmp_obj_code>5)
+                {
+                	if ($row['permission_execute']=="1")
+	                	$str.="C";
+	                else $str.=" _";
+                
+                	if ($row['permission_write']=="1")
+                    	$str.="W";
+                    else $str.=" _";
+                }
+            	if ($row['permission_owner']=="1")
+                	$str.="O";
+                else $str.=" _";
+
+            	echo $row1['user_name'].RIGHTS_RIGHTS.$str.' <a href="index.php?module=admin&page=rights&action=edit_permissions&next_action=edit_permissions_u&user_id='.$row['user_id'].'&'.$tmp_obj.'='.$tmp_obj_id.'">'.RIGHTS_CHANGE.'</a><br>';
+            }
+    	break;
+    }
+?>

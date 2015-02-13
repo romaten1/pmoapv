@@ -1,0 +1,279 @@
+﻿<?php
+
+     if (INDEXPHP!=1)
+         die ("You can't access this file directly...");
+
+     define("_YES","Yes");
+     define("_NO","No");
+define("_EXISTS","Exists");
+
+
+     define("_GROUPS_CATEGORY_VIEW","To look over groups in this category");
+     define("_GROUPS_CATEGORY_CHOOSE","Choose a category  in which a necessary group is");
+     define("_GROUPS_CATEGORY_VIEW_HEADER","A current category contains the following groups:");
+     define("_GROUPS_CATEGORY_CHOOSE_I","Choose a category in which it is necessary to import a group");
+     define("_GROUPS_CATEGORY_ENTER_NAME","Enter the name of group:");
+     define("_GROUPS_CATEGORY_CREATE_HEADER","Creation of new group");
+     define("_GROUPS_CATEGORY_IMPORT_HEADER","Importation of group");
+     define("_GROUPS_CATEGORY_CREATE_BUTTON","Create");
+     define("_GROUPS_CATEGORY_CREATE_TEXT","Choose a categoryn in which a new group will be created");
+     define("_GROUPS_CATEGORY_CHOOSE_HEADER_DEF","The next categories of groups are accessible");
+     define("_GROUPS_CATEGORY_CHOOSE_CATEGORY_DEF","Choose a category in which you wish to continue work");
+     define("_GROUPS_CATEGORY_CHOOSE_GROUP_DEF","Choose a group  you wish to continue work with");
+     define("_GROUPS_CATEGORY_CHOOSE_CATEGORY","Choose a category which contains a necessary group or user");
+     
+     define("_GROUPS_CATEGORY_CH_GR_R_H","Rights for access: choice of group"); 
+     define("_GROUPS_CATEGORY_CH_CAT_R_H","Rights for access: choice of category"); 
+     define("_GROUPS_CATEGORY_CH_U_R_H","Rights for access: choice of user");  
+ 
+ define("_GROUPS_CATEGORY_CH_USER","Choose the user for which it is necessary to change rights on a group");  
+ define("_GROUPS_CATEGORY_CH_GROUP","Choose group for which it is necessary to change rights on a group");        
+ define("_GROUPS_CATEGORY_CH_GROUP_U","Choose group of user for which it is necessary to change rights on a group");  
+ define("_GROUPS_CATEGORY_CH_CAT","Choose a category for which it is necessary to change rights on a group");  
+ define("_GROUPS_CATEGORY_CH_CAT_GR","Choose a category of group for which it is necessary to change rights on a group");
+ define("_GROUPS_CATEGORY_CH_CAT_U","Choose a category of user for which it is necessary to change rights on a group");
+
+
+
+
+
+
+
+
+
+	 define("_GROUPS_CATEGORY_NO_CATEGORY"," In a database there is no category of groups of the users!");
+     define("_GROUPS_CATEGORY_NO_GROUP","There is no group in this category!");
+     define("_GROUPS_CATEGORY_VIEW_GROUP","To look over users in this group");
+     define("_GROUP_NO_USERS","There is no user in this group!");
+
+
+define("_GROUP_USER_DETAIL","Name");
+define("_GROUP_USER_LOGIN","Login");
+define("_GROUP_USER_PASSWORD","Password");
+define("_GROUP_USER_OLD_PASSWORD","Old password");
+define("_GROUP_USER_NEW_PASSWORD","New password");
+define("_GROUP_USER_PASSWORD_C","Confirmation of password");
+define("_GROUP_USER_OFF","An user is turned off");
+
+define("_GROUP_USER_CANT_CH_PASS","To forbid changing of password");
+define("_GROUP_USER_CH_PASS","The user can change a password");
+
+
+
+
+     define("_GROUP_VIEW_HEADER","The list of users in this group:");
+     define("_GROUP_RENAME_TEXT","Enter a new name for group");
+     define("_GROUP_RENAME_BUTTON","Rename");
+     define("_GROUP_RENAME_HEADER","Change the name of current group");
+     define("_GROUP_DELETE_HEADER","Delete current group");
+     define("_GROUP_DELETING_CONFIRM","All users of this group, their statistics  and similarly all rights of access will be removed.<br> Do you really wish to delete a current test?");
+     define("_GROUP_CREATE_HEADER","Creation of new user");
+     define("_GROUP_CREATE_USER_TEXT","Enter a necessary data");
+     define("_GROUP_CREATE_BUTTON","To add the user");
+     define("_GROUP_VIEW_USERS","To look over users in this group");
+	 define("_GROUP_CHOOSE_USER_DEF","Choose an user you wish to continue work with");
+	 define("_GROUP_ON","To turn on a group");
+	 define("_GROUP_OFF","To turn off a group");
+    
+      
+      
+     
+
+
+
+
+ 
+     define("_USER_VIEW_HEADER","Detailed information about a current user:");
+     define("_USER_DELETE_HEADER","Removal of the current user");
+	 define("_USER_DELETE","To delete the user");
+	 define("_USER_ON","To turn on an user");
+	 define("_USER_OFF","To turn off an user");
+     define("_USER_DELETING_CONFIRM","Attention! The user will be deleted (with all rights of access and statistics).<br> Do you really wish to delete a current user?");
+     
+     
+     define("_USER_RENAME_HEADER","Change data for a current user");
+	 define("_USER_RENAME_TEXT","Bring in necessary changes");
+	 define("_USER_RENAME","To edit an user");
+	 define("_USER_APPLY_BUTTON","To apply");
+	 define("_USER_RIGHTS_ADD_CAT","To add rights for a category");
+	 define("_USER_RIGHTS_ADD_GR","To add rights for a group");
+	 define("_USER_RIGHTS_ADD_USER","To add rights for an user");
+
+     
+     
+
+     
+     
+     
+     define("_MENU_TEST_CONTROL","Groups control ");
+     define("_MENU_CREATE_TEST","To create a new group");
+     define("_MENU_OPEN_TEST","To open existing group");
+     define("_MENU_TASKS_FOR_GROUP","Tasks for groups");
+	 define("_MENU_TASKS_FOR_RIGHTS","Tasks for rights of access");
+	 
+     define("_MENU_TEST_CONTAIN","Users in a group");
+     define("_MENU_ADD_USER","To add a new user");
+     define("_MENU_RENAME_GROUP","To rename a group");
+     define("_MENU_DELETE_GROUP","To delete a group");
+     define("_MENU_PERMISSIONS","Rights of access");
+     define("_MENU_TASKS_FOR_USER","Tasks for the user");
+     define("_MENU_TREE","Tree of users");
+     define("_MENU_CREATE_GROUP","To create a new group");
+
+
+
+
+
+
+
+
+
+     define("_MENU_IMPORT_TEST","To import a test from XML");
+     define("_MENU_OPEN_GROUP","To open existing group");
+
+
+   define("_MENU_GROUP_CAT_","+ Category of group");
+   define("_MENU_GROUP_","++ Group");
+   define("_MENU_USER_","+++ User");
+
+
+     define("_MENU_BASIC_MENU","Menu of the basic modules");
+     define("_MENU_RESULTS_ROOT","Initial menu of the module");
+     define("_MENU_COMMON_TASKS","General tasks");
+     define("_MENU_AUTHORIZATION","Authorization");
+     define("_MENU_GROUP","Group");
+     define("_MENU_USER","User");
+     define("_MENU_EXIT","Exit");
+
+     define("_MENU_TASK_SETUP","Tasks of control");
+     define("_MENU_TASKS_FOR_TEST","Tasks for a test");
+     define("_MENU_TASKS_FOR_TOPIC","Tasks for a theme");
+     define("_MENU_TASKS_FOR_QUESTION","Tasks for a question");
+     define("_MENU_TASKS_FOR_ANSWER","Tasks for an answer");
+
+     define("_MENU_EXPORT_TEST","To export a test in XML");
+     define("_MENU_EXPORT_TOPIC","To export a theme in XML");
+     define("_MENU_EXPORT_QUESTION","To export a question in XML");
+
+     define("_MENU_ADD_QUESTION","To add a new question");
+     define("_MENU_ADD_ANSWER","To add the variant of answer");
+     define("_MENU_IMPORT_TOPIC","To add a new theme to the test from XML");
+     define("_MENU_IMPORT_QUESTION","To add a new question from XML");
+     define("_MENU_RENAME_TEST","To rename a test");
+     define("_MENU_RENAME_TOPIC","To rename a theme");
+     define("_MENU_EDIT_QUESTION","To change the text of question");
+     define("_MENU_MOVE_TEST","To move a test to the other category");
+     define("_MENU_MOVE_TOPIC","To move a theme to the other test");
+     define("_MENU_ON_TEST","To turn on a test");
+     define("_MENU_OFF_TEST","To turn off a test");
+     define("_MENU_ON_TOPIC","To turn on a theme");
+     define("_MENU_OFF_TOPIC","To turn off a theme");
+     define("_MENU_ON_QUESTION","To turn on a question");
+     define("_MENU_OFF_QUESTION","To turn off a question");
+     define("_MENU_DELETE_TEST","To delete a test");
+     define("_MENU_DELETE_TOPIC","To delete a theme");
+     define("_MENU_DELETE_QUESTION","To delete a question");
+     define("_MENU_DELETE_ANSWER","To delete an answer");
+     define("_MENU_SECURITY","Safety");
+     define("_MENU_PRINT_VER","Version for a print");
+     define("_MENU_PREVIEW","Preview");
+	 define("_MENU_DETAILS","Details");
+
+	 define("_MENU_TOPIC_CONTAIN","A theme contains questions");
+	 define("_MENU_LAST_CHANGE","Date and proprietor of the last update ");
+
+
+
+
+
+	 global $status_text;
+	 $status_text = array(
+		 "group_created"         	=> "A group was successfully created",
+		 "group_exist"           	=> "There is already a group with such name in a current category!",
+		 "group_renamed"         	=> "A group was successfully renamed",
+         "group_off"                => "A group was successfully turned off",
+         "group_on"                 => "A group was successfully turned on",
+		 "group_deleted"         	=> "A group was successfully remote",
+		 "group_not_deleted"     	=> "An error happened at the removal of group",
+
+		 "user_exist"          	=> "The user with such name is already existing in this group!",
+		 "user_login_password" 	=> "If the field 'Login' is empty, field 'Password' must be empty as well",
+		 "user_login_exist"     => "There user with such login is already existing in the system!",
+		 "password_incorrect"  	=> "Fields 'Parol'' and 'Confirmation of password' do not coincide",
+		 "old_password_incorrect"=> "An old password is specified incorrectly!",
+		 "user_added"          	=> "An user was successfully added",
+		 "user_off"            	=> "An user was successfully turned off",
+		 "user_on"             	=> "An user was successfully turned on",
+		 "op_not_permitted"		=> "There are not enough privileges for this operation!",
+		
+         
+		 "user_renamed"        	=> "Information about the user was successfully changed",
+		 "user_deleted"        	=> "The user was successfully deleted",
+		 "user_not_deleted"    	=> "An error happened at the removal of user",
+		 "topic_exported"       	=> "A theme was successfully exported",
+		 "question_exist"       	=> "There is already such question in a current theme!",
+		 "question_added"       	=> "A question is successfully added",
+		 "question_exported"    	=> "A question was successfully exported",
+		 "question_off"        	    => "A question was successfully turned off",
+		 "question_on"          	=> "A question was successfully turned on",
+		 "question_edited"      	=> "A question was successfully changed",
+		 "question_deleted"     	=> "A question was successfully removed",
+		 "question_not_deleted" 	=> "An error happened at the removal of the question",
+		 "answer_exist"         	=> "A current question already contains such variant of answer!",
+		 "answer_added"         	=> "The variant of answer was successfully added",
+		 "op_not_permitted"         	=> "Refused in access!",
+		 "answer_edited"        	=> "The variant of answer was successfully changed",
+		 "answer_deleted"       	=> "The variant of answer was successfully removed",
+		 "answer_not_deleted"   	=> "There was an error at the removal of variant of answer",
+		 "true_exist"				=> "A current question already contains the correct variant of the answer!",
+		 "sample_empty"				=> "The text of example is empty!",
+		 "no_true_answer"			=> "A question was not included. There is no correct variant of answer or answers are absent!",
+		 "answer_ed_question_off"   => "The variant of answer was successfully changed. Attention! A question was turned off because of absence of correct variant of answer in it.",
+		 "ans_del_ques_off"   		=> "The variant of answer was successfully deleted. Attention! A question was turned off because of absence of correct variant of answer in it.",
+		 "ans_ndel_ques_off"   		=> "There was an error at the removal of variant of answer. Attention! A question was turned off because of absence of correct variant of answer in it.");
+	
+
+
+     define("_MENU_EXPORT_GROUP","An export users of group into XML");
+     define("_MENU_IMPORT_GROUP","Import  group from XML");
+     define("_IMPORT_GROUP_TEXT","Import group from XML");
+     define("_CATEGORY_IMPORT_OPTION1","Only viewing");
+     define("_CATEGORY_IMPORT_OPTION2","Viewing and record into a base");
+
+     define("_CATEGORY_IMPORT_BUTTON","Import");
+     define("_CATEGORY_IMPORT_FORMATS","Supported formats");
+     define("_CATEGORY_IMPORT_OPTIONS","Options of importation");
+
+
+     define("RIGHTS_RIGHTS_HEADER","Rights of access");
+    define("RIGHTS_ADD","To add..");
+    define("RIGHTS_CHANGE","To change..");
+define("RIGHTS_CAT","Categories");
+define("RIGHTS_GROUP","Group");
+define("RIGHTS_USERS","Users");
+define("RIGHTS_READ","Reading");
+define("RIGHTS_WRITE","Writing");
+define("RIGHTS_OWNER","Owner");
+define("RIGHTS_CH_RIGHTS_HEADER","Rights for access");
+
+
+
+
+
+
+
+
+    define("RIGHTS_LIST","List of categories, groups and users that have any right on group");
+
+
+
+
+
+
+
+
+
+
+
+
+?>

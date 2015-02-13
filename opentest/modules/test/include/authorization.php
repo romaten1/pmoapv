@@ -1,0 +1,165 @@
+<?php
+/************************************************************************/
+/* OpenTEST 2                                                           */
+/* ============================================                         */
+/*                                                                      */
+/* Copyright (c) 2002-2013 by OpenTEST Team                             */
+/* http://opentest.com.ua                                               */
+/* e-mail: nserv@opentest.com.ua                                        */
+/*                                                                      */
+/************************************************************************/
+
+if (INDEXPHP!=1) {die ("You can't access this file directly...");}
+if (TESTTEST!=1) {die ("You can't access this file directly...");}
+
+$query = "SELECT last_log_date
+             FROM sessions
+             WHERE test_id='$test_id' and user_id='$user_id' and group_id='$group_id' and teacher_id='$teacher_id'
+             AND last_log_date>DATE_SUB(NOW(), INTERVAL '$config[authorization_timeout]' MINUTE)
+             ";
+$result=sql_query($query);
+$row_num = mysql_num_rows($result);
+if($row_num==1)
+{
+	// Получаем строку таблицы и формируем хэш от нужных полей
+	$row=mysql_fetch_assoc($result);
+	$last_log_date = $row['last_log_date'];
+
+	// Проверка допуска.
+	$query = "SELECT num_try, test_time, hide_result
+             FROM test_access
+             WHERE test_id='$test_id' and user_id='$user_id' and group_id='$group_id' and teacher_id='$teacher_id'
+             ";
+	$result=sql_query($query);
+	$row_num = mysql_num_rows($result);
+	if($row_num==1)
+	{
+		$row=mysql_fetch_assoc($result);
+		$num_try = $row['num_try'];
+		$test_time = $row['test_time'];
+		$hide_result = $row['hide_result'];
+		// перевод минут в секунды
+		$test_time = $test_time * 60;
+		if($num_try < 1) 
+		{	
+			// Подключаем шапку
+		   	include_once("include/header.php");
+		    // Элемент дизайна - открыаем таблицу
+		    OpenTable();
+			themeleftbox("Тестирование","","",false);
+			echo "<tr><td> <br>";
+			echo"У Вас отсутствуют попытки к тесту, обратитесь к преподавателю!";
+		    // Элемент дизайна - закрываем таблицу
+		    CloseTable();
+		    // Подключаем низ
+		    include_once("include/footer.php");	
+			exit;
+		}
+	}
+	else
+	{
+		// Подключаем шапку
+	   	include_once("include/header.php");
+	    // Элемент дизайна - открыаем таблицу
+	    OpenTable();
+		themeleftbox(_TESTING,"","",false);
+		echo "<tr><td><br>";
+		echo _NO_TEST_TOLERANCE;
+	    // Элемент дизайна - закрываем таблицу
+	    CloseTable();
+	    // Подключаем низ
+	    include_once("include/footer.php");	
+		exit;
+	}
+	
+	$test_hash_to_check = md5($last_log_date.$_SERVER['REMOTE_ADDR'].$test_id.$group_id.$user_id.$teacher_id);
+	if ($test_hash_to_check == $test_hash)
+	{	
+       	// Обновление поля последнего входа и выдача нового хеша
+       	$current_time = time();
+		$query = "UPDATE sessions 
+					SET last_log_date='". date("Y-m-d H:i:s", $current_time). "', last_log_host =
+					'$_SERVER[REMOTE_ADDR]' 
+					WHERE test_id='$test_id' and user_id='$user_id' and group_id='$group_id' and
+					teacher_id='$teacher_id'
+				 ";
+		sql_query($query);
+    	
+    	$test_hash = md5(date("Y-m-d H:i:s", $current_time).$_SERVER['REMOTE_ADDR'].$test_id.$group_id.$user_id.$teacher_id);
+		setcookie($config['cookie_opentest_test_hash'], $test_hash, $config['cookie_opentest_time'], $config['cookie_opentest_path']);
+		
+		// Проверка наличия остатка времени на сеанс тестирования
+		$query = "SELECT start_test_time
+             FROM sessions
+             WHERE test_id='$test_id' and user_id='$user_id' and group_id='$group_id' and teacher_id='$teacher_id'
+             AND start_test_time > DATE_SUB(NOW(), INTERVAL '$test_time' SECOND)
+             ";
+		$result=sql_query($query);
+		$row_num = mysql_num_rows($result);
+		if($row_num==1)
+		{
+			$row = mysql_fetch_assoc($result);
+			$start_test_time = $row['start_test_time'];
+			// Заносим оставшееся время (в секундах) в переменную (в т.ч. для таймера)
+			$time_to_end_test = $test_time - (( time() - strtotime($start_test_time)  ));
+		}
+		else
+		{
+			$action = "end_test";
+			$timer="2";
+		} 
+    }
+	else
+	{
+		// В случае несовпадения хэша пользователь перенаправляется на страницу входа в систему
+	    
+	    // Установка статуса = 0 (оффлан), last_end_test_status = 6 (ошибка авторизации)
+		$query = "UPDATE test_access 
+				SET last_status=start_status, start_status='0', status_date=NOW(),  user_ip =
+				'$_SERVER[REMOTE_ADDR]', last_end_test_status='6' 
+				WHERE test_id='$test_id' and user_id='$user_id' and group_id='$group_id' and
+				teacher_id='$teacher_id'
+				";
+		sql_query($query);
+	
+	    // Подключаем шапку
+	   	include_once("include/header.php");
+	    // Элемент дизайна - открыаем таблицу
+	    OpenTable();
+		themeleftbox(_TESTING,"","",false);
+		echo "<tr><td> <br>";
+		echo _AUTHENTICATION_ERROR;
+	    // Элемент дизайна - закрываем таблицу
+	    CloseTable();
+	    // Подключаем низ
+	    include_once("include/footer.php");	
+		exit;
+    }
+}
+else
+{
+	// В случае несовпадения хэша пользователь перенаправляется на страницу входа в систему
+    
+	// Установка статуса = 0 (оффлан), last_end_test_status = 6 (ошибка авторизации)
+	$query = "UPDATE test_access 
+				SET last_status=start_status, start_status='0', status_date=NOW(),  user_ip =
+				'$_SERVER[REMOTE_ADDR]', last_end_test_status='6' 
+				WHERE test_id='$test_id' and user_id='$user_id' and group_id='$group_id' and
+				teacher_id='$teacher_id'
+				";
+	sql_query($query);
+	
+	// Подключаем шапку
+   	include_once("include/header.php");
+    // Элемент дизайна - открыаем таблицу
+    OpenTable();
+	themeleftbox(_TESTING,"","",false);
+	echo "<tr><td> <br>";
+	echo _AUTHENTICATION_ERROR;
+    // Элемент дизайна - закрываем таблицу
+    CloseTable();
+    // Подключаем низ
+    include_once("include/footer.php");	
+	exit;
+}
+?>

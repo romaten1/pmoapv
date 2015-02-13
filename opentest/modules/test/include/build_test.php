@@ -1,0 +1,160 @@
+<?php
+/************************************************************************/
+/* OpenTEST 2                                                           */
+/* ============================================                         */
+/*                                                                      */
+/* Copyright (c) 2002-2013 by OpenTEST Team                             */
+/* http://opentest.com.ua                                               */
+/* e-mail: nserv@opentest.com.ua                                        */
+/*                                                                      */
+/************************************************************************/
+
+if (INDEXPHP!=1) {die ("You can't access this file directly...");}
+if (DEFAULTTEST!=1) {die ("You can't access this file directly...");}
+
+// Формирование нового теста
+// Получение количества вопросов в сеансе
+$query = "SELECT num_questions 
+		  FROM test_access 
+		  WHERE test_id='$test_id' and user_id='$user_id' and group_id='$group_id' and teacher_id='$teacher_id'
+		  ";
+$row=sql_single_query($query);
+$questions_per_test = $row['num_questions'];
+
+// Проверка на наличие достаточного для сеанса кол-ва вопросов
+$query = "SELECT questions.question_id 
+		  FROM questions, topics 
+		  WHERE questions.topic_id=topics.topic_id  and topics.test_id='$test_id' and questions.question_disable=0
+		  and topics.topic_disable=0
+		  ";
+$result=sql_query($query);
+$row_num = mysql_num_rows($result);
+if($row_num < $questions_per_test)
+{
+    // Подключаем шапку
+   	include_once("include/header.php");
+    // Элемент дизайна - открыаем таблицу
+    OpenTable();
+	themeleftbox(_INVALID_PARAMETER_TESTING_SESSION,"","",false);
+	echo "<tr><td> <br>";
+	echo _NOT_ENOUGHT_QUESION;
+
+    // Элемент дизайна - закрываем таблицу
+    CloseTable();
+    // Подключаем низ
+    include_once("include/footer.php");	
+	exit;
+} 
+
+$topic_number=0;
+// Получение id-шников тем текущего теста $test_id
+$query = "SELECT topic_id 
+		  FROM topics 
+		  WHERE test_id='$test_id' 
+		  AND topics.topic_disable=0
+		  ";
+$result=sql_query($query);
+$questions_id=array();
+$answers_id=array();
+$answers_id_temp=array();
+while ($row = mysql_fetch_array ($result)) 
+{ 
+	$question_number=0;
+	// Получение id-шников вопросов текущей темы $row[topic_id]
+	$query = "SELECT question_id 
+		  FROM questions 
+		  WHERE topic_id='$row[topic_id]'
+		  AND questions.question_disable=0
+		  ";
+	$result2=sql_query($query);
+	while ($row2 = mysql_fetch_array ($result2)) 
+	{ 
+		// Заполнение массива $questions_id[] id-шниками вопросов
+		$questions_id[] = $row2['question_id'];
+		$question_number++;
+	}
+	// Вносим следующим элементом массива $topic_array[] массив $questions_id[]
+	$topic_array[] = $questions_id;
+	// Вносим в массив $num_questions[порядковый номер темы] кол-во вопросов в этой теме
+	$num_questions[$topic_number]=$question_number;
+	$questions_id=array();	// ??????
+	$topic_number++; 
+}
+
+$num_topics=$topic_number;
+$unused_topics = range (0,$num_topics-1);
+
+srand ((double) microtime() * 1000000);
+for($i=1; $i <= $questions_per_test; $i++)
+{
+	if( count($unused_topics) <= 0 ) $unused_topics = range (0,$num_topics-1);
+	$rand_key = array_rand ($unused_topics);
+	$rand_topic_key = $unused_topics[$rand_key];
+	$topic_array[$rand_topic_key] = array_values($topic_array[$rand_topic_key]); 
+	$max=count($topic_array[$rand_topic_key]) - 1;
+	$rand_question_key = rand(0,$max); 
+	if($max >= 0)
+	{
+		$question_id = $topic_array[$rand_topic_key][$rand_question_key];
+		$query = "SELECT topic_id,question_type,question_difficulty
+		FROM questions 
+		WHERE question_id='$question_id'
+		";
+		$row=sql_single_query($query);
+		$topic_id = $row['topic_id'];
+		$question_type=$row['question_type'];
+		$question_difficulty=$row['question_difficulty'];			
+	
+		$query = "INSERT 
+		INTO prepared_questions (test_id,user_id,teacher_id,topic_id,question_id,question_type,number,question_difficulty)
+		VALUES ('$test_id','$user_id','$teacher_id','$topic_id','$question_id','$question_type','$i','$question_difficulty')
+		";
+		$row=sql_query($query);
+		$prepared_question_id=mysql_insert_id();
+	
+		$query = "SELECT answer_id
+		FROM answers 
+		WHERE question_id='$question_id'
+		";
+		$result=sql_query($query);
+		while ($row = mysql_fetch_array ($result))
+		{
+			$answers_id[]=$row['answer_id'];
+		} 
+		// Необьяснимый набор операций =====================
+		$num_answers_idx= count($answers_id);
+		for($x=1; $x <= $num_answers_idx; $x++)
+		{
+			$rand_keyx = array_rand ($answers_id);
+			$answers_id_temp[] = $answers_id[$rand_keyx];
+			unset($answers_id[$rand_keyx]);
+		}
+		$answers_id=$answers_id_temp;
+		unset($answers_id_temp);
+		$answers_id_temp=array();
+		//==================================================
+
+		for( $a=0;$a < count($answers_id); $a++ )
+		{
+			$query = "SELECT answer_true,true_percent,answer_sample
+			FROM answers 
+			WHERE answer_id='$answers_id[$a]'
+			";
+			$row=sql_single_query($query);
+			$answer_true=$row['answer_true'];
+			$true_percent=$row['true_percent'];
+			$answer_sample=$row['answer_sample'];
+			
+			$query = "INSERT 
+			INTO prepared_answers (prepared_question_id,answer_id,answer_sample,answer_true,true_percent)
+			VALUES ('$prepared_question_id','$answers_id[$a]','$answer_sample','$answer_true','$true_percent')
+			";
+			$row=sql_query($query);		
+		}
+		$answers_id=array();
+		unset($topic_array[$rand_topic_key][$rand_question_key]);
+	}
+	else $i--;
+	unset($unused_topics[$rand_key]);
+}
+?>

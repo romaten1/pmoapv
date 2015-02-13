@@ -1,0 +1,22 @@
+<?php
+     /************************************************************************/
+     /* OpenTEST System: The System Of Computer Testing Knowleges            */
+     /* ============================================                         */
+     /*                                                                      */
+     /* Copyright (c) 2002-2005 by OpenTEST Team                             */
+     /* http://opentest.com.ua                                               */
+     /* e-mail: opentest@opentest.com.ua                                     */
+     /*                                                                      */
+     /************************************************************************/
+     /* 11/01/2005 08:00:00                                                                                    */
+     /************************************************************************/
+     if (INDEXPHP!=1)
+          die ("You can't access this file directly...");
+
+     define("_AUTH_ERROR_LIMIT_ATTEMPTS","Перевищено кількість спроб, будь ласка спробуйте пізніше");
+     define("_AUTH_ERROR_WRONG_LOGIN","Неправильний логін або пароль");
+     @define("_AUTH_MENU_CATEGORY","Категорія користувача"); 
+     @define("_ACCOUNT_DISABLED","Аккаунт заблокований"); 
+     @define("_AUTH_NEED_LOGIN","Будь ласка, авторизуйтеся для входу у модуль");
+
+?>

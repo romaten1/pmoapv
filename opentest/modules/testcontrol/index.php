@@ -1,0 +1,19 @@
+<?php
+if (INDEXPHP!=1) die ("You can't access this file directly...");
+
+$page = test_page(@$_REQUEST['page'],'editing');
+
+// идентификатор преподавателя общий для всего модуля
+$teacher_id = $GLOBALS['auth_result']['user']['user_id'];
+
+get_lang($module);
+
+include_once("include/header.php");
+
+OpenTable();	
+
+include_once("modules/testcontrol/include/$page.php");
+
+CloseTable();
+
+include_once("include/footer.php");

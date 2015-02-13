@@ -1,0 +1,274 @@
+<?php
+	/************************************************************************/
+	/* OpenTEST System: The System Of Computer Testing Knowleges            */
+	/* ============================================                         */
+	/*                                                                      */
+	/* Copyright (c) 2002-2005 by OpenTEST Team                             */
+	/* http://opentest.com.ua                                               */
+	/* e-mail: opentest@opentest.com.ua                                     */
+	/*                                                                      */
+	/************************************************************************/
+	/* 11/01/2005 08:00:00                                                  */
+	/************************************************************************/
+	
+	if (INDEXPHP!=1) 
+		die ("You can't access this file directly...");
+		
+	//print_r($GLOBALS);
+		
+	$orders = array("ASC"=>"DESC",
+					"DESC"=>"ASC");
+	
+	//-- ���������� � �������� �������� ����������
+	if(isset($_REQUEST['action']))
+		$action = $_REQUEST['action'];
+	else $action = "";
+	
+	if(isset($_REQUEST['new_teacher_id']))
+		$new_teacher_id = $_REQUEST['new_teacher_id'];
+	else
+		$new_teacher_id = 0;
+
+	if(isset($_REQUEST['order']))
+		$order = $_REQUEST['order'];
+	else
+		$order = "ASC";
+
+	if(isset($_REQUEST['field']))
+		$field = $_REQUEST['field'];
+	else
+		$field = "user_name";
+	
+	
+	//-- ����� ���������
+	themeleftbox(_VIEWING_RESULTS,"","",true);
+	
+	$page_buf = "<tr><td>";	
+		
+	//-- � ����������� �� action ������� ������� ����
+	switch($action)
+	{
+		default:					
+
+			if($group_id<=0)
+			{
+				//-- ������� id � ���� ������
+				$result_test = sql_query("SELECT DISTINCT test_id, test_name, test_category_name
+										  FROM recent_objects, tests, test_categories
+										  WHERE test_id = object_id
+											AND object_code =0
+											AND test_categories.test_category_id = object_category_id
+											AND recent_objects.user_id = '$teacher_id'
+											ORDER BY last_used DESC");
+			}
+			else
+			{
+				//-- ������� id � ���� ������
+				$result_test = sql_query("SELECT DISTINCT tests.test_id, test_name, test_category_name
+										  FROM results, tests, test_categories
+										  WHERE results.test_id = tests.test_id											
+											AND results.group_id='".$group_id."'
+											AND test_categories.test_category_id = tests.test_category_id
+											AND (results.teacher_id = '".$teacher_id."' OR hide_result='0')");
+			}
+
+			if($test_id<=0)
+			{
+				//-- ������� id � ���� �����
+				$result_group = sql_query("SELECT DISTINCT group_id, group_name, group_category_name
+										   FROM recent_objects, groups, group_categories
+										   WHERE group_id = object_id
+											AND object_code =1
+											AND group_categories.group_category_id = object_category_id
+											AND user_id = '$teacher_id'
+											ORDER BY last_used DESC");			
+			}
+			else
+			{
+				//-- ������� id � ���� �����
+				$result_group = sql_query("SELECT DISTINCT groups.group_id, group_name, group_category_name
+										   FROM results, groups, group_categories
+										   WHERE results.group_id = groups.group_id
+											AND results.test_id='".$test_id."'
+											AND group_categories.group_category_id = groups.group_category_id
+											AND (results.teacher_id = '".$teacher_id."' OR hide_result='0')");			
+			}			
+
+			$page_buf .=   "<form method='post' name='selection' action='index.php?module=".$module."&page=show_results'>
+							<input type='hidden' name='order' value='".$order."'>
+							<input type='hidden' name='field' value='".$field."'>
+							<table width=100% border=0>
+								<tr align='center'>
+									<td></td>
+									<td>"._SELECTION_TEST."</td>
+									<td>"._SELECTION_GROUP."</td>
+									<td></td>
+									<td>"._TEACHER."</td>
+								</tr>
+								<tr align='center'>
+									<td>
+										<a href='index.php?module=".$module."&page=t_category&next_action=return_show_results&test_id=".$test_id."&group_id=".$group_id."'>"._NEW_TEST."</a>
+									</td>
+									<td><input type='hidden' name='test_id' value=".$test_id.">
+										<select  name='new_test_id' onchange='document.selection.submit();'>
+											<option value=0></option>";
+			//-- �������� ������ ������
+			while($row = mysql_fetch_assoc($result_test))
+				$page_buf .=  "<option value=".$row['test_id']." ".($test_id==$row['test_id']?'selected':'').">".$row['test_category_name']."/".$row['test_name']."</option>";
+			
+			$page_buf .=		   "</td>
+									<td><input type='hidden' name='group_id' value=".$group_id.">
+										<select  name='new_group_id' onchange='document.selection.submit();'>
+											<option value=0></option>";
+			// �������� ������ �����
+			while($row = mysql_fetch_assoc($result_group))
+				$page_buf .=  "<option value=".$row['group_id']." ".($group_id==$row['group_id']?'selected':'').">".$row['group_category_name']."/".$row['group_name']."</option>";
+		
+			$page_buf .=		   "</td>
+									<td>
+										<a href='index.php?module=".$module."&page=g_category&next_action=return_show_results&test_id=".$test_id."&group_id=".$group_id."'>"._NEW_GROUP."</a>
+									</td>";
+			
+			if($test_id >0 && $group_id >0)
+			{
+				$teachers = sql_query("SELECT DISTINCT teacher_id, user_name
+									   FROM results, users
+									   WHERE test_id='".$test_id."'
+									   AND results.group_id='".$group_id."'
+									   AND users.user_id=results.teacher_id
+									   AND hide_result=0");
+									   
+				if(mysql_num_rows($teachers)>1)
+				{				
+					$teachers_opts = "<select name=\"new_teacher_id\" onchange='document.selection.submit();'>
+									<option value=\"0\">"._ALL_TEACHERS."</option>";
+					
+					while($teacher = mysql_fetch_assoc($teachers))
+					{
+						$teachers_opts.="<option value=\"".$teacher['teacher_id']."\" ".($new_teacher_id==$teacher['teacher_id']?"selected":"").">".$teacher['user_name']."</option>";				
+					}
+					
+					$teachers_opts .= "</select>";
+				}
+				else
+				{
+					$teacher = mysql_fetch_assoc($teachers);
+					$teachers_opts=$teacher['user_name'];
+				}
+			}
+			else
+				$teachers_opts=$GLOBALS['auth_result']['user']['user_name'];			
+
+
+			$page_buf .=		"<td>".$teachers_opts."</td></tr>
+							</table></form>";
+			
+			//-- ���� ������� ���� � ������ �������� ����������
+			if($test_id >0 && $group_id >0)
+			{
+				if($new_teacher_id>0)
+					$query_add = " AND teacher_id='".$new_teacher_id."' ";
+				else
+					$query_add = "";
+					
+									
+				$results = sql_query("SELECT result_id, user_name, user_disable, start_datetime, 
+										mark, percent, percent_simple, teacher_id, total_unit
+									  FROM users, results
+									  WHERE users.user_id = results.user_id								   
+									   AND test_id = '$test_id'
+									   AND results.group_id = '$group_id' $query_add
+									   
+									  ORDER BY ".$field." ".$order);
+			
+
+		
+				//-- ���� ����������� ���, �� ������ �� ��������
+				if(mysql_num_rows($results) == 0)
+				{					
+					if(get_count($group_id,3,false)>0)
+						$page_buf .= "<center><b>"._NO_TESTED_USERS."</b></center>";
+					else
+						$page_buf .= "<div align='center'><strong>"._NO_USERS."</strong></div>";					
+				}
+				else				
+				{	$page_buf .= "<script>
+							function change_order(ord_field,ord_order)
+							{
+								document.forms.selection.elements.field.value=ord_field;
+								document.forms.selection.elements.order.value=ord_order;
+								document.forms.selection.submit();
+							}
+						</script>";
+					//-- ����� ������� ����������
+					$page_buf .=   "<table width='100%' borde=0>
+										<tr class='tab' align='center'>
+											<td width='10%'>"._NUMBER."</td>
+											<td width='50%'><a href='#' onclick='change_order(\"user_name\",\"".$orders[$order]."\");'>"._NAME."</a></td>
+                                            <td width='30%'><a href='#' onclick='change_order(\"start_datetime\",\"".$orders[$order]."\");'>"._START_TIME."</a></td>
+                                            <td><a href='#' onclick='change_order(\"teacher_id\",\"".$orders[$order]."\");'>"._TEACHER."</a></td>
+											<td width='10%'><a href='#' onclick='change_order(\"mark\",\"".$orders[$order]."\");'>"._MARK."</a></td>											
+											<td width='10%'><a href='#' onclick='change_order(\"percent\",\"".$orders[$order]."\");'>"._PERCENT."</a></td>
+											<td><a href='#' onclick='change_order(\"percent_simple\",\"".$orders[$order]."\");'>"._PERCENT_SIMPLE."</a></td>
+											<td><a href='#' onclick='change_order(\"total_unit\",\"".$orders[$order]."\");'>"._TOTAL_UNIT."</a></td>
+										</tr>";
+					$i=0;
+					while($marks = mysql_fetch_assoc($results))
+					{
+						if($marks['user_disable'])
+							$user_name = "<font color=red>".$marks['user_name']."</font>";
+						else
+							$user_name = $marks['user_name'];
+							
+						$teacher_name = sql_single_query("SELECT user_name AS name FROM users WHERE user_id='".$marks['teacher_id']."'");
+						
+						
+						
+						$page_buf .=   "<tr align='center'>
+											<td>".++$i."</td>
+											<td align='left'><a href='index.php?module=".$module."&page=show_log&result_id=".$marks['result_id']."'>".$user_name."</a></td>
+                                            <td>".$marks['start_datetime']."</td>
+                                            <td nowrap>".$teacher_name['name']."</td>
+											<td>".$marks['mark']."</td>
+											<td>".$marks['percent']."</td>
+											<td>".$marks['percent_simple']."</td>
+											<td>".$marks['total_unit']."</td>
+										</tr>";
+					}
+					$page_buf .= "</table>";
+				}
+			}			
+			else
+				$page_buf .= "<center><b>"._CHOOSE."</b></center>";
+		break;
+		
+		
+		//-- ���������� ����� �����		
+		case "add_new_test":
+			if(is_allow(12,$test_category_id,$new_test_id,1))
+			{
+				add_recent(0,$test_category_id,$new_test_id,$teacher_id);
+				//-- ��������
+				$page_buf = "<META HTTP-EQUIV='Refresh' CONTENT='0; URL=index.php?module=".$module."&page=show_results&test_id=".$new_test_id."&group_id=".$group_id."'>";
+			}
+			else
+			
+				$page_buf = "<META HTTP-EQUIV='Refresh' CONTENT='0; URL=index.php?module=".$module."&next_action=return_show_results&page=test&test_id=".$test_id."&group_id=".$group_id."&test_category_id=".$test_category_id."&status_code=0&status_num=op_permited'>";
+		break;
+
+		//-- ���������� ����� ������ 
+		case "add_new_group":
+			if(is_allow(14,$group_category_id,$new_group_id,1))
+            {
+				add_recent(1,$group_category_id,$new_group_id,$teacher_id);
+	
+				// ��������
+				$page_buf = "<META HTTP-EQUIV='Refresh' CONTENT='0; URL=index.php?module=".$module."&page=show_results&test_id=".$test_id."&group_id=".$new_group_id."'>";
+            }
+			else				
+				$page_buf = "<META HTTP-EQUIV='Refresh' CONTENT='0; URL=index.php?module=".$module."&next_action=return_show_results&page=group&test_id=".$test_id."&group_id=".$group_id."&group_category_id=".$group_category_id."&status_code=0&status_num=op_permited'>";
+		break;
+	}
+	
+	echo $page_buf;
+?>

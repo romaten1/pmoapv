@@ -1,0 +1,243 @@
+<?php
+
+if (INDEXPHP!=1) die ("You can't access this file directly...");
+
+set_time_limit(0);
+
+if(isset($_REQUEST['action'])) $action = $_REQUEST['action'];
+	else $action = "";
+
+if(!isset($_REQUEST['letter']))	$letter="";
+	else $letter=$_REQUEST['letter'];
+
+if(!isset($_REQUEST['keyword'])) $keyword="";
+	else $keyword=$_REQUEST['keyword'];
+
+if(!isset($_REQUEST['page_num'])) $page_num=0;
+	else $page_num=(int)$_REQUEST['page_num']-1;
+
+if(isset($_REQUEST['test_category_name'])) $test_category_name = $_REQUEST['test_category_name'];
+	else $test_category_name = "";
+
+$page_buf = "";
+	
+switch($action) {
+//-- форма создания категории тестов
+case "crt_category_frm":
+	//проверка прав на модуль
+	if(!is_allow(5,0,5,0,1)) {
+		echo "<META HTTP-EQUIV='Refresh' CONTENT='0; URL=index.php?module=".$module."&status_code=0&status_num=op_not_permitted'>";
+		exit;
+	}
+	themeleftbox(_TCATEGORY_CREATE_HEADER,"","",true);
+
+	$page_buf .= "<tr><td><b>"._CRT_ENTER_TCATEGORY_NAME."</b><br>
+		<form method='post' action='index.php?module=".$module."&page=".$page."&action=crt_category'>
+		"._NEW_CATEGORY_NAME.": <input type='text' name='test_category_name'><br><br>
+		<input type='submit' value='"._CREATE_CATEGORY."'>&nbsp;
+		<input type='button' value='"._CANCEL."' onclick='history.back();'>
+		</form>";
+break;
+
+//-- создание категории тестов
+case "crt_category":
+	//проверка прав на модуль
+	if(!is_allow(5,0,5,0,1)) {
+		echo "<META HTTP-EQUIV='Refresh' CONTENT='0; URL=index.php?module=".$module."&status_code=0&status_num=op_not_permitted'>";
+		exit;
+	}
+
+	$count = sql_single_query("SELECT COUNT(*)
+		FROM test_categories 
+		WHERE test_category_name='$test_category_name'");
+
+	if($count['COUNT(*)']==0) {			
+		$result = sql_query("INSERT INTO test_categories (test_category_name)
+			VALUES ('$test_category_name')");				
+	
+		//-- если вставки не было
+		if(!mysql_affected_rows()) {
+			$stat_str = "&status_code=0&status_num=tcategory_crt_err";
+		} else {
+			$stat_str = "&test_category_id=".(mysql_insert_id())."&action=tcateg_actions&status_code=1&status_num=tcategory_created";
+
+			sql_query("INSERT INTO permissions (object_code, object_id,group_category_id,group_id,user_id,
+				permission_read,permission_write,permission_owner)
+				VALUES('11','".mysql_insert_id()."','0','0','".$GLOBALS['auth_result']['user']['user_id']."','1','1','1'),
+				('11','".mysql_insert_id()."','".$GLOBALS['auth_result']['group']['group_category_id']."','0','0','1','1','1')");
+		}
+	} else {
+		$stat_str = "&status_code=0&status_num=tcategory_exists";
+	}
+
+	$page_buf = "<META HTTP-EQUIV='Refresh' CONTENT='0; URL=index.php?module=".$module."&page=".$page.$stat_str."'>";
+break;
+
+//-- форма переименования категории тестов
+case "ren_category_frm":
+	//проверка прав на модуль
+	if(!is_allow(5,0,5,0,1)) {
+		echo "<META HTTP-EQUIV='Refresh' CONTENT='0; URL=index.php?module=".$module."&status_code=0&status_num=op_not_permitted'>";
+		exit;
+	}
+	themeleftbox(_TCATEGORY_RENAME_HEADER,"","",true);
+
+	$category = sql_single_query("SELECT test_category_name
+		FROM test_categories
+		WHERE test_category_id='$test_category_id'");
+
+	$category['test_category_name'] = htmlspecialchars($category['test_category_name']);
+
+	$page_buf .= "<tr><td><b>"._REN_ENTER_TCATEGORY_NAME."</b><br>
+		<form method='post' action='index.php?module=".$module."&page=".$page."&action=ren_category&test_category_id=".$test_category_id."'>
+		"._NEW_CATEGORY_NAME.": <input type='text' name='test_category_name' value=\"".$category['test_category_name']."\"><br><br>
+		<input type='submit' value='"._RENAME_CATEGORY."'>&nbsp;
+		<input type='button' value='"._CANCEL."' onclick='history.back();'>
+		</form>";
+break;
+
+//-- переименование категории тестов
+case "ren_category":
+	//проверка прав на модуль
+	if(!is_allow(5,0,5,0,1)) {
+		echo "<META HTTP-EQUIV='Refresh' CONTENT='0; URL=index.php?module=".$module."&status_code=0&status_num=op_not_permitted'>";
+		exit;
+	}
+
+	$count = sql_single_query("SELECT COUNT(*)
+		FROM test_categories 
+		WHERE test_category_name='$test_category_name' AND test_category_id<>'$test_category_id'");
+
+	if($count['COUNT(*)']==0) {
+		$result = sql_query("UPDATE test_categories
+			SET test_category_name='$test_category_name'
+			WHERE test_category_id='$test_category_id'");
+	
+		//-- если обновление не было
+		if(!mysql_affected_rows())
+			$stat_str = "&staus_code=0&status_num=tcategory_ren_err";
+		else
+			$stat_str = "&test_category_id=".$test_category_id."&action=tcateg_actions&status_code=1&status_num=tcategory_renamed";
+	} else {
+		$stat_str = "&status_code=0&status_num=tcategory_exists";
+	}
+
+	$page_buf = "<META HTTP-EQUIV='Refresh' CONTENT='0; URL=index.php?module=".$module."&page=".$page.$stat_str."'>";
+break;
+
+//-- форма удаления категории тестов
+case "del_category_frm":
+	//проверка прав на модуль
+	if(!is_allow(5,0,5,0,1)) {
+		echo "<META HTTP-EQUIV='Refresh' CONTENT='0; URL=index.php?module=".$module."&status_code=0&status_num=op_not_permitted'>";
+		exit;
+	}
+	themeleftbox(_TCATEGORY_DELETE_HEADER,"","",true);
+
+	$category = sql_single_query("SELECT test_category_name
+		FROM test_categories
+		WHERE test_category_id='$test_category_id'");
+
+	$page_buf .= "<tr><td><b>"._TCATEGORY_DELETE_CONFIRM." &ldquo;".$category['test_category_name']."&rdquo;?</b><br>
+		<form name='del_frm' method='post' action='index.php?module=".$module."&page=".$page."&test_category_id=".$test_category_id."&keyword=".$keyword."&letter=".$letter."'>
+		<input type='hidden' name='action' value='del_category'>
+		<input type='submit' value='"._DELETE_CATEGORY."'>&nbsp;
+		<input type='submit' value='"._CANCEL."' onclick='document.all.action.value=\"\";'>";
+break;
+
+//-- удаление категории тестов
+case "del_category":
+	//проверка прав на модуль
+	if(!is_allow(5,0,5,0,1)) {
+		echo "<META HTTP-EQUIV='Refresh' CONTENT='0; URL=index.php?module=".$module."&status_code=0&status_num=op_not_permitted'>";
+		exit;
+	}
+	$tests = sql_query("SELECT test_id
+		FROM tests
+		WHERE test_category_id='$test_category_id'");
+
+	while($test_row = mysql_fetch_assoc($tests)) {
+		if(!del_test($test_row['test_id'])) {
+			echo "<META HTTP-EQUIV='Refresh' CONTENT='0; URL=index.php?module=".$module."&page=".$page."&keyword=".$keyword."&letter=".$letter."&status_code=0&status_num=tcategory_del_err'>";
+			exit;
+		}
+	}
+	
+	sql_query("DELETE FROM permissions WHERE object_code=11 AND object_id='$test_category_id'");
+
+	sql_query("DELETE FROM test_categories WHERE test_category_id='$test_category_id'");
+
+	if(!mysql_affected_rows())
+		$stat_str = "&status_code=0&status_num=tcategory_del_err";
+	else
+		$stat_str = "&status_code=1&status_num=tcategory_deleted";
+
+	$page_buf = "<META HTTP-EQUIV='Refresh' CONTENT='0; URL=index.php?module=".$module."&page=".$page."&keyword=".$keyword."&letter=".$letter.$stat_str."'>";
+break;
+
+//-- вывод списка категорий
+default:
+	themeleftbox(_TCATEGORY_OVERVIEW_HEADER,"","",true);
+	echo "<tr><td>";
+	if ($keyword!='') {	
+		$null_message = _TCATEGORY_NO_C_KEYWORD;
+	} elseif ($letter=='') {
+		$null_message = _TCATEGORY_NO_CATEGORY;
+	} else {	
+		$null_message = _TCATEGORY_NO_C_LETTER;
+	}	
+	$count = get_count(0,4,0,$keyword,$letter);
+
+	// Вывод алфавита
+	if(!($letter=='' && $count==0 && $keyword==''))
+		show_abc('index.php?module='.$module.'&page='.$page.'&letter=');
+
+	if ($count==0) {
+		echo "<center><b>".$null_message."</b></center>";
+	} else {  
+		if($keyword!='')
+			$query = "SELECT *
+				FROM test_categories
+				WHERE test_category_name RLIKE '.*$keyword.*'
+				ORDER BY test_category_name ASC
+				LIMIT ".$page_num*$limit_page.",".$limit_page;
+			
+		elseif ($letter=='')
+			$query = "SELECT *
+				FROM test_categories
+				ORDER BY test_category_name ASC
+				LIMIT ".$page_num*$limit_page.",".$limit_page;
+		else
+			$query = "SELECT *
+				FROM test_categories
+				WHERE test_category_name RLIKE '^".$letter.".*'
+				ORDER BY test_category_name ASC
+				LIMIT ".$page_num*$limit_page.",".$limit_page;
+		$result=sql_query($query);
+
+		CloseTable();
+		$n=0;
+		$col_width=100/$limit_col;
+
+		$page_buf = '<table border="0"style="width:100%"><tr><td width="'.$col_width.'%">';
+
+		while ($row=mysql_fetch_assoc($result)) {
+			if ($n==$limit_row) {
+				$page_buf .= "<td width=".$col_width."%>";
+				$n=0;
+			}
+		$n++;
+		$page_buf .= "<table cellpadding=0 cellspacing=0 border=".$config['debug_table'].">
+			<tr><td nowrap>
+			<a href='index.php?module=".$module."&page=".$page."&action=ren_category_frm&test_category_id=".$row['test_category_id']."&keyword=".$keyword."&letter=".$letter."'><img title='"._CATEGORY_RENAME."' align='absmiddle' src='themes/".$current_theme."/images/rename.png'></a>&nbsp;
+			<a href='index.php?module=".$module."&page=".$page."&action=del_category_frm&test_category_id=".$row['test_category_id']."&keyword=".$keyword."&letter=".$letter."'><img title='"._CATEGORY_DELETE."' align='absmiddle' src='themes/".$current_theme."/images/delete.png'></a>&nbsp;
+			<a href='index.php?module=".$module."&page=rights&for_cat_id=".$row['test_category_id']."&keyword=".$keyword."&letter=".$letter."'><img title='"._PERMISSIONS."' align='absmiddle' src='themes/".$current_theme."/images/permissions.png'></a></td><td>
+			&nbsp;".$row['test_category_name']."
+			</td></tr></table>";
+		}
+		$page_buf .= "<tr><td colspan=".$limit_col."><br>".nav_bar($count,"index.php?module=".$module."&page=".$page."&letter=".$letter."&page_num=")."</center>";
+	}
+break;
+}
+
+echo $page_buf;

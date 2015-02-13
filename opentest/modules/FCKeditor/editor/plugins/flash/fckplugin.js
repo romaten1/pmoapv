@@ -1,0 +1,7 @@
+﻿// Register the related command.
+FCKCommands.RegisterCommand( 'Flash', new FCKDialogCommand( 'Flash', FCKLang.FlashDlgTitle, FCKPlugins.Items['flash'].Path + 'fck_flash.html', 450, 300 ) ) ;
+
+// Create the "Flash" toolbar button.
+var oFlashItem = new FCKToolbarButton( 'Flash', FCKLang.FlashBtn ) ;
+oFlashItem.IconPath = FCKPlugins.Items['flash'].Path + 'flash.gif' ;
+FCKToolbarItems.RegisterItem( 'Flash', oFlashItem ) ;

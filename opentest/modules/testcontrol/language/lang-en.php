@@ -1,0 +1,164 @@
+<?php
+    /************************************************************************/
+    /* OpenTEST System: The System Of Computer Testing Knowleges            */
+    /* ============================================                         */
+    /*                                                                      */
+    /* Copyright (c) 2002-2005 by OpenTEST Team                             */
+    /* http://opentest.com.ua                                               */
+    /* e-mail: opentest@opentest.com.ua                                     */
+    /*                                                                      */
+    /************************************************************************/
+    /* 11/01/2005 08:00:00                                                  */
+	/************************************************************************/
+    
+	if (INDEXPHP!=1)
+		die ("You can't access this file directly...");
+
+	define("_SELECTION_TEST",	 		  "Test");
+	define("_SELECTION_GROUP",			  "Group");
+	define("_SELECTION_MODE",	 		  "Mode");
+	define("_SELECTION_UPDATE_TIME",	  "Time of update");
+	define("_SELECTION_SECOND",	 		  "sec");
+
+	define("_NUMBER",					 "№");
+	define("_STATUS",					 "Status");
+	define("_WAITING", 					 "Waiting");
+	define("_TESTING", 		  			 "Tested");
+	define("_NAME",				 		 "Name");
+	define("_NUM_TRY",			 		 "Number of tries");
+	define("_NUM_QUESTIONS",	 		 " Number of questions");
+	define("_TEST_TIME",		 		 "Time on a test");
+	define("_ALL",						 "All");
+	define("_MONITORING",		  		 "Monitoring");
+	define("_EDITING",		  			 "Editing");
+	define("_NEW_TEST", 				 "To choose a new test");
+	define("_NEW_GROUP", 		 		 "To choose a new group");
+	define("_START_TYPE", 		 		 "Type of start");
+	define("_PASSWORD", 		 		 "To change a password on a test");
+
+	define("_PASSWORD_HEADER", 		 	 "Change of password on a test");
+	define("_PASSWORD_NEW_PASS", 		 "New password");
+	define("_PASSWORD_CONFIRMATION", 	 "Confirmation");
+	define("_PASSWORD_CHANGE", 	 		 "Change");
+	define("_PASSWORD_CANCEL", 	 		 "Cancel");
+    define("_PASSWORD_DELETE",                           " Delete");
+
+
+	define("_EDITING_SAVE",		 		  "Save");
+	define("_EDITING_DELETE",		 	  "Delete");
+
+	define("_EDITING_MIN",                "Min");
+	define("_EDITING_ADD",		 		  "increase");
+	define("_EDITING_SUB",		 		  "Decrease");
+	define("_EDITING_GROUP_NO_USERS", 	  "There is no user in this group!");
+	define("_EDITING_CHOOSE", 	  		  "Choose a test and group for editing of access");
+
+	define("_MONITORING_TIME_LEFT",		  "Time passed/remained");
+	define("_MONITORING_IP",		  	  "IP-address");
+	define("_MONITORING_ACTION",		  "Action");
+	define("_MONITORING_NO_USERS",		  "There is none of expecting users");
+	define("_MONITORING_START_ALL",		  "To begin all of expecting");
+	define("_MONITORING_STOP_ALL",		  "To break a secret all of tested");
+	define("_MONITORING_START",			  "To begin testing");
+	define("_MONITORING_STOP",		  	  "To cut testing short");
+	define("_MONITORING_ABORT",		  	  "To abort a start");
+	define("_MONITORING_EXT_STATUS",  	  "Extended status");
+	define("_MONITORING_TEST_STATE",	  "State of test");
+	define("_MONITORING_NO_RESULT",	  	  "To hide results from other teachers");
+	define("_MONITORING_NO_WAITING",	  "Presently there are no expecting users");
+	define("_MONITORING_NO_TESTING",	  "Presently there are no tested users");
+
+	define("_TCATEGORY_VIEW",			"To look over tests in this category");
+	define("_TCATEGORY_CHOOSE_HEADER",	 	"Choose a category of tests");
+	define("_TCATEGORY_NO_CATEGORY",	 	"There is no category of tests in a database!");
+	define("_TCATEGORY_NO_C_KEYWORD",	 	"In a database there is no category of tests, containing a keyword!");
+	define("_TCATEGORY_NO_C_LETTER",	 	"In a database there is no category of tests, beginning from the indicated letter!");
+	define("_TCATEGORY_CHOOSE_CATEGORY", 	"Choose a category which contains a test that must be chosen");
+
+	define("_GCATEGORY_VIEW",		 	"To look over groups in this category");
+	define("_GCATEGORY_CHOOSE_HEADER",	 	"Choice of category of users");
+	define("_GCATEGORY_NO_CATEGORY",	 	"There is no category of users in a database!");
+	define("_GCATEGORY_NO_C_KEYWORD",	 	"In a database there is no category of users, containing a keyword!");
+	define("_GCATEGORY_NO_C_LETTER",	 	"In a database there is no category of users, beginning from the indicated letter!");
+	define("_GCATEGORY_CHOOSE_CATEGORY", 	"Choose a category which contains a group that must be chosen");
+
+	define("_TEST_CHOOSE_HEADER",		"Choice of test");
+	define("_TEST_CHOOSE_TEST",			"To choose this test");
+	define("_TEST_NO_TEST", 			"In this category there is no  test included on which you have rights!");
+	define("_TEST_NO_T_KEYWORD",		"In this category there is no  test included, containing a keyword!");
+	define("_TEST_NO_T_LETTER", 		"In this category there is no  test included, beginning from the indicated letter!");
+
+
+	define("_GROUP_CHOOSE_HEADER",		"Choice of group");
+	define("_GROUP_CHOOSE_GROUP",		"To choose this group");
+	define("_GROUP_NO_GROUP", 			"There is not a single included group in this category!");
+	define("_GROUP_NO_G_KEYWORD",		"In this category there is not a single included group, containing a keyword!");
+	define("_GROUP_NO_G_LETTER",		"In this category there is not a single included group, beginning from the indicated letter!");
+
+	define("_MENU_RETURN_TO_EDIT",	 "To go back to editing");
+	define("_MENU_LEAVE_CATEGORY",	 "To abandon a current category");
+	define("_MENU_BASIC_MENU",	 	 "Menu of the basic modules");
+	define("_MENU_RESULTS_ROOT",	 	 	"Initial menu of the module");
+	define("_MENU_COMMON_TASKS", 	 "General tasks");
+	define("_MENU_AUTHORIZATION",	 "Authorization");
+	define("_MENU_GROUP",		 	 "Group");
+	define("_MENU_USER",		 	 "User");
+	define("_MENU_EXIT",		 	 "Exit");
+	define("_MENU_EDITING",		 	 "Edit mode");
+	define("_MENU_MONITORING",		 "Monitoring mode");
+
+	define("_ALL_GROUPS",		 "All of groups");
+	define("_ALL_TESTS",		 "All of tests");
+
+
+	global $status_text;
+	$status_text = array(
+				   "access_one_saved" 	=> "Access for the user is stored",				
+				   "access_all_saved" 	=> "Access for all of users is stored",
+				   "access_one_deleted" => "Access for an user is remote",
+				   "access_all_deleted" => "Access for all of users is remote",
+				   "too_many_questions" => "There are more included questions than required in test",
+				   "one_zero"		=> "Access is not stored! One of parameters of access is equal to zero",
+				   "one_test_started"	=> "An user got a start",
+				   "user_dropped"	=> "A test was interrupted to the user ",
+				   "test_started"	=> "An user got a start",
+				   "test_not_started"	=> "Testing is not begun! There are not expecting users",
+				   "group_dropped"	=> "Test was interrupted to the group ",
+				   "one_start_stoped"	=> "The start of test is stopped",
+				   "test_not_stoped"	=> "There are no users tested presently",
+				   "pass_mismatch"	=> "A password was not changed! Confirmation of a password does not match!",
+				   "pass_chanched"	=> "A password was changed",
+                   		   "pass_deleted"       => "A password was deleted",
+				   "op_permited"	=> "There are no privileges for implementation of operation");
+
+	global $start_status;
+	$start_status = array(array("offline","offline"),
+						  array("waiting","Waiting"),
+						  array("get_start","Got a start"),
+						  array("testing","Testing"));
+
+	global $extended_status;
+	$extended_status = array("",					//0
+							 "Did not wait till a start",	//1
+							 "Did not accept a start",		//2
+							 "Authorizing outflowed",	//3
+							 "A test is completed"		//4
+							 );
+
+	global $test_state;
+	$test_state = array("",											//0
+						"Active",									//1
+						"Completed forcedly the user",		//2
+						"Interrupted forcedly a teacher",		//3
+						"Interrupted forcedly automatically",		//4
+						"Completed a timer",						//5
+                        "Error of authorizing",						//6
+                        "Included in an overdue test"					//7
+                        );
+
+	global $type_of_start;
+	$type_of_start = array(	"By a teacher",	//0
+							"Input of password",			//1
+							"Both variants"				//2
+							);		
+?>

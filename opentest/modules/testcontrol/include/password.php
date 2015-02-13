@@ -1,0 +1,130 @@
+<?php
+if (INDEXPHP!=1) die ("You can't access this file directly...");
+
+	 // Получение переменых из суперглобальных массивов
+	 if(isset($_REQUEST['action']))
+		 $action = $_REQUEST['action'];
+	 else $action = "";
+
+	 if(isset($_REQUEST['password']))
+		 $password = $_REQUEST['password'];
+	 else $password = "";
+
+	 if(isset($_REQUEST['confirmation']))
+		 $confirmation = $_REQUEST['confirmation'];
+	 else $confirmation = "";	 
+
+	 switch($action)
+	 {
+		case "change_pass":
+			 if($password==$confirmation)
+			 {
+              	 if(strlen($password)>0)
+                 {
+    				$count = sql_single_query("SELECT COUNT(*) 
+											   FROM test_passwords
+											   WHERE test_id='".$test_id."'
+												 AND group_id='".$group_id."'
+												 AND teacher_id='".$teacher_id."' ");
+					 if($count['COUNT(*)']==1)
+					 {
+						 // изменение пароля
+						 sql_query("UPDATE test_passwords
+									SET test_password='".$password."'
+									WHERE test_id='".$test_id."'
+									 AND group_id='".$group_id."'
+									 AND teacher_id='".$teacher_id."'");
+					 }
+					 else // если пароль не существует
+    					sql_query("INSERT INTO test_passwords (test_password, test_id, group_id, teacher_id)
+    							   VALUES('".$password."', '".$test_id."', '".$group_id."', '".$teacher_id."')");
+
+    				 $stat_str = "&status_code=1&status_num=pass_chanched";
+    				 $page = "editing";
+                 }
+                 else
+                 {
+                  	 //удаление пароля
+                     sql_query("DELETE FROM test_passwords
+                                WHERE test_id='".$test_id."'
+                                 AND group_id='".$group_id."'
+                                 AND teacher_id='".$teacher_id."'");
+
+                     $stat_str = "";
+
+                     // если пароль был удален, то изменить тип старта
+                     if(mysql_affected_rows()!=0)
+                     {
+                         //принудительное изменеие типа старта
+                         sql_query("UPDATE test_access
+                                    SET start_type=1
+                                    WHERE test_id='".$test_id."'
+                                     AND group_id='".$group_id."'
+                                     AND teacher_id='".$teacher_id."'");
+                         $stat_str = "&status_code=1&status_num=pass_deleted";
+                     }
+
+                     $page = "editing";
+                 }
+			 }
+			 else
+				 $stat_str = "&status_code=0&status_num=pass_mismatch";
+
+			 $page_buf = "<META HTTP-EQUIV='Refresh' CONTENT='0; URL=index.php?module=".$module."&page=".$page."&test_id=".$test_id."&group_id=".$group_id.$stat_str."'>";
+		break;
+
+		case "view_edit_form":
+		default:
+			//заголовок
+			themeleftbox(_PASSWORD_HEADER,"","",true);
+
+			//запрос на имена груп, тестов и категорий
+			$row_test_group = sql_single_query("SELECT test_categories.test_category_name, tests.test_name,
+											group_categories.group_category_name, groups.group_name
+									 FROM test_categories, tests, group_categories, groups
+									 WHERE tests.test_id='".$test_id."'
+									  AND test_categories.test_category_id=tests.test_category_id
+									  AND group_categories.group_category_id=groups.group_category_id
+									  AND groups.group_id='".$group_id."'");
+
+			$page_buf = "<tr><td>
+						 <form name='pwd' method=POST action='index.php?module=".$module."&page=".$page."&action=change_pass&test_id=".$test_id."&group_id=".$group_id."'>
+						 <tr align='center'><td>
+						  <table border=0>
+						   <tr class='tab' align='center'>
+							<td>".$row_test_group['test_category_name']."/".$row_test_group['test_name']."</td>
+							<td>".$row_test_group['group_category_name']."/".$row_test_group['group_name']."</td>
+						   </tr>
+						   <tr align='center'>
+							<td colspan=2><hr size=1 style='COLOR:#dddddd'></td>
+						   </tr>
+						   <tr>
+							<td >"._PASSWORD_NEW_PASS.":</td>
+							<td align='center'><input type='password' name='password'></td>
+						   </tr>
+						   <tr>
+							<td >"._PASSWORD_CONFIRMATION.":</td>
+							<td align='center'><input type='password' name='confirmation'></td>
+						   </tr>
+						   <tr align='center'>
+							<td colspan=2><input type='submit' value='"._PASSWORD_CHANGE."'>&nbsp;";
+
+            $pwd = sql_single_query("SELECT COUNT(*)
+                                     FROM test_passwords
+                                     WHERE test_id='".$test_id."'
+                                      AND group_id='".$group_id."'
+                                      AND teacher_id='".$teacher_id."'");
+
+            if($pwd['COUNT(*)']!=0)
+               $page_buf .= "<input type='button' value='"._PASSWORD_DELETE."' onclick='pwd.reset();pwd.submit();'>&nbsp;";
+
+            $page_buf .= "<input type='button' value='"._PASSWORD_CANCEL."' onclick='window.location=\"index.php?module=".$module."&page=editing&test_id=".$test_id."&group_id=".$group_id."\";'></td>
+						   </tr>
+						  </table>
+						  </form>";
+
+		break;
+	 }
+
+	 echo $page_buf;
+?>

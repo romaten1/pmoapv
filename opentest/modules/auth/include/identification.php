@@ -1,0 +1,95 @@
+<?php
+if (INDEXPHP!=1) {die ("You can't access this file directly...");}
+
+get_lang("auth");
+
+$user_login=$request_vars['user_login'];
+$user_password_hash=$request_vars['user_password_hash'];
+$last_log_hash=$request_vars['last_log_hash'];
+$user_login = str_replace("'", "", $user_login);
+
+$allow_attempts=$GLOBALS['config']["allow_attempts"];
+$allow_interval=$GLOBALS['config']["allow_interval"];
+
+$cookie_opentest_hash=$GLOBALS['config']['auth_cookie_opentest_hash'];
+$cookie_opentest_user_id=$GLOBALS['config']['auth_cookie_opentest_user_id'];
+$cookie_opentest_test_id=$GLOBALS['config']['auth_cookie_opentest_test_id'];
+$cookie_opentest_group_id=$GLOBALS['config']['auth_cookie_opentest_group_id'];
+$cookie_opentest_path=$GLOBALS['config']['auth_cookie_opentest_path'];
+$cookie_opentest_time=$GLOBALS['config']['auth_cookie_opentest_time'];
+$last_log_interval=$GLOBALS['config']['auth_last_log_interval'];
+
+$res_ins_log=sql_query("insert into auth_log
+                      (ip,post_login,post_password_hash,date)
+                      values
+                      ('".$_SERVER['REMOTE_ADDR']."', '$user_login', '$user_password_hash', '".time()."')
+                      ");
+$in_log_id=mysql_insert_id();
+
+$f_count_attempts=mysql_fetch_row(sql_query("select count(auth_log_id) from auth_log
+                    where post_login='$user_login' and
+                    authorized='0' and
+                    date>".(time()-$allow_interval)."
+                    "));
+
+if ($f_count_attempts[0]<=$allow_attempts) {
+  $result = sql_query("SELECT users.* FROM users,groups
+    WHERE users.user_login='$user_login' AND
+		users.user_login!='' AND
+		users.last_log_hash!='$last_log_hash' AND
+		!users.user_disable AND
+		users.group_id=groups.group_id and
+		groups.group_disable!='1' and 
+    MD5(CONCAT(users.user_password,'$last_log_hash'))='$user_password_hash' AND
+	users.user_password!=''
+    ") or die (mysql_error());
+	if (mysql_num_rows($result)<=0) {
+		$res_check_disabled=sql_query("SELECT users.* FROM users
+      WHERE users.user_login='$user_login' AND
+	  users.user_login!='' AND
+      users.last_log_hash!='$last_log_hash' AND
+      MD5(CONCAT(users.user_password,'$last_log_hash'))='$user_password_hash' AND
+	  users.user_password!=''");
+		if (mysql_num_rows($res_check_disabled)>=1) {
+			$GLOBALS['error_message']="<p style='color:red;'>"._ACCOUNT_DISABLED."</p>";
+		}
+	}
+} else {
+  $GLOBALS['error_message']="<p style='color:red;'>"._AUTH_ERROR_LIMIT_ATTEMPTS."</p>";
+}
+
+if (!mysql_error() && @mysql_num_rows($result)==1) {
+  sql_query("update  auth_log
+    set authorized='1'
+    where
+    auth_log_id='$in_log_id'
+    ");
+
+  $current_user = mysql_fetch_array($result);
+	$current_group=sql_single_query("select * from groups where group_id='".$current_user['group_id']."' ");
+	$current_group_category=sql_single_query("select * from group_categories where group_category_id='".$current_group['group_category_id']."' ");	
+	
+  setcookie($cookie_opentest_user_id, $current_user['user_id'], $cookie_opentest_time,$cookie_opentest_path);
+  $current_time = time();
+  sql_query("UPDATE users SET last_log_date='". date("Y-m-d H:i:s", $current_time). "'  ,
+    last_log_hash='$last_log_hash'
+    WHERE user_login='$user_login'") or die (mysql_error());
+    
+  if ($config['strong_hash']) {
+    setcookie($cookie_opentest_hash, md5($_SERVER['REMOTE_ADDR'].md5($current_user['user_password'])),
+    $cookie_opentest_time, $cookie_opentest_path);	
+	} else {
+    setcookie($cookie_opentest_hash, md5(date("Y-m-d H:i:s", 
+			$current_time).$_SERVER['REMOTE_ADDR'].$request_vars['user_password_hash']),
+    	$cookie_opentest_time, $cookie_opentest_path);
+  }
+	$identificated=true;
+} else {
+  if (!@$GLOBALS['error_message']) {
+    @$GLOBALS['error_message']="<p style='color:red;'>"._AUTH_ERROR_WRONG_LOGIN."</p>";
+  }
+
+  setcookie($cookie_opentest_hash,"",$cookie_opentest_time, $cookie_opentest_path);
+  setcookie($cookie_opentest_user_id,"",$cookie_opentest_time, $cookie_opentest_path);
+  $identificated=false;
+}

@@ -1,0 +1,4 @@
+﻿FCKLang.AnswersBtn			= 'Insert blank' ;
+FCKLang.AnswersDlgTitle		= 'Select model' ;
+FCKLang.AnswersInsert		= 'Insert' ;
+FCKLang.AnswersModel		= 'Model' ;

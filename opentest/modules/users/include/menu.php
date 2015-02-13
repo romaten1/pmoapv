@@ -1,0 +1,196 @@
+<?php
+if (INDEXPHP!=1) die ("You can't access this file directly...");
+
+//cтрока поиска для preg_replace
+$search_html_tags="'<[\/\!]*?[^<>]*?>'si";
+	 
+global $group_category_id;
+
+	 // Получение переменых из суперглобальных массивов
+	 if(isset($_REQUEST['page']))
+		   $page = $_REQUEST['page'];
+	 else
+		   $page = "";
+		   
+	 if(isset($_REQUEST['action']))
+		   $action = $_REQUEST['action'];
+	 else
+		   $action = "";
+
+	 if(isset($_REQUEST['group_category_id']))
+		   $group_category_id = $_REQUEST['group_category_id'];
+     else
+		   $group_category_id = "";
+
+     if(isset($_REQUEST['group_id']))
+           $group_id = $_REQUEST['group_id'];
+	 else
+           $group_id = "";
+
+	 if(isset($_REQUEST['user_id']))
+		   $user_id = $_REQUEST['user_id'];
+     else
+		   $user_id = "";
+		   
+	if(isset($_REQUEST['for_group_id']))
+		   $for_group_id = $_REQUEST['for_group_id'];
+     else
+		   $for_group_id = "";
+		   
+     //меню общие задачи
+
+     $content = "<a href='index.php'>
+	<img  class='img_icon' src='themes/opentest2/images/icons/trinux-sb_r8_c18.gif' align=absmiddle> "._MENU_BASIC_MENU."</a><br>
+	<a href='index.php?module=".$module."'>
+	<img  class='img_icon' src='themes/opentest2/images/icons/trinux-sb_r6_c4.gif' align=absmiddle> "._MENU_RESULTS_ROOT."</a><br>";
+	
+     themeleftbox(_MENU_COMMON_TASKS, "$content","",false);
+
+	 if(($user_id != "") && ($page == "user"))
+	 {
+          $query = "SELECT users.user_disable, users.user_id, users.user_name, groups.group_id, groups.group_name,
+                           group_categories.group_category_id, group_categories.group_category_name
+
+                    FROM users, groups, group_categories
+                    WHERE users.group_id = groups.group_id
+                         AND group_categories.group_category_id = groups.group_category_id
+                         AND users.user_id ='".$user_id."'";
+
+	 }
+	 elseif(($group_id != "") && ($page == "group"))
+	 {
+          $query = "SELECT groups.group_disable, groups.group_id, groups.group_name, group_categories.group_category_id,
+                           group_categories.group_category_name
+                    FROM groups, group_categories
+                    WHERE group_categories.group_category_id = groups.group_category_id
+                         AND groups.group_id ='".$group_id."'";
+
+	 }
+     elseif($group_category_id != "")
+     {
+		  $query = "SELECT group_categories.group_category_id, group_categories.group_category_name
+					FROM group_categories
+					WHERE group_categories.group_category_id ='".$group_category_id."'";
+
+	 }
+	 
+	 if($for_group_id != "")
+	 {
+          $query = "SELECT groups.group_disable, groups.group_id, groups.group_name, group_categories.group_category_id,
+                           group_categories.group_category_name
+                    FROM groups, group_categories
+                    WHERE group_categories.group_category_id = groups.group_category_id
+                         AND groups.group_id ='".$for_group_id."'";
+	 }
+	 
+	 if(isset($query))
+		  $row=sql_single_query($query);
+
+	 $content = "";
+	 if (isset ($row['group_category_id']))
+     {
+		  $group_category_id = $row['group_category_id'];
+		  $group_category_id = $row['group_category_id'];
+          $temp = $row['group_category_name'];
+          if(strlen($temp)>20)
+          		$temp=preg_replace('/^(.{20}).*$/uSs', '$1', $temp)."..." ;
+          $content.="<strong>"._MENU_GROUP_CAT_."</strong><br>&nbsp;&nbsp;
+					 <a href='index.php?module=".$module."&page=group_category&action=view_category&group_category_id=".$row['group_category_id']."' title='".$row['group_category_name']."'>&ldquo;".$temp."&rdquo;</a><br>";
+		  if ( isset ($row['group_id']))
+		  {
+               $temp=$row['group_name'];
+               if (strlen($temp)>20)
+                    $temp=preg_replace('/^(.{20}).*$/uSs', '$1', $temp)."..." ;
+               $content.="<strong>"._MENU_GROUP_."</strong><br>&nbsp;&nbsp;
+						  <a href='index.php?module=".$module."&page=group&action=view_group&group_id=".$row['group_id']."' title='".$row['group_name']."'>&ldquo;".$temp."&rdquo;</a><br>";
+			   if ( isset ($row['user_id']))
+               {
+                    $temp=$row['user_name'];
+                    if (strlen($temp)>20)
+                    	 $temp=preg_replace('/^(.{20}).*$/uSs', '$1', $temp)."..." ;
+                    $content.="<strong>"._MENU_USER_."</strong><br>&nbsp;&nbsp;
+							   <a href='index.php?module=".$module."&page=user&action=view_user&user_id=".$row['user_id']."' title='".$row['user_name']."'>&ldquo;".$temp."&rdquo;</a><br>";
+
+               }
+          }
+		  themeleftbox("<a href='index.php?module=".$module."&page=group_category'>"._MENU_TREE."</a>", $content,"",false);
+     }
+     // В зависимости от значения $page - выводим различную информацию
+     $on_off_icons[0]="<img  class='img_icon' src='themes/opentest2/images/icons/trinux-sb_r6_c10.gif' align=absmiddle> ";
+	 $on_off_icons[1]="<img  class='img_icon' src='themes/opentest2/images/icons/trinux-sb_r4_c6.gif' align=absmiddle> ";
+
+     switch($page)
+     {
+          case "group":
+               // меню для Определённой группы $group_id
+         
+             if (!isset($row)) break;
+		if ($row['group_disable']==1) {$on_off='on';$tmp=$on_off_icons[1]." "._GROUP_ON;} else {$on_off='off';$tmp=$on_off_icons[0]." "._GROUP_OFF;}
+              $content = "
+                           <a href='index.php?module=$module&page=group&action=add_user_form&group_id=".$group_id."'><img  class='img_icon' src='themes/opentest2/images/icons/trinux-sb_r2_c12.gif' align=absmiddle> "._MENU_ADD_USER."</a><br>
+                      	   <a href='index.php?module=$module&page=group&action=view_rename_form&group_id=".$group_id."'><img  class='img_icon' src='themes/opentest2/images/icons/trinux-sb_r6_c6.gif' align=absmiddle> "._MENU_RENAME_GROUP."</a><br>
+						   <a href='index.php?module=$module&page=group&action=".$on_off."&group_id=".$group_id."'>$tmp</a><br>
+						   <a href='index.php?module=$module&page=group&action=export_group&group_id=".$group_id."'><img  class='img_icon' src='themes/opentest2/images/icons/trinux-sb_r6_c18.gif' align=absmiddle> "._MENU_EXPORT_GROUP."</a><br>
+                           <a href='index.php?module=$module&page=group&action=view_delete_form&group_id=".$group_id."'><img  class='img_icon' src='themes/opentest2/images/icons/trinux-sb_r14_c4.gif' align=absmiddle> "._MENU_DELETE_GROUP."</a><br>
+						   <a href='index.php?module=$module&page=rights&for_group_id=".$group_id."'><img  class='img_icon' src='themes/opentest2/images/icons/trinux-sb_r8_c4.gif' align=absmiddle> "._MENU_PERMISSIONS."</a><br>
+                         ";
+
+               themeleftbox(_MENU_TASKS_FOR_GROUP, $content,"",false);
+
+               // подробно для Определённого  $group_id
+               // количество пользователей в группе
+			   $content = _MENU_TEST_CONTAIN.":<b> ".get_count($group_id,3)." </b>";
+						  
+			   themeleftbox(_MENU_DETAILS, $content,"",false);
+          break;
+
+          case "user":
+               // меню для Определённого $user_id
+			   if ($row['user_disable']==1) {$on_off='on';$tmp=$on_off_icons[1]." "._USER_ON;} else {$on_off='off';$tmp=$on_off_icons[0]." "._USER_OFF;}
+                $content=  "<a href='index.php?module=".$module."&page=user&action=view_rename_form&user_id=".$user_id."'><img  class='img_icon' src='themes/opentest2/images/icons/trinux-sb_r6_c6.gif' align=absmiddle> "._USER_RENAME."</a><br>
+							<a href='index.php?module=".$module."&page=user&action=".$on_off."&user_id=".$user_id."'>$tmp</a><br>
+							<a href='index.php?module=".$module."&page=user&action=view_delete_form&user_id=".$user_id."'><img  class='img_icon' src='themes/opentest2/images/icons/trinux-sb_r14_c4.gif' align=absmiddle> "._USER_DELETE."</a><br>";
+
+			   themeleftbox(_MENU_TASKS_FOR_USER, $content,"",false);
+			  
+          break;
+
+	  case "rights":
+			   
+                $content=  "<a href='index.php?module=users&page=group_category&next_action=edit_permissions&for_group_id=".$for_group_id."'><img  class='img_icon' src='themes/opentest2/images/icons/trinux-sb_r8_c4.gif' align=absmiddle> "._USER_RIGHTS_ADD_CAT."</a><br>
+							<a href='index.php?module=users&page=group_category&next_action=edit_permissions_g&for_group_id=".$for_group_id."'><img  class='img_icon' src='themes/opentest2/images/icons/trinux-sb_r8_c4.gif' align=absmiddle> "._USER_RIGHTS_ADD_GR."</a><br>
+							<a href='index.php?module=users&page=group_category&next_action=edit_permissions_u&for_group_id=".$for_group_id."'><img  class='img_icon' src='themes/opentest2/images/icons/trinux-sb_r8_c4.gif' align=absmiddle> "._USER_RIGHTS_ADD_USER."</a><br>";
+              
+
+			   themeleftbox(_MENU_TASKS_FOR_RIGHTS, $content,"",false);
+			  
+          break;
+
+		  case "group_category":
+		  default:
+			   // меню по умолчанию
+			   if($group_category_id!="")
+               {
+				  $a="&group_category_id=".$group_category_id."&action=view_category";
+                  $b="&group_category_id=".$group_category_id."&action=view_create_form";
+                   $c="&group_category_id=".$group_category_id."&action=import_group";
+				}
+                else {$a=""; $b="&next_action=view_create_form"; $c="&next_action=import_group";}
+			   $content = " <a href='index.php?module=".$module."&page=group_category".$a."'><img  class='img_icon' src='themes/opentest2/images/icons/trinux-sb_r8_c16.gif' align=absmiddle> "._MENU_OPEN_TEST."</a><br>
+                            <a href='index.php?module=".$module."&page=group_category".$b."'><img  class='img_icon' src='themes/opentest2/images/icons/trinux-sb_r6_c20.gif' align=absmiddle> "._MENU_CREATE_TEST."</a><br>
+							<a href='index.php?module=".$module."&page=group_category".$c."'><img  class='img_icon' src='themes/opentest2/images/icons/trinux-sb_r2_c2.gif' align=absmiddle> "._MENU_IMPORT_GROUP."</a><br>
+ ";
+			   themeleftbox(_MENU_TEST_CONTROL, $content,"",false);
+
+                           if($page=="group_category" && $group_category_id>0)
+                           {
+                           // количество пользователей в группе
+                           $content = _MENU_TEST_CONTAIN.":<b> ".get_count($group_category_id,7)." </b>";/*"<br>
+                                                  <a href='index.php?module=".$module."&page=group'>"._MENU_LAST_CHANGE."</a><br>";*/
+                           themeleftbox(_MENU_DETAILS, $content,"",false);
+                           }
+		  break;
+	 }
+	 // меню авторизация
+	 themeleftbox(_MENU_AUTHORIZATION, "","",false);
+	 include("modules/auth/auth_menu_form.php");

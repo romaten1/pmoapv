@@ -1,0 +1,10 @@
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8">
+<META HTTP-EQUIV="Cache-Control" CONTENT="no-cache">
+<META HTTP-EQUIV="EXPIRES" CONTENT="0">
+<META NAME="RESOURCE-TYPE" CONTENT="DOCUMENT">
+<META NAME="DISTRIBUTION" CONTENT="GLOBAL">
+<link rel="author" href="https://plus.google.com/100560043720959998891"/>
+<META NAME="AUTHOR" CONTENT="Sergey Naprasnik">
+<META NAME="COPYRIGHT" CONTENT="Sergey Naprasnik">
+<META NAME="KEYWORDS" CONTENT="opentest,компьютерное тестирование,тестирование,тест">
+<META NAME="DESCRIPTION" CONTENT="opentest,компьютерное тестирование,тестирование,тест">

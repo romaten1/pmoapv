@@ -1,0 +1,216 @@
+<?php
+	if (INDEXPHP!=1) die ("You can't access this file directly...");
+
+	//print_r($GLOBALS);
+
+	$orders = array("ASC"=>"DESC",
+					"DESC"=>"ASC");
+
+	//-- ���������� � �������� �������� ����������
+	if(isset($_REQUEST['action']))
+		$action = $_REQUEST['action'];
+	else $action = "";
+
+	if(isset($_REQUEST['result_id']))
+		$result_id = $_REQUEST['result_id'];
+	else
+		$result_id ="";
+
+
+	//-- ����� ���������
+	themeleftbox(_VIEWING_LOG,"","",true);
+
+	//$page_buf = "<tr><td>";
+
+	//-- � ����������� �� action ������� ������� ����
+	switch($action)
+	{
+		default:
+
+		$f_user=mysql_fetch_array(sql_query("select users.*,group_categories.*, groups.*,test_categories.*,tests.*
+		from users,groups, group_categories,results, test_categories,tests
+		where
+					results.user_id=users.user_id and
+					users.group_id=groups.group_id and
+
+					groups.group_category_id=group_categories.group_category_id and
+
+					results.test_id=tests.test_id and
+					tests.test_category_id=test_categories.test_category_id and
+
+					results.result_id='$result_id'
+				"));
+
+
+		$result_log=sql_query("select distinct history_testing.history_testing_id,questions.question_text,
+questions.question_type,history_testing.question_difficulty,history_testing.unit, questions.show_later
+
+from history_testing,questions
+where   history_testing.result_id='$result_id' and
+	history_testing.question_id=questions.question_id
+	order by history_testing.question_id desc");
+		$count_question=1;
+
+		$page_buf= "
+	    "._GROUP_CAT_.": $f_user[group_category_name] <br>
+	    "._GROUP.": $f_user[group_name] <br>
+	    "._USER.": $f_user[user_name] <br>
+	    "._TEST_CAT.": $f_user[test_category_name] <br>
+	    "._TEST.": $f_user[test_name] <br>
+
+
+		<table valign='top'  cellpadding=0 cellspacing=2  border=0  style='font-size:11;font-family: Tahoma'>
+		<tr style='color: #000000'  bgcolor='#F1F1F1'>
+		<th>№</th>
+		<th>"._QUESTION_TEXT."</th>
+		<th>"._QUESTION_CHARASTERISTICS."</th>
+		<th>"._ANSWERS."</th>
+		<th>"._SELECTED_ANSWERS."</th>
+		<th>"._UNIT."</th>
+
+		</tr>";
+
+		while ($fetched_log=mysql_fetch_array($result_log))
+		{
+		if ($fetched_log['question_type']=='3')
+			{
+			$f_question_text=preg_replace_callback("/\[_A([0-9]*)\]/U",'callback_question_text',$fetched_log['question_text']);
+			}
+		else
+			{
+			$f_question_text=$fetched_log['question_text'];
+			}
+
+
+		$page_buf.="<tr valign=top>
+		<td align='center'>".$count_question++."</td>
+		<td>$f_question_text</td>
+		<td align='left'>"._QUESTION_TYPE.":
+		".$fetched_log['question_type']."
+		";
+		switch($fetched_log['question_type'])
+			{
+			case "1": {$page_buf.="("._QUESTION_TYPE_1.")"; break;}
+			case "2": {$page_buf.="("._QUESTION_TYPE_2.")"; break;}
+			case "3": {$page_buf.="("._QUESTION_TYPE_3.")"; break;}
+			case "4": {$page_buf.="("._QUESTION_TYPE_4.")"; break;}
+			}
+		if ($fetched_log['show_later']>0)
+			{
+			$page_buf.=_QUESTION_SHOW_LATER." ".$fetched_log['show_later'].", "._SECONDS;
+			}
+
+		$page_buf.="<br>"._QUESTION_DIFFICULTY.":".$fetched_log['question_difficulty']."
+
+		</td>
+		<td>";
+		$result_answers=sql_query("
+		select distinct answers.true_percent,answers.answer_sample, answers.answer_true,answers.answer_text from history_testing, answers
+		where history_testing.question_id=answers.question_id and
+			history_testing.history_testing_id='".$fetched_log['history_testing_id']."'");
+		while ($fetched_answers=mysql_fetch_array($result_answers))
+			{
+            	if ($fetched_log['question_type']=='3')
+					$fetched_answers['answer_true']='1';
+
+			switch ($fetched_answers['answer_true']) {
+			case 1: $page_buf.=  "- ".$fetched_answers['answer_text']." ".$fetched_answers['answer_sample']." <span style='color:#7CA17C;font-size:9px;'>("._ANSWER_CORRECT.", ".$fetched_answers['true_percent']."%)</span><br>";break;
+			case 0: $page_buf.=  "- ".$fetched_answers['answer_text']." ".$fetched_answers['answer_sample']." <span style='color:#EDA3A3;font-size:9px;'>("._ANSWER_INCORRECT.", ".$fetched_answers['true_percent']."%)</span><br>";break;
+			                                        }
+			}
+
+		$page_buf.= "</td>
+
+			<td>";
+		$result_selected_answers=sql_query("
+		select answers.answer_text,answers.answer_sample, history_testing_answers.selected_sample from history_testing_answers, answers
+		where history_testing_answers.history_testing_id='".$fetched_log['history_testing_id']."' and
+			history_testing_answers.answer_id=answers.answer_id
+		");
+			while ($fetched_selected_answers=mysql_fetch_array($result_selected_answers))
+			{
+			switch($fetched_log['question_type'])
+			{
+			case "1": {$page_buf.="<input type='radio' checked disabled readonly>".$fetched_selected_answers['answer_text']."<br>"; break;}
+			case "2": {$page_buf.="<input type='checkbox' checked disabled readonly>".$fetched_selected_answers['answer_text']."<br>"; break;}
+			case "3": {$page_buf.=$fetched_selected_answers['answer_text']." <input type='text' checked disabled readonly value='".$fetched_selected_answers['answer_sample']."'><br>"; break;}
+			case "4": {$page_buf.="-".$fetched_selected_answers['answer_text']." ".$fetched_selected_answers['selected_sample']."<br>"; break;}
+			}
+
+			//$page_buf.=  "- ".$fetched_selected_answers['answer_text']."<br>";
+
+			}
+		$page_buf.= "
+		</td><td>";
+
+		switch ($fetched_log['unit']) {
+		case 1:$page_buf.= "<span style='color:green;'>"._ANSWER_CORRECT."</span>";break;
+		case 0:$page_buf.= "<span style='color:red;'>"._ANSWER_INCORRECT."</span>";break;
+		default:$page_buf.= "<span style='color:blue;'>"._ANSWER_PARTIALY_CORRECT."</span>";break;
+
+		}
+
+		$page_buf.= "   </td>
+		</tr>
+		<tr><td colspan=10><hr size=1 height=1></td></tr>
+		";
+
+
+		}
+
+
+
+
+
+
+		$f_result=mysql_fetch_array(sql_query("select * from results
+				 where result_id='$result_id' "));
+
+
+
+		echo "</table>
+		";
+		$page_buf.= "</table>
+
+		<fieldset style='background-color:#fafaff;padding:10px;'>
+		<legend><b>Sumamry info</b> </legend>
+
+		"._TOTAL_QUESTIONS." ".($count_question-1)." <br>
+		"._TOTAL_MARK.": $f_result[mark] <br>
+		"._START_TIME.": $f_result[start_datetime] <br>
+		"._STOP_TIME.": $f_result[stop_datetime] <br>
+		"._AVERAGE_ALTERNATIVE.":  $f_result[average_alternative] <br>
+		"._PERCENT.": $f_result[percent] <br>
+		"._PERCENT_SIMPLE.": $f_result[percent_simple] <br>
+		"._TOTAL_UNIT.": $f_result[total_unit] <br>
+		</fieldset>
+
+
+
+		";
+
+		break;
+	}
+
+
+
+	echo $page_buf;
+
+
+
+	function callback_question_text($data)
+	{
+	global $fetched_log;
+
+	$result_answer1=sql_query("
+		select distinct answers.true_percent,answers.answer_true,answers.answer_text, answers.answer_sample from history_testing, answers
+		where history_testing.question_id=answers.question_id and
+			history_testing.history_testing_id='".$fetched_log['history_testing_id']."' and
+			answers.answer_id='$data[1]'
+										");
+	$f_answer1=mysql_fetch_array($result_answer1);
+	return "<input type=text value='$f_answer1[answer_sample]'>";
+	}
+
+
+?>

@@ -1,0 +1,151 @@
+<?php
+	/************************************************************************/
+    /* OpenTEST System: The System Of Computer Testing Knowleges            */
+    /* ============================================                         */
+    /*                                                                      */
+    /* Copyright (c) 2002-2005 by OpenTEST Team                             */
+    /* http://opentest.com.ua                                               */
+    /* e-mail: opentest@opentest.com.ua                                     */
+    /*                                                                      */
+    /************************************************************************/
+    /* 11/01/2005 08:00:00                                                  */
+	/************************************************************************/
+    
+	if (INDEXPHP!=1)
+		die ("You can't access this file directly...");
+define("_APPLY_BUTTON","Застосувати");
+define("_GROUPS_CATEGORY_VIEW","Переглянути групи в цій категорії");
+     define("_GROUPS_CATEGORY_CHOOSE","Виберіть категорію, в якій знаходиться необхідна група");
+     define("_GROUPS_CATEGORY_VIEW_HEADER","Поточна категорія містить наступні групи:");
+     define("_GROUPS_CATEGORY_ENTER_NAME","Введіть ім'я групи:");
+     define("_GROUPS_CATEGORY_CREATE_HEADER","Створення нової групи");
+     define("_GROUPS_CATEGORY_CREATE_TEXT","Виберіть категорію, у якій буде створена нова група");
+     define("_GROUPS_CATEGORY_CHOOSE_HEADER_DEF","Доступні наступні категорії груп");
+     define("_GROUPS_CATEGORY_CHOOSE_CATEGORY_DEF","Виберіть категорію, у якій ви бажаєте продовжити роботу");
+     define("_GROUPS_CATEGORY_CHOOSE_GROUP_DEF","Виберіть групу, з якою ви бажаєте продовжити роботу");
+     define("_GROUPS_CATEGORY_CHOOSE_CATEGORY","Виберіть категорію, у якій знаходиться необхідна група або користувач");
+     
+     
+	 define("_GROUPS_CATEGORY_NO_CATEGORY","У базі даних немає жодної категорії груп користувачів!");
+     define("_GROUPS_CATEGORY_NO_GROUP","У даній категорії немає жодної групи!");
+     define("_GROUPS_CATEGORY_VIEW_GROUP","Переглянути користувачів в цій групі");	 
+	 
+	 
+	 
+	 
+	 define("GROUP_CATEGORY_CAT_SELECT_HEADER","Права доступу: вибір категорії");
+	 define("GROUP_CATEGORY_GR_SELECT_HEADER","Права доступу: вибір групи");
+	 define("GROUP_CATEGORY_USER_SELECT_HEADER","Права доступу: вибір користувача");
+
+define("GROUP_CATEGORY_USER_SELECT","Виберіть категорію користувача, для якого необхідно змінити права на категорію"); 
+define("GROUP_USER_SELECT","Виберіть користувача, для якого необхідно змінити права на категорію");
+define("GROUP_CATEGORY_GROUP_SELECT","Виберіть категорію групи, для якої необхідно змінити права на категорію"); 
+define("GROUP_CATEGORY_CAT_SELECT","Виберіть категорію, для якої необхідно змінити права на категорію");
+define("_GROUP_NO_USERS","У даній групі немає жодного користувача!"); 
+
+
+
+
+define("RIGHTS_RIGHTS_HEADER","Права доступу");
+    define("RIGHTS_ADD","Додати..");
+    define("RIGHTS_CHANGE","Змінити..");
+define("RIGHTS_CAT","Категорії");
+define("RIGHTS_CREATE","Створення");
+define("RIGHTS_READ","Читання");
+define("RIGHTS_WRITE","Запис");
+define("RIGHTS_OWNER","Власник");
+define("RIGHTS_CH_RIGHTS_HEADER","Права доступу");
+define("RIGHTS_GR","Групи");
+define("RIGHTS_USER","Користувачі");
+define("RIGHTS_RIGHTS","&nbsp;&nbsp;&nbsp; Права - ");
+
+    define("RIGHTS_LIST_CAT","Список категорій, груп і користувачів, які мають будь-які права на категорію");
+    define("RIGHTS_LIST_MOD","Список категорій, груп і користувачів, які мають будь-які права на модуль");
+
+
+
+
+
+	
+	define("_MENU_BASIC_MENU",	 	 	"Меню основних модулів");
+	define("_MENU_RESULTS_ROOT",	 	 	"Початкове меню модуля");
+	define("_MENU_COMMON_TASKS", 	 	"Загальні задачі");
+	define("_MENU_AUTHORIZATION",	 	"Авторизація");
+	define("_MENU_GROUP",		 		"Група");
+	define("_MENU_USER",		 	 	"Користувач");
+	define("_MENU_EXIT",		 	 	"Вихід");
+
+	define("_TESTING","Тестування");
+	define("_TEST_STUDIO","Керування тестами");
+     	define("_USER_STUDIO","Керування користувачами");
+     	define("_TESTCONTROL","Керування тестуванням");
+     	define("_RESULTS","Результати тестування");
+     	define("_ADMIN_ZONE","Адміністрування");	
+
+	define("_MENU_ADMIN",		 	 	"Дії адміністратора");		
+	define("_MENU_NEW_TEST_CATEGORY",	"Створити нову категорію тестів");	
+	define("_MENU_NEW_GROUP_CATEGORY",	"Створити нову категорію користувачів");	
+	define("_MENU_MODULES_PERMISSIONS",	"Права доступу до модулів");	
+	define("_MENU_IMPORT_ASUVUZ",	"Імпорт баз данных АСУ ВНЗ");	
+	define("_ADMIN_HEADER",		 	 	"Зона адміністратора");	
+	define("_TCATEGORY_CREATE_HEADER",	"Створення категорії тестів");	
+	define("_TCATEGORY_RENAME_HEADER",	"Перейменування категорії тестів");
+	define("_TCATEGORY_DELETE_HEADER",	"Вилучення категорії тестів");
+	define("_GCATEGORY_DELETE_HEADER",	"Вилучення категорії користувачів");
+	define("_MODULES_PERM_HEADER",		"Настройка прав доступу до модулів");
+	define("_TCATEGORY_DELETE_CONFIRM",	"Ви дійсно бажаєте вилучити категорію тестів");
+	define("_GCATEGORY_DELETE_CONFIRM",	"Ви дійсно бажаєте вилучити категорію користувачів");
+	define("_GCATEGORY_CREATE_HEADER",	"Створення категорії користувачів");
+	define("_GCATEGORY_RENAME_HEADER",	"Перейменування категорії користувачів");
+	define("_CRT_ENTER_TCATEGORY_NAME",	"Введіть ім'я нової категорії тестів");
+	define("_REN_ENTER_TCATEGORY_NAME",	"Введіть нове ім'я категорії тестів");	
+	define("_CRT_ENTER_GCATEGORY_NAME",	"Введіть ім'я нової категорії користувачів");	
+	define("_REN_ENTER_GCATEGORY_NAME",	"Введіть нове ім'я категорії користувачів");	
+	define("_NEW_CATEGORY_NAME",		"Ім'я категорії");	
+	define("_CREATE_CATEGORY",			"Створити");	
+	define("_RENAME_CATEGORY",			"Перейменувати");	
+	define("_DELETE_CATEGORY",			"Вилучити");	
+	define("_CANCEL",					"Відміна");	
+	
+	define("_TCATEGORY_OVERVIEW_HEADER","Огляд категорій тестів");		
+	define("_TCATEGORY_NO_CATEGORY",	"У базі даних немає жодної категорії тестів!");
+	define("_TCATEGORY_NO_C_KEYWORD",	"У базі даних немає жодної категорії тестів, які містять ключове слово!");
+	define("_TCATEGORY_NO_C_LETTER",	"У базі даних немає жодної категорії тестів, які починаються з вказаної букви!");
+	define("_CATEGORY_VIEW",			"Переглянути операції");
+	define("_CATEGORY_RENAME",			"Перейменувати");
+	define("_CATEGORY_DELETE",			"Вилучити");
+	define("_PERMISSIONS",		"Настройка прав доступу");	
+	
+	define("_GCATEGORY_OVERVIEW_HEADER",	"Огляд категорій користувачів");
+	define("_GCATEGORY_NO_CATEGORY",	 	"У базі даних немає жодної категорії користувачів!");
+	define("_GCATEGORY_NO_C_KEYWORD",	 	"У базі даних немає жодної категорії користувачів, які містять ключове слово!");
+	define("_GCATEGORY_NO_C_LETTER",	 	"У базі даних немає жодної категорії користувачів, які починаються з вказаної букви!");	
+
+	
+	global $status_text;
+	$status_text = array("tcategory_crt_err"	=> "При створенні категорії тестів відбулася помилка",
+						 "tcategory_created"	=> "Категорія тестів успішно створена",
+						 "tcategory_ren_err"	=> "При перейменуванні категорії тестів відбулася помилка",
+						 "tcategory_del_err"	=> "При видаленні категорії тестів відбулася помилка",
+						 "tcategory_renamed"	=> "Категорія тестів успішно перейменована",
+						 "tcategory_deleted"	=> "Категорія тестів успішно вилучена",
+						 "tcategory_exists"		=> "Категорія тестів вже існує",
+						 
+						 "gcategory_crt_err"	=> "При створенні категорії користувачів відбулася помилка",
+						 "gcategory_created"	=> "Категорія користувачів успішно створена",
+						 "gcategory_ren_err"	=> "При перейменуванні категорії користувачів відбулася помилка",
+						 "gcategory_del_err"	=> "При видаленні категорії користувачів відбулася помилка",
+						 "gcategory_renamed"	=> "Категорія користувачів успішно перейменована",
+						 "gcategory_deleted"	=> "Категорія користувачів успішно вилучена",
+						 "gcategory_exists"		=> "Категорія користувачів вже існує");
+
+	global $modules;
+	$modules = array(
+		//_TESTING,
+		_TEST_STUDIO,
+		_USER_STUDIO,
+		_TESTCONTROL,
+		_RESULTS,
+		_ADMIN_ZONE,);
+						 
+?>

@@ -1,0 +1,150 @@
+<?php
+	/************************************************************************/
+    /* OpenTEST System: The System Of Computer Testing Knowleges            */
+    /* ============================================                         */
+    /*                                                                      */
+    /* Copyright (c) 2002-2005 by OpenTEST Team                             */
+    /* http://opentest.com.ua                                               */
+    /* e-mail: opentest@opentest.com.ua                                     */
+    /*                                                                      */
+    /************************************************************************/
+    /* 11/01/2005 08:00:00                                                  */
+	/************************************************************************/
+    
+	if (INDEXPHP!=1)
+		die ("You can't access this file directly...");
+define("_APPLY_BUTTON","Apply");
+define("_GROUPS_CATEGORY_VIEW","To look over groups in this category");
+     define("_GROUPS_CATEGORY_CHOOSE","Choose a category which a necessary group is in");
+     define("_GROUPS_CATEGORY_VIEW_HEADER","A current category contains the followings groups:");
+     define("_GROUPS_CATEGORY_ENTER_NAME","Enter the name of group:");
+     define("_GROUPS_CATEGORY_CREATE_HEADER","Creation of new group");
+     define("_GROUPS_CATEGORY_CREATE_TEXT","Choose a category where a new group will be created in");
+     define("_GROUPS_CATEGORY_CHOOSE_HEADER_DEF","The next categories of groups are available");
+     define("_GROUPS_CATEGORY_CHOOSE_CATEGORY_DEF","Choose a category in which you wish to continue work");
+     define("_GROUPS_CATEGORY_CHOOSE_GROUP_DEF","Choose a group  which you wish to continue work with");
+     define("_GROUPS_CATEGORY_CHOOSE_CATEGORY","Choose a category where a necessary group or user is");
+     
+     
+	 define("_GROUPS_CATEGORY_NO_CATEGORY","There is no category of users groups in a database!");
+     define("_GROUPS_CATEGORY_NO_GROUP","There is no group in this category!");
+     define("_GROUPS_CATEGORY_VIEW_GROUP","View  users in this group");	 
+	 
+	 
+	 
+	 
+	 define("GROUP_CATEGORY_CAT_SELECT_HEADER","Rights of access: choice of category");
+	 define("GROUP_CATEGORY_GR_SELECT_HEADER","Rights of access: choice of group");
+	 define("GROUP_CATEGORY_USER_SELECT_HEADER","Rights of access: choice of user");
+
+define("GROUP_CATEGORY_USER_SELECT","Choose the category of user for which it is necessary to change rights on a category"); 
+define("GROUP_USER_SELECT","Choose an user for which it is necessary to change rights on a category");
+define("GROUP_CATEGORY_GROUP_SELECT","Choose the category of group for which it is necessary to change rights on a category"); 
+define("GROUP_CATEGORY_CAT_SELECT","Choose a category for which it is necessary to change rights on a category");
+define("_GROUP_NO_USERS","There is no user in this group!"); 
+
+
+
+
+define("RIGHTS_RIGHTS_HEADER","Rights of access");
+    define("RIGHTS_ADD","Add.");
+    define("RIGHTS_CHANGE","Change.");
+define("RIGHTS_CAT","Categories");
+define("RIGHTS_CREATE","Creation");
+define("RIGHTS_READ","Reading");
+define("RIGHTS_WRITE","Record");
+define("RIGHTS_OWNER","Owner");
+define("RIGHTS_CH_RIGHTS_HEADER","Rights of access");
+define("RIGHTS_GR","Groups");
+define("RIGHTS_USER","Users");
+define("RIGHTS_RIGHTS","&nbsp;&nbsp;&nbsp; Right - ");
+
+    define("RIGHTS_LIST_CAT","List of categories, groups and users, that have some right on a category");
+    define("RIGHTS_LIST_MOD","List of categories, groups and users, that have some right on the module");
+
+
+
+
+	
+	define("_MENU_BASIC_MENU",	 	 	"Menu of the basic modules");
+	define("_MENU_RESULTS_ROOT",	 	 	"Initial menu of the module");
+	define("_MENU_COMMON_TASKS", 	 	"General tasks");
+	define("_MENU_AUTHORIZATION",	 	"Authorizing");
+	define("_MENU_GROUP",		 		"Group");
+	define("_MENU_USER",		 	 	"User");
+	define("_MENU_EXIT",		 	 	"Exit");
+
+	define("_TESTING","Testing");
+	define("_TEST_STUDIO","Test control");
+     	define("_USER_STUDIO","Users control");
+     	define("_TESTCONTROL","Testing control");
+     	define("_RESULTS","Testing results");
+     	define("_ADMIN_ZONE","Administration");	
+
+	define("_MENU_ADMIN",		 	 	"Actions of administrator");		
+	define("_MENU_NEW_TEST_CATEGORY",	"To create the new tests category");	
+	define("_MENU_NEW_GROUP_CATEGORY",	"To create the new users category");	
+	define("_MENU_MODULES_PERMISSIONS",	"Rights of access to the modules");	
+	define("_MENU_IMPORT_ASUVUZ",	"Import of databases to ACE INSTITUTE of higher");	
+	define("_ADMIN_HEADER",		 	 	"Area of administrator");	
+	define("_TCATEGORY_CREATE_HEADER",	"Creation of tests category");	
+	define("_TCATEGORY_RENAME_HEADER",	"Renaming of tests category");
+	define("_TCATEGORY_DELETE_HEADER",	"Delete of tests category");
+	define("_GCATEGORY_DELETE_HEADER",	"Delete of users category");
+	define("_MODULES_PERM_HEADER",		"Tuning of rights for access to the modules");
+	define("_TCATEGORY_DELETE_CONFIRM",	"You indeed wish to delete the category of tests");
+	define("_GCATEGORY_DELETE_CONFIRM",	"You indeed wish to delete the category of users");
+	define("_GCATEGORY_CREATE_HEADER",	"Creation of category of users");
+	define("_GCATEGORY_RENAME_HEADER",	"Renaming of category of users");
+	define("_CRT_ENTER_TCATEGORY_NAME",	"Enter the name of new tests category");
+	define("_REN_ENTER_TCATEGORY_NAME",	"Enter the new name of tests category");	
+	define("_CRT_ENTER_GCATEGORY_NAME",	"Enter the name of new users category");	
+	define("_REN_ENTER_GCATEGORY_NAME",	"Enter the new name of users category");	
+	define("_NEW_CATEGORY_NAME",		"Name of category");	
+	define("_CREATE_CATEGORY",			 "Create");	
+	define("_RENAME_CATEGORY",			"Rename");	
+	define("_DELETE_CATEGORY",			"Delete");	
+	define("_CANCEL",					"Cancel");	
+	
+	define("_TCATEGORY_OVERVIEW_HEADER",    "Overview the tests category");		
+	define("_TCATEGORY_NO_CATEGORY",	"There is not a single tests category in a database!");
+	define("_TCATEGORY_NO_C_KEYWORD",	"In a database there is not a single tests category, containing a keyword!");
+	define("_TCATEGORY_NO_C_LETTER",	"In a database there is no tests category, beginning from the indicated letter!");
+	define("_CATEGORY_VIEW",			"To look over operations");
+	define("_CATEGORY_RENAME",			"Rename");
+	define("_CATEGORY_DELETE",			"Delete");
+	define("_PERMISSIONS",		"Tuning of rights of access");	
+	
+	define("_GCATEGORY_OVERVIEW_HEADER",	"Overview the users category");
+	define("_GCATEGORY_NO_CATEGORY",	 	"There is no users category in a database!");
+	define("_GCATEGORY_NO_C_KEYWORD",	 	"In a database there is no users category, containing a keyword!");
+	define("_GCATEGORY_NO_C_LETTER",	 	"In a database there is no users category, beginning from the indicated letter!");	
+
+	
+	global $status_text;
+	$status_text = array("tcategory_crt_err"	=> "An error happened at creation of tests category",
+						 "tcategory_created"	=> "The tests category is successfully created",
+						 "tcategory_ren_err"	=> "An error happened at renaming of tests category",
+						 "tcategory_del_err"	=> "An error happened at the delete of tests category",
+						 "tcategory_renamed"	=> "The tests category is successfully renamed",
+						 "tcategory_deleted"	=> "The tests category is successfully removed",
+						 "tcategory_exists"		=> "The tests category already exists",
+						 
+						 "gcategory_crt_err"	=> "An error happened at the creation of category of users",
+						 "gcategory_created"	=> "The users category is successfully created",
+						 "gcategory_ren_err"	=> "An error happened at renaming of users category",
+						 "gcategory_del_err"	=> "An error happened at the delete of users category",
+						 "gcategory_renamed"	=> "The users category is successfully renamed",
+						 "gcategory_deleted"	=> "The users category is successfully removed",
+						 "gcategory_exists"	=> "The users category exists already");
+
+	global $modules;
+	$modules = array(
+		//_TESTING,
+		_TEST_STUDIO,
+		_USER_STUDIO,
+		_TESTCONTROL,
+		_RESULTS,
+		_ADMIN_ZONE,);
+						 
+?>

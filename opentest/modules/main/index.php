@@ -1,0 +1,15 @@
+<?php
+if (INDEXPHP!=1) die ("You can't access this file directly...");
+
+get_lang($module);
+
+include_once("include/header.php");
+
+OpenTable();
+
+$page = test_page(@$_REQUEST['page']);
+include_once("modules/$module/include/$page.php");
+
+CloseTable();
+
+include_once("include/footer.php");

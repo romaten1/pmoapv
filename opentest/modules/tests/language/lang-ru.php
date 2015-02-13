@@ -1,0 +1,395 @@
+<?php
+	 /************************************************************************/
+	 /* OpenTEST System: The System Of Computer Testing Knowleges            */
+	 /* ============================================                         */
+	 /*                                                                      */
+	 /* Copyright (c) 2002-2005 by OpenTEST Team                             */
+	 /* http://opentest.com.ua                                               */
+	 /* e-mail: opentest@opentest.com.ua                                     */
+	 /*                                                                      */
+	 /************************************************************************/
+	 /* 11/01/2005 08:00:00                                                                                    */
+	 /************************************************************************/
+	 if (INDEXPHP!=1)
+		 die ("You can't access this file directly...");
+
+	 define("_zzz","Проверка");
+     define("_YES","Да");
+     define("_NO","Нет");
+     define("_EXPORT_BUTTON","Экспортировать");
+     define("_GO_ON","Продолжить");
+
+	 define("_CATEGORY_NO_CATEGORY","В базе данных нет ни одной категории!");
+	 define("_CATEGORY_NO_C_KEYWORD","В базе данных нет ни одной категории, содержащей ключевое слово!");
+	 define("_CATEGORY_NO_C_LETTER","В базе данных нет ни одной категории, начинающейся с указанной буквы!");
+
+	 define("_CATEGORY_CREATE_HEADER","<img src='themes/opentest2/images/icons/trinux-sb_r6_c20.gif' align=absmiddle>  Создание нового теста");
+	 define("_CATEGORY_CREATE_TEXT","Выберите категорию, в которой будет создан новый тест");
+	 define("_CATEGORY_CREATE_NAME","Введите имя для нового теста");
+	 define("_CATEGORY_CREATE_BUTTON","Создать тест");
+
+	 define("_CATEGORY_IMPORT_HEADER","<img src='themes/opentest2/images/icons/trinux-sb_r2_c2.gif' align=absmiddle> Импортирование теста");
+	 define("_CATEGORY_IMPORT_TEXT","Укажите xml-файл теста, который Вы хотите импортировать");
+	 
+	 define("_CATEGORY_IMPORT_CHOOSE_CATEGORY","Выберите категорию, в которую необходимо импортировать xml-файл с тестом");
+	 define("_CATEGORY_IMPORT_BUTTON","Импортировать");
+
+	 define("_CATEGORY_CHOOSE_HEADER","<img src='themes/opentest2/images/icons/trinux-sb_r8_c16.gif' align=absmiddle> Открытие существующего теста");
+	 define("_CATEGORY_CHOOSE_CATEGORY","Выберите категорию, где находится тест, который необходимо открыть");
+
+	 define("_CATEGORY_CHOOSE_HEADER_DEF","Доступны следующие категории тестов");
+	 define("_CATEGORY_CHOOSE_CATEGORY_DEF","Выберите категорию, в котрой вы желаете продолжить работу");
+
+	 define("_CATEGORY_VIEW_HEADER","Текущая категория содержит следующие тесты:");
+	 define("_CATEGORY_NO_TEST","В данной категории нет ни одного теста либо у вас нет прав ни на какой тест из данной категории тестов!");
+	 define("_CATEGORY_NO_T_KEYWORD","В данной категории нет ни одного теста, содержащего клучевое слово!");
+	 define("_CATEGORY_NO_T_LETTER","В данной категории нет ни одного теста, начинающегося с указанной буквы!");
+
+	 define("_CATEGORY_VIEW_TEST","Просмотреть тесты в этой категории");
+	 define("_CATEGORY_VIEW_TOPIC","Просмотреть темы в этом тесте");
+
+     define("_TEST_CREATE_HEADER","Создание новой темы");
+	 define("_TEST_CREATE_TOPIC_NAME","Введите имя для новой темы");
+     define("_TEST_CREATE_BUTTON","Создать тему");
+
+     define("_TEST_IMPORT_HEADER","Импортирование темы");
+     define("_TEST_IMPORT_TEXT","Укажите xml-файл темы, который Вы хотите импортировать");
+     define("_TEST_IMPORT_BUTTON","Импортировать");
+
+
+     define("_TEST_RENAME_HEADER","Изменение имени текущего теста");
+     define("_TEST_RENAME_TEXT","Введите новое имя для теста");
+     define("_TEST_RENAME_BUTTON","Переименовать");
+
+     define("_TEST_VIEW_HEADER","Текущий тест содержит следующие темы:");
+	 define("_TEST_NO_TOPIC","В данном тесте нет ни одной темы!");
+	 define("_TEST_NO_KEYWORD","В данном тесте нет ни одной темы, содержащей ключевое слово!");
+	 define("_TEST_NO_LETTER","В данном тесте нет ни одной темы, начинающейся с указанной буквы!");
+
+     define("_TEST_DELETE_HEADER","Удаление текущего теста");
+	 define("_TEST_DELETING_CONFIRM","Будут удалены все темы, вопросы и ответы теста, а также его статистика.<br>Вы действительно желаете удалить текущий тест?");
+
+	 define("_TEST_VIEW_TOPIC","Просмотреть вопросы в этой теме");
+
+     define("_TOPIC_VIEW_HEADER","Текущая тема содержит следующие вопросы:");
+	 define("_TOPIC_NO_QUESTION","В данной теме нет ни одного вопроса!");
+	 define("_TOPIC_NO_KEYWORD","В данной теме нет ни одного вопроса, содержащего клучевое слово!");
+	 define("_TOPIC_NO_LETTER","В данной теме нет ни одного вопроса, начинающегося с указанной буквы!");
+
+     define("_TOPIC_EXPORT_HEADER","Экспортирование текущей темы");
+	 define("_TOPIC_EXPORT_TEXT","Укажите имя файла, в который необходимо экспортировать текущую тему");
+
+	 define("_TOPIC_CREATE_HEADER","Создание нового вопроса");
+	 define("_TOPIC_CREATE_QUESTION_TEXT","Введите текст вопроса и выберете необходимый тип вопроса");
+	 define("_TOPIC_QUEST_TYPE","Тип вопроса:");
+	 define("_TOPIC_QUEST_DIFFICULTY","Сложность:");
+	 define("_TOPIC_ANSWER_DELAY","Время отображения ответов");
+	 define("_TOPIC_CREATE_BUTTON","Добавить вопрос");
+
+	 define("_TOPIC_IMPORT_HEADER","Импортирование вопроса");
+	 define("_TOPIC_IMPORT_TEXT","Укажите xml-файл вопроса, который Вы хотите импортировать");
+	 define("_TOPIC_IMPORT_BUTTON","Импортировать");
+
+	 define("_TOPIC_RENAME_HEADER","Изменение имени текущей темы");
+	 define("_TOPIC_RENAME_TEXT","Введите новое имя для темы");
+	 define("_TOPIC_RENAME_BUTTON","Переименовать");
+
+	 define("_TOPIC_DELETE_HEADER","Удаление текущей темы");
+	 define("_TOPIC_DELETING_CONFIRM","Будут удалены вопросы и ответы темы, а также ее статистика.<br>Вы действительно желаете удалить текущую тему?");
+
+	 define("_TOPIC_VIEW_QUESTION","Просмотреть варианты ответа на этот вопрос");
+
+	 define("_QUESTION_VIEW_HEADER","Текущий вопрос имеет следующие варианты ответа:");
+	 define("_QUESTION_NO_ANSWER","Данный вопрос не имеет ни одного варианта ответа!");
+
+	 define("_QUESTION_CREATE_HEADER","Создание нового варианта ответа");
+	 define("_QUESTION_CREATE_ANSWER_TEXT","Введите текст ответа:");
+	 define("_QUESTION_CREATE_SAMPLE_TEXT","Введите текст примера:");
+	 define("_QUESTION_CREATE_RIGHT_ANSWER","Введите правильный вариант ответа:");
+	 define("_QUESTION_CREATE_ANSWER_TRUE","правильный");
+     define("_QUESTION_CREATE_BUTTON","Добавить ответ");
+
+     define("_QUESTION_EXPORT_HEADER","Экспортирование текущего вопроса");
+     define("_QUESTION_EXPORT_TEXT","Укажите имя файла, в который необходимо экспортировать текущий вопрос");
+
+     define("_QUESTION_EDIT_HEADER","Изменение текста текущего вопроса");
+     define("_QUESTION_EDIT_TEXT","Введите новый текст вопроса");
+	 define("_QUESTION_EDIT_BUTTON","Изменить");
+
+	 define("_QUESTION_DELETE_HEADER","Удаление текущего вопроса");
+	 define("_QUESTION_DELETING_CONFIRM","Будут удалены варианты ответов.<br>Вы действительно желаете удалить текущий вопрос?");
+
+     define("_QUESTION_EDIT_ANSWER","Изменить текст варианта ответа");
+	 define("_QUESTION_QUESTION_DISABLED","Вопрос выключен");
+	 define("_QUESTION_QUESTION_ENABLED","Вопрос включен");
+	 define("_QUESTION_TYPE","Тип");
+	 define("_QUESTION_NUMBER",	"№");
+	 define("_QUESTION_CONDITION","Состояние");
+	 define("_QUESTION_EXAMPLE","Пример");
+	 define("_QUESTION_CORRESPONDANCE","Соответсвие");
+
+
+	 define("_QUESTION_ENTER_ANSWER_VARIANT","Введите правильный вариант ответа (словосочетание, число или десятичная дробь):");
+	 define("_QUESTION_ANSWER_ALTERNATIVE","Альтернатива");
+	 define("_QUESTION_ANSWER_IGNORE_CASE","Игнорировать регистр букв");
+ 	 define("_QUESTION_ANSWER_IGNORE_LAYOUT","Игнорировать раскладку клавиатуры для одинаковых букв в разных алфавитах");
+ 	 define("_QUESTION_ANSWER_IGNORE_SPACE","Игнорировать пробельные символы в начале и конце строки");
+  	 define("_QUESTION_ANSWER_IGNORE_FEW_SPACES","Распозновать несколько подряд идущих пробелов как один пробел");
+	 define("_QUESTION_ANSWER_ADD_ALTERNATIVE","Добавить ещё одну альтернативу");
+	 define("_QUESTION_ANSWER_DELETE_ALTERNATIVE","Удалить альтернативу");
+	 define("_QUESTION_ANSWER_ADD_MASK","Добавить маску");
+
+
+
+
+
+
+
+	 define("_ANSWER_EDIT_HEADER","Изменение текста варианта ответа");
+	 define("_ANSWER_EDIT_ANSWER_TEXT","Текст ответа:");
+	 define("_ANSWER_EDIT_SAMPLE_TEXT","Текст примера:");
+	 define("_ANSWER_EDIT_TRUE_PERCENT","Процент правильности");
+	 define("_ANSWER_EDIT_BUTTON","Изменить ответ");
+
+     define("_ANSWER_DELETE_HEADER","Удаление текущего варианта ответа");
+     define("_ANSWER_DELETING_CONFIRM","Вы действительно желаете удалить текущий вариант ответа?");
+
+    define("_MENU_TREE","Дерево тестов");
+	  define("_MENU_TREE_USER","Дерево пользователей");
+	 define("_MENU_GROUP_CAT","Категория группы"); 
+
+	  
+	define("_MENU_CATEGORY","Категория тестов"); 
+	define("_MENU_TEST","Тест"); 
+	define("_MENU_TOPIC","Тема"); 
+	define("_MENU_QUESTION","Вопрос"); 
+	define("_MENU_ANSWER","Вариант ответа"); 
+
+     define("_MENU_CRETAE_TEST","Создать новый тест");
+     define("_MENU_IMPORT_TEST","Импортировать тест из XML");
+     define("_MENU_OPEN_TEST","Открыть существующий тест");
+     define("_MENU_TEST_CONTROL","Управление тестами");
+
+     define("_MENU_BASIC_MENU","Меню основных модулей");
+     define("_MENU_RESULTS_ROOT",	 	 	"Начальное меню модуля");
+     define("_MENU_COMMON_TASKS","Общие задачи");
+     define("_MENU_AUTHORIZATION","Авторизация");
+     define("_MENU_GROUP","Группа");
+     define("_MENU_USER","Пользователь");
+     define("_MENU_EXIT","Выход");
+
+     define("_MENU_TASK_SETUP","Задачи управления");
+     define("_MENU_TASKS_FOR_TEST","Задачи для теста");
+     define("_MENU_TASKS_FOR_TOPIC","Задачи для темы");
+     define("_MENU_TASKS_FOR_QUESTION","Задачи для вопроса");
+     define("_MENU_TASKS_FOR_ANSWER","Задачи для ответа");
+
+     define("_MENU_EXPORT_TEST","Экспортировать тест в XML");
+     define("_MENU_EXPORT_TOPIC","Экспортировать тему в XML");
+     define("_MENU_EXPORT_QUESTION","Экспортировать вопрос в XML");
+     define("_MENU_ADD_TOPIC","Добавить новую тему в тест");
+     define("_MENU_ADD_QUESTION","Добавить новый вопроc");
+     define("_MENU_ADD_ANSWER","Добавить вариант ответа");
+     define("_MENU_IMPORT_TOPIC","Добавить новую тему в тест из XML");
+     define("_MENU_IMPORT_QUESTION","Добавить новый вопрос из XML");
+     define("_MENU_RENAME_TEST","Переименовать тест");
+     define("_MENU_RENAME_TOPIC","Переименовать тему");
+     define("_MENU_EDIT_QUESTION","Изменить текст вопроса");
+     define("_MENU_MOVE_TEST","Перемесить тест в другую категорию");
+     define("_MENU_MOVE_TOPIC","Перемесить тему в другой тест");
+     define("_MENU_ON_TEST","Включить тест");
+     define("_MENU_OFF_TEST","  Выключить тест");
+     define("_MENU_ON_TOPIC","Включить тему");
+     define("_MENU_OFF_TOPIC","Выключить тему");
+     define("_MENU_ON_QUESTION","Включить вопрос");
+     define("_MENU_OFF_QUESTION","Выключить вопрос");
+     define("_MENU_DELETE_TEST","Удалить тест");
+     define("_MENU_DELETE_TOPIC","Удалить тему");
+     define("_MENU_DELETE_QUESTION","Удалить вопрос");
+     define("_MENU_DELETE_ANSWER","Удалить ответ");
+     define("_MENU_SECURITY","Права доступа");
+     define("_MENU_PRINT_VER","Версия для печати");
+     define("_MENU_PREVIEW","Предварительный просмотр");
+	 define("_MENU_DETAILS","Подробно");
+	 define("_MENU_TEST_CONTAIN","Тест содержит вопросов");
+	 define("_MENU_TOPIC_CONTAIN","Тема содержит вопросов");
+	 define("_MENU_LAST_CHANGE","Дата и владелец последнего изменения");
+	 define("_MENU_DATE","Дата");
+	 
+	 
+ define("_GROUPS_CATEGORY_VIEW","Просмотреть группы в этой категории");
+     define("_GROUPS_CATEGORY_CHOOSE","Выберите категорию, в которой находится необходимая группа");
+     define("_GROUPS_CATEGORY_VIEW_HEADER","Текущая категория содержит следующие группы:");
+     define("_GROUPS_CATEGORY_ENTER_NAME","Введите имя группы:");
+     define("_GROUPS_CATEGORY_CREATE_HEADER","Создание новой группы");
+     define("_GROUPS_CATEGORY_CREATE_TEXT","Выберите категорию, в которой будет создана новая группа");
+     define("_GROUPS_CATEGORY_CHOOSE_HEADER_DEF","Доступны следующие категории групп");
+     define("_GROUPS_CATEGORY_CHOOSE_CATEGORY_DEF","Выберите категорию, в котрой вы желаете продолжить работу");
+     define("_GROUPS_CATEGORY_CHOOSE_GROUP_DEF","Выберите группу, с котрой вы желаете продолжить работу");
+     define("_GROUPS_CATEGORY_CHOOSE_CATEGORY","Выберите категорию, в которой находится необходимая группа или пользователь");
+     
+     
+	 define("_GROUPS_CATEGORY_NO_CATEGORY","В базе данных нет ни одной категории групп пользователей!");
+     define("_GROUPS_CATEGORY_NO_GROUP","В данной категории нет ни одной группы!");
+     define("_GROUPS_CATEGORY_VIEW_GROUP","Просмотреть пользователей в этой группе");	 
+	 
+	 
+	 
+	 
+	 define("GROUP_CATEGORY_CAT_SELECT_HEADER","Права доступа: выбор категории");
+	 define("GROUP_CATEGORY_GR_SELECT_HEADER","Права доступа: выбор группы");
+	 define("GROUP_CATEGORY_USER_SELECT_HEADER","Права доступа: выбор пользователя");
+
+define("GROUP_CATEGORY_USER_SELECT","Выберите категорию пользователя, для которого необходимо изменить права на группу"); 
+define("GROUP_USER_SELECT","Выберите пользователя, для которого необходимо изменить права на группу");
+define("GROUP_CATEGORY_GROUP_SELECT","Выберите категорию группы, для которой необходимо изменить права на группу"); 
+define("GROUP_CATEGORY_CAT_SELECT","Выберите категорию, для которой необходимо изменить права на группу"); 
+define("RIGHTS_LIST","Список категорий, групп и пользователей, у которых имеются права на данный тест"); 
+define("RIGHTS_CAT","Категории"); 	 
+define("RIGHTS_ADD","Добавить");
+define("RIGHTS_CHANGE","Изменить");
+
+define("RIGHTS_GR","Группы");
+define("RIGHTS_USER","Пользователи");
+define("RIGHTS_RIGHTS","&nbsp;&nbsp;&nbsp; Права - ");
+define("RIGHTS_RIGHTS_HEADER","Права доступа");
+
+define("RIGHTS_READ","Чтение");
+define("RIGHTS_WRITE","Изменение");
+define("RIGHTS_OWNER","Владелец");
+
+
+define("RIGHTS_CH_RIGHTS_HEADER","Изменение прав доступа на текущий тест");
+	 define("_USER_APPLY_BUTTON","Применить");
+
+    
+
+     global $question_types;
+     $question_types = array("Один ко многим",
+                             "Много ко многим",
+                             "Свободный ввод",
+                             "Соответствие");
+
+	 global $status_text;
+	 $status_text = array(
+		 "test_created"         	=> "Тест был успешно создан",
+		 "test_exist"           	=> "В текущей категории уже существует тест с таким именем!",
+		 "test_renamed"         	=> "Тест был успешно переименован",
+		 "test_off"             	=> "Тест был успешно выключен",
+		 "test_on"              	=> "Тест был успешно включен",
+		 "test_deleted"         	=> "Тест был успешно удален",
+		 "test_not_deleted"     	=> "При удалении теста произошла ошибка",
+		 "test_exported"        	=> "Тест был успешно экспортирован",
+		 "topic_exist"          	=> "В текущем тесте уже существует тема с таким именем!",
+		 "topic_added"          	=> "Тема была успешно добавлена",
+		 "topic_off"            	=> "Тема была успешно выключена",
+		 "topic_on"             	=> "Тема была успешно включена",
+		 "topic_renamed"        	=> "Тема была успешно переименована",
+		 "topic_deleted"        	=> "Тема была успешно удалена",
+		 "topic_not_deleted"    	=> "При удалении темы произошла ошибка",
+		 "topic_exported"       	=> "Тема была успешно экспортирована",
+		 "question_exist"       	=> "В текущей теме уже существует такой вопрос!",
+		 "question_added"       	=> "Вопрос успешно добавлен",
+		 "question_exported"    	=> "Вопрос был успешно экспортирован",
+		 "question_off"        	=> "Вопрос был успешно выключен",
+		 "question_on"          	=> "Вопрос был успешно включен",
+		 "question_edited"      	=> "Вопрос был успешно изменен",
+		 		 "q_off_sam_emp"      	=> "Вопрос был изменен. Внимание! Вопрос был выключен. Один или несколько из ответов содержит пустой пример!",
+		 "q_off_no_true"      	=> "Вопрос был изменен. Внимание! Вопрос был выключен. Нет правильного варианта ответа!",
+		 "q_off_true2"      		=> "Вопрос был изменен. Внимание! Вопрос был выключен. Слишком много правильных ответов!",
+		 "q_off_pecenter1"  		=> "Вопрос был изменен. Внимание! Вопрос был выключен. Сумма процентов правильности неправильных вариантов ответа должна быть неболее 100.",
+	  	 "q_off_pecenter3"  		=> "Вопрос был изменен. Внимание! Вопрос был выключен. Сумма процентов правильности правильных вариантов ответа должна быть равна 100.",
+		 "q_off_pecenter4"  		=> "Вопрос был изменен. Внимание! Вопрос был выключен. Сумма процентов правильности правильных равна 100, но присутствуют ответы с нулевыми процентами.",
+
+		 "question_deleted"     	=> "Вопрос был успешно удален",
+		 "question_not_deleted" 	=> "При удалении вопроса произошла ошибка",
+		 "answer_exist"         	=> "Текущий вопрос уже содержит такой вариант ответа!",
+		 "answer_added"         	=> "Вариант ответа был добавлен",
+		 "answer_add_zero"         	=> "Вариант ответа был добавлен. Внимание! Процент правильности установлен в 0",
+		 "answer_add_question_off1" => "Вариант ответа был добавлен. Внимание! Вопрос был выключен. Сумма процентов правильности неправильных вариантов ответа должна быть неболее 100.",
+		 "answer_add_question_off3" => "Вариант ответа был добавлен. Внимание! Вопрос был выключен. Сумма процентов правильности правильных вариантов ответа должна быть равна 100.",
+		 "answer_add_question_off4"   => "Вариант ответа был добавлен. Внимание! Вопрос был выключен. Сумма процентов правильности правильных равна 100, но присутствуют ответы с нулевыми процентами.",
+		 "answer_edited"        	=> "Вариант ответа был изменен",
+		 "zero_percent"                 => "Вариант ответа был изменен. Внимание! Процент правильности установлен в 0",
+		 "answer_deleted"       	=> "Вариант ответа был удален",
+		 "answer_not_deleted"   	=> "При удалении варианта ответа возникла ошибка",
+		 "true_exist"				=> "Текущий вопрос уже содержит правильный вариант ответа!",
+		 "sample_empty"				=> "Текст примера пуст!",
+		 "op_not_permitted"				=> "Для данной операции не хватает привилегий!",
+		 "no_true_answer"			=> "Вопрос не был включен. Нет ниодного правильного варианта ответа или ответы отсутсвуют!",
+		 "answer_ed_question_off"   => "Вариант ответа был изменен. Внимание! Вопрос был выключен из-за отсутствия в нем правильного варианта ответа.",
+		 "answer_ed_question_off1"   => "Вариант ответа был изменен. Внимание! Вопрос был выключен. Сумма процентов правильности неправильных вариантов ответа должна быть неболее 100.",
+		 "answer_ed_question_off3"   => "Вариант ответа был изменен. Внимание! Вопрос был выключен. Сумма процентов правильности правильных вариантов ответа должна быть равна 100.",
+		 "answer_ed_question_off4"   => "Вариант ответа был изменен. Внимание! Вопрос был выключен. Сумма процентов правильности правильных равна 100, но присутствуют ответы с нулевыми процентами.",
+		 "ans_del_ques_off"   		=> "Вариант ответа был удален. Внимание! Вопрос был выключен из-за отсутствия в нем правильного варианта ответа.",
+		 "ans_ndel_ques_off"   		=> "При удалении варианта ответа возникла ошибка. Внимание! Вопрос был выключен из-за отсутствия в нем правильного варианта ответа.",
+		 "switch_errno1"   			=> "Вопрос не был включен.Сумма процентов правильности неправильных вариантов ответа должна быть неболее 100.",
+		 "switch_errno3"   			=> "Вопрос не был включен.Сумма процентов правильности правильных вариантов ответа должна быть равна 100.",
+		 "switch_errno4"		=> "Вопрос не был включен.Сумма правильности правильных вариантов ответа равна 100, но присутствуют ответы с нулевыми процентами.",
+		 "to_many_true"		=> "Вопрос не был включен.Слишком много правильных вариантов ответа.",
+		 "some_sam_empty"		=> "Вопрос не был включен.Один или несколько вариантов ответа пусты.",
+		 
+		 "text_clone"		=> "Такой текст ответа уже есть!",
+		 "sample_clone"		=> "Такой эталон уже есть!"
+		 
+		 
+		 );
+
+
+	global $on_off;
+	$on_off = array(
+		"menu" => array(
+					"test"     => array(_MENU_OFF_TEST,_MENU_ON_TEST),
+					"topic"	   => array(_MENU_OFF_TOPIC,_MENU_ON_TOPIC),
+					"question" => array(_MENU_OFF_QUESTION,_MENU_ON_QUESTION)
+				  ),
+		"action" => array("off","on"),
+		"status" => array(
+					"test"     => array("test_off","test_on"),
+					"topic"    => array("topic_off","topic_on")					
+				    ));
+
+
+
+//---- auth menu
+     define("_MENU6","Авторизация");
+     define("_MENU7","Ваш логин");
+     define("_MENU8","Пароль");
+     define("_MENU9","Войти");
+
+
+     define("_MENU10","Забыли ваш пароль?");
+     define("_MENU11","Зарегистрироваться");
+//----
+
+
+ define("_CATEGORY_IMPORT_FORMATS","Доступные форматы");
+ define("_CATEGORY_IMPORT_OPTIONS","Опции");
+ define("_CATEGORY_IMPORT_OPTION1","Только просмотр");
+ define("_CATEGORY_IMPORT_OPTION2","Запись в базу");
+define("_CATEGORY_IMPORT_OPTION3","Отображать импортированные данные");
+define("_CATEGORY_EXPORT_TEXT","Укажите опции экспортирования"); 
+define("_CATEGORY_EXPORT_HEADER","<img src='themes/opentest2/images/icons/trinux-sb_r6_c18.gif' align=absmiddle> Экспортирование теста"); 
+define("_CATEGORY_EXPORT_OPTION1","Не экспортировать выключенные темы и воросы");
+
+define("_ANSWER_TEXT","Текст");
+define("_ANSWER_MODEL","Эталон");
+
+
+define("_ERROR_IN_REGEXP","Ошибка в регулярном выражении");
+define("_SUBMIT_CHECK","Проверить ответ");
+define("_CHECK_REGEXP","Проверка регулярного выражения");
+define("_YOUR_REGURAL_EXPRESSION","Ваше регулярное выражение");
+define("_ANSWER","ответ");
+define("_DONOTMATCH","не удовлетворяет условиям");
+define("_MATCH","удовлетворяет условиям");
+define("_USE_REGURAL_EXPRESSION_WIZARD","Регулярное выражение (режим Мастера)");
+define("_USE_REGURAL_EXPRESSION_EXPERT","Регулярное выражение (режим Эксперта)");
+
+
+
+define("_DONT_FORGET_ADD_ANSWERS_WARNING","Не забудьте вставить ответы в текст вопроса с помощью кнопки <img align=absmiddle src='modules/FCKeditor/editor/plugins/answers/answers.gif'> на панели инструментов редактора");
+define("_TOPIC_COPY_HEADER","Копирование темы");
+define("_MENU_COPY_TOPIC","Скопировать тему");
+
+?>

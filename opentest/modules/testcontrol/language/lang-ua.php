@@ -1,0 +1,164 @@
+<?php
+    /************************************************************************/
+    /* OpenTEST System: The System Of Computer Testing Knowleges            */
+    /* ============================================                         */
+    /*                                                                      */
+    /* Copyright (c) 2002-2005 by OpenTEST Team                             */
+    /* http://opentest.com.ua                                               */
+    /* e-mail: opentest@opentest.com.ua                                     */
+    /*                                                                      */
+    /************************************************************************/
+    /* 11/01/2005 08:00:00                                                  */
+	/************************************************************************/
+    
+	if (INDEXPHP!=1)
+		die ("You can't access this file directly...");
+
+	define("_SELECTION_TEST",	 		  "Тест");
+	define("_SELECTION_GROUP",			  "Група");
+	define("_SELECTION_MODE",	 		  "Режим");
+	define("_SELECTION_UPDATE_TIME",	  "Час оновлення");
+	define("_SELECTION_SECOND",	 		  "сек");
+
+	define("_NUMBER",					 "№");
+	define("_STATUS",					 "Статус");
+	define("_WAITING", 					 "Чекаючі");
+	define("_TESTING", 		  			 "Які тестуються");
+	define("_NAME",				 		 "П.І.Б.");
+	define("_NUM_TRY",			 		 "Кількість спроб");
+	define("_NUM_QUESTIONS",	 		 "Кількість запитань");
+	define("_TEST_TIME",		 		 "Час на тест");
+	define("_ALL",						 "Всі");
+	define("_MONITORING",		  		 "Моніторинг");
+	define("_EDITING",		  			 "Редагування");
+	define("_NEW_TEST", 				 "Вибрати новий тест");
+	define("_NEW_GROUP", 		 		 "Вибрати нову групу");
+	define("_START_TYPE", 		 		 "Тип старту");
+	define("_PASSWORD", 		 		 "Змінити пароль на тест");
+
+	define("_PASSWORD_HEADER", 		 	 "Зміна пароля на тест");
+	define("_PASSWORD_NEW_PASS", 		 "Новий пароль");
+	define("_PASSWORD_CONFIRMATION", 	 "Підтвердження");
+	define("_PASSWORD_CHANGE", 	 		 "Змінити");
+	define("_PASSWORD_CANCEL", 	 		 "Відміна");
+    define("_PASSWORD_DELETE",           "Вилучити");
+
+
+	define("_EDITING_SAVE",		 		  "Зберегти");
+	define("_EDITING_DELETE",		 	  "Вилучити");
+
+	define("_EDITING_MIN",                "хв");
+	define("_EDITING_ADD",		 		  "Збільшити");
+	define("_EDITING_SUB",		 		  "Зменшити");
+	define("_EDITING_GROUP_NO_USERS", 	  "У даній групі немає жодного користувача!");
+	define("_EDITING_CHOOSE", 	  		  "Для редагування допуску виберіть тест та групу");
+
+	define("_MONITORING_TIME_LEFT",		  "Час пройшло/залишилося");
+	define("_MONITORING_IP",		  	  "IP-адреса");
+	define("_MONITORING_ACTION",		  "Дія");
+	define("_MONITORING_NO_USERS",		  "Немає жодного допущеного користувача");
+	define("_MONITORING_START_ALL",		  "Почати всім чекаючим");
+	define("_MONITORING_STOP_ALL",		  "Перервати всім, хто тестується");
+	define("_MONITORING_START",			  "Почати тестування");
+	define("_MONITORING_STOP",		  	  "Перервати тестування");
+	define("_MONITORING_ABORT",		  	  "Відмінити старт");
+	define("_MONITORING_EXT_STATUS",  	  "Розширений статус");
+	define("_MONITORING_TEST_STATE",	  "Стан тесту");
+	define("_MONITORING_NO_RESULT",	  	  " приховати результати від інших викладачів");
+	define("_MONITORING_NO_WAITING",	  "У даний момент немає чекаючих користувачів");
+	define("_MONITORING_NO_TESTING",	  "У даний момент немає користувачів, які тестуються");
+
+	define("_TCATEGORY_VIEW",			"Переглянути тести в цій категорії");
+	define("_TCATEGORY_CHOOSE_HEADER",	 	"Вибір категорії тестів");
+	define("_TCATEGORY_NO_CATEGORY",	 	"У базі даних немає жодної категорії тестів!");
+	define("_TCATEGORY_NO_C_KEYWORD",	 	"У базі даних немає жодної категорії тестів, яка містить ключове слово!");
+	define("_TCATEGORY_NO_C_LETTER",	 	"У базі даних немає жодної категорії тестів, яка починається з вказаної букви!");
+	define("_TCATEGORY_CHOOSE_CATEGORY", 	"Виберіть категорію, де знаходиться тест, який необхідно вибрати");
+
+	define("_GCATEGORY_VIEW",		 	"Переглянути групи в цій категорії");
+	define("_GCATEGORY_CHOOSE_HEADER",	 	"Вибір категорії користувачів");
+	define("_GCATEGORY_NO_CATEGORY",	 	"У базі даних немає жодної категорії користувачів!");
+	define("_GCATEGORY_NO_C_KEYWORD",	 	"У базі даних немає жодної категорії користувачів, яка містить ключове слово!");
+	define("_GCATEGORY_NO_C_LETTER",	 	"У базі даних немає жодної категорії користувачів, яка починається з вказаної букви!");
+	define("_GCATEGORY_CHOOSE_CATEGORY", 	"Виберіть категорію, де знаходиться група, яку необхідно вибрати");
+
+	define("_TEST_CHOOSE_HEADER",		"Вибір тесту");
+	define("_TEST_CHOOSE_TEST",			"Вибрати цей тест");
+	define("_TEST_NO_TEST", 			"У даній категорії немає жодного включеного тесту, на який у вас є права!");
+	define("_TEST_NO_T_KEYWORD",		"У даній категорії немає жодного включеного тесту, який містить ключове слово!");
+	define("_TEST_NO_T_LETTER", 		"У даній категорії немає жодного включеного тесту, який починається з вказаної букви!");
+
+
+	define("_GROUP_CHOOSE_HEADER",		"Вибір групи");
+	define("_GROUP_CHOOSE_GROUP",		"Вибрати цю групу");
+	define("_GROUP_NO_GROUP", 			"У даній категорії немає жодної включеної групи!");
+	define("_GROUP_NO_G_KEYWORD",		"У даній категорії немає жодної включеної групи, яка містить ключове слово!");
+	define("_GROUP_NO_G_LETTER",		"У даній категорії немає жодної включеної групи, яка починається з вказаної букви!");
+
+	define("_MENU_RETURN_TO_EDIT",	 "Повернутися до редагування");
+	define("_MENU_LEAVE_CATEGORY",	 "Покинути поточну категорію");
+	define("_MENU_BASIC_MENU",	 	 "Меню основних модулів");
+	define("_MENU_RESULTS_ROOT",	 	 	"Початкове меню модулю");
+	define("_MENU_COMMON_TASKS", 	 "Загальні задачі");
+	define("_MENU_AUTHORIZATION",	 "Авторизація");
+	define("_MENU_GROUP",		 	 "Група");
+	define("_MENU_USER",		 	 "Користувач");
+	define("_MENU_EXIT",		 	 "Вихід");
+	define("_MENU_EDITING",		 	 "Режим редагування");
+	define("_MENU_MONITORING",		 "Режим моніторингу");
+
+	define("_ALL_GROUPS",		 "Усі групи");
+	define("_ALL_TESTS",		 "Усі тести");
+
+
+	global $status_text;
+	$status_text = array(
+				   "access_one_saved" 	=> "Допуск для користувача збережений",				
+				   "access_all_saved" 	=> "Допуск для усіх користувачів збережений",
+				   "access_one_deleted" => "Допуск для користувача видалений",
+				   "access_all_deleted" 	=> "Допуск для всіх користувачів видалений",
+				   "too_many_questions" => "У тесті включених запитань менше, ніж потрібно",
+				   "one_zero"		=> "Допуск не збережений!Один з параметрів допуску дорівнює нулю",
+				   "one_test_started"	=> "Користувач отримав старт",
+				   "user_dropped"		=> "Користувачеві був перерваний тест",
+				   "test_started"		=> "Користувачеві був даний старт",
+				   "test_not_started"	=> "Тестування не розпочалося! Немає чекаючих користувачів",
+				   "group_dropped"		=> "Групі був перерваний тест тесту",
+				   "one_start_stoped"	=> "Старт тесту скасований",
+				   "test_not_stoped"	=> "Немає користувачів, які тестуються в даний момент ",
+				   "pass_mismatch"		=> "Пароль не був змінений! Підтвердження не відповідає паролю!",
+				   "pass_chanched"		=> "Пароль був скасований",
+                   		   "pass_deleted"       => "Пароль був вилучений",
+				   "op_permited"	=> "Для виконання операції немає привілеїв");
+
+	global $start_status;
+	$start_status = array(array("offline","Відключений"),
+						  array("waiting","Чекає"),
+						  array("get_start","Отримав старт"),
+						  array("testing","Тестується"));
+
+	global $extended_status;
+	$extended_status = array("",					//0
+							 "Не дочекався старту",	//1
+							 "Не прийняв старту",		//2
+							 "Закінчилася авторизація",	//3
+							 "Тест завершений"		//4
+							 );
+
+	global $test_state;
+	$test_state = array("",											//0
+						"Активний",									//1
+						"Завершений примусово користувачем",		//2
+						"Перерваний примусово викладачем",		//3
+						"Перерваний примусово автоматично",		//4
+						"Завершений таймером",						//5
+                        "Помилка авторизації",						//6
+                        "Вхід до простроченого тесту"					//7
+                        );
+
+	global $type_of_start;
+	$type_of_start = array(	"За допомогою викладача",	//0
+							"Введення пароля",				//1
+							"Обидва варіанти"				//2
+							);		
+?>

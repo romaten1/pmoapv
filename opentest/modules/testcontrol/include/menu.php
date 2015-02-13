@@ -1,0 +1,165 @@
+<?php
+if (INDEXPHP!=1) die ("You can't access this file directly...");
+	
+global $test_id, $new_test_id, $group_id, $new_group_id, $status_code, $status_num, $test_category_id, $group_category_id;
+
+    // Получение переменых из суперглобальных массивов
+	if(isset($_REQUEST['page']))
+		$page = $_REQUEST['page'];
+	else $page = "";
+
+        if(isset($_REQUEST['test_category_id']))
+                $test_category_id = intval($_REQUEST['test_category_id']);
+        else $test_category_id = 0;
+
+        if(isset($_REQUEST['group_category_id']))
+                $group_category_id = intval($_REQUEST['group_category_id']);
+        else $group_category_id = 0;
+
+	if(isset($_REQUEST['test_id']))
+		$test_id = intval($_REQUEST['test_id']);
+	else $test_id = 0;
+
+	if(isset($_REQUEST['group_id']))
+		$group_id = intval($_REQUEST['group_id']);
+	else $group_id = 0;
+
+	if(isset($_REQUEST['status']))
+		$status = $_REQUEST['status'];
+	else $status = "all";
+
+	if(isset($_REQUEST['update_time']))
+		$update_time = intval($_REQUEST['update_time']);
+	else $update_time = 1;
+
+	if(isset($_REQUEST['new_test_id']))
+		$new_test_id = intval($_REQUEST['new_test_id']);
+	else $new_test_id = -1;
+
+	if(isset($_REQUEST['new_group_id']))
+		$new_group_id = intval($_REQUEST['new_group_id']);
+	else $new_group_id = -1;
+	
+	
+	// проверка прав на выбранный тест
+        if($test_id>0 || $new_test_id>0)
+        {
+                extract(sql_single_query("SELECT test_category_id
+                                 FROM tests
+                                 WHERE test_id='".($new_test_id>0?$new_test_id:$test_id)."'"),EXTR_OVERWRITE);
+
+                //echo "$test_category_id $test_id $new_test_id";
+
+
+         	if(!is_allow(12,$test_category_id,$new_test_id,1) && $new_test_id>0)
+  	        {
+  		        $status_code = 0;
+  		        $status_num = "op_permited";
+         	}
+         	elseif($new_test_id!=-1)
+  		$test_id = $new_test_id;
+
+        	elseif(!is_allow(12,$test_category_id,$test_id,1) && $test_id>0)
+        	{
+        		$test_id = 0;
+        		$status_code = 0;
+        		$status_num = "op_permited";
+        	}
+        }		
+
+	// проверка прав на выбранную группу
+        if($group_id>0 || $new_group_id>0)
+        {
+                extract(sql_single_query("SELECT group_category_id
+                                 FROM groups
+                                 WHERE group_id='".($new_group_id>0?$new_group_id:$group_id)."'"),EXTR_OVERWRITE);
+
+	 	if(!is_allow(14,$group_category_id,$new_group_id,1) && $new_group_id>0)
+	        {
+                        $status_code = 0;
+		        $status_num = "op_permited";
+	        }
+	        elseif($new_group_id!=-1)
+                {
+		        $group_id = $new_group_id;
+                }
+	        elseif(!is_allow(14,$group_category_id,$group_id,1) && $group_id>0)
+	        {
+		        $group_id = 0;
+		        $status_code = 0;
+		        $status_num = "op_permited";
+	        }
+        }	
+
+	//меню общие задачи
+	$content = "<a href='index.php'>
+	<img  class='img_icon' src='themes/opentest2/images/icons/trinux-sb_r8_c18.gif' align=absmiddle> "._MENU_BASIC_MENU."</a><br>
+	<a href='index.php?module=".$module."'>
+	<img  class='img_icon' src='themes/opentest2/images/icons/trinux-sb_r6_c4.gif' align=absmiddle> "._MENU_RESULTS_ROOT."</a><br>";
+	
+	
+	themeleftbox(_MENU_COMMON_TASKS, $content,"",false);
+	
+	$select_test = "<a href='index.php?module=".$module."&page=t_category&test_id=".$test_id."&group_id=".$group_id."'><img  class='img_icon' src='themes/opentest2/images/icons/trinux-sb_r8_c16.gif' align=absmiddle> "._NEW_TEST."</a><br>";
+	$select_group = "<a href='index.php?module=".$module."&page=g_category&test_id=".$test_id."&group_id=".$group_id."'><img  class='img_icon' src='themes/opentest2/images/icons/trinux-sb_r14_c6.gif' align=absmiddle> "._NEW_GROUP."</a><br>";
+	$monitoring = "<a href='index.php?module=".$module."&page=monitoring&test_id=".$test_id."&group_id=".$group_id."'><img  class='img_icon' src='themes/opentest2/images/icons/trinux-sb_r10_c12.gif' align=absmiddle> "._MONITORING."</a><br>";
+	$return_edit = "<a href='index.php?module=".$module."&page=editing&test_id=".$test_id."&group_id=".$group_id."'><img  class='img_icon' src='themes/opentest2/images/icons/trinux-sb_r2_c6.gif' align=absmiddle> "._MENU_RETURN_TO_EDIT."</a><br>";
+	
+	if($test_id==0||$group_id==0)
+		$password='';
+	else
+		$password = "<a href='index.php?module=".$module."&page=password&test_id=".$test_id."&group_id=".$group_id."'><img  class='img_icon' src='themes/opentest2/images/icons/trinux-sb_r6_c6.gif' align=absmiddle> "._PASSWORD."</a><br>";
+	
+	// В зависимости от значения $page - выводим различную информацию
+	switch($page)
+	{	  case "monitoring":
+		   // меню для режима мониторинга
+		   $content = ($status!='all'?"<a href='index.php?module=".$module."&page=monitoring&status=all&test_id=".$test_id."&group_id=".$group_id."&update_time=".$update_time."'><img  class='img_icon' src='themes/opentest2/images/icons/trinux-sb_r10_c14.gif' align=absmiddle> "._ALL."</a><br>":"").
+					  ($status!='waiting'?"<a href='index.php?module=".$module."&page=monitoring&status=waiting&test_id=".$test_id."&group_id=".$group_id."&update_time=".$update_time."'><img  class='img_icon' src='themes/opentest2/images/icons/trinux-sb_r14_c18.gif' align=absmiddle> "._WAITING."</a><br>":"").
+					  ($status!='testing'?"<a href='index.php?module=".$module."&page=monitoring&status=testing&test_id=".$test_id."&group_id=".$group_id."&update_time=".$update_time."'><img  class='img_icon' src='themes/opentest2/images/icons/trinux-sb_r6_c10.gif' align=absmiddle>"._TESTING."</a><br>":"").
+					  "<a href='index.php?module=".$module."&page=editing&test_id=".$test_id."&group_id=".$group_id."'><img  class='img_icon' src='themes/opentest2/images/icons/trinux-sb_r6_c6.gif' align=absmiddle> "._EDITING."</a><br>";
+		   themeleftbox(_MENU_MONITORING,$content,"",false);
+	  break;
+	
+	  case "t_category":
+		   // меню для выбора категории тестов
+		   $content = $return_edit.$select_group.$monitoring;
+		   themeleftbox(_MENU_EDITING,$content,"",false);
+	  break;
+	
+	  case "g_category":
+		    // меню для выбора категории групп
+		   $content = $select_test.$return_edit.$monitoring;
+		   themeleftbox(_MENU_EDITING,$content,"",false);
+	  break;
+	
+	  case "test":
+		   // меню для выбора теста
+		   $content = "<a href='index.php?module=".$module."&page=t_category&test_id=".$test_id."&group_id=".$group_id."'><img  class='img_icon' src='themes/opentest2/images/icons/trinux-sb_r2_c6.gif' align=absmiddle> "._MENU_LEAVE_CATEGORY."</a><br>
+					  ".$return_edit.$select_group.$monitoring;
+		   themeleftbox(_MENU_EDITING,$content,"",false);
+	  break;
+	
+	  case "group":
+		   // меню для выбора групп
+		   $content = "<a href='index.php?module=".$module."&page=g_category&test_id=".$test_id."&group_id=".$group_id."'><img  class='img_icon' src='themes/opentest2/images/icons/trinux-sb_r2_c6.gif' align=absmiddle> "._MENU_LEAVE_CATEGORY."</a><br>
+					  ".$select_test.$return_edit.$monitoring;
+		   themeleftbox(_MENU_EDITING,$content,"",false);
+	  break;
+	
+	  case "password":
+		   // меню для выбора групп
+		   $content = $select_test.$select_group.$return_edit.$monitoring;
+		   themeleftbox(_MENU_EDITING,$content,"",false);
+	  break;
+	
+	  case "editing":
+	  default:
+		   // меню для режима редактирования
+		   $content = $select_test.$select_group.$password.$monitoring;
+		   themeleftbox(_MENU_EDITING,$content,"",false);
+	  break;
+	}	 
+	// меню авторизация
+	themeleftbox(_MENU_AUTHORIZATION, "","",false);
+	include("modules/auth/auth_menu_form.php");

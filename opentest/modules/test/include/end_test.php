@@ -1,0 +1,529 @@
+<?php
+/************************************************************************/
+/* OpenTEST 2                                                           */
+/* ============================================                         */
+/*                                                                      */
+/* Copyright (c) 2002-2013 by OpenTEST Team                             */
+/* http://opentest.com.ua                                               */
+/* e-mail: nserv@opentest.com.ua                                        */
+/*                                                                      */
+/************************************************************************/
+
+if (INDEXPHP!=1) {die ("You can't access this file directly...");}
+if (TESTTEST!=1) {die ("You can't access this file directly...");}
+
+if(!isset($_REQUEST['test_password']))
+$test_password=""; else $test_password=$_REQUEST['test_password'];
+if(!isset($_REQUEST['send_test_id']))
+$send_test_id=""; else $send_test_id=$_REQUEST['send_test_id'];
+if(($send_test_id != $test_id) and $timer != "2" ) {echo "Run from cache!! STOP!";exit();}
+
+// Установка статуса = 0 (оффлан), последнего_статуса = 3 (тестирование), last_end_test_status = 5 (завершен таймером) или = 2 (завершен студентом по ссылке)
+if($timer=="1")	$last_end_test_status = 5;
+if($timer=="2")	$last_end_test_status = 7;
+else $last_end_test_status = 2;
+$query = "UPDATE test_access
+			SET last_status=start_status, start_status='0', status_date=NOW(),  user_ip =
+			'$_SERVER[REMOTE_ADDR]', last_end_test_status='$last_end_test_status'
+			WHERE test_id='$test_id' and user_id='$user_id' and group_id='$group_id' and
+			teacher_id='$teacher_id'
+			";
+sql_query($query);
+
+
+$query = "SELECT session_id
+		FROM sessions
+		WHERE user_id='$user_id' and test_id='$test_id' and group_id='$group_id' and teacher_id='$teacher_id'
+		";
+$row=sql_single_query($query);
+$session_id=$row['session_id'];
+
+//proverka na dvoynoy zapusk
+$query = "SELECT user_id
+		FROM results
+		WHERE user_id='$session_id' and test_id=0
+		";
+$result=sql_query($query);
+if(mysql_num_rows($result) >=1) {echo "Re-run 'end test'! Stop!"; exit();}
+// Делаем пустую запись в results чтобы получить result_id
+$query = "INSERT INTO results
+				(user_id)
+				VALUES ('$session_id')
+			 ";
+sql_query($query);
+$result_id = mysql_insert_id($mysql_handler);
+
+// Получаем кол-во вопросов на тест, продолжительность сеанса тестирования на данный момент
+$query = "SELECT num_questions, start_test_time
+		FROM sessions
+		WHERE user_id='$user_id' and test_id='$test_id' and group_id='$group_id' and teacher_id='$teacher_id'
+		";
+$row=sql_single_query($query);
+$num_questions=$row['num_questions'];
+$start_test_time=$row['start_test_time'];
+$time_of_test = (( time() - strtotime($start_test_time)  ));
+
+// Получаем имя пользователя
+$query = "SELECT user_name
+		FROM users
+		WHERE user_id='$user_id'
+		";
+$row=sql_single_query($query);
+$user_name=$row['user_name'];
+
+// Получаем имя теста
+$query = "SELECT test_name
+		FROM tests
+		WHERE test_id='$test_id'
+		";
+$row=sql_single_query($query);
+$test_name=$row['test_name'];
+
+// Начальные значения переменных
+$total_percent = 0;
+$total_alternative = 0;
+$total_unit_difficulty = 0;
+$session_unit_difficulty = 0;
+$total_unit=0;
+
+
+// Вычисление итоговой оценки
+// Начальное значение счётчиков
+$total_unit_factor = 0;
+$session_unit_difficulty = 0;
+$session_true_answers = 0;
+$total_selected_true_answers = 0;
+$num_true_answers = 0;
+$total_simple_unit = 0;
+
+$query = "SELECT prepared_question_id,topic_id,question_id,question_type,question_difficulty
+FROM prepared_questions
+WHERE test_id='$test_id' and user_id='$user_id' and teacher_id='$teacher_id'
+";
+$result = sql_query($query);
+while ($row = mysql_fetch_array ($result))
+{
+	$prepared_question_id=$row['prepared_question_id'];
+	$question_type=$row['question_type'];
+	$topic_id=$row['topic_id'];
+	$question_id=$row['question_id'];
+	$question_difficulty=$row['question_difficulty'];
+	//========================================================================================
+	if($question_type=='1')
+	{
+		$unit = 0; $alternative = 0; $simple_unit = 0;
+		$query = "SELECT selected, answer_true, true_percent
+				FROM prepared_answers
+				WHERE prepared_question_id='$prepared_question_id'
+				";
+		$result2 = sql_query($query);
+		$num_answers=mysql_num_rows($result2);
+		$num_true_answers = 0;
+		$num_selected_true_answers = 0;
+		$selected_true_percent = 0;
+		$selected_false_percent = 0;
+		$stop = 0;
+
+		while ($row2 = mysql_fetch_array($result2))
+		{
+			if( $row2['answer_true']==1 )
+			{
+				$num_true_answers++;
+				if( $row2['selected']==1 and $stop==0)
+				{
+					$selected_true_percent = $selected_true_percent + $row2['true_percent'];
+					$num_selected_true_answers++;
+				}
+			}
+
+			if( $row2['answer_true']==0 and $row2['selected']==1 )
+			{
+				$num_selected_true_answers=0;
+				$selected_true_percent = 0;
+				$stop=1;
+				$selected_false_percent = $selected_false_percent + $row2['true_percent'];
+			}
+		}
+		$simple_unit = ($num_selected_true_answers/$num_true_answers);
+		if($selected_true_percent==0 and $selected_false_percent==0)
+		$unit = ($num_selected_true_answers/$num_true_answers);
+		else if($selected_false_percent > 0)
+		$unit = ($selected_false_percent/(-100));
+		else if($selected_true_percent > 0)
+		$unit = ($selected_true_percent/100);
+
+		$unit_difficulty = $unit * $question_difficulty;
+		$alternative = (1/$num_answers);
+		// Запись статистики по вопросу.
+		$query = "INSERT INTO history_testing (user_id,test_id,teacher_id,result_id,question_id,topic_id,
+						question_type,question_difficulty,unit,unit_difficulty)
+					VALUES ('$user_id','$test_id','$teacher_id','$result_id','$question_id','$topic_id',
+					'$question_type','$question_difficulty','$unit','$unit_difficulty')
+				";
+		sql_query($query);
+		$history_testing_id = mysql_insert_id();
+		// Запись статистики по выбранному варианту ответа.
+		$query = "SELECT answer_id,true_percent,answer_true
+		FROM prepared_answers
+		WHERE prepared_question_id='$prepared_question_id' and selected='1'
+		";
+		$result3 = sql_query($query);
+		while ($row3 = mysql_fetch_array ($result3))
+		{
+			$query = "INSERT INTO history_testing_answers (history_testing_id,answer_id,true_percent,answer_true)
+							VALUES ('$history_testing_id','$row3[answer_id]','$row3[true_percent]','$row3[answer_true]')
+					";
+			sql_query($query);
+		}
+		$total_alternative = $total_alternative+$alternative * $question_difficulty;
+		$total_unit_difficulty = $total_unit_difficulty+$unit_difficulty;
+		$total_simple_unit = $total_simple_unit + $simple_unit;
+	}
+	if($question_type=='2')
+	{
+		$unit = 0; $alternative = 0; $simple_unit = 0;
+		$query = "SELECT selected, answer_true, true_percent
+				FROM prepared_answers
+				WHERE prepared_question_id='$prepared_question_id'
+				";
+		$result2 = sql_query($query);
+
+		$num_answers=mysql_num_rows($result2);
+		$num_true_answers = 0;
+		$num_selected_true_answers = 0;
+		$selected_true_percent = 0;
+		$selected_false_percent = 0;
+		$stop = 0;
+		while ($row2 = mysql_fetch_array($result2))
+		{
+			if( $row2['answer_true']==1 )
+			{
+				$num_true_answers++;
+				if( $row2['selected']==1 and $stop==0)
+				{
+					$selected_true_percent = $selected_true_percent + $row2['true_percent'];
+					$num_selected_true_answers++;
+				}
+			}
+
+			if( $row2['answer_true']==0 and $row2['selected']==1 )
+			{
+				$num_selected_true_answers=0;
+				$selected_true_percent = 0;
+				$stop=1;
+				if( $row2['selected']==1)
+				{
+					$selected_false_percent = $selected_false_percent + $row2['true_percent'];
+				}
+			}
+		}
+		$simple_unit = ($num_selected_true_answers/$num_true_answers);
+		if($selected_true_percent==0 and $selected_false_percent==0)
+		$unit = ($num_selected_true_answers/$num_true_answers);
+		else if($selected_false_percent > 0)
+		$unit = ($selected_false_percent/(-100));
+		else if($selected_true_percent > 0)
+		$unit = ($selected_true_percent/100);
+
+		$unit_difficulty = $unit * $question_difficulty;
+		$alternative = exp(  ($num_true_answers - 1)*log(2)  ) / (exp($num_answers*log(2)) - 1) ;
+		// Запись статистики по вопросу.
+		$query = "INSERT INTO history_testing (user_id,test_id,teacher_id,result_id,question_id,topic_id,
+						question_type,question_difficulty,unit,unit_difficulty)
+					VALUES ('$user_id','$test_id','$teacher_id','$result_id','$question_id','$topic_id',
+					'$question_type','$question_difficulty','$unit','$unit_difficulty')
+				";
+		sql_query($query);
+		$history_testing_id = mysql_insert_id();
+		// Запись статистики по выбранному варианту ответа.
+		$query = "SELECT answer_id,true_percent,answer_true
+		FROM prepared_answers
+		WHERE prepared_question_id='$prepared_question_id' and selected='1'
+		";
+		$result3 = sql_query($query);
+		while ($row3 = mysql_fetch_array ($result3))
+		{
+			$query = "INSERT INTO history_testing_answers (history_testing_id,answer_id,true_percent,answer_true)
+							VALUES ('$history_testing_id','$row3[answer_id]','$row3[true_percent]','$row3[answer_true]')
+					";
+			sql_query($query);
+		}
+		$total_alternative = $total_alternative+$alternative * $question_difficulty;
+		$total_unit_difficulty = $total_unit_difficulty+$unit_difficulty;
+		$total_simple_unit = $total_simple_unit + $simple_unit;
+	}
+	if($question_type=='3')
+	{
+		$unit = 0; $alternative = 0; $simple_unit = 0;
+		$query = "SELECT answer_sample, selected_sample, true_percent, answer_true, answer_id
+				FROM prepared_answers
+				WHERE prepared_question_id='$prepared_question_id'
+				";
+		$result2 = sql_query($query);
+
+		$num_answers=mysql_num_rows($result2);
+		$num_true_answers = 0;
+		$num_selected_true_answers = 0;
+		$selected_true_percent = 0;
+		$selected_false_percent = 0;
+		$stop = 0;
+		while ($row2 = mysql_fetch_array($result2))
+		{
+
+			$f_answer_check=mysql_fetch_array(sql_query("select * from answers where answer_id='".$row2['answer_id']."' "));
+			$num_true_answers++;
+
+			// check for regexp
+			if ($f_answer_check['use_regexp'])
+				{
+				@$res_check=preg_match($f_answer_check['answer_sample'],$row2['selected_sample']);
+				if($res_check)
+					{
+					$num_selected_true_answers++;
+					}
+
+				}
+			else
+				{
+				if( $row2['answer_sample'] == $row2['selected_sample'] )
+					{
+					$num_selected_true_answers++;
+					}
+
+				}
+
+
+
+		}
+		$simple_unit = ($num_selected_true_answers/$num_true_answers);
+		$unit = ($num_selected_true_answers/$num_true_answers);
+
+		$unit_difficulty = $unit * $question_difficulty;
+		$alternative = 0.000001;
+		// Запись статистики по вопросу.
+		$query = "INSERT INTO history_testing (user_id,test_id,teacher_id,result_id,question_id,topic_id,
+						question_type,question_difficulty,unit,unit_difficulty)
+					VALUES ('$user_id','$test_id','$teacher_id','$result_id','$question_id','$topic_id',
+					'$question_type','$question_difficulty','$unit','$unit_difficulty')
+				";
+		sql_query($query);
+		$history_testing_id = mysql_insert_id();
+		// Запись статистики по выбранному варианту ответа.
+		$query = "SELECT answer_id,true_percent,answer_true,selected_sample
+		FROM prepared_answers
+		WHERE prepared_question_id='$prepared_question_id' and selected_sample != ''
+		";
+		$result3 = sql_query($query);
+		while ($row3 = mysql_fetch_array ($result3))
+		{
+			$row3['selected_sample'] = mysql_real_escape_string($row3['selected_sample']);
+			$query = "INSERT INTO history_testing_answers (history_testing_id,answer_id,true_percent,answer_true,selected_sample)
+			VALUES ('$history_testing_id','$row3[answer_id]','$row3[true_percent]','$row3[answer_true]','$row3[selected_sample]')
+			";
+			sql_query($query);
+		}
+		$total_alternative = $total_alternative+$alternative * $question_difficulty;
+		$total_unit_difficulty = $total_unit_difficulty+$unit_difficulty;
+		$total_simple_unit = $total_simple_unit + $simple_unit;
+	}
+
+	if($question_type=='4')
+	{
+		$unit = 0; $alternative = 0; $simple_unit = 0;
+		$query = "SELECT answer_sample, selected_sample, true_percent, answer_true
+				FROM prepared_answers
+				WHERE prepared_question_id='$prepared_question_id'
+				";
+		$result2 = sql_query($query);
+
+		$num_answers=mysql_num_rows($result2);
+		$num_true_answers = 0;
+		$num_selected_true_answers = 0;
+		$selected_true_percent = 0;
+		$selected_false_percent = 0;
+		$stop = 0;
+		$n=0;$i=1;
+		while ($row2 = mysql_fetch_array($result2))
+		{
+			if( $row2['answer_true']==1 )
+			{
+				$num_true_answers++;
+				if( $row2['answer_sample'] == $row2['selected_sample'] and $stop==0)
+				{
+					$selected_true_percent = $selected_true_percent + $row2['true_percent'];
+					$num_selected_true_answers++;
+				}
+			}
+
+			if( $row2['answer_true']==0 and $row2['answer_sample'] == $row2['selected_sample'] )
+			{
+				$num_selected_true_answers=0;
+				$selected_true_percent = 0;
+				$stop=1;
+				$selected_false_percent = $selected_false_percent + $row2['true_percent'];
+			}
+			$i++;
+		}
+		$alternative= $alternative + (1 / ($num_answers * ($num_answers - 1)) ) ;
+		$simple_unit = ($num_selected_true_answers/$num_true_answers);
+		if($selected_true_percent==0 and $selected_false_percent==0)
+		$unit = ($num_selected_true_answers/$num_true_answers);
+		else if($selected_false_percent > 0)
+		$unit = ($selected_false_percent/(-100));
+		else if($selected_true_percent > 0)
+		$unit = ($selected_true_percent/100);
+
+		$unit_difficulty = $unit * $question_difficulty;
+
+		// Запись статистики по вопросу.
+		$query = "INSERT INTO history_testing (user_id,test_id,teacher_id,result_id,question_id,topic_id,
+						question_type,question_difficulty,unit,unit_difficulty)
+					VALUES ('$user_id','$test_id','$teacher_id','$result_id','$question_id','$topic_id',
+					'$question_type','$question_difficulty','$unit','$unit_difficulty')
+				";
+		sql_query($query);
+		$history_testing_id = mysql_insert_id();
+		// Запись статистики по выбранному варианту ответа.
+		$query = "SELECT answer_id,true_percent,answer_true,selected_sample
+		FROM prepared_answers
+		WHERE prepared_question_id='$prepared_question_id' and selected_sample != ''
+		";
+		$result3 = sql_query($query);
+		while ($row3 = mysql_fetch_array ($result3))
+		{
+			$row3['selected_sample'] = mysql_real_escape_string($row3['selected_sample']);
+			$query = "INSERT INTO history_testing_answers (history_testing_id,answer_id,true_percent,answer_true,selected_sample)
+			VALUES ('$history_testing_id','$row3[answer_id]','$row3[true_percent]','$row3[answer_true]','$row3[selected_sample]')
+			";
+			sql_query($query);
+		}
+		$total_alternative = $total_alternative+$alternative * $question_difficulty;
+		$total_unit_difficulty = $total_unit_difficulty+$unit_difficulty;
+		$total_simple_unit = $total_simple_unit + $simple_unit;
+	}
+	$session_true_answers = $session_true_answers + $num_true_answers;
+	$total_selected_true_answers = $total_selected_true_answers + $num_selected_true_answers;
+	$session_unit_difficulty = $session_unit_difficulty + $question_difficulty;
+}
+
+$total_simple_unit = round($total_simple_unit , 1);
+$percent_simple = round( 100 * $total_simple_unit/$num_questions);
+$total_unit_difficulty = round($total_unit_difficulty , 1);
+$percent = round( 100 * ( $total_unit_difficulty/$session_unit_difficulty ), 0 );
+
+if($percent < 0) $percent = 0;
+
+$average_alternative =  (1/$session_unit_difficulty) * $total_alternative;
+if($average_alternative==0) $average_alternative_print = "bezkonechno";
+else $average_alternative_print =  round(1/$average_alternative, 1);
+
+### Korekciya!!!!
+$percent_correct = (($percent * $average_alternative_print) - 100) / ( $average_alternative_print - 1 );
+$percent_correct = round( $percent_correct, 2);
+
+if ($percent_correct < 0) $percent_correct = 0; if ($percent_correct > 100) $percent_correct = 100;
+$percent = $percent_correct;
+### END Korekciya!!!!
+
+// Вычисление оценки по шкале оценивания.
+// Вычисление шкалы оценивания
+$d=5;
+$c[0]=0;
+
+	for($k=1;$k<=$d;$k++)
+	{
+		$c[$k]= round(( ($average_alternative)+(1 - $average_alternative)*($k-1)/($d-1) )*100);
+	}
+	$test_scale=_AUTO_SCALE;
+
+// КОНЕЦ Вычисление шкалы оценивания
+
+//Шкала OpenTEST
+$d=5;
+$c[0]=0;
+for($k=1;$k<=$d;$k++)
+{
+	if( ($c[$k-1] < $percent) and ( $percent <= $c[$k]) ) { $mark=$k;}
+}
+if($percent == $c[0]) $mark=1;
+
+//Шкала национальная
+
+if( ($percent >= 0) and ( 34 >= $percent) ) { $mark_national=2; $mark_ects="F";}
+if( ($percent > 34) and ( 59 >= $percent) ) { $mark_national=2; $mark_ects="FX";}
+if( ($percent > 59) and ( 65 >= $percent) ) { $mark_national=3; $mark_ects="E";}
+if( ($percent > 65) and ( 74 >= $percent) ) { $mark_national=3; $mark_ects="D";}
+if( ($percent > 74) and ( 89 >= $percent) ) { $mark_national=4; $mark_ects="C";}
+if( ($percent > 89) and ( 95 >= $percent) ) { $mark_national=5; $mark_ects="B";}
+if( ($percent > 95) and ( 100 >= $percent) ) { $mark_national=5; $mark_ects="A";}
+
+// Вывод результатов.
+
+if($mark==1) $mark_adv=_VERY_BAD;
+if($mark==2) $mark_adv=_BAD;
+if($mark==3) $mark_adv=_NORMAL;
+if($mark==4) $mark_adv=_GOOD;
+if($mark==5) $mark_adv=_EXCELLENT;
+
+// Вывод результатов
+
+echo"<tr align=center><td>";
+
+echo" <h3> "._TEST." ".$test_name."  <br> "._USER." ".$user_name."</h3>";
+echo" <br> "._ASK_QUESTION." = $num_questions";
+
+#echo" <br> "._PERCENT_CORECT_ANSWERS." = $percent_simple / $percent";
+#echo" <br> "._CORECT_ANSWERS." = $total_simple_unit "._OF." $num_questions";
+echo" <br> "._GET_BALLS." = $total_unit_difficulty "._OF." $session_unit_difficulty";
+/*echo" <br> "._AVARAGE_ALTERNATIVE." = ". $average_alternative_print;
+echo" <br> "._TIME_SPENT." = $time_of_test "._SEC."";
+echo" <br><h4>  "._TESTS_EVALUATION." ("._SCALE." ".$test_scale.")= $mark ($mark_adv) </h4>";
+echo" "._TESTS_EVALUATION." ("._SCALE." "._NATIONAL_STATIC.") = <b> $mark_national </b>";
+echo" <br> "._TESTS_EVALUATION." ("._SCALE." "._ECTS_STATIC.") = <b> $mark_ects </b>";
+*/
+echo "<br><br><br><a href='index.php'>"._BACK_TO_BEGIN."</a><br>";
+echo "<META HTTP-EQUIV=Refresh CONTENT='".$config['after_end_timeout']."; URL=index.php'>";
+
+
+// Запись итоговых результатов.
+$current_time = time();
+$query = "UPDATE results
+	SET user_id='$user_id', test_id='$test_id', group_id='$group_id', teacher_id='$teacher_id', mark='$mark', start_datetime='$start_test_time',  stop_datetime='".date("Y-m-d H:i:s",$current_time )."', time_of_test='$time_of_test', average_alternative='$average_alternative', percent='$percent', percent_simple='$percent_simple',
+	hide_result='$hide_result', total_unit='$total_unit_difficulty'
+	WHERE result_id='$result_id'
+";
+sql_query($query);
+
+// Вычитаем одну попытку.
+$query = "UPDATE test_access
+	SET num_try = (num_try - 1)
+	WHERE  user_id='$user_id' and test_id='$test_id' and group_id='$group_id' and teacher_id='$teacher_id'
+";
+sql_query($query);
+
+// Удаление временного теста.
+$query = "SELECT prepared_question_id
+		FROM prepared_questions
+		WHERE user_id='$user_id' and test_id='$test_id' and teacher_id='$teacher_id'
+";
+$result = sql_query($query);
+while ($row = mysql_fetch_array ($result))
+{
+	$query = "DELETE from prepared_answers
+			  WHERE  prepared_question_id='$row[prepared_question_id]'
+	";
+	sql_query($query);
+}
+
+$query = "DELETE from prepared_questions
+		  WHERE  test_id='$test_id' and user_id='$user_id' and teacher_id='$teacher_id'
+";
+sql_query($query);
+
+// Удаление  сессии.
+$query = "DELETE from sessions
+		  WHERE  user_id='$user_id' and test_id='$test_id' and group_id='$group_id' and teacher_id='$teacher_id'
+";
+sql_query($query);
+?>
+</td></tr>

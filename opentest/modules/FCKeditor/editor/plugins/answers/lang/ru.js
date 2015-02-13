@@ -1,0 +1,4 @@
+﻿FCKLang.AnswersBtn			= 'Вставить пропуск' ;
+FCKLang.AnswersDlgTitle		= 'Выбирите эталон' ;
+FCKLang.AnswersInsert		= 'Вставить' ;
+FCKLang.AnswersModel		= 'Эталон' ;

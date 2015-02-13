@@ -63,7 +63,8 @@ class News extends ActiveRecord
     {
         return [
             [['title', 'description', 'text'], 'required'],
-            [['description', 'text'], 'string', 'max' => 1000],
+            [['description'], 'string', 'max' => 1000],
+	        [['text'], 'string', 'max' => 50000],
             [['active'], 'integer'],
             [['title', 'image'], 'string', 'max' => 255],
             [['image'], 'file', 'extensions' => 'gif, jpg, jpeg, tiff, png'],

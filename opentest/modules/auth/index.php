@@ -1,0 +1,45 @@
+<?php
+if (INDEXPHP!=1) die ("You can't access this file directly...");
+
+@$op=$_REQUEST['op'];
+@include_once("modules/auth/language/lang-$currentlang.php");
+
+$cookie_opentest_user_id=$GLOBALS['config']['auth_cookie_opentest_user_id'];
+@$cur_cookie_opentest_user_id=$_COOKIE[$cookie_opentest_user_id];
+@$get_module=$_REQUEST['module'];
+
+if (	$module=='tests' or
+		$module=='users' or
+		$module=='statistics' or
+		$module=='testcontrol' or
+		$module=='results' or
+		$module=='admin' or
+		$module=='debug' or
+		($module=='main' and $op=="login") or
+		($module=='main' and $op!="login" and $cur_cookie_opentest_user_id!='')  or
+		$cur_cookie_opentest_user_id!=''
+	) {
+	$auth_result=authorize_user($_REQUEST);
+	// results are:
+	// $auth_result['authorized'] = false | true
+	// $auth_result['user'] = current user's database record (from table 'users')
+	if ((!$auth_result['authorized']) && ($module!=='test') ) {
+		$module="main";
+	}
+} else $auth_result['authorized']=false;
+
+function authorize_user($request_vars) {
+	global $_SERVER,$_COOKIE, $config;
+	@$auth_action=$request_vars['op'];
+	$current_user=false;
+	$current_group=false;
+	$current_group_category=false;
+	if ($auth_action=="login") require_once('modules/auth/include/identification.php');
+	elseif ($auth_action=="logout") require_once('modules/auth/include/logout.php');
+	else require_once ('modules/auth/include/authorization.php');
+	$return_array['authorized']=$identificated;
+	$return_array['user']=$current_user;
+	$return_array['group']=$current_group;
+	$return_array['group_category']=$current_group_category;
+	return ($return_array);
+}

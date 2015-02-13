@@ -1,0 +1,22 @@
+<?php
+if (INDEXPHP!=1) die ("You can't access this file directly...");
+
+if(!is_allow(5,0,5,1)){
+	echo "<META HTTP-EQUIV='Refresh' CONTENT='0; URL=index.php?status_code=0&status_num=op_not_permitted'>";
+	exit;
+};
+
+$page = test_page(@$_REQUEST['page']);
+
+get_lang($module);
+
+include_once("include/header.php");
+OpenTable();
+
+require_once("modules/tests/include/deleting.php");
+require_once("modules/tests/include/refs.php");
+require_once("modules/users/include/deleting.php");
+include_once("modules/$module/include/$page.php");
+
+CloseTable();
+include_once("include/footer.php");

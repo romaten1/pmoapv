@@ -1,0 +1,151 @@
+<?php
+if (INDEXPHP!=1) die ("You can't access this file directly...");
+
+    if(isset($_REQUEST['selector']))
+       $selector = $_REQUEST['selector'];
+    else
+       $selector = 'test_id';	
+       
+    $page_buf = "<tr><td>";
+	
+	
+    if($group_id<=0)
+    {
+		$result_test = sql_query("SELECT DISTINCT tests.test_id, tests.test_name, test_categories.test_category_name
+								  FROM recent_objects, tests, test_categories
+								  WHERE tests.test_id = recent_objects.object_id
+									AND recent_objects.object_code =0
+									AND test_categories.test_category_id = recent_objects.object_category_id
+									AND recent_objects.user_id = '".$teacher_id."'
+									ORDER BY last_used DESC");
+	}
+	else
+	{
+		$result_test = sql_query("SELECT DISTINCT tests.test_id, tests.test_name, test_categories.test_category_name
+								  FROM test_access, tests, test_categories
+								  WHERE tests.test_id = test_access.test_id
+								    AND test_access.group_id = '".$group_id."'
+								    AND test_categories.test_category_id = tests.test_category_id
+									AND test_access.teacher_id = '".$teacher_id."'");
+									
+		if(!mysql_num_rows($result_test))
+		{
+			$result_test = mysql_query("SELECT tests.test_id, tests.test_name, test_categories.test_category_name
+									 FROM tests, test_categories
+									 WHERE tests.test_id='".$test_id."'
+									 AND test_categories.test_category_id = tests.test_category_id") or die(mysql_error());
+		} 
+	}
+
+	if($test_id<=0)
+	{
+		$result_group = sql_query("SELECT DISTINCT groups.group_id, groups.group_name, group_categories.group_category_name
+								   FROM recent_objects, groups, group_categories
+								   WHERE groups.group_id = recent_objects.object_id
+									AND recent_objects.object_code =1
+									AND group_categories.group_category_id = recent_objects.object_category_id
+									AND recent_objects.user_id = '".$teacher_id."'
+									ORDER BY group_category_name, group_name");
+	}
+	else
+	{
+		$result_group = sql_query("SELECT DISTINCT groups.group_id, groups.group_name, group_categories.group_category_name
+								   FROM test_access, groups, group_categories
+								   WHERE groups.group_id = test_access.group_id
+								   	AND test_access.test_id = '$test_id'
+								   	AND group_categories.group_category_id = groups.group_category_id
+									AND test_access.teacher_id = '$teacher_id'
+									ORDER BY group_category_name, group_name");
+									
+		if(!mysql_num_rows($result_group))
+		{
+			$result_group = mysql_query("SELECT groups.group_id, groups.group_name, group_categories.group_category_name
+										FROM groups, group_categories
+										WHERE groups.group_id='".$group_id."'
+										AND group_categories.group_category_id = groups.group_category_id
+										ORDER BY group_category_name, group_name");
+		}
+	}
+
+	$page_buf .= "
+                  <script language='JavaScript'>
+//                   window.onload = function()
+//                   {
+//                    	document.selection.".$selector.".focus();
+//                   }
+                  </script>
+                  <form method=POST name='selection' action='index.php?module=".$module."&action=view_table'>
+          <input type='hidden' name='selector' value='test_id'>
+		  <table width=100% border=0>
+		   <tr align=center>";
+
+	if($page=='editing')
+		$page_buf .= "<td></td>";
+	else
+		$page_buf .= "<td>"._SELECTION_UPDATE_TIME."</td>";
+
+	$page_buf .= "<td width='70%'>"._SELECTION_TEST."</td>
+				  <td width='30%'>"._SELECTION_GROUP."</td>";
+
+	if($page=='editing')
+		$page_buf .= "<td></td>";
+	else $page_buf .= "<td>"._STATUS."</td>";
+
+	$page_buf.= "<td>"._SELECTION_MODE."</td>
+		   </tr>
+		   <tr align=center>";
+
+	if($page=='editing')
+		$page_buf .= "<td><a href='index.php?module=".$module."&page=t_category&test_id=".$test_id."&group_id=".$group_id."'>"._NEW_TEST."</a></td>";
+	else
+		$page_buf .= "<td><select name='update_time' onchange='document.selection.selector.value=\"update_time\";document.selection.submit();'>
+					   <option value=15 ".($update_time==15?"selected":"").">15 "._SELECTION_SECOND."</option>
+					   <option value=20 ".($update_time==20?"selected":"").">20 "._SELECTION_SECOND."</option>
+					   <option value=25 ".($update_time==25?"selected":"").">25 "._SELECTION_SECOND."</option>
+					   <option value=30 ".($update_time==30?"selected":"").">30 "._SELECTION_SECOND."</option>
+					  </select></td>";
+
+	$page_buf .= "<td><input name='test_id' type='hidden' value=".$test_id.">
+			 <select  name='new_test_id' onchange='document.selection.selector.value=\"new_test_id\";document.selection.submit();' style='width:100%;'>
+			  <option value=0>"._ALL_TESTS."</option>";
+
+	while($row = mysql_fetch_assoc($result_test))
+		$page_buf .=  "<option value=".$row['test_id']." ".($test_id==$row['test_id']?'selected':'').">".$row['test_category_name']."/".$row['test_name']."</option>";
+
+	$page_buf .= "</select>
+			</td>
+			<td><input name='group_id' type='hidden' value=".$group_id.">
+			 <select  name='new_group_id' onchange='document.selection.selector.value=\"new_group_id\";document.selection.submit();' style='width:100%;'>
+			  <option value=0>"._ALL_GROUPS."</option>";
+
+	while($row = mysql_fetch_assoc($result_group))
+		$page_buf .=  "<option value=".$row['group_id']." ".($group_id==$row['group_id']?'selected':'').">".$row['group_category_name']."/".$row['group_name']."</option>";
+
+	$page_buf .= "</select>
+			</td>";
+
+	if($page=='editing')
+		$page_buf .= "<td><a href='index.php?module=".$module."&page=g_category&test_id=".$test_id."&group_id=".$group_id."'>"._NEW_GROUP."</a></td>";
+	else
+		$page_buf .= "<td>
+					  <select name='status' onchange='document.selection.selector.value=\"status\";document.selection.submit();'>
+					  <option value='all' ".($status=='all'?'selected':'').">"._ALL."</option>
+					  <option value='waiting' ".($status=='waiting'?'selected':'').">"._WAITING."</option>
+					  <option value='testing' ".($status=='testing'?'selected':'').">"._TESTING."</option>
+					  </select>
+					  </td>";
+
+	$page_buf .= "<td>
+			 <select name='page' onchange='document.selection.selector.value=\"page\";document.selection.submit();'>
+			  <option value='editing' ";
+	if($page=="editing") $page_buf .=  "selected";
+	$page_buf .=  ">"._EDITING."</option>
+			  <option value='monitoring' ";
+	if($page=="monitoring") $page_buf .=  "selected";
+	$page_buf .= ">"._MONITORING."</option>
+			 </select>
+			</td>
+		   </tr>
+		  </table>
+		  </form>";
+?>

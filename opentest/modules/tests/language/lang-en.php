@@ -1,0 +1,394 @@
+<?php
+	 /************************************************************************/
+	 /* OpenTEST System: The System Of Computer Testing Knowleges            */
+	 /* ============================================                         */
+	 /*                                                                      */
+	 /* Copyright (c) 2002-2005 by OpenTEST Team                             */
+	 /* http://opentest.com.ua                                               */
+	 /* e-mail: opentest@opentest.com.ua                                     */
+	 /*                                                                      */
+	 /************************************************************************/
+	 /* 11/01/2005 08:00:00                                                                                    */
+	 /************************************************************************/
+	 if (INDEXPHP!=1)
+		 die ("You can't access this file directly...");
+
+	 define("_zzz","Verification");
+     define("_YES","Yes");
+     define("_NO","No");
+     define("_EXPORT_BUTTON","Export");
+     define("_GO_ON","Continue");
+
+	 define("_CATEGORY_NO_CATEGORY","There is no category in a database!");
+	 define("_CATEGORY_NO_C_KEYWORD","In a database there is no category, containing a keyword!");
+	 define("_CATEGORY_NO_C_LETTER","In a database there is no category, beginning from the indicated letter!");
+
+	 define("_CATEGORY_CREATE_HEADER","<img src='themes/opentest2/images/icons/trinux-sb_r6_c20.gif' align=absmiddle>  Creation of new test");
+	 define("_CATEGORY_CREATE_TEXT","Choose a category in which a new test will be created");
+	 define("_CATEGORY_CREATE_NAME","Enter the name for a new test");
+	 define("_CATEGORY_CREATE_BUTTON","Create a test");
+
+	 define("_CATEGORY_IMPORT_HEADER","<img src='themes/opentest2/images/icons/trinux-sb_r2_c2.gif' align=absmiddle> Importation of test");
+	 define("_CATEGORY_IMPORT_TEXT","Specify the xml-file of test which you want to import");
+	 
+	 define("_CATEGORY_IMPORT_CHOOSE_CATEGORY","Choose a category in which it is necessary to import a xml-file with a test");
+	 define("_CATEGORY_IMPORT_BUTTON","Import");
+
+	 define("_CATEGORY_CHOOSE_HEADER","<img src='themes/opentest2/images/icons/trinux-sb_r8_c16.gif' align=absmiddle> Open  existing test");
+	 define("_CATEGORY_CHOOSE_CATEGORY","Choose a category, that contains a test which must be opened");
+
+	 define("_CATEGORY_CHOOSE_HEADER_DEF","The next categories of tests are available");
+	 define("_CATEGORY_CHOOSE_CATEGORY_DEF","Choose a category in which you wish to continue work");
+
+	 define("_CATEGORY_VIEW_HEADER","A current category contains the followings tests:");
+	 define("_CATEGORY_NO_TEST","There is no test in this category.Or you do not have rights on the test from this category of tests!");
+	 define("_CATEGORY_NO_T_KEYWORD","In this category there is no test, containing a keyword!");
+	 define("_CATEGORY_NO_T_LETTER","In this category there is no test, beginning from the indicated letter!");
+
+	 define("_CATEGORY_VIEW_TEST","To look over tests in this category");
+	 define("_CATEGORY_VIEW_TOPIC","To look over themes in this test");
+
+     define("_TEST_CREATE_HEADER","Creation of new theme");
+	 define("_TEST_CREATE_TOPIC_NAME","Enter the name of a new theme");
+     define("_TEST_CREATE_BUTTON","To create a theme");
+
+     define("_TEST_IMPORT_HEADER","Importation of theme");
+     define("_TEST_IMPORT_TEXT","Specify the xml-file of theme which you want to import");
+     define("_TEST_IMPORT_BUTTON","Import");
+
+
+     define("_TEST_RENAME_HEADER","Change the name of current test");
+     define("_TEST_RENAME_TEXT","Enter the new name for a test");
+     define("_TEST_RENAME_BUTTON","Rename");
+
+     define("_TEST_VIEW_HEADER","A current test contains next themes:");
+	 define("_TEST_NO_TOPIC","There is no theme in this test!");
+	 define("_TEST_NO_KEYWORD","In this test there is no theme, containing a keyword!");
+	 define("_TEST_NO_LETTER","In this test there is no theme, beginning from the indicated letter!");
+
+     define("_TEST_DELETE_HEADER","Removal of current test");
+	 define("_TEST_DELETING_CONFIRM","All of themes, questions and answers of test, and also its statistics will be removed.<br> Do you insist on deleting of a current test?");
+
+	 define("_TEST_VIEW_TOPIC","To look over questions in this theme");
+
+     define("_TOPIC_VIEW_HEADER","A current theme contains the followings questions:");
+	 define("_TOPIC_NO_QUESTION","There is no question in this theme!");
+	 define("_TOPIC_NO_KEYWORD","In this theme there is no question, containing a keyword!");
+	 define("_TOPIC_NO_LETTER","In this theme there is no question, beginning from the indicated letter!");
+
+     define("_TOPIC_EXPORT_HEADER","Exportation of current theme");
+	 define("_TOPIC_EXPORT_TEXT","Specify the file it is necessary to export a current theme name into");
+
+	 define("_TOPIC_CREATE_HEADER","Creation of new question");
+	 define("_TOPIC_CREATE_QUESTION_TEXT","Enter the text of question and choose the necessary type of question");
+	 define("_TOPIC_QUEST_TYPE","Type of question:");
+	 define("_TOPIC_QUEST_DIFFICULTY","Difficulty");
+	 define("_TOPIC_ANSWER_DELAY","Time of reflection of answers");
+	 define("_TOPIC_CREATE_BUTTON","Add a question");
+
+	 define("_TOPIC_IMPORT_HEADER","Importation of question");
+	 define("_TOPIC_IMPORT_TEXT","Specify the xml-file of question which you want to import");
+	 define("_TOPIC_IMPORT_BUTTON","Import");
+
+	 define("_TOPIC_RENAME_HEADER","Change the name of current theme");
+	 define("_TOPIC_RENAME_TEXT","Enter the new name for a theme");
+	 define("_TOPIC_RENAME_BUTTON","Rename");
+
+	 define("_TOPIC_DELETE_HEADER","Delete of current theme");
+	 define("_TOPIC_DELETING_CONFIRM","Questions and answers of theme and its statistics will be removed.<br> Do you insist on deleting of a current theme?");
+
+	 define("_TOPIC_VIEW_QUESTION","To look over the variants of answer for this question");
+
+	 define("_QUESTION_VIEW_HEADER","A current question has next variants of answer:");
+	 define("_QUESTION_NO_ANSWER","This question has no variant of answer!");
+
+	 define("_QUESTION_CREATE_HEADER","Creation of new variant of answer");
+	 define("_QUESTION_CREATE_ANSWER_TEXT","Enter the text of answer:");
+	 define("_QUESTION_CREATE_SAMPLE_TEXT","Enter the text of example:");
+	 define("_QUESTION_CREATE_RIGHT_ANSWER","Enter the correct variant of answer:");
+	 define("_QUESTION_CREATE_ANSWER_TRUE","True");
+     define("_QUESTION_CREATE_BUTTON","To add an answer");
+
+     define("_QUESTION_EXPORT_HEADER","Exportation of current question");
+     define("_QUESTION_EXPORT_TEXT","Specify the file it is necessary to export a current question name in");
+
+     define("_QUESTION_EDIT_HEADER","Change of text of current question");
+     define("_QUESTION_EDIT_TEXT","Enter the new text of question");
+	 define("_QUESTION_EDIT_BUTTON","Change");
+
+	 define("_QUESTION_DELETE_HEADER","Delete of current question");
+	 define("_QUESTION_DELETING_CONFIRM","The variants of answers will be removed.<br> Do you insist on removing of a current question?");
+
+     define("_QUESTION_EDIT_ANSWER","To change the text of variant of answer");
+	 define("_QUESTION_QUESTION_DISABLED","A question is turned off");
+	 define("_QUESTION_QUESTION_ENABLED","A question is included");
+	 define("_QUESTION_TYPE","Type");
+	 define("_QUESTION_NUMBER",	"ٖ");
+	 define("_QUESTION_CONDITION","State");
+	 define("_QUESTION_EXAMPLE","Example");
+	 define("_QUESTION_CORRESPONDANCE","Accordance");
+
+
+	 define("_QUESTION_ENTER_ANSWER_VARIANT","Enter the correct variant of answer (combination of words, number or decimal fraction):");
+	 define("_QUESTION_ANSWER_ALTERNATIVE","Alternative");
+	 define("_QUESTION_ANSWER_IGNORE_CASE","To ignore the letter case");
+ 	 define("_QUESTION_ANSWER_IGNORE_LAYOUT","To ignore the lay-out of keyboard for identical letters in different alphabets");
+ 	 define("_QUESTION_ANSWER_IGNORE_SPACE","To ignore blank characters at the beginning and end of raw");
+  	 define("_QUESTION_ANSWER_IGNORE_FEW_SPACES","To recognize a few in succession going blanks as one blank");
+	 define("_QUESTION_ANSWER_ADD_ALTERNATIVE","To add another alternative");
+	 define("_QUESTION_ANSWER_DELETE_ALTERNATIVE","To delete an alternative");
+	 define("_QUESTION_ANSWER_ADD_MASK","To add a mask");
+
+
+
+
+	 define("_ANSWER_EDIT_HEADER","Change of text of answer variant");
+	 define("_ANSWER_EDIT_ANSWER_TEXT","Text of answer:");
+	 define("_ANSWER_EDIT_SAMPLE_TEXT","Text of example:");
+	 define("_ANSWER_EDIT_TRUE_PERCENT","Percent of rightness");
+	 define("_ANSWER_EDIT_BUTTON","To change an answer");
+
+     define("_ANSWER_DELETE_HEADER","Delete of current variant of answer");
+     define("_ANSWER_DELETING_CONFIRM","Do you really want to delete the current variant of answer?");
+
+    define("_MENU_TREE","Tree of tests");
+	  define("_MENU_TREE_USER","Tree of users");
+	 define("_MENU_GROUP_CAT","Category of group"); 
+
+	  
+	define("_MENU_CATEGORY","Category of tests"); 
+	define("_MENU_TEST","Test"); 
+	define("_MENU_TOPIC","Theme"); 
+	define("_MENU_QUESTION","Question"); 
+	define("_MENU_ANSWER","Variant of answer"); 
+
+     define("_MENU_CRETAE_TEST","To create a new test");
+     define("_MENU_IMPORT_TEST","To import a test from XML");
+     define("_MENU_OPEN_TEST","To open an existent test");
+     define("_MENU_TEST_CONTROL","Control tests");
+
+     define("_MENU_BASIC_MENU","Menu of the basic modules");
+     define("_MENU_RESULTS_ROOT","Initial menu of the module");
+     define("_MENU_COMMON_TASKS","General tasks");
+     define("_MENU_AUTHORIZATION","Authorizing");
+     define("_MENU_GROUP","Group");
+     define("_MENU_USER","User");
+     define("_MENU_EXIT","Exit");
+
+     define("_MENU_TASK_SETUP","Tasks of control");
+     define("_MENU_TASKS_FOR_TEST","Tasks for a test");
+     define("_MENU_TASKS_FOR_TOPIC","Tasks for a theme");
+     define("_MENU_TASKS_FOR_QUESTION","Tasks for a question");
+     define("_MENU_TASKS_FOR_ANSWER","Tasks for an answer");
+
+     define("_MENU_EXPORT_TEST","To export a test in XML");
+     define("_MENU_EXPORT_TOPIC","To export a theme in XML");
+     define("_MENU_EXPORT_QUESTION","To export a question in XML");
+     define("_MENU_ADD_TOPIC","To add a new theme to the test");
+     define("_MENU_ADD_QUESTION","To add a new question");
+     define("_MENU_ADD_ANSWER","To add the variant of answer");
+     define("_MENU_IMPORT_TOPIC","To add a new theme to the test from XML");
+     define("_MENU_IMPORT_QUESTION","To add a new question from XML");
+     define("_MENU_RENAME_TEST","To rename a test");
+     define("_MENU_RENAME_TOPIC","To rename a theme");
+     define("_MENU_EDIT_QUESTION","To change the text of question");
+     define("_MENU_MOVE_TEST","To move a test to other category");
+     define("_MENU_MOVE_TOPIC","To move a theme to other test");
+     define("_MENU_ON_TEST","To turn on a test");
+     define("_MENU_OFF_TEST","To turn off a test");
+     define("_MENU_ON_TOPIC","To turn on a theme");
+     define("_MENU_OFF_TOPIC","To turn off a theme");
+     define("_MENU_ON_QUESTION","To turn on a question");
+     define("_MENU_OFF_QUESTION","To turn off a question");
+     define("_MENU_DELETE_TEST","To delete a test");
+     define("_MENU_DELETE_TOPIC","To delete a theme");
+     define("_MENU_DELETE_QUESTION","To delete a question");
+     define("_MENU_DELETE_ANSWER","To delete an answer");
+     define("_MENU_SECURITY","Rights of access");
+     define("_MENU_PRINT_VER","Version for a print");
+     define("_MENU_PREVIEW","Preview");
+	 define("_MENU_DETAILS","Details");
+	 define("_MENU_TEST_CONTAIN","A test contains questions");
+	 define("_MENU_TOPIC_CONTAIN","A theme contains questions");
+	 define("_MENU_LAST_CHANGE","Date and owner of the last change");
+	 define("_MENU_DATE","Date");
+	 
+	 
+ define("_GROUPS_CATEGORY_VIEW","To look over groups in this category");
+     define("_GROUPS_CATEGORY_CHOOSE","Choose a category which contains a necessary group");
+     define("_GROUPS_CATEGORY_VIEW_HEADER","A current category contains next groups:");
+     define("_GROUPS_CATEGORY_ENTER_NAME","Enter the name of group:");
+     define("_GROUPS_CATEGORY_CREATE_HEADER","Creation of new group");
+     define("_GROUPS_CATEGORY_CREATE_TEXT","Choose a category in which a new group will be created ");
+     define("_GROUPS_CATEGORY_CHOOSE_HEADER_DEF","The next categories of groups are available");
+     define("_GROUPS_CATEGORY_CHOOSE_CATEGORY_DEF","Choose a category in which you wish to continue work");
+     define("_GROUPS_CATEGORY_CHOOSE_GROUP_DEF","Choose a group you wish to continue work with");
+     define("_GROUPS_CATEGORY_CHOOSE_CATEGORY","Choose a category which contains a necessary group or user");
+     
+     
+	 define("_GROUPS_CATEGORY_NO_CATEGORY","There is no category of groups of users in a database!");
+     define("_GROUPS_CATEGORY_NO_GROUP","There is no group in this category!");
+     define("_GROUPS_CATEGORY_VIEW_GROUP","To look over users in this group");	 
+	 
+	 
+	 
+	 
+	 define("GROUP_CATEGORY_CAT_SELECT_HEADER","Rights of access: choice of category");
+	 define("GROUP_CATEGORY_GR_SELECT_HEADER","Rights of access: choice of group");
+	 define("GROUP_CATEGORY_USER_SELECT_HEADER","Rights of access: choice of user");
+
+define("GROUP_CATEGORY_USER_SELECT","Choose the category of user for which it is necessary to change rights for a group"); 
+define("GROUP_USER_SELECT","Choose the user for which it is necessary to change rights for a group");
+define("GROUP_CATEGORY_GROUP_SELECT","Choose the category of group for which it is necessary to change rights for a group"); 
+define("GROUP_CATEGORY_CAT_SELECT","Choose a category for which it is necessary to change rights for a group"); 
+define("RIGHTS_LIST","List of categories, groups and users which have rights for this test"); 
+define("RIGHTS_CAT","Categories"); 	 
+define("RIGHTS_ADD","Add");
+define("RIGHTS_CHANGE","Change");
+
+define("RIGHTS_GR","Groups");
+define("RIGHTS_USER","Users");
+define("RIGHTS_RIGHTS","&nbsp;&nbsp;&nbsp; Right - ");
+define("RIGHTS_RIGHTS_HEADER","Rights of access");
+
+define("RIGHTS_READ","Reading");
+define("RIGHTS_WRITE","Change");
+define("RIGHTS_OWNER","Owner");
+
+
+define("RIGHTS_CH_RIGHTS_HEADER","Change of rights of access on a current test");
+	 define("_USER_APPLY_BUTTON","Apply");
+
+    
+
+     global $question_types;
+     $question_types = array("One to many",
+                             "Much to many",
+                             "Free input",
+                             "Accordance");
+
+	 global $status_text;
+	 $status_text = array(
+		 "test_created"         	=> "A test was successfully created",
+		 "test_exist"           	=> "There is already a test with such name in a current category!",
+		 "test_renamed"         	=> "A test was successfully renamed",
+		 "test_off"             	=> "A test was successfully turned off",
+		 "test_on"              	=> "A test was successfully turned on",
+		 "test_deleted"         	=> "A test was successfully remote",
+		 "test_not_deleted"     	=> "An error happened at the delete of test",
+		 "test_exported"        	=> "A test was successfully exported",
+		 "topic_exist"          	=> "There is already a theme with such name in a current test!",
+		 "topic_added"          	=> "A theme was successfully added",
+		 "topic_off"            	=> "A theme was successfully turned off",
+		 "topic_on"             	=> "A theme was successfully turned on",
+		 "topic_renamed"        	=> "A theme was successfully renamed",
+		 "topic_deleted"        	=> "A theme was successfully deleted",
+		 "topic_not_deleted"    	=> "An error happened at the delete of theme",
+		 "topic_exported"       	=> "A theme was successfully exported",
+		 "question_exist"       	=> "There is already such question in a current theme!",
+		 "question_added"       	=> "A question is successfully added",
+		 "question_exported"    	=> "A question was successfully exported",
+		 "question_off"        	        => "A question was successfully turned off",
+		 "question_on"          	=> "A question was successfully turned on",
+		 "question_edited"      	=> "A question was successfully changed",
+		 		 "q_off_sam_emp"      	=> "A question was changed. Attention! A question was turned off. One or a few answers contains an empty example!",
+		 "q_off_no_true"      	=> "A question was changed. Attention! A question was turned off. There is no correct variant of answer!",
+		 "q_off_true2"      		=> "A question was changed. Attention! A question was turned off. Too much right answers!",
+		 "q_off_pecenter1"  		=> "A question was changed. Attention! A question was turned off. The sum of percents of rightness of wrong variants of answer must not be more then 100.",
+	  	 "q_off_pecenter3"  		=> "A question was changed. Attention! A question was turned off. The sum of percents of rightness of correct variants of answer must be equal to 100.",
+		 "q_off_pecenter4"  		=> "A question was changed. Attention! A question was turned off. Sum of percents of rightness correct 100 is equal, but answers are present with zero percents.",
+
+		 "question_deleted"     	=> "A question was successfully deleted",
+		 "question_not_deleted" 	=> "An error happened at the removing of question",
+		 "answer_exist"         	=> "A current question contains such variant of answer already!",
+		 "answer_added"         	=> "The variant of answer was added",
+		 "answer_add_zero"         	=> "The variant of answer was added. Attention! The percent of rightness is set in 0",
+		 "answer_add_question_off1" => "The variant of answer was added. Attention! A question was turned off. The sum of percents of rightness of wrong variants of answer must not be more then 100.",
+		 "answer_add_question_off3" => "The variant of answer was added. Attention! A question was turned off. The sum of percents of rightness of correct variants of answer must be equal to 100.",
+		 "answer_add_question_off4"   => "The variant of answer was added. Attention! A question was turned off. Sum of percents of rightness correct 100 is equal, but answers are present with zero percents.",
+		 "answer_edited"        	=> "The variant of answer was changed",
+		 "zero_percent"                 => "The variant of answer was changed. Attention! The percent of rightness is set in 0",
+		 "answer_deleted"       	=> "The variant of answer was deleted",
+		 "answer_not_deleted"   	=> "There was an error at the removal of variant of answer",
+		 "true_exist"				=> "A current question contains the correct variant of answer already!",
+		 "sample_empty"				=> "The text of example is empty!",
+		 "op_not_permitted"				=> "There are not enough privileges for this operation!",
+		 "no_true_answer"			=> "A question was not included. There is no correct variant of answer or answers absent!",
+		 "answer_ed_question_off"   => "The variant of answer was changed. Attention! A question was turned off because of absence of correct variant of answer in it.",
+		 "answer_ed_question_off1"   => "The variant of answer was changed. Attention! A question was turned off. The sum of percents of rightness of wrong variants of answer must not be more then 100.",
+		 "answer_ed_question_off3"   => "The variant of answer was changed. Attention! A question was turned off. The sum of percents of rightness of correct variants of answer must be equal to 100.",
+		 "answer_ed_question_off4"   => "The variant of answer was changed. Attention! A question was turned off. Sum of percents of rightness correct 100 is equal, but answers are present with zero percents.",
+		 "ans_del_ques_off"   		=> "The variant of answer was remote. Attention! A question was turned off because of absence of correct variant of answer in it.",
+		 "ans_ndel_ques_off"   		=> "There was an error at the delete of variant of answer. Attention! A question was turned off because of absence of correct variant of answer in it.",
+		 "switch_errno1"   			=> "A question was not included.The sum of percents of rightness of wrong variants of answer must not be more then 100.",
+		 "switch_errno3"   			=> "A question was not included.The sum of percents of rightness of correct variants of answer must be equal to 100.",
+		 "switch_errno4"		=> "A question was not included.The sum of rightness of correct variants of answer is equal to 100, but answers are present with zero percents.",
+		 "to_many_true"		=> "A question was not included.Too much correct variants of answer.",
+		 "some_sam_empty"	=> "A question was not included.One or a few variants of answer are empty.",
+		 
+		 "text_clone"		=> "Such text of answer already exists!",
+		 "sample_clone"		=> "Such standard already exists!"
+		 
+		 
+		 );
+
+
+	global $on_off;
+	$on_off = array(
+		"menu" => array(
+					"test"     => array(_MENU_OFF_TEST,_MENU_ON_TEST),
+					"topic"	   => array(_MENU_OFF_TOPIC,_MENU_ON_TOPIC),
+					"question" => array(_MENU_OFF_QUESTION,_MENU_ON_QUESTION)
+				  ),
+		"action" => array("off","on"),
+		"status" => array(
+					"test"     => array("test_off","test_on"),
+					"topic"    => array("topic_off","topic_on")					
+				    ));
+
+
+
+//---- auth menu
+     define("_MENU6","Authorizing");
+     define("_MENU7","Your login");
+     define("_MENU8","Password");
+     define("_MENU9","Enter");
+
+
+     define("_MENU10","Have forgotten your password?");
+     define("_MENU11","Register");
+//----
+
+
+ define("_CATEGORY_IMPORT_FORMATS","Available formats");
+ define("_CATEGORY_IMPORT_OPTIONS","Options");
+ define("_CATEGORY_IMPORT_OPTION1","Only viewing");
+ define("_CATEGORY_IMPORT_OPTION2","Record into a base");
+define("_CATEGORY_IMPORT_OPTION3","To represent the imported data");
+define("_CATEGORY_EXPORT_TEXT","Specify the options of exportation"); 
+define("_CATEGORY_EXPORT_HEADER","<img src='themes/opentest2/images/icons/trinux-sb_r6_c18.gif' align=absmiddle> Exportation of test"); 
+define("_CATEGORY_EXPORT_OPTION1","Not to export the turned off themes and questions");
+
+define("_ANSWER_TEXT","Text");
+define("_ANSWER_MODEL","Model");
+
+
+define("_ERROR_IN_REGEXP","An error is in regular expression");
+define("_SUBMIT_CHECK","To check the answer");
+define("_CHECK_REGEXP","Verification of regular expression");
+define("_YOUR_REGURAL_EXPRESSION","Your regular expression");
+define("_ANSWER","Answer");
+define("_DONOTMATCH","does not satisfy the terms");
+define("_MATCH","Satisfies the terms");
+define("_USE_REGURAL_EXPRESSION_WIZARD","Regular expression (mode of Master)");
+define("_USE_REGURAL_EXPRESSION_EXPERT","Regular expression (mode of Expert)");
+
+
+
+define("_DONT_FORGET_ADD_ANSWERS_WARNING","Do not forget to insert the answers in the text of question using the button <Img align=absmiddle src='modules/fckeditor/editor/plugins/answers/answers.gif'> on the bar of editor tools");
+
+
+define("_TOPIC_COPY_HEADER","Copying topic");
+define("_MENU_COPY_TOPIC","Copy topic");
+
+?>

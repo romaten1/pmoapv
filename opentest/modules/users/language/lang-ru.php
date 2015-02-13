@@ -1,0 +1,277 @@
+<?php
+if (INDEXPHP!=1) die ("You can't access this file directly...");
+
+     define("_YES","Да");
+     define("_NO","Нет");
+define("_EXISTS","Есть");
+
+
+     define("_GROUPS_CATEGORY_VIEW","Просмотреть группы в этой категории");
+     define("_GROUPS_CATEGORY_CHOOSE","Выберите категорию, в которой находится необходимая группа");
+     define("_GROUPS_CATEGORY_VIEW_HEADER","Текущая категория содержит следующие группы:");
+     define("_GROUPS_CATEGORY_CHOOSE_I","Выберите категорию, в которую необходимо импортировать группу");
+     define("_GROUPS_CATEGORY_ENTER_NAME","Введите имя группы:");
+     define("_GROUPS_CATEGORY_CREATE_HEADER","Создание новой группы");
+     define("_GROUPS_CATEGORY_IMPORT_HEADER","Импортирование группы");
+     define("_GROUPS_CATEGORY_CREATE_BUTTON","Создать");
+     define("_GROUPS_CATEGORY_CREATE_TEXT","Выберите категорию, в которой будет создана новая группа");
+     define("_GROUPS_CATEGORY_CHOOSE_HEADER_DEF","Доступны следующие категории групп");
+     define("_GROUPS_CATEGORY_CHOOSE_CATEGORY_DEF","Выберите категорию, в котрой вы желаете продолжить работу");
+     define("_GROUPS_CATEGORY_CHOOSE_GROUP_DEF","Выберите группу, с котрой вы желаете продолжить работу");
+     define("_GROUPS_CATEGORY_CHOOSE_CATEGORY","Выберите категорию, в которой находится необходимая группа или пользователь");
+     
+     define("_GROUPS_CATEGORY_CH_GR_R_H","Права доступа: выбор группы"); 
+     define("_GROUPS_CATEGORY_CH_CAT_R_H","Права доступа: выбор категории"); 
+     define("_GROUPS_CATEGORY_CH_U_R_H","Права доступа: выбор пользователя");  
+ 
+ define("_GROUPS_CATEGORY_CH_USER","Выберите пользователя, для которого необходимо изменить права на группу");  
+ define("_GROUPS_CATEGORY_CH_GROUP","Выберите группу, для которой необходимо изменить права на группу");        
+ define("_GROUPS_CATEGORY_CH_GROUP_U","Выберите группу пользователя, для которого необходимо изменить права на группу");  
+ define("_GROUPS_CATEGORY_CH_CAT","Выберите категорию, для которой необходимо изменить права на группу");  
+ define("_GROUPS_CATEGORY_CH_CAT_GR","Выберите категорию группы, для которой необходимо изменить права на группу");
+ define("_GROUPS_CATEGORY_CH_CAT_U","Выберите категорию пользователя, для которого необходимо изменить права на группу");
+
+
+
+
+
+
+
+
+
+	 define("_GROUPS_CATEGORY_NO_CATEGORY","В базе данных нет ни одной категории групп пользователей!");
+     define("_GROUPS_CATEGORY_NO_GROUP","В данной категории нет ни одной группы!");
+     define("_GROUPS_CATEGORY_VIEW_GROUP","Просмотреть пользователей в этой группе");
+     define("_GROUP_NO_USERS","В данной группе нет ни одного пользователя!");
+
+
+define("_GROUP_USER_DETAIL","ФИО");
+define("_GROUP_USER_LOGIN","Логин");
+define("_GROUP_USER_PASSWORD","Пароль");
+define("_GROUP_USER_OLD_PASSWORD","Старый пароль");
+define("_GROUP_USER_NEW_PASSWORD","Новый пароль");
+define("_GROUP_USER_PASSWORD_C","Подтверждение пароля");
+define("_GROUP_USER_OFF","Пользователь выключен");
+
+define("_GROUP_USER_CANT_CH_PASS","Запретить смену пароля");
+define("_GROUP_USER_CH_PASS","Пользователь может изменить пароль");
+
+
+
+
+     define("_GROUP_VIEW_HEADER","Список пользователей в данной группе:");
+     define("_GROUP_RENAME_TEXT","Введите новое имя для группы");
+     define("_GROUP_RENAME_BUTTON","Переименовать");
+     define("_GROUP_RENAME_HEADER","Изменение имени текущей группы");
+     define("_GROUP_DELETE_HEADER","Удаление текущей группы");
+     define("_GROUP_DELETING_CONFIRM","Будут удалены все пользователи данной группы, их статистика, а так же все права доступа .<br>Вы действительно жедаете удалить текущий тест?");
+     define("_GROUP_CREATE_HEADER","Создание нового пользователя");
+     define("_GROUP_CREATE_USER_TEXT","Введите необходимые данные");
+     define("_GROUP_CREATE_BUTTON","Добавить пользователя");
+     define("_GROUP_VIEW_USERS","Просмотреть пользователей в этой группе");
+	 define("_GROUP_CHOOSE_USER_DEF","Выберите пользователя, с котрым вы желаете продолжить работу");
+	 define("_GROUP_ON","Включить группу");
+	 define("_GROUP_OFF","Выключить группу");
+    
+      
+      
+     
+
+
+
+
+ 
+     define("_USER_VIEW_HEADER","Подробная информация о текущем пользователе:");
+     define("_USER_DELETE_HEADER","Удаление текущего пользователя");
+	 define("_USER_DELETE","Удалить пользователя");
+	 define("_USER_ON","Включить пользователя");
+	 define("_USER_OFF","Выключить пользователя");
+     define("_USER_DELETING_CONFIRM","Внимание! Пользователь будет удалён (со всеми правами доступа и статистикой).<br>Вы действительно желаете удалить текущего пользователя?");
+     
+     
+     define("_USER_RENAME_HEADER","Изменение данных для текущего пользователя");
+	 define("_USER_RENAME_TEXT","Внесите необходимые изменения");
+	 define("_USER_RENAME","Редактировать пользователя");
+	 define("_USER_APPLY_BUTTON","Применить");
+	 define("_USER_RIGHTS_ADD_CAT","Добавить права для категории");
+	 define("_USER_RIGHTS_ADD_GR","Добавить права для группы");
+	 define("_USER_RIGHTS_ADD_USER","Добавить права для пользователя");
+
+     
+     
+
+     
+     
+     
+     define("_MENU_TEST_CONTROL","Управление группами");
+     define("_MENU_CREATE_TEST","Создать новую группу");
+     define("_MENU_OPEN_TEST","Открыть существующую группу");
+     define("_MENU_TASKS_FOR_GROUP","Задачи для групп");
+	 define("_MENU_TASKS_FOR_RIGHTS","Задачи для прав доступа");
+	 
+     define("_MENU_TEST_CONTAIN","Пользователей в группе");
+     define("_MENU_ADD_USER","Добавить нового пользователя");
+     define("_MENU_RENAME_GROUP","Переименовать группу");
+     define("_MENU_DELETE_GROUP","Удалить группу");
+     define("_MENU_PERMISSIONS","Права доступа");
+     define("_MENU_TASKS_FOR_USER","Задачи для пользователя");
+     define("_MENU_TREE","Дерево пользователей");
+     define("_MENU_CREATE_GROUP","Создать новую группу");
+
+
+
+
+
+
+
+
+
+     define("_MENU_IMPORT_TEST","Импортировать тест из XML");
+     define("_MENU_OPEN_GROUP","Открыть существующую группу");
+
+
+   define("_MENU_GROUP_CAT_","+ Категория группы");
+   define("_MENU_GROUP_","++ Группа");
+   define("_MENU_USER_","+++ Пользователь");
+
+
+     define("_MENU_BASIC_MENU","Меню основных модулей");
+     define("_MENU_RESULTS_ROOT",	 	 	"Начальное меню модуля");
+     define("_MENU_COMMON_TASKS","Общие задачи");
+     define("_MENU_AUTHORIZATION","Авторизация");
+     define("_MENU_GROUP","Группа");
+     define("_MENU_USER","Пользователь");
+     define("_MENU_EXIT","Выход");
+
+     define("_MENU_TASK_SETUP","Задачи управления");
+     define("_MENU_TASKS_FOR_TEST","Задачи для теста");
+     define("_MENU_TASKS_FOR_TOPIC","Задачи для темы");
+     define("_MENU_TASKS_FOR_QUESTION","Задачи для вопроса");
+     define("_MENU_TASKS_FOR_ANSWER","Задачи для ответа");
+
+     define("_MENU_EXPORT_TEST","Экспортировать тест в XML");
+     define("_MENU_EXPORT_TOPIC","Экспортировать тему в XML");
+     define("_MENU_EXPORT_QUESTION","Экспортировать вопрос в XML");
+
+     define("_MENU_ADD_QUESTION","Добавить новый вопроc");
+     define("_MENU_ADD_ANSWER","Добавить вариант ответа");
+     define("_MENU_IMPORT_TOPIC","Добавить новую тему в тест из XML");
+     define("_MENU_IMPORT_QUESTION","Добавить новый вопрос из XML");
+     define("_MENU_RENAME_TEST","Переименовать тест");
+     define("_MENU_RENAME_TOPIC","Переименовать тему");
+     define("_MENU_EDIT_QUESTION","Изменить текст вопроса");
+     define("_MENU_MOVE_TEST","Перемесить тест в другую категорию");
+     define("_MENU_MOVE_TOPIC","Перемесить тему в другой тест");
+     define("_MENU_ON_TEST","Включить тест");
+     define("_MENU_OFF_TEST","Выключить тест");
+     define("_MENU_ON_TOPIC","Включить тему");
+     define("_MENU_OFF_TOPIC","Выключить тему");
+     define("_MENU_ON_QUESTION","Включить вопрос");
+     define("_MENU_OFF_QUESTION","Выключить вопрос");
+     define("_MENU_DELETE_TEST","Удалить тест");
+     define("_MENU_DELETE_TOPIC","Удалить тему");
+     define("_MENU_DELETE_QUESTION","Удалить вопрос");
+     define("_MENU_DELETE_ANSWER","Удалить ответ");
+     define("_MENU_SECURITY","Безопасность");
+     define("_MENU_PRINT_VER","Версия для печати");
+     define("_MENU_PREVIEW","Предварительный просмотр");
+	 define("_MENU_DETAILS","Подробно");
+
+	 define("_MENU_TOPIC_CONTAIN","Тема содержит вопросов");
+	 define("_MENU_LAST_CHANGE","Дата и владелец последнего изменения ");
+
+
+
+
+
+	 global $status_text;
+	 $status_text = array(
+		 "group_created"         	=> "Группа была успешно создана",
+		 "group_exist"           	=> "В текущей категории уже существует группа с таким именем!",
+		 "group_renamed"         	=> "Группа была успешно переименована",
+         "group_off"                => "Группа была успешно выключена",
+         "group_on"                 => "Группа была успешно включена",
+		 "group_deleted"         	=> "Группа была успешно удалена",
+		 "group_not_deleted"     	=> "При удалении группы произошла ошибка",
+
+		 "user_exist"          	=> "В текущей группе уже существует пользователь с таким именем!",
+		 "user_login_password" 	=> "Если поле 'Логин' пустое, то поле 'Пароль' тоже должно быть пустым",
+		 "user_login_exist"     => "В системе уже существует пользователь с таким логином!",
+		 "password_incorrect"  	=> "Поля 'Пароль' и 'Подтверждение пароля' не совпадают",
+		 "old_password_incorrect"=> "Старый пароль указан неверно!",
+		 "user_added"          	=> "Пользователь был успешно добавлен",
+		 "user_off"            	=> "Пользователь был успешно выключен",
+		 "user_on"             	=> "Пользователь был успешно включен",
+		 "op_not_permitted"		=> "Для данной операции не хватает привилегий!",
+		
+         
+		 "user_renamed"        	=> "Информация о пользователе была успешно изменена",
+		 "user_deleted"        	=> "Пользователь был успешно удален",
+		 "user_not_deleted"    	=> "При удалении пользователя произошла ошибка",
+		 "topic_exported"       	=> "Тема была успешно экспортована",
+		 "question_exist"       	=> "В текущей теме уже существует такой вопрос!",
+		 "question_added"       	=> "Вопрос успешно добавлен",
+		 "question_exported"    	=> "Вопрос был успешно экспортирован",
+		 "question_off"        	    => "Вопрос был успешно выключен",
+		 "question_on"          	=> "Вопрос был успешно включен",
+		 "question_edited"      	=> "Вопрос был успешно изменен",
+		 "question_deleted"     	=> "Вопрос был успешно удален",
+		 "question_not_deleted" 	=> "При удалении вопроса произошла ошибка",
+		 "answer_exist"         	=> "Текущий вопрос уже содержит такой вариант ответа!",
+		 "answer_added"         	=> "Вариант ответа был успешно добавлен",
+		 "op_not_permitted"         	=> "Отказано в доступе!",
+		 "answer_edited"        	=> "Вариант ответа был успешно изменен",
+		 "answer_deleted"       	=> "Вариант ответа был успешно удален",
+		 "answer_not_deleted"   	=> "При удалении варианта ответа возникла ошибка",
+		 "true_exist"				=> "Текущий вопрос уже содержит правильный вариант ответа!",
+		 "sample_empty"				=> "Текст примера пуст!",
+		 "no_true_answer"			=> "Вопрос не был включен. Нет ниодного правильного варианта ответа или ответы отсутсвуют!",
+		 "answer_ed_question_off"   => "Вариант ответа был успешно изменен. Внимание! Вопрос был выключен из-за отсутствия в нем правильного варианта ответа.",
+		 "ans_del_ques_off"   		=> "Вариант ответа был успешно удален. Внимание! Вопрос был выключен из-за отсутствия в нем правильного варианта ответа.",
+		 "ans_ndel_ques_off"   		=> "При удалении варианта ответа возникла ошибка. Внимание! Вопрос был выключен из-за отсутствия в нем правильного варианта ответа.");
+	
+
+
+     define("_MENU_EXPORT_GROUP","Экспорт пользователей группы в XML");
+     define("_MENU_IMPORT_GROUP","Импорт группы из XML");
+     define("_IMPORT_GROUP_TEXT","Импорт группы из XML");
+     define("_CATEGORY_IMPORT_OPTION1","Только просмотр");
+     define("_CATEGORY_IMPORT_OPTION2","Просмотр и запись в базу");
+
+     define("_CATEGORY_IMPORT_BUTTON","Импорт");
+     define("_CATEGORY_IMPORT_FORMATS","Поддерживаемые форматы");
+     define("_CATEGORY_IMPORT_OPTIONS","Опции импортирования");
+
+
+     define("RIGHTS_RIGHTS_HEADER","Права доступа");
+    define("RIGHTS_ADD","Добавить..");
+    define("RIGHTS_CHANGE","Изменить..");
+define("RIGHTS_CAT","Категории");
+define("RIGHTS_GROUP","Группы");
+define("RIGHTS_USERS","Пользователи");
+define("RIGHTS_READ","Чтение");
+define("RIGHTS_WRITE","Запись");
+define("RIGHTS_OWNER","Владелец");
+define("RIGHTS_CH_RIGHTS_HEADER","Права доступа");
+
+
+
+
+
+
+
+
+    define("RIGHTS_LIST","Список категорий, групп и пользователей, имеющих какие-либо права на группу");
+
+
+
+
+
+
+
+
+
+
+
+
+?>

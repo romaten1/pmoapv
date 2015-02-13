@@ -1,0 +1,24 @@
+<?php
+if (INDEXPHP!=1) die ("You can't access this file directly...");
+
+function foot()
+{
+    global $total_time, $start_time, $db_query_count, $config, $module;
+    $mtime = microtime();
+    $mtime = explode(" ",$mtime);
+    $mtime = $mtime[1] + $mtime[0];
+    $end_time = $mtime;
+    $total_time = ($end_time - $start_time);
+    $total_time = substr($total_time,0,5);
+    if (($config['debug_query']) OR ($config['debug_errors']))
+    {
+    	echo '<br>[ '.$db_query_count.' ] [ '.$total_time.' ]';
+    }
+	
+	themefooter();
+	echo '</body></html>';
+}
+
+foot();
+
+?>

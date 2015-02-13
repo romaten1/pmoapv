@@ -1,0 +1,152 @@
+<?php
+if (INDEXPHP!=1) die ("You can't access this file directly...");
+
+themeleftbox(_TESTLOCALSET1,"","",false);
+?>
+<tr>
+	<td> 
+		<table width="100%" cellpadding="0" cellspacing="0" border="0">
+			<tr>
+				<td colspan="2">
+					<h3>Общие требования к системе</h3>
+					<ul>
+						<li>Настройки обозревателя приведены в состояние по умолчанию</li>
+						<li>В обозревателе должен быть разрешен JavaScript</li>
+						<li>В обозревателе должно быть разрешено отображение изображений</li>
+						<li>В обозревателе должны быть разрешены плагины</li>
+						<li>В обозревателе должно быть отключено кэширование содержимого страниц</li>
+						<li>В обозревателе должно быть отключено использование прокси-сервера</li>
+						<li>В обозревателе должны быть разрешены "куки"</li>
+					</ul>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2" height="50"></td>
+			</tr>
+			<tr>
+				<td width="50%" valign="top">
+					<h3>Проверка отображения изображений</h3>
+					Справа Вы должны видеть рисунок.<br>
+					Если Вы его не видите, то вам необходимо включить отображение рисунков в настройках обозревателя.
+				</td>
+				<td align="center">
+					<img src="modules/main/images/testimage.jpg">
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2"><hr></td>
+			</tr>
+			<tr>
+				<td width="50%" valign="top">
+					<h3>Проверка отображения flash-роликов</h3>
+					Справа Вы должны видеть flash-ролик.<br>
+					Если Вы его не видите, то вам необходимо включить плагины в настройках обозревателя.
+					Если после этого Вы так же не видите flash-ролик - установите flash-плеер для вашего обозревателя.
+				</td>
+				<td align="center">
+					<embed src="modules/main/images/testflash.swf" quality="high" type="application/x-shockwave-flash" pluginspage="http://opentest2.kture/installs/flash_install.exe">
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2"><hr></td>
+			</tr>
+			<tr>
+				<td width="50%" valign="top">
+					<h3>Проверка звука</h3>
+					Справа Вы видите элемент управления для прослушивания звука.<br>
+					Если Вы не слышите звука, не можете запустить его проигрывание или не видите этот элемент управление, то возможно у Вас одна из следующих проюлем:
+					<ul>
+						<li>Отключены плагины в обозревателе</li>
+						<li>Не установлены драйвера на звуоковй адаптер</li>
+						<li>Отсутствует устройство воспроизведения звука</li>
+					</ul>
+				</td>
+				<td align="center">
+					<embed src="modules/main/images/testaudio.mp3" autostart="0" type="application/x-mplayer2" pluginspage="http://opentest2.kture/installs/mplayer_install.exe" style="width: 200px; height: 45px;" height="45" width="200">
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2"><hr></td>
+			</tr>
+			<tr>
+				<td width="50%" valign="top">
+					<h3>Проверка отображения JavaScript</h3>
+					Справа Вы видите ссылку для проверки работы JavaScript.<br>
+					Если при нажатии на эту ссылку не появляется окно с надписью, говорящей о том, что Ваш обозреватель корректно 
+					настроен для работы с JavaScript, то Вам необходимо в настройках обозревателя разрешить JavaScript.
+				</td>
+				<td align="center">
+<script>
+function checkJS () {
+	 var is_confirmed = alert('Если Вы видите это окно, то Ваш обозреватель корректно настроен для работы с JavaScript.');
+
+     if ( is_confirmed == true ) {
+          return true;
+     }
+
+     return false;
+}
+</script>					
+					<a name="js"><a href="#js" onclick="checkJS();">Проверить</a> JavaScript
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2"><hr></td>
+			</tr>
+			<tr>
+				<td width="50%" valign="top">
+					<h3>Проверка "кук"</h3>
+					Справа Вы видите ссылку для проверки настроек Вашего обозревателя для работы с "куками".<br>
+					При нажатии на нее Вам будет показано окно с сообщением о корректности настроек обозревателя.<br>
+					Если окно не появляется, следовательно,  в настройках Вашего обозревателя отлючен JavaScript.
+				</td>
+				<td align="center">
+<script language="javascript">
+	function GetValue(Offset){
+		var End=document.cookie.indexOf (";", Offset);
+		if (End==-1) {
+			End=document.cookie.length;
+		}
+		return unescape(document.cookie.substring(Offset, End));
+	}
+	
+	function GetCookie(Name){
+		var Len=Name.length;
+		var i=0;
+//		alert(document.cookie.indexOf(" ", 1)+1);
+		while (i<document.cookie.length){
+			//alert(i);
+			var j=i+Len+1;
+			if (document.cookie.substring(i,j)==(Name+"=")){
+				return GetValue(j);
+			}
+			i=document.cookie.indexOf(" ", 1)+1;
+			if (i==0) {
+				break;
+			}
+		}
+		return null;
+	}
+	
+	function SetCookie(Name, Value){//, Expire){
+		//var Exp="Friday,25-Feb-2000 12:00:00 GMT";
+		document.cookie=Name+"="+escape(Value);//+";expires="+Expire;
+	}
+	
+	function checkCookie() {
+		var CookieName = 'testcookie',
+			CookieValue = 'testvalue';
+		SetCookie(CookieName,CookieValue);
+		if (GetCookie(CookieName) == CookieValue) {
+			alert('Ваш обозреватель КОРРЕКТНО настроен для работы с "куками"');	
+		} else {
+			alert('Ваш обозреватель НЕКОРРЕКТНО настроен для работы с "куками"!');	
+		}
+		SetCookie(CookieName,'');
+	}
+</script>						<a name="cookie"><a href="#cookie" onclick="checkCookie();">Проверить</a> "куки"
+				</td>
+			</tr>
+		</table>					
+	</td>
+</tr>

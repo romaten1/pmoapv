@@ -1,0 +1,408 @@
+<?php
+if (INDEXPHP!=1) die ("You can't access this file directly...");
+
+// получаем, определяем и проверяем входяшие данные
+if(!isset($_REQUEST['next_action'])) $next_action="";
+else $next_action=$_REQUEST['next_action'];
+
+if(!isset($_REQUEST['action'])) $action="";
+else $action=$_REQUEST['action'];
+
+if(!isset($_REQUEST['final_action'])) $final_action="";
+else $final_action=$_REQUEST['final_action'];
+
+if(!isset($_REQUEST['group_category_id'])) $group_category_id="";
+else $group_category_id=intval($_REQUEST['group_category_id']);
+
+if(!isset($_REQUEST['group_id'])) $group_id="";
+else $group_id=intval($_REQUEST['group_id']);
+
+if(!isset($_REQUEST['page_num'])) $page_num=0;
+else $page_num=(int)$_REQUEST['page_num']-1;
+
+if(!isset($_REQUEST['letter'])) $letter="";
+else $letter=$_REQUEST['letter'];
+
+if(!isset($_REQUEST['keyword'])) $keyword="";
+else $keyword=$_REQUEST['keyword'];
+
+if(!isset($_REQUEST['group_name'])) $group_name="";
+else $group_name=$_REQUEST['group_name'];
+
+if(isset($_REQUEST['for_group_id'])) $for_group_id = (int)$_REQUEST['for_group_id'];
+else $for_group_id="";
+
+if ($for_group_id!="") {$tmp_obj="for_group_id";$tmp_obj_id=$for_group_id;}
+
+
+switch($action) {
+	// ============= Блок реализующий "Создать новую группу"  =============
+	case "view_create_form":
+		if(!is_allow(13,0,$group_category_id,0,0,0,1)) {
+			echo "<META HTTP-EQUIV='Refresh' CONTENT='0; URL=".$_SERVER['HTTP_REFERER']."&status_code=0&status_num=op_not_permitted'>";
+			exit;
+		};
+		// Форма создания новой группы
+		themeleftbox(_GROUPS_CATEGORY_CREATE_HEADER,"","",true);
+		echo "
+			<tr><td>  <br>
+			<b>"._GROUPS_CATEGORY_ENTER_NAME."</b><br><br>
+			<form method=POST action='index.php?module=".$module."&page=group_category&action=create_group&group_category_id=".$group_category_id."'>
+			<input type=text name=group_name><br><br>
+			<input type=submit value='"._GROUPS_CATEGORY_CREATE_BUTTON."'>
+			</form>
+		";
+	break;
+
+	case "create_group":
+		if(!is_allow(13,0,$group_category_id,0,0,0,1)) {
+			echo "<META HTTP-EQUIV='Refresh' CONTENT='0; URL=".$_SERVER['HTTP_REFERER']."&status_code=0&status_num=op_not_permitted'>";
+			exit;
+		};
+		// проверка имени теста на уникальность в пределах категории
+		$query = "SELECT COUNT(*)
+			FROM groups
+			WHERE group_category_id='".$group_category_id."'
+			AND group_name='".$group_name."'";
+
+		$row = sql_single_query($query);
+
+		if ($row['COUNT(*)']!=0) {
+			//редирект на форму создания группы
+			echo "<META HTTP-EQUIV='Refresh' CONTENT='0; URL=index.php?module=".$module."&page=group_category&action=view_create_form&group_category_id=".$group_category_id."&status_code=0&status_num=group_exist'>";
+			break;
+		}
+		// Скрипт создания новой группы
+		$query = "INSERT INTO groups (group_category_id,group_name)
+			VALUES('$group_category_id','".$group_name."')";
+		sql_query($query);
+		// получаем id созданной группы
+		$group_id = mysql_insert_id();
+			   
+		// раздача всех прав создателю группы
+		$query = "INSERT INTO permissions (object_code, object_id,user_id,
+			permission_read,permission_write,permission_owner,permission_execute)   
+			VALUES('14','$group_id','".$GLOBALS['auth_result']['user']['user_id']."','1','1','1','1')";
+		sql_query($query);
+
+		//редирект на вывод списка пользователем в созданной группе
+		// занести в статус сообщение о том, что тест с заданным именем был успешно создан
+		echo "<META HTTP-EQUIV='Refresh' CONTENT='0; URL=index.php?module=".$module."&page=group&action=view_group&group_id=".$group_id."&status_code=1&status_num=group_created'>";
+	break;
+
+	case "import_group":
+		if(!is_allow(13,0,$group_category_id,0,0,0,1)) {
+			echo "<META HTTP-EQUIV='Refresh' CONTENT='0; URL=".$_SERVER['HTTP_REFERER']."&status_code=0&status_num=op_not_permitted'>";
+			exit;
+		};
+		themeleftbox(_GROUPS_CATEGORY_IMPORT_HEADER,"","",true);
+		require_once("import_group.php");
+	break;
+
+	// ============= Блок реализующий "Открыть существующую категорию"  =============
+	case "view_category":
+		switch ($next_action) {
+			case "edit_permissions_g":
+				$query="SELECT group_name FROM groups WHERE group_id='".$for_group_id."'";
+				$res=sql_single_query($query);
+				themeleftbox(_GROUPS_CATEGORY_CH_CAT_R_H,"","",true);
+				echo "
+					<tr><td>  <br>
+					<b>"._GROUPS_CATEGORY_CH_GROUP."</b>: <u><i>".$res['group_name']."</i></u><br><br>
+					";
+			break;
+
+			case "edit_permissions_u":
+				$query="SELECT group_name FROM groups WHERE group_id='".$for_group_id."'";
+				$res=sql_single_query($query);
+				themeleftbox(_GROUPS_CATEGORY_CH_GR_R_H,"","",true);
+				echo "
+					<tr><td>  <br>
+					<b>"._GROUPS_CATEGORY_CH_GROUP_U."</b>: <u><i>".$res['group_name']."</i></u><br><br>";
+			break;
+
+			default:
+				themeleftbox(_GROUPS_CATEGORY_VIEW_HEADER,"","",true);
+				echo "
+					<tr><td>  <br>
+					<b>"._GROUPS_CATEGORY_CHOOSE_GROUP_DEF."</b><br><br>
+					";
+				$next_action="view_group";
+				break;
+		}
+		if ($keyword!='')
+			$query = "SELECT COUNT(*)
+				FROM groups
+				WHERE group_category_id='".$group_category_id."'
+				AND group_name
+				RLIKE '.*".$keyword.".*'";
+		else
+			if ($letter=='')
+				$query = "SELECT COUNT(*)
+					FROM groups
+					WHERE group_category_id='".$group_category_id."'";
+			else
+				$query = "SELECT COUNT(*)
+					FROM groups
+					WHERE group_category_id='".$group_category_id."'
+					AND group_name
+					RLIKE '^".$letter.".*'";
+	   $row = sql_single_query($query);
+	   $row_num=$row['COUNT(*)'];
+		// Вывод алфавита
+		show_abc('index.php?module=users&page=group_category&action='.$action.'&next_action='.$next_action.'&group_category_id='.$group_category_id.'&letter=');
+
+		if ($row_num==0)
+			echo "<b>"._GROUPS_CATEGORY_NO_GROUP."</b>";
+		else {
+			CloseTable();
+			// выводим список групп в данной категории...
+			if ($keyword!='')
+				$query="SELECT group_id,group_name,group_disable
+					FROM groups
+					WHERE group_category_id='".$group_category_id."'
+					AND group_name
+					RLIKE '.*".$keyword.".*'
+					ORDER BY group_name ASC
+					LIMIT ".$page_num*$limit_page.",".$limit_page;
+			else
+				if ($letter=='')
+					$query="SELECT group_id,group_name,group_disable
+						FROM groups
+						WHERE group_category_id='".$group_category_id."'
+						ORDER BY group_name ASC
+						LIMIT ".$page_num*$limit_page.",".$limit_page;
+				else
+					$query="SELECT group_id,group_name,group_disable
+						FROM groups
+						WHERE group_category_id='".$group_category_id."'
+						AND group_name
+						RLIKE '^".$letter.".*'
+						ORDER BY group_name ASC
+						LIMIT ".$page_num*$limit_page.",".$limit_page;
+			$result=sql_query($query);
+
+                    $n=0;
+
+                    $col_width=100/$limit_col;
+					echo '<table border="0"style="width:100%"><tr><td width='.$col_width.'%>';
+	               	while ($row=mysql_fetch_assoc($result))
+	               	{
+                        if ($n==$limit_row)
+	                        {
+	                             echo"<td width=".$col_width."%>";
+                                 $n=0;
+
+							}
+						$n++;
+                        if($row['group_disable']==1)
+                        {
+                             $on_off_str = _MENU_ON_TEST;
+                             $on_off = "on";
+                             $img = "on.png";
+                        }
+                        else
+                        {
+                             $on_off_str = _MENU_OFF_TEST;
+                             $on_off = "off";
+                             $img = "off.png";
+                        }
+						//-------------------------
+						echo "<table cellpadding=0 cellspacing=0 border=".$config['debug_table'].">
+						<tr><td nowrap>";
+						//-------------------------
+						if ($next_action=="edit_permissions_g")
+						{
+							 echo "<a href='index.php?module=".$module."&page=rights&action=edit_permissions_g&".$tmp_obj."=".$tmp_obj_id."&group_id=".$row['group_id']."'><img title='"._GROUP_VIEW_USERS."' align='absmiddle' src='themes/".$current_theme."/images/view.png'></a>&nbsp; ".$row['group_name']."<br>";
+						}
+						elseif ($next_action=="edit_permissions_u")
+						{
+							 echo "<a href='index.php?module=".$module."&page=group&action=view_group&next_action=".$next_action."&".$tmp_obj."=".$tmp_obj_id."&group_id=".$row['group_id']."'><img title='"._GROUP_VIEW_USERS."' align='middle' src='themes/".$current_theme."/images/view.png'></a>";
+						}
+						else
+
+					   echo "<a href='index.php?module=users&page=group&action=view_group&next_action=".$next_action."&group_id=".$row['group_id']."'><img title='"._GROUPS_CATEGORY_VIEW_GROUP."' align='absmiddle' src='themes/".$current_theme."/images/view.png'></a>&nbsp;
+							 <a href='index.php?module=users&page=group&action=view_rename_form&return_up=1&group_id=".$row['group_id']."'><img title='"._MENU_RENAME_TEST."' align='absmiddle' src='themes/".$current_theme."/images/rename.png'></a>&nbsp;
+                             <a href='index.php?module=users&page=group&action=".$on_off."&return_up=1&letter=".$letter."&keyword=".$keyword."&group_id=".$row['group_id']."'><img title='".$on_off_str."' align='absmiddle' src='themes/".$current_theme."/images/".$img."'></a>&nbsp;
+							 <a href='index.php?module=users&page=group&action=view_delete_form&return_up=1&letter=".$letter."&keyword=".$keyword."&group_id=".$row['group_id']."'><img title='"._MENU_DELETE_TEST."' align='absmiddle' src='themes/".$current_theme."/images/delete.png'></a>";
+						//-------------------------
+						echo "</td><td>&nbsp; ".$row['group_name']."</td></tr></table>";
+						//-------------------------
+	               	}
+                    echo "<tr><td colspan=".$limit_col."><br>";
+					echo nav_bar($row_num,"index.php?module=users&page=group_category&action=".$action."&group_category_id=".$group_category_id."&letter=".$letter."&page_num=");
+
+               }
+          break;
+
+
+
+          // ============= Блок общий для всех задач файла group_category.php  =============
+          case "select_group_category":
+          default :
+         
+               // в зависимости от $next_action выводим разный заголовок и $page= странице, где лежит соответсвующий скрипт переноса
+               // выводим список категорий
+              
+                              
+               switch ($next_action)
+               {
+               
+                    case "view_create_form":
+                         themeleftbox(_GROUPS_CATEGORY_CREATE_HEADER,"","",true);
+                         echo "
+                              <tr><td>  <br>
+                              <b>"._GROUPS_CATEGORY_CREATE_TEXT."</b>:<br><br>
+                              ";
+                    break;
+                    
+                    case "edit_permissions":
+                         themeleftbox(_GROUPS_CATEGORY_CH_CAT_R_H,"","",true);
+						 $query="SELECT group_name FROM groups WHERE group_id='".$for_group_id."'";
+						 $res=sql_single_query($query);
+                         echo "
+                              <tr><td>  <br>
+                              <b>"._GROUPS_CATEGORY_CH_CAT."</b>: <u><i>".$res['group_name']."</i></u><br><br>
+                              ";
+                    break;
+					
+					 case "edit_permissions_g":
+							 
+								 $query="SELECT group_name FROM groups WHERE group_id='".$for_group_id."'";
+								 $res=sql_single_query($query);
+		                         themeleftbox(_GROUPS_CATEGORY_CH_CAT_R_H,"","",true);
+		                         echo "
+		                              <tr><td>  <br>
+		                              <b>"._GROUPS_CATEGORY_CH_CAT_GR."</b>: <u><i>".$res['group_name']."</i></u><br><br>
+		                              ";
+		                    break;
+							
+				   case "edit_permissions_u":
+							$query="SELECT group_name FROM groups WHERE group_id='".$for_group_id."'";
+								 $res=sql_single_query($query);
+		                         themeleftbox(_GROUPS_CATEGORY_CH_CAT_R_H,"","",true);
+		                         echo "
+		                              <tr><td>  <br>
+		                              <b>"._GROUPS_CATEGORY_CH_CAT_U."</b>: <u><i>".$res['group_name']."</i></u><br><br>
+		                              ";
+		                    break;
+		                    
+				     case "view_category":
+								  themeleftbox(_GROUPS_CATEGORY_VIEW_HEADER,"","",true);
+								  echo "
+										<tr><td>  <br>
+										<b>"._GROUPS_CATEGORY_CHOOSE."</b><br><br>
+									   ";
+				      	break;
+		             case "import_group":
+		                    themeleftbox(_GROUPS_CATEGORY_VIEW_HEADER,"","",true);
+		                    echo "
+		                         <tr><td>  <br>
+		                        <b>"._GROUPS_CATEGORY_CHOOSE_I."</b><br><br>
+		                       ";
+		              break;
+							
+				      default:
+								  themeleftbox(_GROUPS_CATEGORY_CHOOSE_HEADER_DEF,"","",true);
+								  echo "
+										<tr><td>  <br>
+										<b>"._GROUPS_CATEGORY_CHOOSE_CATEGORY_DEF."</b><br><br>
+									   ";
+								  $next_action="view_category";
+				      break;
+               }
+               if ($keyword!='')
+				   $query = "SELECT COUNT(*)
+                              FROM group_categories
+                              WHERE group_category_name
+							  RLIKE '.*".$keyword.".*'
+                              ";
+               else
+    			   if ($letter=='')
+    					$query = "SELECT COUNT(*) FROM group_categories";
+                   else
+    					$query = "SELECT COUNT(*)
+    							  FROM group_categories
+    							  WHERE group_category_name
+    							  RLIKE '^".$letter.".*'
+    							 ";
+			   $row = sql_single_query($query);
+			   $row_num=$row['COUNT(*)'];
+
+			   // Вывод алфавита
+			   show_abc('index.php?module=users&page=group_category&action='.$action.'&next_action='.$next_action.'&letter=');
+
+               if ($row_num==0) echo _GROUPS_CATEGORY_NO_CATEGORY;
+					else
+					{  if($keyword!='')
+                            $query = "SELECT *
+                                     FROM group_categories
+                                     WHERE group_category_name
+                                     RLIKE '.*".$keyword.".*'
+                                     ORDER BY group_category_name ASC
+                                     LIMIT ".$page_num*$limit_page.",".$limit_page;
+
+                       else
+                           if ($letter=='')
+    							$query = "SELECT *
+                                     	 FROM group_categories
+    	                                 ORDER BY group_category_name ASC
+    									 LIMIT ".$page_num*$limit_page.",".$limit_page;
+                                else
+        							$query = "SELECT *
+        	                                 FROM group_categories
+        	                                 WHERE group_category_name
+        									 RLIKE '^".$letter.".*'
+        	                                 ORDER BY group_category_name ASC
+        									 LIMIT ".$page_num*$limit_page.",".$limit_page;
+						$result=sql_query($query);
+
+                        CloseTable();
+                        $n=0;
+
+	                   	$col_width=100/$limit_col;
+
+                        echo '<table border="0"style="width:100%"><tr><td width='.$col_width.'%>';
+
+                        while ($row=mysql_fetch_assoc($result))
+                    	{
+	                        if ($n==$limit_row)
+	                        {
+	                             echo"<td width=".$col_width."%>";
+                                 $n=0;
+
+	                        }
+							$n++;
+						//-------------------------
+						echo "<table cellpadding=0 cellspacing=0 border=".$config['debug_table'].">
+						<tr><td nowrap>";
+						//-------------------------
+				switch ($next_action)
+                {
+               
+                    case "edit_permissions":
+                         echo "<a href='index.php?module=users&page=rights&action=".$next_action."&group_category_id=".$row['group_category_id']."&".$tmp_obj."=".$tmp_obj_id."'><img title='"._GROUPS_CATEGORY_VIEW."' align='absmiddle' src='themes/".$current_theme."/images/view.png'></a>";
+                    break;
+					case "edit_permissions_g":
+					case "edit_permissions_u":
+                         echo "<a href='index.php?module=users&page=group_category&action=view_category&next_action=".$next_action."&group_category_id=".$row['group_category_id']."&".$tmp_obj."=".$tmp_obj_id."'><img title='"._GROUPS_CATEGORY_VIEW."' align='absmiddle' src='themes/".$current_theme."/images/view.png'></a>";
+                    break;
+					
+    
+					
+					default:
+						echo "<a href='index.php?module=users&page=group_category&action=".$next_action."&group_category_id=".$row['group_category_id']."'><img title='"._GROUPS_CATEGORY_VIEW."' align='absmiddle' src='themes/".$current_theme."/images/view.png'></a>";
+					break;
+               }
+						//-------------------------
+						echo "</td><td>&nbsp; ".$row['group_category_name']."</td></tr></table>";
+						//-------------------------
+
+								
+	                    }
+					   echo "<tr><td colspan=".$limit_col."><br>";
+					   echo nav_bar($row_num,"index.php?module=users&page=group_category&next_action=".$next_action."&letter=".$letter."&page_num=")."</center>";
+
+                    }
+		  break;
+}

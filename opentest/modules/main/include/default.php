@@ -1,0 +1,67 @@
+<?php
+if (INDEXPHP!=1) die ("You can't access this file directly...");
+themeleftbox(_DEFAULT6,"","",true);
+?>
+<tr><td> 
+<table width='100%'>
+<? if ( ($config['show_all_icon']==0) AND ($auth_result['authorized']==false) ) : ?>
+<tr>
+	<td>
+		<a href='index.php?module=test'>
+		<img src='themes/opentest2/images/icons/14.png' align=absmiddle>
+		<?php echo _DEFAULT1; ?></a> 
+	</td>
+</tr>
+<? else: ?>
+<tr>
+	<td>
+		<a href='index.php?module=test'>
+		<img src='themes/opentest2/images/icons/14.png' align=absmiddle>
+		<?php echo _DEFAULT1; ?></a> 
+	</td>
+	<td>
+		<a href='index.php?module=tests'>
+		<img src='themes/opentest2/images/icons/6_2.png' align=absmiddle>
+		<?php echo _DEFAULT2; ?></a> 	
+	</td>	
+</tr>
+<tr>
+	<td>
+		<a href='index.php?module=users'>
+		<img src='themes/opentest2/images/icons/bank_user_edit_1.png' align=absmiddle> 
+		<?php echo _DEFAULT3; ?></a>	
+	</td>
+	<td>
+		<a href='index.php?module=testcontrol'>
+		<img src='themes/opentest2/images/icons/6.png' align=absmiddle>
+		<?php echo _TESTCONTROL; ?></a>	
+	</td>	
+</tr>
+<tr>
+	<td>
+		<a href='index.php?module=results&page=show_results&action=show_results'>
+		<img src='themes/opentest2/images/icons/Notes_Clear_resize.png' align=absmiddle> 
+		&nbsp; <?php echo _DEFAULT4; ?></a>
+	</td>
+	<td>
+		<a href='index.php?module=admin'>
+		<img src='themes/opentest2/images/icons/11.png' align=absmiddle>
+		  <?php echo _DEFAULT5; ?></a>	
+	</td>	
+</tr>
+<tr>
+	<td>
+		<a href='index.php?module=statistics'>
+		<img src='themes/opentest2/images/icons/line-chart.png' align=absmiddle>
+		<?php echo _STATISTICS; ?></a>	
+	</td>
+	<td>
+		<a href='index.php?module=main&page=support'>
+		<img src='themes/opentest2/images/icons/support24.png' align=absmiddle>
+		<?php echo _SUPPORT24; ?></a>	
+	</td>
+</tr>
+<? endif ?>
+
+</table>
+</td></tr>

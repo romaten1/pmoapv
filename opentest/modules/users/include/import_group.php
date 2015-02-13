@@ -1,0 +1,57 @@
+<?php
+if (INDEXPHP!=1) die ("You can't access this file directly...");
+
+@$import_format=$_REQUEST['import_format'];
+@$save_to_db=$_REQUEST['save_to_db'];
+
+mb_internal_encoding($GLOBALS['default_internal_encoding']);
+
+if (version_compare(PHP_VERSION,'5','>='))
+ require_once('modules/domxml_php4_php5/domxml-php4-to-php5.php'); //Load the PHP5 converter
+if (version_compare(PHP_VERSION,'5','>=')&&extension_loaded('xsl'))
+ require_once('modules/domxml_php4_php5/xslt-php4-to-php5.php');
+
+if(!is_allow(13,0,$group_category_id,0,0,0,1)) {
+			echo "<META HTTP-EQUIV='Refresh' CONTENT='0; URL=".$_SERVER['HTTP_REFERER']."&status_code=0&status_num=op_not_permitted'>";
+			exit;
+};
+
+switch($import_format) {
+  case "opentest2":
+      {
+      echo "<tr><td>  <br>";
+      ignore_user_abort();
+      $group_category_id=$_REQUEST['group_category_id'];
+		require_once("import_group_functions.php");
+
+      if($file_post=fopen($_FILES['file']['tmp_name'],"rb"))
+          {
+            $file_post_str=fread($file_post,filesize($_FILES['file']['tmp_name']));
+			import_group($file_post_str,$group_category_id,$save_to_db);
+          }
+
+      break;
+      }
+  default:
+      {
+       echo "<tr><td>  <br>
+             <b>"._IMPORT_GROUP_TEXT."</b>:<br><br>
+             <form method=POST enctype='multipart/form-data' >
+             <input type=file name='file'>
+               (Max upload size:  ".ini_get('upload_max_filesize').")
+             <br><br>
+             <b>"._CATEGORY_IMPORT_FORMATS."</b>:<br>
+
+             <input type='radio' name='import_format' value='opentest2' checked> OpenTEST 2.0 Users XML <br>
+			 <input type='radio' name='import_format' value='opentest2' disabled> CSV file <br>
+             <br><b>"._CATEGORY_IMPORT_OPTIONS."</b>:<br>
+
+             <input type='radio' name='save_to_db' value='0' checked> "._CATEGORY_IMPORT_OPTION1." <br>
+             <input type='radio' name='save_to_db' value='1' > "._CATEGORY_IMPORT_OPTION2." <br><br>
+
+             <input type=submit value='"._CATEGORY_IMPORT_BUTTON."'>
+             </form>
+            ";
+      break;
+      }
+  }

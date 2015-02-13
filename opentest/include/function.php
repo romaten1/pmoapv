@@ -1,0 +1,411 @@
+<?php
+if (INDEXPHP!=1) die ("You can't access this file directly...");
+
+function test_page($page='',$def='default') {
+	global $module;
+	if	(($page == "") ||
+		(!file_exists ("modules/$module/include/$page.php")) ||
+		( preg_match('/([^_a-z-]+)/',$page) )
+	) return $def;
+
+	return $page;
+}
+
+function get_lang($module) {
+	global $config,$currentlang;
+	if (file_exists("modules/$module/language/lang-".$currentlang.".php"))
+		include_once("modules/$module/language/lang-".$currentlang.".php");
+	else @include_once("modules/$module/language/lang-".$config['default_language'].".php");
+}
+
+function show_status() {
+	global $status_code,$status_text,$status_num;
+	if($status_code==1) $color="green";
+	if($status_code==0) $color="red";
+	echo '<tr align=right><td>';
+	echo"<font color=".$color.">"._MAINFILE3.": </font> ",$status_text[$status_num]," <br>";
+	echo '</td></tr>';
+}
+
+function nav_bar($records,$URL) {
+	$str="<center>";
+	global $limit_page,$page_num,$keyword;
+	if ($records<=$limit_page) return;
+	if ($page_num==0) {$sstart=$page_num-0;$send=$page_num+10;}
+	if ($page_num==1) {$sstart=$page_num-1;$send=$page_num+9;}
+	if ($page_num==2) {$sstart=$page_num-2;$send=$page_num+8;}
+	if ($page_num==3) {$sstart=$page_num-3;$send=$page_num+7;}
+	if ($page_num==4) {$sstart=$page_num-4;$send=$page_num+6;}
+	if ($page_num>=5) {$sstart=$page_num-5;$send=$page_num+5;}
+
+	if ($send*$limit_page>$records) $send=$records/$limit_page;
+	if ($sstart<0) $sstart=0;
+	if ($sstart!=0)	{
+		$str.="<a href=".$URL."1>&lt;&lt</a> ";
+		$str.="<a href=".$URL.($page_num).">&lt;</a> ";
+	}
+
+	if ($records%$limit_page==0) $add=0; else $add=1;
+	$str.="|";
+	for ($i=$sstart;$i<$send;$i++) {
+		if ($i==$page_num) $str.=" <B>".($i+1)."</B> | ";
+		else $str.=" <a href=".$URL.($i+1)."><U><B>".($i+1)."</B></U></a> |  ";
+	}
+
+	if ($page_num+(1-$add)+4<intval($records/$limit_page)) {
+			$str.=" <a href=".$URL.($page_num+2).">&gt;</a>";
+			$str.=" <a href=".$URL.(intval($records/$limit_page)-(1-$add)+1).">&gt;&gt;</a>";
+	}
+
+	$str.="<br>"._MAINFILE_CURRENT_PAGE.($page_num+1)._MAINFILE_TOTAL_PAGES.(intval($records/$limit_page)-(1-$add)+1);
+
+	$str.="<FORM METHOD=POST ACTION='".substr($URL,0,-10)."'>
+		"._MAINFILE_PAGE_NO."<input type=text size=5 maxlenght=5 name=page_num>&nbsp;&nbsp;
+		<input type=submit value='"._MAINFILE_BUTTON_GOTO."'>
+		</FORM>";
+	$str.="<FORM METHOD=POST ACTION='".substr($URL,0,-10)."'>
+		"._MAINFILE_KEYWORD_SEARCH."<br><input type=text size=20 maxlenght=50 name=keyword>&nbsp;&nbsp;
+		<input type=submit value='"._MAINFILE_BUTTON_SEARCH."'>
+		</FORM>";
+	return($str."</center>");
+}
+
+function show_abc ($URL) {
+	global $rus_alf, $eng_alf, $for_group_id, $for_test_id;
+	$tmp="";
+	if ($for_group_id!="") $tmp="&for_group_id=".$for_group_id;
+	elseif ($for_test_id!="") $tmp="&for_test_id=".$for_test_id;
+	
+	echo "<center><a href='".$URL.$tmp."'>".$rus_alf[0]."</a>&nbsp;&nbsp;";
+	for ($i=1;$i<count($rus_alf);++$i)
+		echo "|&nbsp;<a href='".$URL.$rus_alf[$i].$tmp."'>".$rus_alf[$i]."</a>&nbsp;";
+	echo"(укр.)<br>";
+	echo "<a href='".$URL.$tmp."'>".$eng_alf[0]."</a>&nbsp;&nbsp;";
+	for ($i=1;$i<count($eng_alf);++$i)
+		echo "|&nbsp;<a href='".$URL.$eng_alf[$i].$tmp."'>".$eng_alf[$i]."</a>&nbsp;";
+	echo"</center><br>";
+}
+
+function disable($object_id, $object_type, $disable){
+	$object_types = array(
+		"test",
+		"topic",
+		"question",
+		"user",
+		"group");
+
+	sql_query("UPDATE ".$object_types[$object_type]."s
+			SET ".$object_types[$object_type]."_disable='$disable'
+			WHERE ".$object_types[$object_type]."_id='$object_id'");
+}
+
+function get_count($object_id, $object_type, $enabled=false, $keyword='', $letter='') {
+	$query_add="";
+	if (!is_numeric($object_id)) $object_id=0;
+	
+	switch($object_type) {
+	case "1":		
+		if($keyword!='') $query_add=" AND questions.question_text RLIKE '.*".$keyword.".*'";
+		if($letter!='')	$query_add=" AND questions.question_text RLIKE '^".$letter.".*'";
+		
+		$query = "SELECT COUNT(*)
+			FROM topics, questions
+			WHERE topics.test_id=".$object_id."
+			AND questions.topic_id=topics.topic_id".$query_add;
+			
+		if($enabled)
+			$query .= " AND topics.topic_disable=0 AND questions.question_disable=0".$query_add;
+	break;
+	case "2":
+		if($keyword!='') $query_add=" AND questions.question_text RLIKE '.*".$keyword.".*'";
+		if($letter!='')	$query_add=" AND questions.question_text RLIKE '^".$letter.".*'";
+		
+		$query = "SELECT COUNT(*)
+			FROM questions
+			WHERE topic_id=".$object_id.$query_add;;
+			
+		if($enabled) $query .= " AND question_disable=0".$query_add;;
+	break;
+
+	case "3":
+		if($keyword!='') $query_add=" AND users.user_name RLIKE '.*".$keyword.".*'";				
+		if ($letter!='') $query_add=" AND users.user_name RLIKE '^".$letter.".*'";
+		
+		$query = "SELECT COUNT(*)
+			FROM users
+			WHERE group_id=".$object_id.$query_add;;
+		
+		if($enabled) $query .= " AND user_disable=0".$query_add;
+	break;
+	
+	case "4":
+		if($keyword!='') $query_add=" WHERE test_category_name RLIKE '.*".$keyword.".*'";
+		if ($letter!='') $query_add=" WHERE test_category_name RLIKE '^".$letter.".*'";
+	
+		$query = "SELECT COUNT(*)
+			FROM test_categories
+			".$query_add;				
+	break;
+
+	case "5":
+		if($keyword!='') $query_add=" AND t.test_name RLIKE '.*".$keyword.".*'";
+		if ($letter!='') $query_add=" AND t.test_name RLIKE '^".$letter.".*'";
+		
+		$query = "SELECT COUNT(*)
+			FROM tests t,permissions p
+			WHERE t.test_category_id=".$object_id.$query_add;
+			
+		$query.=" AND ((p.object_code=11 AND p.object_id='".$object_id."') OR (p.object_code=12 AND p.object_id=t.test_id ))
+				AND (p.user_id=".$GLOBALS['auth_result']['user']['user_id']."
+					OR p.group_id=".$GLOBALS['auth_result']['user']['group_id']."
+					OR p.group_category_id=".$GLOBALS['auth_result']['group']['group_category_id'].")
+				AND (p.permission_read=1 OR p.permission_write=1 OR p.permission_owner=1)";
+				
+		if($enabled) $query .= " AND t.test_disable=0".$query_add;
+		break;
+			
+	case "6":
+		if($keyword!='') $query_add=" WHERE group_category_name RLIKE '.*".$keyword.".*'";
+		if ($letter!='') $query_add=" WHERE group_category_name RLIKE '^".$letter.".*'";
+		$query = "SELECT COUNT(*)
+			FROM group_categories
+			 ".$query_add;				
+		break;
+			
+	case "7":
+		if($keyword!='') $query_add=" AND group_name RLIKE '.*".$keyword.".*'";
+		if ($letter!='') $query_add=" AND group_name RLIKE '^".$letter.".*'";
+
+		$query = "SELECT COUNT(*)
+			FROM groups
+			WHERE group_category_id=".$object_id.$query_add;
+ 
+		if($enabled) $query .= " AND group_disable=0".$query_add;
+	break;
+
+	case "8":
+		$query = "SELECT COUNT(*)
+			FROM answers
+			WHERE question_id=".$object_id;
+	break;
+
+	case "9":		
+		if($keyword!='') $query_add=" AND topic_name RLIKE '.*".$keyword.".*'";
+		if($letter!='')	$query_add=" AND topic_name RLIKE '^".$letter.".*'";
+		$query = "SELECT COUNT(*)
+			FROM topics
+			WHERE test_id=".$object_id.$query_add;
+			
+		if($enabled) $query .= " AND topic_disable=0".$query_add;
+	break;
+	}
+	
+	$row=sql_single_query($query);
+	return $row['COUNT(*)'];
+}
+
+/* 	object_code =
+         1 - модуль Управление тестами
+         2 - модуль Управление пользователями
+         3 - модуль Управление тестированием
+         4 - модуль Результаты
+         5 - модуль Администрирование
+         11 - категория тестов
+         12 - тест
+         13 - категория пользователей
+         14 - группа
+ */
+ function is_allow($object_code,$parent_object_id,$object_id,$permission_read,$permission_write=0,$permission_owner=0,$permission_execute=0,$permission_modify=0) {
+	$group_category_id = $GLOBALS['auth_result']['group']['group_category_id'];
+	$group_id = $GLOBALS['auth_result']['user']['group_id'];
+	$user_id = $GLOBALS['auth_result']['user']['user_id'];
+	
+	$parent_object_id = (int)$parent_object_id;
+	if ( ($object_code == 12) AND ($parent_object_id==0) ) {
+		$result = sql_query("SELECT * FROM tests WHERE test_id='$object_id'");
+		$row = mysql_fetch_assoc($result);
+		$parent_object_id = $row['test_category_id'];
+	}
+	if ( ($object_code == 14) AND ($parent_object_id==0) ) {
+		$result = sql_query("SELECT * FROM groups WHERE group_id='$object_id'");
+		$row = mysql_fetch_assoc($result);
+		$parent_object_id = $row['group_category_id'];
+	}
+		
+	if($parent_object_id!=0)
+		if(is_allow($object_code-1,0,$parent_object_id,$permission_read,$permission_write,$permission_owner,$permission_execute,$permission_modify)) return 1;
+
+	$sql="select * from permissions
+		where (permission_read >= '$permission_read' and
+		permission_write >='$permission_write' and
+		permission_owner >= '$permission_owner' and
+		permission_execute >= '$permission_execute' and
+		permission_modify >= '$permission_modify'
+		and object_code = '$object_code'
+		and object_id = '$object_id'
+		and group_category_id = '$group_category_id')
+		or (object_code = '$object_code'
+		and object_id = '$object_id' and permission_owner ='1' and group_category_id = '$group_category_id')";
+		
+	$res=sql_query($sql);
+
+	if (mysql_num_rows($res) >= 1) return 1;
+	else {
+		$sql="select * from permissions
+			where (permission_read >= '$permission_read' and
+			permission_write >= '$permission_write' and
+			permission_owner >= '$permission_owner' and
+			permission_execute >= '$permission_execute' and
+			permission_modify >= '$permission_modify'
+			and object_code = '$object_code'
+			and object_id = '$object_id'
+			and group_id = '$group_id' )
+            or (object_code = '$object_code'
+            and object_id = '$object_id' and permission_owner =1 and group_id = '$group_id')";
+		$res = sql_query($sql);
+		if (mysql_num_rows($res) >=1) return 1;
+		else {
+           	$sql = "select * from permissions
+				where (permission_read >= '$permission_read' and
+				permission_write >= '$permission_write' and
+				permission_owner >= '$permission_owner' and
+				permission_execute >= '$permission_execute' and
+				permission_modify >= '$permission_modify'
+				and object_code = '$object_code'
+				and object_id = '$object_id'
+				and user_id = '$user_id')
+                or (object_code = '$object_code'
+                and object_id = '$object_id' and permission_owner =1 and user_id = '$user_id')";
+			$res = sql_query($sql);
+			if (mysql_num_rows($res) >= 1) return 1;
+			else return 0;
+		}
+	}
+	return 0;
+}
+
+//function of addin recent object
+// object_code = 0 - test
+//	1 - group
+function add_recent($object_code, $object_category_id, $object_id, $user_id){
+	global $config;
+
+	sql_query("UPDATE recent_objects
+		SET last_used=NOW()
+		WHERE object_code='$object_code'
+		AND object_category_id='$object_category_id'
+		AND object_id='$object_id' 
+		AND user_id='$user_id'");
+
+	if(mysql_affected_rows() == 0) {
+		$result=sql_query("SELECT recent_id
+			FROM recent_objects
+			WHERE user_id='$user_id'
+			AND object_code='$object_code'
+			ORDER BY last_used");
+		if(mysql_num_rows($result) >= $config['recent_num']){
+			$oldest_row = mysql_fetch_assoc($result);
+			sql_query("UPDATE recent_objects
+				SET object_code='$object_code', object_category_id='$object_category_id', 
+				object_id='$object_id'
+				WHERE recent_id='$oldest_row[recent_id])'");
+		} else 
+			sql_query("INSERT INTO recent_objects (object_code, object_category_id, object_id, user_id)
+				VALUES ('$object_code', '$object_category_id', '$object_id', '$user_id')");
+	}
+}
+	
+function del_recent($object_code, $object_id, $user_id=0) {
+	$query = "DELETE FROM recent_objects
+		WHERE object_code='$object_code'
+		AND object_id='$object_id'";
+	if($user_id>0) $query .= " AND user_id='$user_id'";
+	sql_query($query);
+	return true;
+}
+	
+function del_recent_redundant($object_code, $user_id) {		
+	$users_objects = sql_query("SELECT recent_id
+		FROM recent_objects
+		WHERE user_id='$user_id'
+		AND object_code='$object_code'
+		ORDER BY last_used");
+		
+	for($i=0; $i<(mysql_num_rows($users_objects))-$config['recent_num']; ++$i){
+		$row = mysql_fetch_assoc($users_objects);
+		sql_query("DELETE FROM recent_objects
+			WHERE recent_id='$recent_id'");
+	}
+}
+	
+//функция проверки входящищщх пересенных
+function valid_value($var, $type="int"){
+	switch($type) {
+	//если переменная типа int
+	case "int":
+		//преобразуем тип
+		$var = intval($var);
+	break;
+	
+	//если строковая переменная
+	case "string":
+		//преобразуем тип
+		$var = strlav($var);
+		//в зависимости от состояния magic_quotes_gpc
+		if(!ini_get('magic_quotes_gpc') && strlen($var)>0) $var = addslashes($var);
+	break;
+	}
+	return $var;
+}
+
+function callback_question_text_2($data){	
+	global $fetched_question;
+	$result_answer1=sql_query("select answer_sample FROM answers
+		WHERE question_id='".$fetched_question['question_id']."' AND answer_id='{$data[1]}'");
+	$f_answer1=mysql_fetch_array($result_answer1);
+	return "<b><i><u>$f_answer1[answer_sample]</u></i></b>";
+}
+
+
+function question_alternative($question_id)
+	{
+	$f_question=mysql_fetch_array(sql_query("select * from questions where question_id='$question_id' "));
+	
+	
+	switch($f_question['question_type'])
+			{
+			case "1":
+				{
+				$num_answers=sql_query("select count(*) from answers where question_id='$question_id' ");
+				$f_num_answers=mysql_fetch_row($num_answers);
+				$alternative=1/$f_num_answers[0];
+				break;
+				}
+			case "2":
+				{
+				$num_answers=sql_query("select count(*) from answers where question_id='$question_id' ");
+				$f_num_answers=mysql_fetch_row($num_answers);
+				$num_answers_right=sql_query("select count(*) from answers where question_id='$question_id' and answer_true='1' ");
+				$f_num_answers_right=mysql_fetch_row($num_answers_right);
+				
+				$alternative=1 / pow(2, $f_num_answers[0]-$f_num_answers_right[0]+1);
+				
+				break;
+				}
+			case "3":
+				{
+				$alternative=0;
+				break;
+				}	
+			case "4":
+				{
+				$num_answers=sql_query("select count(*) from answers where question_id='$question_id' ");
+				$f_num_answers=mysql_fetch_row($num_answers);
+				
+				$alternative=1/($f_num_answers[0]*($f_num_answers[0]-1));
+				break;
+				}
+			}
+	
+	return round($alternative,3);
+	}

@@ -1,0 +1,382 @@
+<?php
+if (INDEXPHP!=1) die ("You can't access this file directly...");
+
+	 // Получение переменых из суперглобальных массивов
+     if(isset($_REQUEST['action']))
+          $action = $_REQUEST['action'];
+     else $action="";
+
+     if(isset($_REQUEST['user_id']))
+          $user_id = intval($_REQUEST['user_id']);
+     else $user_id="";
+
+     if(isset($_REQUEST['user_disable']))
+          $user_disable = $_REQUEST['user_disable'];
+     else $user_disable=0;
+
+     if(isset($_REQUEST['user_name']))
+          $user_name = $_REQUEST['user_name'];
+     else $user_name="";
+
+     if(isset($_REQUEST['user_login']))
+          $user_login = $_REQUEST['user_login'];
+     else $user_login="";
+
+     if(isset($_REQUEST['user_password']))
+          $user_password = $_REQUEST['user_password'];
+     else $user_password="";
+     
+     if(isset($_REQUEST['user_password_confirm']))
+          $user_password_confirm = $_REQUEST['user_password_confirm'];
+     else $user_password_confirm="";
+
+     if(isset($_REQUEST['user_old_password']))
+          $user_old_password = $_REQUEST['user_old_password'];
+     else $user_old_password="";
+
+     if(isset($_REQUEST['user_cant_change_pass']))
+          $user_cant_change_pass = $_REQUEST['user_cant_change_pass'];
+     else $user_cant_change_pass=0;
+
+     if(isset($_REQUEST['group_id']))
+          $group_id = intval($_REQUEST['group_id']);
+     else $group_id="";
+
+   	 if(!isset($_REQUEST['page_num']))
+		  $page_num=0;
+     else
+          $page_num=intval($_REQUEST['page_num']-1);
+
+	 if(!isset($_REQUEST['letter']))
+		  $letter="";
+	 else
+		  $letter=$_REQUEST['letter'];
+
+	 if(!isset($_REQUEST['keyword']))
+		  $keyword="";
+	 else
+		  $keyword=$_REQUEST['keyword'];
+
+	 if(isset($_REQUEST['return_up']))
+		  $return_up = (int)$_REQUEST['return_up'];
+	 else
+		  $return_up= 0;
+
+if ($group_id=="")
+{
+ $row=sql_single_query("SELECT group_id FROM users WHERE user_id='".$user_id."'");
+ $group_id=$row['group_id'];
+}
+
+     switch($action)
+     {
+          
+          case "view_user":
+          if(!is_allow(14,$group_category_id,$group_id,1))
+                 {
+                    echo "<META HTTP-EQUIV='Refresh' CONTENT='0; URL=".$_SERVER['HTTP_REFERER']."&status_code=0&status_num=op_not_permitted'>";
+                    exit;
+                 };
+               // Вывод информации об указанном пользователе
+              
+               themeleftbox(_USER_VIEW_HEADER,"","",true);
+               echo "<tr><td>  <br>";
+               
+               $query = "SELECT group_id,user_name,user_disable,user_login,user_password,user_cant_change_pass
+                         FROM users
+						 WHERE user_id='".$user_id."'";
+			   $row = sql_single_query($query);
+			   if ($row['user_password']=='') $temp=_NO;
+			   	 else $temp=_EXISTS;
+			   if ($row['user_disable']==0) {$temp2=_NO;$tmp_on_of=1;}
+			   	 else $temp2=_YES;
+			   if ($row['user_cant_change_pass']==0) $temp3=_YES;
+			   	 else $temp3=_NO;
+               
+               
+               echo "
+               <table border='0' style='width:100%'>
+               <tr>
+               	  <td>"._GROUP_USER_DETAIL.": ".$row['user_name']."
+               </tr>
+               <tr>
+               	  <td>"._GROUP_USER_LOGIN.": ".$row['user_login']."
+               </tr>
+               <tr>
+               	  <td>"._GROUP_USER_PASSWORD.": ".$temp."
+               </tr>
+               <tr>
+               	  <td>"._GROUP_USER_OFF.": ".$temp2."
+               </tr>
+                 <tr>
+               	  <td>"._GROUP_USER_CH_PASS.": ".$temp3."
+               </tr>
+               	  </table>
+      
+               ";
+
+          break;
+          // ============= Блок реализующий "включить/выключить" =============
+		  case "on":
+		  case "off":
+                 if(!is_allow(14,$group_category_id,$group_id,0,1))
+                        {
+                                echo "<META HTTP-EQUIV='Refresh' CONTENT='0; URL=index.php?module=".$module."&page=group&action=view_group&next_action=view_group&group_id=".$group_id."&status_code=0&status_num=op_not_permitted'>";
+                                exit;
+                        }
+			   $stat_str = "&status_code=1&status_num=";
+
+			   if($action=="on")
+			   {
+					$disable=0;
+					$stat_str.="user_on";
+			   }
+			   else
+			   {
+					$disable=1;
+					$stat_str.="user_off";
+			   }
+			   disable($user_id,3,$disable);
+
+			   if($return_up==1)
+			   {
+					$row = sql_single_query("SELECT group_id
+											FROM users
+											WHERE user_id='".$user_id."'");
+					$url = "index.php?module=".$module."&page=group&action=view_group&letter=".$letter."&keyword=".$keyword."&group_id=".$row['group_id'];
+			   }
+			   else
+				  $url = "index.php?module=".$module."&page=user&action=view_user&user_id=".$user_id;
+
+               //редирект на вывод списка вопросов в текущей теме
+			   // занести в статус сообщение о том, что тема с заданным именем была успешно включена/выключена
+
+			   echo "<META HTTP-EQUIV='Refresh' CONTENT='0; URL=".$url.$stat_str."'>";
+          break;
+
+          // ============= Блок реализующий "переименовать" =============
+		  case "view_rename_form":
+                  if(!is_allow(14,$group_category_id,$group_id,0,1))
+                        {
+							if ($GLOBALS['auth_result']['user']['user_id'] == $user_id) {
+								$query = "SELECT * FROM users WHERE user_id='$user_id'";
+								$row = sql_single_query($query);
+								if ( ( $row['user_cant_change_pass'] === 1 ) ) {
+									echo "<META HTTP-EQUIV='Refresh' CONTENT='0; URL=index.php?module=".$module."&page=group&action=view_group&next_action=view_group&group_id=".$group_id."&status_code=0&status_num=op_not_permitted'>";
+									exit;
+								}
+								
+								themeleftbox(_USER_RENAME_HEADER,"","",true);
+								echo "<tr><td>  <br>
+									<b>"._USER_RENAME_TEXT."</b>:<br><br>
+									<form method=POST action='index.php?module=".$module."&page=user&action=rename&group_id=".$row['group_id']."&return_up=".$return_up."&user_id=".$user_id."'>
+								"._GROUP_USER_OLD_PASSWORD."<input type=password name=user_old_password><br>
+								"._GROUP_USER_NEW_PASSWORD."<input type=password name=user_password><br>
+								"._GROUP_USER_PASSWORD_C."<input type=password name=user_password_confirm><br>
+								<input type=submit value='"._USER_APPLY_BUTTON."'></form>";
+								break;
+							} else {
+								echo "<META HTTP-EQUIV='Refresh' CONTENT='0; URL=index.php?module=".$module."&page=group&action=view_group&next_action=view_group&group_id=".$group_id."&status_code=0&status_num=op_not_permitted'>";
+								exit;
+							}
+                        }
+               themeleftbox(_USER_RENAME_HEADER,"","",true);
+               $query = "SELECT *
+                         FROM users
+						 WHERE user_id='$user_id'";
+               $row = sql_single_query($query);
+               
+               $str="<tr><td>  <br>
+                    <b>"._USER_RENAME_TEXT."</b>:<br><br>
+		            <form method=POST action='index.php?module=".$module."&page=user&action=rename&group_id=".$row['group_id']."&return_up=".$return_up."&user_id=".$user_id."'>
+                    "._GROUP_USER_DETAIL."<input type=text name=user_name value='".htmlspecialchars($row['user_name'],ENT_QUOTES)."'><br>
+                    "._GROUP_USER_LOGIN."<input type=text name=user_login value='".htmlspecialchars($row['user_login'],ENT_QUOTES)."'><br>
+                    "._GROUP_USER_OLD_PASSWORD."<input type=password name=user_old_password><br>
+                    "._GROUP_USER_NEW_PASSWORD."<input type=password name=user_password><br>
+                    "._GROUP_USER_PASSWORD_C."<input type=password name=user_password_confirm><br>
+                    "._GROUP_USER_OFF."<input type=checkbox name=user_disable value='1'";
+                    if ($row['user_disable']==1)
+                    	$str.=' checked> <br><br>';
+                    else
+                    	$str.='> <br><br>';
+                    $str.=_GROUP_USER_CANT_CH_PASS."
+                    <input type=checkbox name=user_cant_change_pass value='1'";
+                    if ($row['user_cant_change_pass']==1)
+                            $str.=' checked> <br><br>';
+                    else
+                            $str.='> <br><br>';
+
+                    $str.="<input type=submit value='"._USER_APPLY_BUTTON."'></form>";
+                    echo $str;
+                
+          break;
+
+          case "rename":
+            $stat_str="";
+            if(!is_allow(14,$group_category_id,$group_id,0,1))
+			{
+				if ( $GLOBALS['auth_result']['user']['user_id'] == $user_id ) {
+						$query = "SELECT * FROM users WHERE user_id='$user_id'";
+						$row = sql_single_query($query);
+						
+						if ($user_old_password != $row['user_password']) {
+							//редирект на форму изменения пользователя
+							echo "<META HTTP-EQUIV='Refresh' CONTENT='0; URL=index.php?module=".$module."&page=user&action=view_rename_form&user_id=".$user_id."&status_code=0&status_num=old_password_incorrect'>";
+							exit;
+						}
+
+						if ( ($user_old_password != $row['user_password']) OR ($user_password != $user_password_confirm)
+							OR ( $row['user_cant_change_pass'] == 1 ) ) {
+							//редирект на форму изменения пользователя
+							echo "<META HTTP-EQUIV='Refresh' CONTENT='0; URL=index.php?module=".$module."&page=user&action=view_rename_form&user_id=".$user_id."&status_code=0&status_num=password_incorrect'>";
+							exit;
+						}
+
+						$query = "UPDATE  users SET user_password='$user_password' WHERE user_id='$user_id'";
+						sql_query($query);
+						
+						echo "<META HTTP-EQUIV='Refresh' CONTENT='0; URL=index.php'>";
+						exit;
+					} else {
+						echo "<META HTTP-EQUIV='Refresh' CONTENT='0; URL=index.php?module=".$module."&page=group&action=view_group&next_action=view_group&group_id=".$group_id."&status_code=0&status_num=op_not_permitted'>";
+						exit;
+					}
+                }
+               
+				// Сравнение пароля с проверочным полем
+				// + Наверное надо сделать ограничение на длину пароля
+				// проверка имени пользователя на уникальность в пределах группы
+
+			   $query = "SELECT COUNT(*)
+                         FROM users
+                         WHERE group_id='".$group_id."'
+						 AND user_name='".$user_name."'
+						 AND user_id!='".$user_id."'";
+
+			   $row = sql_single_query($query);
+			   if ($row['COUNT(*)']!=0)
+               {
+                    //редирект на форму изменения пользователя
+                    echo "<META HTTP-EQUIV='Refresh' CONTENT='0; URL=index.php?module=".$module."&page=user&action=view_rename_form&user_id=".$user_id."&status_code=0&status_num=user_exist'>";
+                    break;
+               }
+
+               $query = "SELECT user_password
+                         FROM users
+                         WHERE user_id='".$user_id."'";
+                         
+			   $row = sql_single_query($query);
+			   echo "user_old_password:".$user_old_password;
+			   echo "row[user_password]:".$row['user_password'];
+			   echo "user_password:".$user_password;
+			   echo "user_password_confirm:".$user_password_confirm;
+			   
+			   if(is_allow(14,$group_category_id,$group_id,0,0,1) or  is_allow(5,0,5,1))
+				{
+				$user_old_password=$row['user_password'];
+                }
+			   
+			   if ($user_old_password!='')
+			   		{
+				   if ($user_old_password==$row['user_password'])
+					   {
+					   		 if ($user_password != $user_password_confirm)
+					   		 	{
+					   		 	//редирект на форму изменения пользователя
+		              			 echo "<META HTTP-EQUIV='Refresh' CONTENT='0; URL=index.php?module=".$module."&page=user&action=view_rename_form&user_id=".$user_id."&status_code=0&status_num=password_incorrect'>";
+		              			 exit;
+					   		 	}
+		               }
+	               else
+	               		{
+	               		//редирект на форму изменения пользователя
+	             		 echo "<META HTTP-EQUIV='Refresh' CONTENT='0; URL=index.php?module=".$module."&page=user&action=view_rename_form&user_id=".$user_id."&status_code=0&status_num=old_password_incorrect'>";
+	             		 exit;
+	               		}
+			   		}
+	             		 
+	       $query = "SELECT COUNT(*)
+                         FROM users
+                         WHERE user_login='.$user_login.'
+                         AND user_id!='.$user_id.'";
+
+			   $row = sql_single_query($query);
+               if (($row['COUNT(*)']!=0) && ($user_id!==''))
+               {
+                    //редирект на форму добавления пользователя
+                    echo "<META HTTP-EQUIV='Refresh' CONTENT='0; URL=index.php?module=".$module."&page=user&action=view_rename_form&user_id=".$user_id."&status_code=0&status_num=user_login_exist'>";
+                    break;
+               }
+
+			   if ($user_password != '') $str_pass = ", user_password='$user_password'";
+				   else $str_pass = '';
+               // Скрипт обновления пользователя
+			   $query = "UPDATE  users 
+			   			 SET user_name='".$user_name."',user_disable='".$user_disable."',
+			   			 user_login='".$user_login."',
+			   			 user_cant_change_pass='".$user_cant_change_pass."' $str_pass
+                        WHERE user_id='".$user_id."'";
+			
+				sql_query($query);
+				
+			   //редирект на вывод списка вопросов в текущей теме
+			   // занести в статус сообщение о том, что тема была успешно переименована
+
+		    	   echo "<META HTTP-EQUIV='Refresh' CONTENT='0; URL=index.php?module=".$module."&page=user&action=view_user&user_id=".$user_id."&status_code=1&status_num=user_renamed'>";
+		  break;
+
+          // ============= Блок реализующий "удалить" =============
+		  case "view_delete_form":
+                  if(!is_allow(14,$group_category_id,$group_id,0,1))
+                 {
+                    echo "<META HTTP-EQUIV='Refresh' CONTENT='0; URL=".$_SERVER['HTTP_REFERER']."&status_code=0&status_num=op_not_permitted'>";
+                    exit;
+                 };
+               // Форма удаления темы
+               themeleftbox(_USER_DELETE_HEADER,"","",false);
+
+               if($return_up==1)
+               {
+                  //определение текуще для вывода тем после удаления
+                   $query = "SELECT group_id
+                             FROM users
+                             WHERE user_id='".$user_id."'";
+                   $row = sql_single_query($query);
+
+				   $url = "index.php?module=".$module."&page=group&action=view_group&letter=".$letter."&keyword=".$keyword."&group_id=".$row['group_id'];
+               }
+               else
+                   $url = "index.php?module=".$module."&page=user&action=view_user&user_id=".$user_id;
+
+              
+
+              echo "<tr><td><br>
+                     <b>"._USER_DELETING_CONFIRM."</b><br><br>
+					 <a href='index.php?module=".$module."&page=user&action=delete&letter=".$letter."&keyword=".$keyword."&user_id=".$user_id."'>"._YES."</a>&nbsp;&nbsp;
+                     <a href='".$url."'>"._NO."</a>
+                    ";
+		  break;
+
+          case "delete":
+          if(!is_allow(14,$group_category_id,$group_id,0,1))
+                 {
+                    echo "<META HTTP-EQUIV='Refresh' CONTENT='0; URL=".$_SERVER['HTTP_REFERER']."&status_code=0&status_num=op_not_permitted'>";
+                    exit;
+                 };
+               //скрипт удаления пользователя
+               //определение текущей группы для вывода пользователей после удаления
+
+        	if (delete_user($user_id))
+                {
+                    $status_code =1;
+                    $status_num = "user_deleted";
+                }
+                else
+                {
+                    $status_code = 0;
+                    $status_num = "user_not_deleted";
+                }
+			   //редирект
+	        echo "<META HTTP-EQUIV='Refresh' CONTENT='0; URL=index.php?module=".$module."&page=group&action=view_group&letter=".$letter."&keyword=".$keyword."&group_id=".$row['group_id']."&status_code=".$status_code."&status_num=".$status_num."'>";
+          break;
+}

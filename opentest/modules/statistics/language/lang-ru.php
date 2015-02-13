@@ -1,0 +1,184 @@
+<?php
+if (INDEXPHP!=1) die ("You can't access this file directly...");
+
+define("_MENU_SHOW_RESULTS", 	 	"Просмотр результатов");
+define("_MENU_SYSTOGRAMMS", 	 	"Частотный анализ результатов");
+define("_MENU_LOGS", 	 		"Логи сеансов тестирования");
+define("_MENU_TEST_STATS", 	 	"Статистические характеристики тестов");
+define("_MENU_USER_STATS", 	 	"Статистика знаний пользователей");
+define("_MENU_PRINTS", 	 	"Ведомости для печати");
+
+define("_STATISTICS", 	 	"Статистика");
+
+
+define("_MENU_BASIC_MENU",	 	 	"Меню основных модулей");
+define("_MENU_RESULTS_ROOT",	 	 	"Начальное меню модуля");
+
+define("_MENU_COMMON_TASKS", 	 	"Общие задачи");
+define("_MENU_AUTHORIZATION",	 	"Авторизация");
+define("_MENU_GROUP",		 	"Группа");
+define("_MENU_USER",		 	 	"Пользователь");
+define("_MENU_EXIT",		 	 	"Выход");
+define("_MENU_RETURN_TO_VIEW",		"Вернуться к просмотру");
+define("_MENU_VIEW",		 	 	"Активные задачи");
+define("_MENU_VIEW_ROOT",		 	 "Функции модуля");
+define("_MENU_LEAVE_CATEGORY",	 	"Покинуть текущую категорию");
+
+define("_VIEWING_RESULTS",			"Просмотр результатов");
+define("_NEW_TEST",				"Выбрать новый тест");
+define("_NEW_GROUP", 		 	"Выбрать новую группу");
+define("_NUMBER",				"№");
+define("_NAME",				"Ф.И.О.");
+define("_START_TIME",			"Время начала");
+define("_MARK",				"Оценка");
+define("_PERCENT", 				"%(*)");
+define("_PERCENT_SIMPLE",			"%");
+define("_CHOOSE", 	  		  	"Для просмотра результатов выберите тест и группу");
+define("_NO_TESTED_USERS",			"Нет ниодного пользователя, прошедшего тестирование");
+define("_NO_USERS", 	 			"В данной группе нет ни одного пользователя!");
+
+define("_SELECTION_TEST",	 		"Тест");
+define("_SELECTION_GROUP",			"Группа");
+
+define("_SELECTION_ALL_TESTS",	 		"Все группы");
+
+
+define("_TCATEGORY_VIEW",			"Просмотреть тесты в этой категории");
+define("_TCATEGORY_CHOOSE_HEADER",	 	"Выбор категории тестов");
+define("_TCATEGORY_NO_CATEGORY",	 	"В базе данных нет ни одной категории тестов!");
+define("_TCATEGORY_NO_C_KEYWORD",	 	"В базе данных нет ни одной категории тестов, содержащей ключевое слово!");
+define("_TCATEGORY_NO_C_LETTER",	 	"В базе данных нет ни одной категории тестов, начинающейся с указанной буквы!");
+define("_TCATEGORY_CHOOSE_CATEGORY", 	"Выберите категорию, где находится тест, который необходимо выбрать");
+
+define("_GCATEGORY_VIEW",		 	"Просмотреть группы в этой категории");
+define("_GCATEGORY_CHOOSE_HEADER",	 	"Выбор категории пользователей");
+define("_GCATEGORY_NO_CATEGORY",	 	"В базе данных нет ни одной категории пользователей!");
+define("_GCATEGORY_NO_C_KEYWORD",	 	"В базе данных нет ни одной категории пользователей, содержащей ключевое слово!");
+define("_GCATEGORY_NO_C_LETTER",	 	"В базе данных нет ни одной категории пользователей, начинающейся с указанной буквы!");
+define("_GCATEGORY_CHOOSE_CATEGORY", 	"Выберите категорию, где находится группа, которую необходимо выбрать");
+
+define("_TEST_CHOOSE_HEADER",		"Выбор теста");
+define("_TEST_CHOOSE_TEST",			"Выбрать этот тест");
+define("_TEST_NO_TEST", 			"В данной категории нет ни одного теста!");
+define("_TEST_NO_T_KEYWORD",		"В данной категории нет ни одного теста, содержащего ключевое слово!");
+define("_TEST_NO_T_LETTER", 		"В данной категории нет ни одного теста, начинающегося с указанной буквы!");
+
+define("_GROUP_CHOOSE_HEADER",		"Выбор группы");
+define("_GROUP_CHOOSE_GROUP",		"Выбрать эту группу");
+define("_GROUP_NO_GROUP", 			"В данной категории нет ни одной группы!");
+define("_GROUP_NO_G_KEYWORD",		"В данной категории нет ни одной группы, содержащей ключевое слово!");
+define("_GROUP_NO_G_LETTER",		"В данной категории нет ни одной группы, начинающейся с указанной буквы!");
+
+define("_TEACHER","Преподаватель");
+define("_ALL_TEACHERS","Все преподаватели");
+define("_TOTAL_UNIT","Набранный балл");
+
+define("_ACTIONS","Удалить график");
+define("_CHECK_ITEMS","Пометить");
+define("_DELETE_CHECKED_RESULTS","Удалить помеченные графики");
+define("_CURRENT_SELECTION_GRAPH"," Текущий график");
+
+define("_GRAPH_NUMBER","График №");
+define("_COUNT_PERCENTS"," Набранные балы");
+define("_DYSPLAY_GRAPH_OPTIONS","Параметры отображения графика");
+
+define("_GRAPH_STYLE","Стиль отображения");
+define("_LINEPOINTS","Линии с точками");
+define("_BARS","Колонки");
+define("_THINBARS","Узкие колонки");
+define("_POINTS","Точки");
+define("_SQUARED","Квадраты");
+define("_AREA","Область");
+define("_APPROX_STEP","Шаг аппроксимации");
+define("_BAL","Бал");
+define("_BALA","Бала");
+define("_BALS","Балов");
+define("_DYSPLAY_MODE","Метод отображения");
+define("_DYSPLAY_SEPARATED_GRAPHS","Каждый график отдельно");
+define("_DYSPLAY_COMBINED_GRAPH","Все графики в одном");
+define("_REFRESH","Обновить");
+
+define("_ADDITIONAL_RESULTS_ON_GRAPH","Дополнительные результаты, присутствующие на графике:");
+define("_ADD_ADDITIONAL_RESULTS","Сохранить текущие результаты на график и выбрать дополнительные");
+
+define("_VIEWING_LOG","Просмотр сеанса тестирования");
+define("_QUESTION_TEXT","Текст вопроса");
+define("_QUESTION_TYPE","Тип вопроса");
+define("_QUESTION_DIFFICULTY","Вес вопроса");
+define("_QUESTION_CHARASTERISTICS","Характеристики вопроса");
+define("_ANSWERS","Ответы");
+define("_SELECTED_ANSWERS","Выбранные ответы");
+define("_UNIT","Оценка за вопрос");
+define("_QUESTION_TYPE_1","Один з нескольких");
+define("_QUESTION_TYPE_2","Выбор нескольких правильных ответов");
+define("_QUESTION_TYPE_3","Свободный ввод");
+define("_QUESTION_TYPE_4","Соответствие");
+
+define("_QUESTION_SHOW_LATER","Задержка вывода ответов");
+define("_SECONDS","сек");
+
+define("_ANSWER_CORRECT","верный");
+define("_ANSWER_INCORRECT","неверный");
+define("_ANSWER_PARTIALY_CORRECT","частично верный");
+
+define("_GROUP_CAT_","Категория группы");
+define("_GROUP","Группа");
+define("_USER","Пользователь");
+define("_TEST_CAT","Категория тестов");
+define("_TEST","Тест");
+
+define("_TOTAL_QUESTIONS","Всего вопросов");
+define("_TOTAL_MARK","Итоговая оценка");
+define("_STOP_TIME","Время окончания");
+define("_AVERAGE_ALTERNATIVE","Сердняя альтернативность");
+
+define("_MENU_LOG_TEST_TABLE","Матрица результатов тестирований");
+define("_MENU_LOG_TEST_TABLE_EXPORT","Экспорт таблицы");
+define("_QUESTION","Вопрос");
+
+define("_FILTER_BY_DIFFICULTY","Показать только вопросы с трудностью");
+
+define("_MENU_LOG_TABLE_QUESTION","Анализ тестовых заданий");
+
+define("_SELECT_OTHER_QUESTION","Выбрать другой вопрос");
+define("_SELECT_TOPIC","Выбрать тему");
+define("_SELECT_QUESTION","Выбрать вопрос");
+define("_SELECT_QUESTION_BELOW","Выбрите необходимый вопрос из нижепредставленного списка");
+
+
+define("_MENU_LOG_TABLE_TOPIC","Тематический анализ теста");
+define("_TOPIC","Тема");
+
+define("_QUESTION_ALTERNATIVE","Вероятность угадывания вопроса");
+define("_QUESTION_TRUDNOST","Трудность");
+
+//Form 1 and 2 strings
+define("_MENU_TEST_LIST","Список тестов");
+define("_MENU_TEST_RESULTS","Результаты тестирования");
+define("_FROM","С ");
+define("_TO","По ");
+define("_TIME","Время");
+define("_QUESTIONS_NUM","Количество вопросов");
+define("_MENU_SHOW_TESTS","Список тестов");
+define("_TEST_NAME","Имя теста");
+define("_GROUP_NAME","Имя группы");
+define("_UNIT_SCALE",	"Бальность");
+define("_PRINT_VERSION", "Версия для печати");
+define("_TEST_TIME","Время тестирования");
+define("_CHOOSED_GROUPS","Выбранные группы");
+define("_CHOOSED_TESTS","Выбранные тесты");
+define("_COUNT_TOPICS","Количество тем в тесте");
+define("_COUNT_RESULTS","Количество участий");
+
+global $status_text;
+$status_text = array("op_permited"	=> "Для выполненеия операции нет привилегий"  );
+
+define("_ALL_TESTS", "Все тесты");
+define("_MORE_THAN_ONE_TEACHER","Больше одного преподавателя");
+define("_NO_RESULTS","Нет результатов");
+define("_NO_CORRELATION","Корреляция отсутствует");
+define("_CHOOSE_GROUP", "Выберите группу");
+define("_CHOOSE_TEST", "Выберите тест");
+define("_OVERALL_BY_TEST", "Итого по тесту");
+define("_CHOOSED_OBJECTS", "Выбранные объекты");
+define("_COUNT_USERS"," Количество человек");

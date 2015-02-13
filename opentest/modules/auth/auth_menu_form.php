@@ -1,0 +1,56 @@
+<?php
+if ($GLOBALS["auth_result"]['authorized']) {
+    ?>
+        <form method="post" name='login_form' id='login_form' action='index.php'>
+        <input type="hidden" NAME="op" value="logout">
+        <table border="0">
+<tr><td><?php echo _MENU_USER; ?>:</td>
+<td><b> <? echo $GLOBALS["auth_result"]["user"]['user_name']; ?> </b></td></tr>
+<tr><td><?php echo _MENU_GROUP; ?>:</td>
+<td><b> <? echo $GLOBALS["auth_result"]["group"]['group_name']; ?> </b></td></tr>
+<tr><td><?php echo _AUTH_MENU_CATEGORY; ?>:</td>
+<td><b> <? echo $GLOBALS["auth_result"]["group_category"]['group_category_name']; ?> </b></td></tr>
+
+
+<tr><td>
+<input type="submit" VALUE="<?php echo _MENU_EXIT; ?>">
+</td></tr></table>
+</form>
+<? } else {
+?>
+<script>
+    <?
+        include("modules/auth/include/md5.js");
+    ?>
+    </script>
+    <?
+    echo @$GLOBALS['error_message'];
+	if ($GLOBALS['get_module']!='test' and $GLOBALS['get_module']!="main" and $GLOBALS['get_module']!="")
+		{
+		echo "<span style='color:red'>"._AUTH_NEED_LOGIN."</span>";
+		}
+    ?>
+        <form method="post" name='login_form' id='login_form'>
+           <table border="0">
+        <tr><td><?php echo _MENU7; ?></td>
+        <td><input type="text" NAME="user_login" SIZE="20" MAXLENGTH="25"></td></tr>
+        <tr><td><?php echo _MENU8 ?></td>
+        <td><input type="password"  ID="user_password_hash"  NAME="user_password_hash" SIZE="20" MAXLENGTH="64"></td></tr>
+        <tr><td></td>	<td>
+        <input type="hidden" NAME="op" value="login">
+
+        <input type="hidden" NAME="last_log_hash" value='<? echo rand(0,100000000000000);  ?>'>
+
+        <input type="submit" VALUE="<?php echo _MENU9; ?>" onclick="user_password_hash.value=md5(user_password_hash.value+last_log_hash.value);">
+        </td></tr></table>
+        </form>
+        <div style='padding-left:5px;'>
+		
+		<!-- 
+        <a href='index.php'><?php echo _MENU10; ?></a><br>
+        <a href='index.php'><?php echo _MENU11; ?></a>
+		-->
+		
+        </div><br
+	<?php
+    }

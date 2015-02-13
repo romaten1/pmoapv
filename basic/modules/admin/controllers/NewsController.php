@@ -91,8 +91,7 @@ class NewsController extends Controller
             if (isset($model->image)) {
                 $model->image = UploadedFile::getInstance($model, 'image');
             }
-            if ($model->validate()) {
-                if (isset($model->image)) {
+            if (isset($model->image)) {
                     $image_name = Yii::$app->getSecurity()->generateRandomString(5)
                         . '_' . substr(TransliterateHelper::cyrillicToLatin($model->title), 0, 7);
                     $image_full_name = $image_name . '.' . $model->image->extension;
@@ -106,17 +105,14 @@ class NewsController extends Controller
                     $path_from = Yii::getAlias('@webroot/uploads/news/' . $image_full_name);
                     $path_to = Yii::getAlias('@webroot/uploads/news/') . $image_full_name;
                     $this->makeImage($path_from, $path_to, $desired_width = 500);
-                } else {
-                    $model->image = false;
-                }
+            } else {
+                $model->image = false;
             }
-            $model->created_at = 1;
-            $model->updated_at = 1;
-            if ($model->save()) {
+            if ($model->validate() && $model->save()) {
                 Yii::info($this->id . ' - ' . $this->action->id . ' - id: ' . $model->id . ' - user: ' . \Yii::$app->user->id, 'admin');
                 return $this->redirect(['view', 'id' => $model->id]);
             } else {
-                throw new NotFoundHttpException('Не удалось загрузить данные');
+	            throw new NotFoundHttpException('Не удалось загрузить данные');
             }
         } else {
             return $this->render('create', [
@@ -140,28 +136,28 @@ class NewsController extends Controller
             if (isset($model->image)) {
                 $model->image = UploadedFile::getInstance($model, 'image');
             }
-            if ($model->validate()) {
-                if (isset($model->image)) {
-                    $image_name = Yii::$app->getSecurity()->generateRandomString(5)
-                        . '_' . substr(TransliterateHelper::cyrillicToLatin($model->title), 0, 7);
-                    $image_full_name = $image_name . '.' . $model->image->extension;
-                    $model->image->saveAs('uploads/news/' . $image_full_name);
-                    $model->image = $image_full_name;
-                    //Make a thumbnails
-                    $path_from = Yii::getAlias('@webroot/uploads/news/' . $image_full_name);
-                    $path_to = Yii::getAlias('@webroot/uploads/news/thumbs/thumb_') . $image_full_name;
-                    $this->makeImage($path_from, $path_to, $desired_width = 120);
-                    //Make an image
-                    $path_from = Yii::getAlias('@webroot/uploads/news/' . $image_full_name);
-                    $path_to = Yii::getAlias('@webroot/uploads/news/') . $image_full_name;
-                    $this->makeImage($path_from, $path_to, $desired_width = 500);
-                } else {
-                    $model->image = $old_image;
-                }
 
+            if (isset($model->image)) {
+                $image_name = Yii::$app->getSecurity()->generateRandomString(5)
+                    . '_' . substr(TransliterateHelper::cyrillicToLatin($model->title), 0, 7);
+                $image_full_name = $image_name . '.' . $model->image->extension;
+                $model->image->saveAs('uploads/news/' . $image_full_name);
+                $model->image = $image_full_name;
+                //Make a thumbnails
+                $path_from = Yii::getAlias('@webroot/uploads/news/' . $image_full_name);
+                $path_to = Yii::getAlias('@webroot/uploads/news/thumbs/thumb_') . $image_full_name;
+                $this->makeImage($path_from, $path_to, $desired_width = 120);
+                //Make an image
+                $path_from = Yii::getAlias('@webroot/uploads/news/' . $image_full_name);
+                $path_to = Yii::getAlias('@webroot/uploads/news/') . $image_full_name;
+                $this->makeImage($path_from, $path_to, $desired_width = 500);
+            } else {
+                $model->image = $old_image;
             }
 
-            if ($model->save()) {
+
+
+            if ($model->validate() && $model->save()) {
                 Yii::info($this->id . ' - ' . $this->action->id . ' - id: ' . $model->id . ' - user: ' . \Yii::$app->user->id, 'admin');
                 return $this->redirect(['view', 'id' => $model->id]);
             } else {

@@ -1,0 +1,35 @@
+<?php
+if (INDEXPHP!=1) die ("You can't access this file directly...");
+
+if (file_exists("themes/$current_theme/theme.php"))
+	include("themes/$current_theme/theme.php");
+else {
+	echo _HEADER1;
+	die();
+}
+?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title><?php echo _HEADER2; ?></title>
+<?php
+include_once("include/meta.php");
+if (file_exists("themes/".$current_theme."/images/favicon.ico"))
+	echo '<link REL="shortcut icon" HREF="themes/'.$current_theme.'/images/favicon.ico" TYPE="image/x-icon">';
+
+echo '<LINK REL="StyleSheet" HREF="themes/'.$current_theme.'/style/style.css" TYPE="text/css">
+
+<script type="text/javascript" src="themes/jquery.js"></script>
+<script type="text/javascript" src="themes/jquery.floatheader.js"></script>
+<script type="text/javascript">
+	jQuery(document).ready(function() {
+		jQuery("#bigtable").floatHeader({ fadeIn: 250, fadeOut: 250 });
+	});
+</script>
+
+</head>';
+
+if($module=="test") themeheader_test();
+	else themeheader();
+	
+	

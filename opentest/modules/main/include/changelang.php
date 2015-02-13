@@ -1,0 +1,30 @@
+<?php
+if (INDEXPHP!=1) {die ("You can't access this file directly...");}
+
+switch(@$_REQUEST['action']) {
+	default:
+		themeleftbox(_CHANGELANG1,"","",true);
+
+		echo"<tr align=center><td>";
+
+		// форма выбора языка
+		$langs=array("ru" => "русский","ua" => "украинский","en" => "английский");
+
+		echo _SELECT_LANGUAGE.": <br><br>
+		<form action='index.php?module=".$module."&page=".$_REQUEST['page']."' method='post'>
+		<select name=setcurrentlang>
+		";
+		while(list($setcurrentlang, $value) = each($langs))
+		{
+			if($setcurrentlang==$currentlang) $sel = "selected"; else $sel="";
+			echo"<option value=".$setcurrentlang." ".$sel."> ".$value." </option>";
+		}
+		echo"
+		</select>
+		<br><br>
+		<input type=submit value='"._APPLY_LANGUAGE."'>
+		";
+	break;
+}
+?>
+</td></tr>

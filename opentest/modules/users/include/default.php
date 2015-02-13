@@ -1,0 +1,15 @@
+<?php
+if (INDEXPHP!=1) die ("You can't access this file directly...");
+
+themeleftbox(_MENU_TEST_CONTROL,"","",false);
+
+echo"
+<tr><td>
+<strong><big>&middot;</big></strong>&nbsp;
+<a href='index.php?module=".$module."&page=group_category&next_action=view_create_form'>"._MENU_CREATE_GROUP."</a><br>
+
+<strong><big>&middot;</big></strong>&nbsp;
+<a href='index.php?module=".$module."&page=group_category&next_action=view_category'>"._MENU_OPEN_GROUP."</a><br>
+";
+?>
+</td></tr>

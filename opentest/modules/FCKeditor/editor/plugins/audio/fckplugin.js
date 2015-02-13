@@ -1,0 +1,7 @@
+﻿// Register the related command.
+FCKCommands.RegisterCommand( 'Audio', new FCKDialogCommand( 'Audio', FCKLang.AudioDlgTitle, FCKPlugins.Items['audio'].Path + 'fck_audio.html', 450, 300 ) ) ;
+
+// Create the "Audio" toolbar button.
+var oAudioItem = new FCKToolbarButton( 'Audio', FCKLang.AudioBtn ) ;
+oAudioItem.IconPath = FCKPlugins.Items['audio'].Path + 'audio.gif' ;
+FCKToolbarItems.RegisterItem( 'Audio', oAudioItem ) ;

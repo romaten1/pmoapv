@@ -1,0 +1,160 @@
+<?php
+
+	if (INDEXPHP!=1)
+		die ("You can't access this file directly...");
+
+		
+	define("_MENU_SHOW_RESULTS", 	 	"Viewing of results");		
+	define("_MENU_SYSTOGRAMMS", 	 	"Frequency analysis of results");		
+	define("_MENU_LOGS", 	 		"Ravines of testing sessions");		
+	define("_MENU_TEST_STATS", 	 	"Statistical descriptions of tests");		
+	define("_MENU_USER_STATS", 	 	"Statistics of knowledges of users");
+	define("_MENU_PRINTS", 	 	        "Lists for a print");				
+		
+	define("_MENU_BASIC_MENU",	 	 	"Menu of the basic modules");
+	define("_MENU_RESULTS_ROOT",	 	 	"Initial menu of the module");
+	
+	
+	define("_MENU_COMMON_TASKS", 	 	"General tasks");
+	define("_MENU_AUTHORIZATION",	 	"Authorization");
+	define("_MENU_GROUP",		 	"Group");
+	define("_MENU_USER",		 	 	"User");
+	define("_MENU_EXIT",		 	 	"Exit");
+	define("_MENU_RETURN_TO_VIEW",		"Return to viewing");
+	define("_MENU_VIEW",		 	 	"Active tasks");
+	define("_MENU_VIEW_ROOT",		 	 "Functions of the module");
+	define("_MENU_LEAVE_CATEGORY",	 	"To abandon a current category");		
+	
+	define("_VIEWING_RESULTS",			"Viewing of results");
+	define("_NEW_TEST",				"To choose a new test");
+	define("_NEW_GROUP", 		 	"To choose a new group");
+	define("_NUMBER",				"¹");
+	define("_NAME",				"Name");
+	define("_START_TIME",			"Start time");
+	define("_TEST_TIME",			"Testing time");
+	define("_QUEST_NUM",			"Number of questions");
+	define("_MARK",				"Rating");
+	define("_PERCENT", 				"% (*)");
+	define("_PERCENT_SIMPLE",			"%");
+	define("_CHOOSE", 	  		  	"For viewing of results choose test and group");
+	define("_NO_TESTED_USERS",			"There is no user, past testing");
+	define("_NO_USERS", 	 			"There is not user in this group!");
+
+	
+	define("_SELECTION_TEST",	 		"Test");
+	define("_SELECTION_GROUP",			"Group");
+
+	define("_TCATEGORY_VIEW",			"To look over tests in this category");
+	define("_TCATEGORY_CHOOSE_HEADER",	 	"Choice of category of tests");
+	define("_TCATEGORY_NO_CATEGORY",	 	"There is nocategory of tests in a database!");
+	define("_TCATEGORY_NO_C_KEYWORD",	 	"In a database there is no category of tests, containing a keyword!");
+	define("_TCATEGORY_NO_C_LETTER",	 	"In a database there is no category of tests, beginning from the indicated letter!");
+	define("_TCATEGORY_CHOOSE_CATEGORY", 	"Choose a category, which contains a test that must be chosen");
+
+	define("_GCATEGORY_VIEW",		 	"To look over groups in this category");
+	define("_GCATEGORY_CHOOSE_HEADER",	 	"Choice of category of users");
+	define("_GCATEGORY_NO_CATEGORY",	 	"There is no category of users in a database!");
+	define("_GCATEGORY_NO_C_KEYWORD",	 	"In a database there is no category of users, containing a keyword!");
+	define("_GCATEGORY_NO_C_LETTER",	 	"In a database there is no category of users, beginning from the indicated letter!");
+	define("_GCATEGORY_CHOOSE_CATEGORY", 	"Choose a category, which contains a group that must be chosen");	
+
+	define("_TEST_CHOOSE_HEADER",		"Choice of test");
+	define("_TEST_CHOOSE_TEST",			"To choose this test");
+	define("_TEST_NO_TEST", 			"There is not a single test in this category!");
+	define("_TEST_NO_T_KEYWORD",		"In this category there is no test, containing a keyword!");
+	define("_TEST_NO_T_LETTER", 		"In this category there is no test, beginning from the indicated letter!");
+
+
+	define("_GROUP_CHOOSE_HEADER",		"Choice of group");
+	define("_GROUP_CHOOSE_GROUP",		"Choose this group");
+	define("_GROUP_NO_GROUP", 		"There is not a single group in this category!");
+	define("_GROUP_NO_G_KEYWORD",		"In this category there is no group, containing a keyword!");
+	define("_GROUP_NO_G_LETTER",		"In this category there is no group, beginning from the indicated letter!");
+
+	define("_TEACHER","Teacher");
+	define("_ALL_TEACHERS","All of teachers");
+	define("_ALL_GROUPS",		 "All of groups");
+	define("_ALL_TESTS",		 "All of tests");	
+	define("_TOTAL_UNIT",	"Total mark");
+	define("_UNIT_SCALE",	"Scale");
+	
+	define("_ACTIONS","Delete the diagram");
+	define("_CHECK_ITEMS","Mark");
+	define("_DELETE_CHECKED_RESULTS","Delete the marked diagrams");	
+	define("_CURRENT_SELECTION_GRAPH"," Current diagram");	
+	
+	define("_GRAPH_NUMBER","Diagram #");	
+	define("_COUNT_PERCENTS"," Total");	
+	define("_COUNT_USERS"," Amount of persons");	
+	define("_DYSPLAY_GRAPH_OPTIONS","Parameters of display of the diagram");	
+	
+	
+	define("_GRAPH_STYLE","Style of display");
+	define("_LINEPOINTS","Lines with points");
+	define("_BARS","Columns");
+	define("_THINBARS","Narrow columns");
+	define("_POINTS","Points");
+	define("_SQUARED","Squares");
+	define("_AREA","Area");
+	define("_APPROX_STEP","Step of approximation");
+	define("_BAL","Ball");
+	define("_BALA","Ball");
+	define("_BALS","Balls");
+	define("_DYSPLAY_MODE","Method of display");
+	define("_DYSPLAY_SEPARATED_GRAPHS","Every diagram separately");
+	define("_DYSPLAY_COMBINED_GRAPH","All of the diagrams are in one");
+	define("_REFRESH","Update");
+	
+	
+	define("_ADDITIONAL_RESULTS_ON_GRAPH","Additional results, presented on the diagram:");
+	define("_ADD_ADDITIONAL_RESULTS","Save current results on the diagram and choose additional");
+	
+	
+	
+	define("_VIEWING_LOG","Viewing of testing session");	
+	define("_QUESTION_TEXT","Text of question");	
+	define("_QUESTION_TYPE","Type of question");	
+	define("_QUESTION_DIFFICULTY","Complexity of question");	
+	define("_QUESTION_CHARASTERISTICS","Descriptions of question");	
+	define("_ANSWERS","Answers");	
+	define("_SELECTED_ANSWERS","Chosen answers");	
+	define("_UNIT","Estimation for a question");	
+	define("_QUESTION_TYPE_1","One of a few");	
+	define("_QUESTION_TYPE_2","A some of several");	
+	define("_QUESTION_TYPE_3","Free input");	
+	define("_QUESTION_TYPE_4","Conformity");	
+	
+	define("_QUESTION_SHOW_LATER","Delay in showing the answers");	
+	define("_SECONDS","Seconds");	
+	
+	define("_ANSWER_CORRECT","Correct");	
+	define("_ANSWER_INCORRECT","Incorrect");	
+	define("_ANSWER_PARTIALY_CORRECT","Partly correct");		
+	
+	
+    define("_GROUP_CAT_","Category of group");
+    define("_GROUP","Group");
+    define("_USER","User");
+ 	define("_TEST_CAT","Category of tests");
+    define("_TEST","Test");
+    
+    
+    define("_RESULTS_TOTAL_QUESTIONS","Total questions");
+    define("_RESULTS_TOTAL_MARK","Final mark");
+    define("_RESULTS_START_TIME","Start time");
+    define("_RESULTS_STOP_TIME","Time of completion");
+    define("_RESULTS_AVERAGE_ALTERNATIVE","Average alternative");
+    define("_RESULTS_PERCENT","Percent of right answers");
+    define("_RESULTS_PERCENT_SIMPLE","Percent of right answers (simplified)");
+    define("_RESULTS_TOTAL_UNIT","Aggregate result");
+	
+    define("_RESULTS_FROM_DATE","From");
+    define("_RESULTS_TO_DATE","To");
+    define("_RESULTS_UPDATE","Update");
+	
+	global $status_text;
+	$status_text = array("op_permited"	=> "For implementation of operation there are not privileges"  );	
+	
+	define("_PRINT_VERSION", "Version for a print");
+	define("_EXPORT_CSV", "Export to CSV (Excel) ");
+?>

@@ -1,0 +1,1040 @@
+<?php
+/************************************************************************/
+/* OpenTEST 2                                                           */
+/* ============================================                         */
+/*                                                                      */
+/* Copyright (c) 2002-2013 by OpenTEST Team                             */
+/* http://opentest.com.ua                                               */
+/* e-mail: nserv@opentest.com.ua                                        */
+/*                                                                      */
+/************************************************************************/
+
+if (INDEXPHP!=1) die ("You can't access this file directly...");
+
+define("DEFAULTTEST","1");
+
+	 // получаем, определяем и проверяем входяшие данные
+      if(!isset($_REQUEST['action']))
+          $action="";
+     else
+          $action=$_REQUEST['action'];                
+     
+     if(!isset($_REQUEST['next_action']))
+          $next_action="";
+     else
+          $next_action=$_REQUEST['next_action'];
+
+     if(!isset($_REQUEST['test_category_id']))
+          $test_category_id="";
+     else
+          $test_category_id=$_REQUEST['test_category_id'];
+          
+     if(!isset($_REQUEST['group_category_id']))
+          $group_category_id="";
+     else
+          $group_category_id=$_REQUEST['group_category_id'];   
+          
+	 if(!isset($_REQUEST['group_id']))
+          $group_id="";
+     else
+          $group_id=$_REQUEST['group_id'];
+          
+	 if(!isset($_REQUEST['user_id']))
+          $user_id="";
+     else
+          $user_id=$_REQUEST['user_id']; 
+          
+	 if(!isset($_REQUEST['test_id']))
+          $test_id="";
+     else
+          $test_id=$_REQUEST['test_id'];                                             
+
+     if(!isset($_REQUEST['test_name']))
+          $test_name="";
+     else
+          $test_name=$_REQUEST['test_name'];
+
+     if(!isset($_REQUEST['page_num']))
+          $page_num=0;
+     else
+          $page_num=(int)$_REQUEST['page_num']-1;
+
+     if(!isset($_REQUEST['letter']))
+          $letter="";
+     else
+          $letter=$_REQUEST['letter'];
+
+     if(!isset($_REQUEST['keyword']))
+          $keyword="";
+     else
+          $keyword=$_REQUEST['keyword'];
+     
+     if(!isset($_REQUEST['n']))
+          $n=0;
+     else
+          $n=$_REQUEST['n'];
+          
+     if(!isset($_REQUEST['start_test_password']))
+          $start_test_password="";
+     else
+          $start_test_password=$_REQUEST['start_test_password'];
+          
+     if(!isset($_REQUEST['teacher_id']))
+          $teacher_id="";
+     else
+          $teacher_id=$_REQUEST['teacher_id'];                 
+
+     switch($action)
+     {
+           case "view_group_category":
+				$query = "SELECT group_category_name
+						FROM  group_categories
+						WHERE  group_categories.group_category_id='$group_category_id'
+						";
+				$row=sql_single_query($query);
+				$group_category_name=$row['group_category_name'];
+				
+               themeleftbox(_SELECT_GROUP,"","",true);
+               echo "<tr><td>";
+               
+               echo"<a href='index.php?module=".$module."&page=".$page."'>"._TESTING."</a>&nbsp;>&nbsp
+               "._CATEGORY_NAME." \"
+               <a href='index.php?module=".$module."&page=".$page."&action=view_group_category&group_category_id=".$group_category_id."'>
+               ".$group_category_name." </a> \"&nbsp;>&nbsp";
+
+               if ($keyword!='') 
+               {
+               	   $null_msg = _GROUP_NO_G_KEYWORD;
+                   $query = "SELECT COUNT(*)
+                              FROM groups
+                                   WHERE group_category_id='$group_category_id'
+                                   AND group_disable=0
+                              AND group_name
+                              RLIKE '.*".$keyword.".*'";
+               }
+               elseif ($letter=='')
+               {
+                   		$null_msg = _GROUP_NO_GROUP;
+    					$query = "SELECT COUNT(*)
+    	                          FROM groups
+                                   WHERE groups.group_category_id='$group_category_id'
+                                   AND group_disable=0
+                                   ";
+                 }
+    			   else
+    			   {
+    			   		$null_msg = _GROUP_NO_G_LETTER;
+    					$query = "SELECT COUNT(*)
+    	                          FROM groups
+                                   WHERE groups.group_category_id='$group_category_id'
+                                   AND group_disable=0
+    	                          AND group_name
+    	                          RLIKE '^".$letter.".*'
+    	                          ";
+    	            }
+               $row=sql_single_query($query);
+               $row_num=$row['COUNT(*)'];
+
+               // Вывод алфавита
+               show_abc('index.php?module='.$module.'&page='.$page.'&action=view_group_category&group_category_id='.$group_category_id.'&letter=');
+
+               if ($row_num==0)
+					echo "<b>".$null_msg."</b>";
+               else
+               {
+                    CloseTable();
+
+                    // выводим список групп в данной категории...
+                    if ($keyword!='')
+                        $query="SELECT groups.group_id,groups.group_name
+                                   FROM groups
+                                   WHERE groups.group_category_id='$group_category_id'
+                                   AND group_disable=0
+                                   AND groups.group_name
+                                   RLIKE '.*".$keyword.".*'
+                                   ORDER BY group_name ASC
+                                   LIMIT ".$page_num*$limit_page.",".$limit_page;
+                    else
+                        if ($letter=='')
+    						$query="SELECT groups.group_id,groups.group_name
+    	                           FROM groups
+                                   WHERE groups.group_category_id='$group_category_id'
+                                   AND group_disable=0
+                                   ORDER BY group_name ASC
+    							   LIMIT ".$page_num*$limit_page.",".$limit_page;
+                        else
+    						$query="SELECT groups.group_id,groups.group_name
+    	                           FROM groups
+                                   WHERE groups.group_category_id='$group_category_id'
+                                   AND group_disable=0
+    	                           AND group_name
+    	                           RLIKE '^".$letter.".*'
+    	                           ORDER BY group_name ASC
+    							   LIMIT ".$page_num*$limit_page.",".$limit_page;
+					$result=sql_query($query);
+
+                    $n=0;
+
+                    $col_width=100/$limit_col;
+					echo '<table border="0"style="width:100%"><tr><td width='.$col_width.'%>';
+	               	while ($row=mysql_fetch_assoc($result))
+	               	{
+                        if ($n==$limit_row)
+	                        {
+	                             echo"<td width=".$col_width."%>";
+                                 $n=0;
+
+	                        }
+                        $n++;
+	                   echo "
+                        	<strong>&middot;</strong>&nbsp;
+							<a href='index.php?module=".$module."&page=".$page."&action=view_group&group_id=".$row['group_id']."'>".$row['group_name']."</a><br>
+	                        ";
+	               	}
+                   echo "<tr><td colspan=".$limit_col."><br>";
+					echo nav_bar($row_num,"index.php?module=".$module."&page=".$page."&action=".$action."&group_category_id=".$group_category_id."&letter=".$letter."&page_num=");
+
+               }
+          break;
+          
+          case "view_group":
+               
+               $query = "SELECT group_categories.group_category_id, group_category_name, group_name
+						FROM  group_categories, groups
+						WHERE  group_categories.group_category_id=groups.group_category_id
+						AND groups.group_id='$group_id'";
+				$row=sql_single_query($query);
+				$group_category_id=$row['group_category_id'];
+				$group_category_name=$row['group_category_name'];
+				$group_name=$row['group_name'];
+				
+               themeleftbox(_MEMBERS_GROUP,"","",true);
+               
+               echo "<tr><td>";
+               echo"<a href='index.php?module=".$module."&page=".$page."'>"._TESTING."</a>&nbsp;>&nbsp
+               "._CATEGORY_NAME." \"
+               <a href='index.php?module=".$module."&page=".$page."&action=view_group_category&group_category_id=".$group_category_id."'>
+               ".$group_category_name." </a> \"&nbsp;>&nbsp
+               "._GROUP_NAME." \"
+               <a href='index.php?module=".$module."&page=".$page."&action=view_group&group_id=".$group_id."'>
+               ".$group_name." </a> \"&nbsp;>&nbsp
+               ";
+
+               if ($keyword!='')
+               {
+                   $null_msg = _GROUP_NO_U_KEYWORD;
+                   $query = "SELECT COUNT(*)
+                              FROM users
+                              WHERE group_id='$group_id'
+                              AND user_disable=0
+                              AND user_name
+                              RLIKE '.*".$keyword.".*'							  
+                              ";
+				}                       
+               elseif ($letter=='')
+               {
+               		$null_msg = _GROUP_NO_USERS;
+    					$query = "SELECT COUNT(*)
+    	                          FROM users
+    							  WHERE group_id='$group_id'
+    							  AND user_disable=0								  
+    							  ";
+    			}
+    			   else
+    			   {
+    			   		$null_msg = _GROUP_NO_U_LETTER;
+    					$query = "SELECT COUNT(*)
+    	                          FROM users
+    							  WHERE group_id='$group_id'
+    							  AND user_disable=0
+    	                          AND user_name
+    	                          RLIKE '^".$letter.".*'								  
+    	                          ";
+    	            }
+               $row=sql_single_query($query);
+               $row_num=$row['COUNT(*)'];
+
+               // Вывод алфавита
+               show_abc('index.php?module='.$module.'&page='.$page.'&action=view_group&group_id='.$group_id.'&letter=');
+
+               if ($row_num==0)
+					echo "<b><center>".$null_msg."</center></b>";
+               else
+               {
+                    CloseTable();
+
+                    // выводим список групп в данной категории...
+                    if ($keyword!='')
+                        $query="SELECT user_id,user_name
+                                   FROM users
+                                   WHERE group_id='$group_id'
+                                   AND user_disable=0
+                                   AND user_name
+                                   RLIKE '.*".$keyword.".*'
+                                   ORDER BY user_name ASC
+                                   LIMIT ".$page_num*$limit_page.",".$limit_page;
+                    else
+                        if ($letter=='')
+    						$query="SELECT user_id,user_name
+    	                           FROM users
+    	                           WHERE group_id='$group_id'
+    	                           AND user_disable=0
+                                   ORDER BY user_name ASC
+    							   LIMIT ".$page_num*$limit_page.",".$limit_page;
+                        else
+    						$query="SELECT user_id,user_name
+    	                           FROM users
+    	                           WHERE group_id='$group_id'
+    	                           AND user_disable=0
+    	                           AND user_name
+    	                           RLIKE '^".$letter.".*'
+    	                           ORDER BY user_name ASC
+    							   LIMIT ".$page_num*$limit_page.",".$limit_page;
+					$result=sql_query($query);
+
+                    $n=0;
+
+                    $col_width=100/$limit_col;
+					echo '<table border="0"style="width:100%"><tr><td width='.$col_width.'%>';
+	               	while ($row=mysql_fetch_assoc($result))
+	               	{
+                        if ($n==$limit_row)
+	                        {
+	                             echo"<td width=".$col_width."%>";
+                                 $n=0;
+
+	                        }
+                        $n++;
+	                   echo "
+                        	<strong>&middot;</strong>&nbsp;
+							<a href='index.php?module=".$module."&page=".$page."&action=select_test_category&group_id=".$group_id."&user_id=".$row['user_id']."'>".$row['user_name']."</a><br>
+	                        ";
+	               	}
+                   echo "<tr><td colspan=".$limit_col."><br>";
+					echo nav_bar($row_num,"index.php?module=".$module."&page=".$page."&action=".$action."&group_id=".$group_id."&letter=".$letter."&page_num=");
+
+               }
+          break;
+          
+          case "select_test_category":
+             
+             $query = "SELECT group_categories.group_category_id, group_category_name, group_name, user_name
+						FROM  group_categories, groups, users
+						WHERE  group_categories.group_category_id=groups.group_category_id
+						AND groups.group_id='$group_id'
+						AND users.user_id='$user_id'
+						";
+				$row=sql_single_query($query);
+				$group_category_id=$row['group_category_id'];
+				$group_category_name=$row['group_category_name'];
+				$group_name=$row['group_name'];
+				$user_name=$row['user_name'];
+				
+				themeleftbox(_SELECT_TESTS_CATEGORY,"","",false);
+				
+				echo "<tr><td>";
+               echo"<a href='index.php?module=".$module."&page=".$page."'>"._TESTING."</a>&nbsp;>&nbsp
+               "._CATEGORY_NAME." \"
+               <a href='index.php?module=".$module."&page=".$page."&action=view_group_category&group_category_id=".$group_category_id."'>
+               ".$group_category_name." </a> \"&nbsp;>&nbsp
+               "._GROUP_NAME." \"
+               <a href='index.php?module=".$module."&page=".$page."&action=view_group&group_id=".$group_id."'>
+               ".$group_name." </a> \"&nbsp;>&nbsp
+               "._USER_NAME." \"
+               <a href='index.php?module=".$module."&page=".$page."&action=select_test_category&group_id=".$group_id."&user_id=".$user_id."'>
+               ".$user_name." </a> \"&nbsp;>&nbsp
+               ";
+				echo "<tr><td><br>";
+				
+               if ($keyword!='')
+               {
+               		$null_msg = _TCATEGORY_NO_C_KEYWORD;
+                   $query = "SELECT COUNT(*)
+                              FROM test_categories
+                              WHERE test_category_name
+                              RLIKE '.*".$keyword.".*'
+                              ";
+                }
+               elseif ($letter=='')
+               {
+               		$null_msg = _TCATEGORY_NO_CATEGORY;
+    					$query = "SELECT COUNT(*) FROM test_categories";
+    			}
+               else
+               {
+               		$null_msg = _TCATEGORY_NO_C_LETTER;
+    					$query = "SELECT COUNT(*)
+    							  FROM test_categories
+    							  WHERE test_category_name
+    							  RLIKE '^".$letter.".*'
+    							 ";
+    			}
+			   $row=sql_single_query($query);
+			   $row_num=$row['COUNT(*)'];
+
+			   // Вывод алфавита
+			   show_abc('index.php?module='.$module.'&page='.$page.'&action=select_test_category&group_id='.$group_id.'&user_id='.$user_id.'&letter=');
+
+               if ($row_num==0) echo "<b><center>".$null_msg."</center></b>";
+					else
+					{  if($keyword!='')
+                            $query = "SELECT *
+                                     FROM test_categories
+                                     WHERE test_category_name
+                                     RLIKE '.*".$keyword.".*'
+                                     ORDER BY test_category_name ASC
+                                     LIMIT ".$page_num*$limit_page.",".$limit_page;
+
+                       else
+                           if ($letter=='')
+    							$query = "SELECT *
+                                     	 FROM test_categories
+    	                                 ORDER BY test_category_name ASC
+    									 LIMIT ".$page_num*$limit_page.",".$limit_page;
+                                else
+        							$query = "SELECT *
+        	                                 FROM test_categories
+        	                                 WHERE test_category_name
+        									 RLIKE '^".$letter.".*'
+        	                                 ORDER BY test_category_name ASC
+        									 LIMIT ".$page_num*$limit_page.",".$limit_page;
+						$result=sql_query($query);
+
+                        CloseTable();
+                        $n=0;
+
+	                   	$col_width=100/$limit_col;
+
+                        echo '<table border="0"style="width:100%"><tr><td width='.$col_width.'%>';
+
+                        while ($row=mysql_fetch_assoc($result))
+                    	{
+	                        if ($n==$limit_row)
+	                        {
+	                             echo"<td width=".$col_width."%>";
+                                 $n=0;
+
+	                        }
+                            $n++;
+	                                echo "
+	                                    <strong>&middot;</strong>&nbsp;
+										<a href='index.php?module=".$module."&page=".$page."&action=view_test_category&test_category_id=".$row['test_category_id']."
+										&group_id=".$group_id."&user_id=".$user_id."'>".$row['test_category_name']."</a><br>
+	                                    ";
+
+
+	                    }
+					   echo "<tr><td colspan=".$limit_col."><br>";
+					   echo nav_bar($row_num,"index.php?module=".$module."&page=".$page."&action=select_test_category&group_id=".$group_id."&user_id=".$user_id."&letter=".$letter."&page_num=")."</center>";
+
+                    }
+		  break;
+		  
+		  case "view_test_category":
+               $query = "SELECT group_categories.group_category_id, group_category_name, group_name, user_name, test_category_name
+						FROM  group_categories, groups, users, test_categories
+						WHERE  group_categories.group_category_id=groups.group_category_id
+						AND groups.group_id='$group_id'
+						AND users.user_id='$user_id'
+						AND test_category_id='$test_category_id'";
+				$row=sql_single_query($query);
+				$group_category_id=$row['group_category_id'];
+				$group_category_name=$row['group_category_name'];
+				$group_name=$row['group_name'];
+				$user_name=$row['user_name'];
+				$test_category_name=$row['test_category_name'];
+				
+               themeleftbox(_SELECT_TEST,"","",true);
+               	
+			   echo "<tr><td>";
+               echo"<a href='index.php?module=".$module."&page=".$page."'>"._TESTING."</a>&nbsp;>&nbsp
+               "._CATEGORY_NAME." \"
+               <a href='index.php?module=".$module."&page=".$page."&action=view_group_category&group_category_id=".$group_category_id."'>
+               ".$group_category_name." </a> \"&nbsp;>&nbsp
+               "._GROUP_NAME." \"
+               <a href='index.php?module=".$module."&page=".$page."&action=view_group&group_id=".$group_id."'>
+               ".$group_name." </a> \"&nbsp;>&nbsp
+               "._USER_NAME." \"
+               <a href='index.php?module=".$module."&page=".$page."&action=select_test_category&group_id=".$group_id."&user_id=".$user_id."'>
+               ".$user_name." </a> \"&nbsp;>&nbsp
+               "._TESTS_CATEGORY_NAME." \"
+               <a href='index.php?module=".$module."&page=".$page."&action=view_test_category&group_id=".$group_id."&user_id=".$user_id."&test_category_id=".$test_category_id."'>
+               ".$test_category_name." </a> \"&nbsp;>&nbsp
+               ";
+               echo "<tr><td> <br>";
+
+               if ($keyword!='')
+               {
+               		$null_msg = _TEST_NO_T_KEYWORD;
+                   $query = "SELECT COUNT(*)
+                              FROM tests, test_access, users
+    	                           WHERE test_category_id='$test_category_id'
+    	                           AND test_access.test_id=tests.test_id
+    	                           AND users.user_id=test_access.teacher_id
+                                   AND test_access.user_id='$user_id'
+                                   AND tests.test_disable=0
+                              AND test_name
+                              RLIKE '.*".$keyword.".*'
+                              ";
+                }
+               elseif ($letter=='')
+               {
+               		$null_msg = _TEST_NO_TEST;
+    					$query = "SELECT COUNT(*)
+    	                          FROM tests, test_access, users
+    	                           WHERE test_category_id='$test_category_id'
+    	                           AND test_access.test_id=tests.test_id
+    	                           AND users.user_id=test_access.teacher_id
+                                   AND test_access.user_id='$user_id'
+                                   AND tests.test_disable=0
+                                   ";
+    			}
+    			else
+    			{
+    				$null_msg = _TEST_NO_T_LETTER;
+    					$query = "SELECT COUNT(*)
+    	                          FROM tests, test_access, users
+    	                           WHERE test_category_id='$test_category_id'
+    	                           AND test_access.test_id=tests.test_id
+    	                           AND users.user_id=test_access.teacher_id
+                                   AND test_access.user_id='$user_id'
+                                   AND tests.test_disable=0
+    	                          AND test_name
+    	                          RLIKE '^".$letter.".*'
+    	                          ";
+    	        }
+               $row=sql_single_query($query);
+               $row_num=$row['COUNT(*)'];
+
+               // Вывод алфавита
+               show_abc('index.php?module='.$module.'&page='.$page.'&action=view_test_category&group_id='.$group_id.'&user_id='.$user_id.'&test_category_id='.$test_category_id.'&letter=');
+
+               if ($row_num==0)
+					echo "<b><center>".$null_msg."</center></b>";
+               else
+               {
+                    CloseTable();
+
+                    // выводим список тестов в данной категории...
+                    if ($keyword!='')
+                        $query="SELECT tests.test_id,tests.test_name,test_access.teacher_id,users.user_name
+    	                           FROM tests, test_access, users
+    	                           WHERE test_category_id='$test_category_id'
+    	                           AND test_access.test_id=tests.test_id
+    	                           AND users.user_id=test_access.teacher_id
+                                   AND test_access.user_id='$user_id'
+                                   AND tests.test_disable=0
+                                   AND test_name
+                                   RLIKE '.*".$keyword.".*'
+                                   ORDER BY test_name ASC
+                                   LIMIT ".$page_num*$limit_page.",".$limit_page;
+                    else
+                        if ($letter=='')
+    						$query="SELECT tests.test_id,tests.test_name,test_access.teacher_id,users.user_name
+    	                           FROM tests, test_access, users
+    	                           WHERE test_category_id='$test_category_id'
+    	                           AND test_access.test_id=tests.test_id
+    	                           AND users.user_id=test_access.teacher_id
+                                   AND test_access.user_id='$user_id'
+                                   AND tests.test_disable=0
+                                   ORDER BY test_name ASC
+    							   LIMIT ".$page_num*$limit_page.",".$limit_page;
+                        else
+    						$query="SELECT tests.test_id,tests.test_name,test_access.teacher_id,users.user_name
+    	                           FROM tests, test_access, users
+    	                           WHERE test_category_id='$test_category_id'
+    	                           AND test_access.test_id=tests.test_id
+    	                           AND users.user_id=test_access.teacher_id
+                                   AND test_access.user_id='$user_id'
+                                   AND tests.test_disable=0
+    	                           AND test_name
+    	                           RLIKE '^".$letter.".*'
+    	                           ORDER BY test_name ASC
+    							   LIMIT ".$page_num*$limit_page.",".$limit_page;
+					$result=sql_query($query);
+
+                    $n=0;
+
+                    $col_width=100/$limit_col;
+					echo '<table border="0"style="width:100%"><tr><td width='.$col_width.'%>';
+	               	while ($row=mysql_fetch_assoc($result))
+	               	{
+                        if ($n==$limit_row)
+	                        {
+	                             echo"<td width=".$col_width."%>";
+                                 $n=0;
+
+	                        }
+                        $n++;
+	                   echo "
+                        	<strong>&middot;</strong>&nbsp;
+							<a href=\"index.php?module=".$module."&page=default&action=view_logon_form&group_id=".$group_id."&user_id=".$user_id."&test_category_id=".$test_category_id."&test_id=".$row['test_id']."&teacher_id=".$row['teacher_id']."\">".$row['test_name']." (".$row['user_name'].")</a><br>
+	                        ";
+	               	}
+                   echo "<tr><td colspan=".$limit_col."><br>";
+					echo nav_bar($row_num,"index.php?module=".$module."&page=".$page."&action=view_test_category&group_id='.$group_id.'&user_id='.$user_id.'&test_category_id=".$test_category_id."&letter=".$letter."&page_num=");
+
+               }
+          break;
+		  
+		  case "view_logon_form":
+		  $query = "SELECT group_categories.group_category_id, group_category_name, group_name, user_name, test_category_name, test_name
+						FROM  group_categories, groups, users, test_categories, tests
+						WHERE  group_categories.group_category_id=groups.group_category_id
+						AND groups.group_id='$group_id'
+						AND users.user_id='$user_id'
+						AND test_categories.test_category_id='$test_category_id'
+						AND test_id='$test_id'
+						";
+				$row=sql_single_query($query);
+				$group_category_id=$row['group_category_id'];
+				$group_category_name=$row['group_category_name'];
+				$group_name=$row['group_name'];
+				$user_name=$row['user_name'];
+				$test_category_name=$row['test_category_name'];
+				$test_name=$row['test_name'];
+				
+				$query = "SELECT user_name
+						FROM  users
+						WHERE user_id='$teacher_id'";
+				$row=sql_single_query($query);
+				$teacher_name=$row['user_name'];
+		
+				
+		  	themeleftbox(_ENTER_PASSWORD_OR_CHANGE_TEST_MODE,"","",false);
+			   echo "<tr><td>";
+               echo"<a href='index.php?module=".$module."&page=".$page."'>"._TESTING."</a>&nbsp;>&nbsp
+               "._CATEGORY_NAME." \"
+               <a href='index.php?module=".$module."&page=".$page."&action=view_group_category&group_category_id=".$group_category_id."'>
+               ".$group_category_name." </a> \"&nbsp;>&nbsp
+               "._GROUP_NAME." \"
+               <a href='index.php?module=".$module."&page=".$page."&action=view_group&group_id=".$group_id."'>
+               ".$group_name." </a> \"&nbsp;>&nbsp
+               "._USER_NAME." \"
+               <a href='index.php?module=".$module."&page=".$page."&action=select_test_category&group_id=".$group_id."&user_id=".$user_id."'>
+               ".$user_name." </a> \"&nbsp;>&nbsp
+               "._TESTS_CATEGORY_NAME." \"
+               <a href='index.php?module=".$module."&page=".$page."&action=view_test_category&group_id=".$group_id."&user_id=".$user_id."&test_category_id=".$test_category_id."'>
+               ".$test_category_name." </a> \"&nbsp;>&nbsp
+               "._TESTS_NAME." \"
+               <a href='index.php?module=".$module."&page=".$page."&action=view_logon_form&group_id=".$group_id."&user_id=".$user_id."&test_category_id=".$test_category_id."&test_id=".$test_id."&teacher_id=".$teacher_id."'>
+               ".$test_name." (".$teacher_name.") </a> \"&nbsp;>&nbsp
+               ";
+
+			echo "<tr><td> <br>";
+			echo "
+           	<FORM action='index.php?r=".rand()."&module=".$module."&page=default&action=first_pwd_authorization&group_id=".$group_id."&user_id=".$user_id."&test_category_id=".$test_category_id."&test_id=".$test_id."&teacher_id=".$teacher_id."' method=post enctype='multipart/form-data'>
+            <br>"._ENTER_TEST_PASSWORD."<br>
+            <input type=password name=start_test_password>
+			<br>
+			<input type=submit value='"._ENTER_TEST."'>
+			</FORM>	
+                        	<strong>&middot;</strong>&nbsp;
+							<a href=\"index.php?r=".rand()."&module=".$module."&page=default&action=wait_test&group_id=".$group_id."&user_id=".$user_id."&test_category_id=".$test_category_id."&test_id=".$test_id."&teacher_id=".$teacher_id."\">"._ENTER_TECHER_RUN_MODE."</a><br>
+	                        ";
+		  break;
+		  
+		  case "wait_test":
+			themeleftbox(_TECHER_RUN_TEST_MODE,"","",false);
+			echo "<tr><td> <br>";
+			// проверка на существование параметров тестирования
+					
+					$query = "SELECT num_try,start_type,start_status
+                                 FROM test_access
+                                 WHERE test_id='$test_id' and user_id='$user_id' and group_id='$group_id' and teacher_id='$teacher_id'
+                                 ";
+                     $result=sql_query($query);
+                     $row_num = mysql_num_rows($result);
+                     $row=mysql_fetch_assoc($result);
+                                              
+                     if($row_num!=1)
+                     {
+                     	echo _NO_TESTS_TOLERANCE;	
+                     }
+                     else
+				     {
+                     	 if($row['start_type'] != 1 and $row['start_type'] != 3) 
+					 	 {
+							echo _NO_TESTS_TOLERANCE;
+				         }    
+                         else if($row_num==1)
+                         {
+							if($row['num_try'] < 1) 
+							{
+								echo _NO_TESTS_ATTEMPT;
+							}
+							else 
+							{
+									 // проверка, не запущены ли тест преподавателем
+									 $query = "SELECT test_access_id
+                                     FROM test_access
+                                     WHERE test_id='$test_id' and user_id='$user_id' and group_id='$group_id' and teacher_id='$teacher_id'
+                                     and start_status='2' and user_ip='$_SERVER[REMOTE_ADDR]'
+                                     and status_date > DATE_SUB(NOW(), INTERVAL '1' MINUTE)
+                                     ";
+                         			$result=sql_query($query);
+                         			$row_num = mysql_num_rows($result);
+                         			
+                         			if($row_num!=1)
+                         			{
+                         				// проверка, не тестируется ли данный пользователь
+                         				if($row['start_status'] == 3) 
+										{
+											echo _CANNOT_REETER_TEST_SESSION;
+											exit;
+										}
+                         				// установка статуса = 1 (ожидание запуска преподавателем)
+                         				$query = "UPDATE test_access 
+											SET last_status=start_status, start_status='1', status_date=NOW(),  user_ip =
+											'$_SERVER[REMOTE_ADDR]' 
+											WHERE test_id='$test_id' and user_id='$user_id' and group_id='$group_id' and
+											teacher_id='$teacher_id'
+										";
+										sql_query($query);
+                         				$n++;
+                         				if($n>10) $n=1; 
+                         				echo _WAITING_RUN_TEST;
+                         				for($i=0;$i<=$n;$i++) {echo". ";}
+                         				echo"
+                         				<META HTTP-EQUIV='Refresh' CONTENT='3;URL=index.php?module=".$module."&page=default&action=wait_test&group_id=".$group_id."&user_id=".$user_id."&test_category_id=".$test_category_id."&test_id=".$test_id."&teacher_id=".$teacher_id."&n=".$n."'>";
+                         				
+                         			}
+                         			else
+                         			{
+                         				echo"
+                         				<META HTTP-EQUIV='Refresh' CONTENT='0;URL=index.php?r=".rand()."&module=".$module."&page=default&action=first_test_authorization&group_id=".$group_id."&user_id=".$user_id."&test_category_id=".$test_category_id."&test_id=".$test_id."&teacher_id=".$teacher_id."'>";    
+                         			}
+							}	
+                         }
+					 }
+		  break;
+		  
+		  case "first_test_authorization":
+		  	// проверка на существование параметров тестирования
+						$query = "SELECT num_try,start_type
+                                     FROM test_access
+                                     WHERE test_id='$test_id' and user_id='$user_id' and group_id='$group_id' and teacher_id='$teacher_id'
+                                     ";
+                         $result=sql_query($query);
+                         $row_num = mysql_num_rows($result);
+                         $row=mysql_fetch_assoc($result);
+                                                  
+                         if($row_num!=1)
+                         {
+                         	echo _NO_TEST_TOLERANCE;
+                         	exit;
+                         }
+                         if($row['start_type'] != 1 and $row['start_type'] != 3) 
+					  	 {
+							echo _TECHER_RUN_LOCKED;
+							exit;
+						 }
+                         else if($row_num==1)
+                         {
+							if($row['num_try'] < 1) 
+							{
+								echo _NO_TESTS_ATTEMPT;
+							}
+							else 
+							{
+									$query = "SELECT test_access_id
+                                     FROM test_access
+                                     WHERE test_id='$test_id' and user_id='$user_id' and group_id='$group_id' and teacher_id='$teacher_id'
+                                     and start_status='2' and user_ip='$_SERVER[REMOTE_ADDR]'
+                                     and status_date > DATE_SUB(NOW(), INTERVAL '1' MINUTE)
+									";
+                         			$result=sql_query($query);
+                         			$row_num = mysql_num_rows($result);
+                         			
+                         			if($row_num!=1)
+                         			{
+                         				echo _TIMEOUT_RUN_TEST;
+                         			}
+                         			else
+                         			{
+                         				// Формирование тест_хеша и выдача кук
+                         				
+$current_time = time();
+$test_hash = md5(date("Y-m-d H:i:s", $current_time).$_SERVER['REMOTE_ADDR'].$test_id.$group_id.$user_id.$teacher_id);
+setcookie($config['cookie_opentest_test_hash'], $test_hash, $config['cookie_opentest_time'], $config['cookie_opentest_path']);
+setcookie($config['cookie_opentest_test_id'], $test_id, $config['cookie_opentest_time'], $config['cookie_opentest_path']);
+setcookie($config['cookie_opentest_group_id'], $group_id, $config['cookie_opentest_time'], $config['cookie_opentest_path']);
+setcookie($config['cookie_opentest_user_id'], $user_id, $config['cookie_opentest_time'], $config['cookie_opentest_path']);
+setcookie($config['cookie_opentest_teacher_id'], $teacher_id, $config['cookie_opentest_time'], $config['cookie_opentest_path']);
+                         				// Проверка наличия сессии.
+										$query = "SELECT session_id, last_log_host  
+												  FROM sessions 
+												  WHERE test_id='$test_id' and user_id='$user_id' and group_id='$group_id' and
+												  teacher_id='$teacher_id'
+												  ";
+										$result=sql_query($query);
+				                        $row_num = mysql_num_rows($result);
+				                        $row=mysql_fetch_assoc($result);
+										
+										// Установка статуса = 3 (сеанс начат/продолжен)
+                         				$query = "UPDATE test_access 
+											SET last_status=start_status, start_status='3', status_date=NOW(),  user_ip =
+											'$_SERVER[REMOTE_ADDR]', last_end_test_status='1' 
+											WHERE test_id='$test_id' and user_id='$user_id' and group_id='$group_id' and
+											teacher_id='$teacher_id'
+										";
+										sql_query($query);
+										
+										if($row_num > 0)
+	                         			{
+                         					// Продолжение теста.
+											$query = "UPDATE sessions 
+											SET last_log_date='".date("Y-m-d H:i:s", $current_time)."', last_log_host =
+											'$_SERVER[REMOTE_ADDR]' 
+											WHERE test_id='$test_id' and user_id='$user_id' and group_id='$group_id' and
+											teacher_id='$teacher_id'
+											";
+											sql_query($query);
+											
+											header ("Location: index.php?module=$module&page=test");
+	                         			}
+	                         			else
+	                         			{
+                         					// Формирование нового теста. 
+											include("build_test.php");
+											// Формирование сессии.
+											include("build_session.php");
+											// Начало нового теста.
+											header ("Location: index.php?module=$module&page=test");
+	                         			}    
+	                         		}
+							}	
+                         }
+		  break;
+
+		  case "first_pwd_authorization":
+		  	// проверка на существование параметров тестирования
+						$query = "SELECT num_try, start_type
+                                     FROM test_access
+                                     WHERE test_id='$test_id' and user_id='$user_id' and group_id='$group_id' and teacher_id='$teacher_id'
+                                     ";
+                         $result=sql_query($query);
+                         $row_num = mysql_num_rows($result);
+                         $row=mysql_fetch_assoc($result);
+                                                  
+                         if($row_num!=1)
+                         {
+                         	// Подключаем шапку
+						   	include_once("include/header.php");
+						    // Элемент дизайна - открыаем таблицу
+						    OpenTable();
+							themeleftbox(_ENTER_TEST_PASSWORD,"","",false);
+							echo "<tr><td> <br>";
+							echo _NO_TESTS_TOLERANCE;
+						    // Элемент дизайна - закрываем таблицу
+						    CloseTable();
+						    // Подключаем низ
+						    include_once("include/footer.php");	
+							exit;	
+                         }
+                         if($row['start_type'] != 2 and $row['start_type'] != 3) 
+						 {
+						    // Подключаем шапку
+						   	include_once("include/header.php");
+						    // Элемент дизайна - открыаем таблицу
+						    OpenTable();
+							themeleftbox(_ENTER_TEST_PASSWORD,"","",false);
+							echo "<tr><td> <br>";
+							echo _PASSWORD_RUN_LOCKED;
+						    // Элемент дизайна - закрываем таблицу
+						    CloseTable();
+						    // Подключаем низ
+						    include_once("include/footer.php");	
+							exit;
+						 }
+                         else if($row_num==1)
+                         {
+							if($row['num_try'] < 1) 
+							{
+								// Подключаем шапку
+							   	include_once("include/header.php");
+							    // Элемент дизайна - открыаем таблицу
+							    OpenTable();
+								themeleftbox(_ENTER_TEST_PASSWORD,"","",false);
+								echo "<tr><td> <br>";
+								echo _NO_TESTS_ATTEMPT;
+							    // Элемент дизайна - закрываем таблицу
+							    CloseTable();
+							    // Подключаем низ
+							    include_once("include/footer.php");	
+								exit;	
+							}
+							else 
+							{
+									$query = "SELECT test_password
+                                     FROM test_passwords
+                                     WHERE test_id='$test_id' and group_id='$group_id' and teacher_id='$teacher_id'
+									";
+                         			$result = sql_query($query);
+                         			$row = mysql_fetch_array ($result);
+                         			$row_num2 = mysql_num_rows($result);
+                         			if($row_num2 > 1) { echo "Коллизия паролей на тест!!! Сообщить администратору OpenTEST"; exit;}
+                         			
+                         			if($row['test_password'] != $start_test_password or ($row_num2 == 0))
+                         			{
+                         				// Подключаем шапку
+									   	include_once("include/header.php");
+									    // Элемент дизайна - открыаем таблицу
+									    OpenTable();
+										themeleftbox(_ENTER_TEST_PASSWORD,"","",false);
+										echo "<tr><td> <br>";
+										echo _WRONG_TEST_PASSWORD;
+									    // Элемент дизайна - закрываем таблицу
+									    CloseTable();
+									    // Подключаем низ
+									    include_once("include/footer.php");	
+										exit;	
+                         			}
+                         			else
+                         			{
+                         				// Формирование тест_хеша и выдача кук
+                         				
+$current_time = time();
+$test_hash = md5(date("Y-m-d H:i:s", $current_time).$_SERVER['REMOTE_ADDR'].$test_id.$group_id.$user_id.$teacher_id);
+setcookie($config['cookie_opentest_test_hash'], $test_hash, $config['cookie_opentest_time'], $config['cookie_opentest_path']);
+setcookie($config['cookie_opentest_test_id'], $test_id, $config['cookie_opentest_time'], $config['cookie_opentest_path']);
+setcookie($config['cookie_opentest_group_id'], $group_id, $config['cookie_opentest_time'], $config['cookie_opentest_path']);
+setcookie($config['cookie_opentest_user_id'], $user_id, $config['cookie_opentest_time'], $config['cookie_opentest_path']);
+setcookie($config['cookie_opentest_teacher_id'], $teacher_id, $config['cookie_opentest_time'], $config['cookie_opentest_path']);
+                         				// Проверка наличия сессии.
+										$query = "SELECT session_id, last_log_host  
+												  FROM sessions 
+												  WHERE test_id='$test_id' and user_id='$user_id' and group_id='$group_id' and
+												  teacher_id='$teacher_id'
+												  ";
+										$result=sql_query($query);
+				                        $row_num = mysql_num_rows($result);
+				                        $row=mysql_fetch_assoc($result);
+										
+										// Установка статуса = 3 (сеанс начат/продолжен)
+                         				$query = "UPDATE test_access 
+											SET last_status=start_status, start_status='3', status_date=NOW(),  user_ip =
+											'$_SERVER[REMOTE_ADDR]', last_end_test_status='1' 
+											WHERE test_id='$test_id' and user_id='$user_id' and group_id='$group_id' and
+											teacher_id='$teacher_id'
+										";
+										sql_query($query);
+										
+										if($row_num > 0)
+	                         			{
+                         					// Продолжение теста.
+											$query = "UPDATE sessions 
+											SET last_log_date='".date("Y-m-d H:i:s", $current_time)."', last_log_host =
+											'$_SERVER[REMOTE_ADDR]' 
+											WHERE test_id='$test_id' and user_id='$user_id' and group_id='$group_id' and
+											teacher_id='$teacher_id'
+											";
+											sql_query($query);
+											
+											header ("Location: index.php?module=$module&page=test");
+	                         			}
+	                         			else
+	                         			{
+                         					// Формирование нового теста. 
+											include("build_test.php");
+											// Формирование сессии.
+											include("build_session.php");
+											// Начало нового теста.
+											header ("Location: index.php?module=$module&page=test");
+	                         			}    
+	                         		}
+							}	
+                         }
+		  break;
+		  
+		  default:
+		  case "select_group_category":
+              
+			themeleftbox(_SELECT_USERS_CATEGORY,"","",false);
+			echo "<tr><td> <br>";
+               if ($keyword!='')
+               {
+               		$null_msg = _GCATEGORY_NO_C_KEYWORD;		
+                   $query = "SELECT COUNT(*)
+                              FROM group_categories
+                              WHERE group_category_name
+                              RLIKE '.*".$keyword.".*'
+                              ";
+               }
+               else
+    			   if ($letter=='')
+    			   {
+    					$null_msg = _GCATEGORY_NO_CATEGORY;
+    					$query = "SELECT COUNT(*) FROM group_categories";
+    				}
+                   else
+    					{
+    					$null_msg = _GCATEGORY_NO_C_LETTER;
+    					$query = "SELECT COUNT(*)
+    							  FROM group_categories
+    							  WHERE group_category_name
+    							  RLIKE '^".$letter.".*'
+    							 ";
+    					}
+			   $row=sql_single_query($query);
+			   $row_num=$row['COUNT(*)'];
+
+			   // Вывод алфавита
+			   show_abc('index.php?module='.$module.'&page='.$page.'&action=select_group_category&letter=');
+
+               if ($row_num==0) 
+               	echo "<b><center>".$null_msg."</center></b>";
+					else
+					{  if($keyword!='')
+                            $query = "SELECT *
+                                     FROM group_categories
+                                     WHERE group_category_name
+                                     RLIKE '.*".$keyword.".*'
+                                     ORDER BY group_category_name ASC
+                                     LIMIT ".$page_num*$limit_page.",".$limit_page;
+
+                       else
+                           if ($letter=='')
+    							$query = "SELECT *
+                                     	 FROM group_categories
+    	                                 ORDER BY group_category_name ASC
+    									 LIMIT ".$page_num*$limit_page.",".$limit_page;
+                                else
+        							$query = "SELECT *
+        	                                 FROM group_categories
+        	                                 WHERE group_category_name
+        									 RLIKE '^".$letter.".*'
+        	                                 ORDER BY group_category_name ASC
+        									 LIMIT ".$page_num*$limit_page.",".$limit_page;
+						$result=sql_query($query);
+
+                        CloseTable();
+                        $n=0;
+
+	                   	$col_width=100/$limit_col;
+
+                        echo '<table border="0"style="width:100%"><tr><td width='.$col_width.'%>';
+
+                        while ($row=mysql_fetch_assoc($result))
+                    	{
+	                        if ($n==$limit_row)
+	                        {
+	                             echo"<td width=".$col_width."%>";
+                                 $n=0;
+
+	                        }
+                            $n++;
+	                                echo "
+	                                    <strong>&middot;</strong>&nbsp;
+										<a href='index.php?module=".$module."&page=".$page."&action=view_group_category&group_category_id=".$row['group_category_id']."'>".$row['group_category_name']."</a><br>
+	                                    ";
+
+
+	                    }
+					   echo "<tr><td colspan=".$limit_col."><br>";
+					   echo nav_bar($row_num,"index.php?module=".$module."&page=".$page."&action=view_group_category&letter=".$letter."&page_num=")."</center>";
+
+                    }
+		  break;
+     }
+?>

@@ -1,0 +1,298 @@
+<?php
+	/************************************************************************/
+	/* OpenTEST System: The System Of Computer Testing Knowleges            */
+	/* ============================================                         */
+	/*                                                                      */
+	/* Copyright (c) 2002-2005 by OpenTEST Team                             */
+	/* http://opentest.com.ua                                               */
+	/* e-mail: opentest@opentest.com.ua                                     */
+	/*                                                                      */
+	/************************************************************************/
+	/* 11/01/2005 08:00:00                                                  */
+	/************************************************************************/
+	if (INDEXPHP!=1)
+		die ("You can't access this file directly...");
+
+	global $test_id, $new_test_id, $group_id, $new_group_id,
+		$status_code, $status_num, $page, $test_category_id, $group_category_id;
+
+	//-- ��������� ��������� �� ��������������� ��������
+	if(isset($_REQUEST['test_id']))
+		$test_id = intval($_REQUEST['test_id']);
+	else $test_id = 0;
+
+	if(isset($_REQUEST['group_id']))
+		$group_id = intval($_REQUEST['group_id']);
+	else $group_id = 0;
+
+	if(isset($_REQUEST['new_test_id']))
+		$new_test_id = intval($_REQUEST['new_test_id']);
+	else $new_test_id = 0;
+
+	if(isset($_REQUEST['new_group_id']))
+		$new_group_id = intval($_REQUEST['new_group_id']);
+	else $new_group_id = 0;
+
+	if(isset($_REQUEST['test_category_id']))
+		$test_category_id = intval($_REQUEST['test_category_id']);
+	else
+		$test_category_id = 0;
+
+	if(isset($_REQUEST['group_category_id']))
+		$group_category_id = intval($_REQUEST['group_category_id']);
+	else
+		$group_category_id = 0;
+
+	if(isset($_REQUEST['new_test_id']))
+		$new_test_id = intval($_REQUEST['new_test_id']);
+
+	if(isset($_REQUEST['page']))
+		$page = $_REQUEST['page'];
+	else $new_test_id = -1;
+	if(isset($_REQUEST['next_action']))
+		$next_action = $_REQUEST['next_action'];
+	else $next_action = "";
+
+    // �������� ���� �� ��������� ����
+    if($test_id>0 || $new_test_id>0)
+    {
+        extract(sql_single_query("SELECT test_category_id
+                         			FROM tests
+                         			WHERE test_id=".($new_test_id>0?$new_test_id:$test_id)),EXTR_OVERWRITE);
+
+        //echo "$test_category_id $test_id $new_test_id";
+
+        if(!is_allow(12,$test_category_id,$new_test_id,1) && $new_test_id>0 && $page!="test_list")
+        {
+            $status_code = 0;
+            $status_num = "op_permited";
+        }
+        elseif($new_test_id!=-1)
+        $test_id = $new_test_id;
+
+        elseif(!is_allow(12,$test_category_id,$test_id,1) && $test_id>0 && $page!="test_list")
+        {
+            $test_id = 0;
+            $status_code = 0;
+            $status_num = "op_permited";
+        }
+    }
+
+    // �������� ���� �� ��������� ������
+    if($group_id>0 || $new_group_id>0)
+    {
+        extract(sql_single_query("SELECT group_category_id
+			                      FROM groups
+            		              WHERE group_id=".($new_group_id>0?$new_group_id:$group_id)),EXTR_OVERWRITE);
+
+        // echo "$group_category_id $group_id $new_test_id";
+
+        if(!is_allow(14,$group_category_id,$new_group_id,1) && $new_group_id>0 && $page!="test_list")
+        {
+            $status_code = 0;
+            $status_num = "op_permited";
+        }
+        elseif($new_test_id!=-1)
+        {
+            $group_id = $new_group_id;
+        }
+        elseif(!is_allow(14,$group_category_id,$group_id,1) && $group_id>0 && $page!="test_list")
+        {
+            $group_id = 0;
+            $status_code = 0;
+            $status_num = "op_permited";
+        }
+    }
+
+	if(isset($_REQUEST['new_group_id']))
+		$new_group_id = intval($_REQUEST['new_group_id']);
+	else $new_group_id = -1;
+
+	//-- ���� ����� ������
+	$content = "<a href='index.php'>
+	<img  class='img_icon' src='themes/opentest2/images/icons/trinux-sb_r8_c18.gif' align=absmiddle> "._MENU_BASIC_MENU."</a><br>
+	<a href='index.php?module=".$module."'>
+	<img  class='img_icon' src='themes/opentest2/images/icons/trinux-sb_r6_c4.gif' align=absmiddle> "._MENU_RESULTS_ROOT."</a><br>";
+	themeleftbox(_MENU_COMMON_TASKS, $content,"",false);
+
+	// � ����������� �� �������� $page - ������� ��������� ����������
+
+	$select_test = "<a href='index.php?module=".$module."&page=t_category&next_action=return_".$page."&test_id=".$test_id."&group_id=".$group_id."'>
+	<img  class='img_icon' src='themes/opentest2/images/icons/trinux-sb_r8_c16.gif' align=absmiddle> "._NEW_TEST."</a><br>";
+	$select_group = "<a href='index.php?module=".$module."&page=g_category&next_action=return_".$page."&test_id=".$test_id."&group_id=".$group_id."'>
+	<img  class='img_icon' src='themes/opentest2/images/icons/trinux-sb_r14_c6.gif' align=absmiddle> "._NEW_GROUP."</a><br>";
+	$return_view = "<a href='index.php?module=".$module."&page=".$page."&next_action=return_".$page."&test_id=".$test_id."&group_id=".$group_id."'>
+	<img  class='img_icon' src='themes/opentest2/images/icons/trinux-sb_r6_c18.gif' align=absmiddle>"._MENU_RETURN_TO_VIEW."</a><br>";
+	$return_view_test_list = "<a href='index.php?module=".$module."&page=test_list&test_id=".$test_id."&group_id=".$group_id."'>
+	<img  class='img_icon' src='themes/opentest2/images/icons/trinux-sb_r6_c18.gif' align=absmiddle>"._MENU_RETURN_TO_VIEW."</a><br>";
+    $return_view_test_results = "<a href='index.php?module=".$module."&page=test_results&test_id=".$test_id."&group_id=".$group_id."'>
+	<img  class='img_icon' src='themes/opentest2/images/icons/trinux-sb_r6_c18.gif' align=absmiddle>"._MENU_RETURN_TO_VIEW."</a><br>";
+	switch($page)
+	{
+		case "log_test_table":
+			{
+			$content ="<a href='index.php?module=".$module."&page=log_test_table&action=export&group_id=$group_id&test_id=$test_id'>
+			<img  class='img_icon' src='themes/opentest2/images/icons/trinux-sb_r4_c10.gif' align=absmiddle> "._MENU_LOG_TEST_TABLE_EXPORT."</a><br>
+			";
+		themeleftbox(_MENU_VIEW,$content,"",false);
+			break;
+			}
+
+		case "show_results":
+			// ���� ��� ���������
+			$content = $select_test.$select_group;
+		themeleftbox(_MENU_VIEW,$content,"",false);
+		break;
+		case "gystograms":
+			// ���� ��� ���������
+			$content ="<a href='index.php?module=".$module."&page=t_category&next_action=return_gystograms&test_id=".$test_id."&group_id=".$group_id."'>
+			<img  class='img_icon' src='themes/opentest2/images/icons/trinux-sb_r8_c16.gif' align=absmiddle> "._NEW_TEST."</a><br>
+			<a href='index.php?module=".$module."&page=g_category&next_action=return_gystograms&test_id=".$test_id."&group_id=".$group_id."'>
+			<img  class='img_icon' src='themes/opentest2/images/icons/trinux-sb_r14_c6.gif' align=absmiddle> "._NEW_GROUP."</a><br>
+			";
+		themeleftbox(_MENU_VIEW,$content,"",false);
+		break;
+
+		case "t_category":
+		if ($next_action=="return_test_list_results")
+			$content = $return_view_test_list."<a href='index.php?module=".$module."&page=g_category&next_action=return_test_list_results&test_id=".$test_id."&group_id=".$group_id."'>
+	<img  class='img_icon' src='themes/opentest2/images/icons/trinux-sb_r14_c6.gif' align=absmiddle> "._NEW_GROUP."</a><br>";
+		elseif ($next_action=="return_statistics_results")
+			$content = $return_view_test_list."<a href='index.php?module=".$module."&page=g_category&next_action=return_statistics_results&test_id=".$test_id."&group_id=".$group_id."'>
+	<img  class='img_icon' src='themes/opentest2/images/icons/trinux-sb_r14_c6.gif' align=absmiddle> "._NEW_GROUP."</a><br>";
+		elseif ($next_action=="return_log_test_table")
+			$content = "<a href='index.php?module=".$module."&page=log_test_table'>
+	<img  class='img_icon' src='themes/opentest2/images/icons/trinux-sb_r14_c6.gif' align=absmiddle> "._MENU_RETURN_TO_VIEW."</a><br>";
+		elseif ($next_action=="return_gystograms")
+			$content = "<a href='index.php?module=".$module."&page=gystograms'>
+	<img  class='img_icon' src='themes/opentest2/images/icons/trinux-sb_r14_c6.gif' align=absmiddle> "._MENU_RETURN_TO_VIEW."</a><br>";
+		elseif ($next_action=="return_log_table_question")
+			$content = "<a href='index.php?module=".$module."&page=log_table_question'>
+	<img  class='img_icon' src='themes/opentest2/images/icons/trinux-sb_r14_c6.gif' align=absmiddle> "._MENU_RETURN_TO_VIEW."</a><br>";
+		elseif ($next_action=="return_log_table_topic")
+			$content = "<a href='index.php?module=".$module."&page=log_table_topic'>
+	<img  class='img_icon' src='themes/opentest2/images/icons/trinux-sb_r14_c6.gif' align=absmiddle> "._MENU_RETURN_TO_VIEW."</a><br>";
+		else
+			$content = $return_view.$select_group;
+		themeleftbox(_MENU_VIEW,$content,"",false);
+		break;
+
+		case "g_category":
+		if ($next_action=="return_test_list_results")
+			$content = $return_view_test_list."<a href='index.php?module=".$module."&page=t_category&next_action=return_test_list_results&test_id=".$test_id."&group_id=".$group_id."'>
+			<img  class='img_icon' src='themes/opentest2/images/icons/trinux-sb_r14_c6.gif' align=absmiddle> "._NEW_TEST."</a><br>";
+		elseif ($next_action=="return_statistics_results")
+			$content = $return_view_test_results."<a href='index.php?module=".$module."&page=t_category&next_action=return_statistics_results&test_id=".$test_id."&group_id=".$group_id."'>
+			<img  class='img_icon' src='themes/opentest2/images/icons/trinux-sb_r14_c6.gif' align=absmiddle> "._NEW_TEST."</a><br>";
+		elseif ($next_action=="return_log_test_table")
+			$content = "<a href='index.php?module=".$module."&page=log_test_table'>
+	<img  class='img_icon' src='themes/opentest2/images/icons/trinux-sb_r14_c6.gif' align=absmiddle> "._MENU_RETURN_TO_VIEW."</a><br>";
+		elseif ($next_action=="return_gystograms")
+			$content = "<a href='index.php?module=".$module."&page=gystograms'>
+	<img  class='img_icon' src='themes/opentest2/images/icons/trinux-sb_r14_c6.gif' align=absmiddle> "._MENU_RETURN_TO_VIEW."</a><br>";
+		elseif ($next_action=="return_log_table_question")
+			$content = "<a href='index.php?module=".$module."&page=log_table_question'>
+	<img  class='img_icon' src='themes/opentest2/images/icons/trinux-sb_r14_c6.gif' align=absmiddle> "._MENU_RETURN_TO_VIEW."</a><br>";
+		elseif ($next_action=="return_log_table_topic")
+			$content = "<a href='index.php?module=".$module."&page=log_table_topic'>
+	<img  class='img_icon' src='themes/opentest2/images/icons/trinux-sb_r14_c6.gif' align=absmiddle> "._MENU_RETURN_TO_VIEW."</a><br>";
+		else
+			$content = $return_view.$select_test;
+		themeleftbox(_MENU_VIEW,$content,"",false);
+		break;
+
+		case "test":
+		if ($next_action=="return_test_list_results")
+			$content = "<img  class='img_icon' src='themes/opentest2/images/icons/trinux-sb_r4_c12.gif' align=absmiddle> <a href='index.php?module=".$module."&page=t_category&next_action=return_test_list_results&test_id=".$test_id."&group_id=".$group_id."'>"._MENU_LEAVE_CATEGORY."</a><br>".$return_view_test_list."<a href='index.php?module=".$module."&page=g_category&next_action=return_test_list_results&test_id=".$test_id."&group_id=".$group_id."'>
+			<img  class='img_icon' src='themes/opentest2/images/icons/trinux-sb_r14_c6.gif' align=absmiddle> "._NEW_GROUP."</a><br>";
+		elseif ($next_action=="return_statistics_results")
+			$content = "<img  class='img_icon' src='themes/opentest2/images/icons/trinux-sb_r4_c12.gif' align=absmiddle> <a href='index.php?module=".$module."&page=t_category&next_action=return_statistics_results&test_id=".$test_id."&group_id=".$group_id."'>"._MENU_LEAVE_CATEGORY."</a><br>".$return_view_test_results."<a href='index.php?module=".$module."&page=g_category&next_action=return_statistics_results&test_id=".$test_id."&group_id=".$group_id."'>
+			<img  class='img_icon' src='themes/opentest2/images/icons/trinux-sb_r14_c6.gif' align=absmiddle> "._NEW_GROUP."</a><br>";
+			elseif ($next_action=="return_log_test_table")
+			$content = "<a href='index.php?module=".$module."&page=log_test_table'>
+	<img  class='img_icon' src='themes/opentest2/images/icons/trinux-sb_r14_c6.gif' align=absmiddle> "._MENU_RETURN_TO_VIEW."</a><br>";
+		elseif ($next_action=="return_gystograms")
+			$content = "<a href='index.php?module=".$module."&page=gystograms'>
+	<img  class='img_icon' src='themes/opentest2/images/icons/trinux-sb_r14_c6.gif' align=absmiddle> "._MENU_RETURN_TO_VIEW."</a><br>";
+		elseif ($next_action=="return_log_table_question")
+			$content = "<a href='index.php?module=".$module."&page=log_table_question'>
+	<img  class='img_icon' src='themes/opentest2/images/icons/trinux-sb_r14_c6.gif' align=absmiddle> "._MENU_RETURN_TO_VIEW."</a><br>";
+		elseif ($next_action=="return_log_table_topic")
+			$content = "<a href='index.php?module=".$module."&page=log_table_topic'>
+	<img  class='img_icon' src='themes/opentest2/images/icons/trinux-sb_r14_c6.gif' align=absmiddle> "._MENU_RETURN_TO_VIEW."</a><br>";
+		else
+			$content = $return_view;
+		themeleftbox(_MENU_VIEW,$content,"",false);
+		break;
+
+		case "group":
+		if ($next_action=="return_test_list_results")
+			$content="<img  class='img_icon' src='themes/opentest2/images/icons/trinux-sb_r4_c12.gif' align=absmiddle> <a href='index.php?module=".$module."&page=t_category&next_action=return_test_list_results&test_id=".$test_id."&group_id=".$group_id."'>"._MENU_LEAVE_CATEGORY."</a><br>
+			<a href='index.php?module=".$module."&page=t_category&next_action=return_test_list_results&test_id=".$test_id."&group_id=".$group_id."'>
+			<img  class='img_icon' src='themes/opentest2/images/icons/trinux-sb_r14_c6.gif' align=absmiddle> "._NEW_TEST."</a><br>
+			<a href='index.php?module=".$module."&page=test_list&test_id=".$test_id."&group_id=".$group_id."'>
+				<img  class='img_icon' src='themes/opentest2/images/icons/trinux-sb_r6_c18.gif' align=absmiddle>"._MENU_RETURN_TO_VIEW."</a><br>";
+		elseif ($next_action=="return_statistics_results")
+			$content="<img  class='img_icon' src='themes/opentest2/images/icons/trinux-sb_r4_c12.gif' align=absmiddle> <a href='index.php?module=".$module."&page=t_category&next_action=return_statistics_results&test_id=".$test_id."&group_id=".$group_id."'>"._MENU_LEAVE_CATEGORY."</a><br>
+			<a href='index.php?module=".$module."&page=t_category&next_action=return_test_list_results&test_id=".$test_id."&group_id=".$group_id."'>
+			<img  class='img_icon' src='themes/opentest2/images/icons/trinux-sb_r14_c6.gif' align=absmiddle> "._NEW_TEST."</a><br>
+			<a href='index.php?module=".$module."&page=test_results&test_id=".$test_id."&group_id=".$group_id."'>
+				<img  class='img_icon' src='themes/opentest2/images/icons/trinux-sb_r6_c18.gif' align=absmiddle>"._MENU_RETURN_TO_VIEW."</a><br>";
+		elseif ($next_action=="return_log_test_table")
+			$content = "<a href='index.php?module=".$module."&page=log_test_table'>
+	<img  class='img_icon' src='themes/opentest2/images/icons/trinux-sb_r14_c6.gif' align=absmiddle> "._MENU_RETURN_TO_VIEW."</a><br>";
+		elseif ($next_action=="return_gystograms")
+			$content = "<a href='index.php?module=".$module."&page=gystograms'>
+	<img  class='img_icon' src='themes/opentest2/images/icons/trinux-sb_r14_c6.gif' align=absmiddle> "._MENU_RETURN_TO_VIEW."</a><br>";
+		elseif ($next_action=="return_log_table_question")
+			$content = "<a href='index.php?module=".$module."&page=log_table_question'>
+	<img  class='img_icon' src='themes/opentest2/images/icons/trinux-sb_r14_c6.gif' align=absmiddle> "._MENU_RETURN_TO_VIEW."</a><br>";
+		elseif ($next_action=="return_log_table_topic")
+			$content = "<a href='index.php?module=".$module."&page=log_table_topic'>
+	<img  class='img_icon' src='themes/opentest2/images/icons/trinux-sb_r14_c6.gif' align=absmiddle> "._MENU_RETURN_TO_VIEW."</a><br>";
+		else
+			$content = "<img  class='img_icon' src='themes/opentest2/images/icons/trinux-sb_r4_c12.gif' align=absmiddle> <a href='index.php?module=".$module."&page=g_category&next_action=return_show_results&test_id=".$test_id."&group_id=".$group_id."'>"._MENU_LEAVE_CATEGORY."</a><br>".$select_test.$return_view;
+		themeleftbox(_MENU_VIEW,$content,"",false);
+		break;
+
+		default:
+			// ���� ��� ���������
+			$content =  "
+			<a href='index.php?module=".$module."&page=test_list'>
+			<img  class='img_icon' src='themes/opentest2/images/icons/trinux-sb_r4_c10.gif' align=absmiddle> "._MENU_TEST_LIST."</a><br>
+			<a href='index.php?module=".$module."&page=test_results'>
+			<img  class='img_icon' src='themes/opentest2/images/icons/trinux-sb_r4_c10.gif' align=absmiddle> "._MENU_TEST_RESULTS."</a><br>
+
+			<a href='index.php?module=".$module."&page=gystograms'>
+			<img  class='img_icon' src='themes/opentest2/images/icons/trinux-sb_r4_c16.gif' align=absmiddle> "._MENU_SYSTOGRAMMS."</a><br>
+			<a href='index.php?module=".$module."&page=log_test_table'>
+			<img  class='img_icon' src='themes/opentest2/images/icons/trinux-sb_r4_c10.gif' align=absmiddle> "._MENU_LOG_TEST_TABLE."</a><br>
+
+			<a href='index.php?module=".$module."&page=log_table_question'>
+			<img  class='img_icon' src='themes/opentest2/images/icons/trinux-sb_r4_c10.gif' align=absmiddle> "._MENU_LOG_TABLE_QUESTION."</a><br>
+
+			<a href='index.php?module=".$module."&page=log_table_topic'>
+			<img  class='img_icon' src='themes/opentest2/images/icons/trinux-sb_r4_c10.gif' align=absmiddle> "._MENU_LOG_TABLE_TOPIC."</a><br>
+			<!--
+			<a href='index.php?module=".$module."&page=t_category&test_id=".$test_id."&group_id=".$group_id."'>
+
+			<img  class='img_icon' src='themes/opentest2/images/icons/trinux-sb_r4_c10.gif' align=absmiddle> "._MENU_LOGS."</a><br>
+			<a href='index.php?module=".$module."&page=t_category&test_id=".$test_id."&group_id=".$group_id."'>
+			<img  class='img_icon' src='themes/opentest2/images/icons/trinux-sb_r4_c20.gif' align=absmiddle> "._MENU_TEST_STATS."</a><br>
+			<a href='index.php?module=".$module."&page=t_category&test_id=".$test_id."&group_id=".$group_id."'>
+			<img  class='img_icon' src='themes/opentest2/images/icons/trinux-sb_r14_c6.gif' align=absmiddle> "._MENU_USER_STATS."</a><br>
+			<a href='index.php?module=".$module."&page=t_category&test_id=".$test_id."&group_id=".$group_id."'>
+			<img  class='img_icon' src='themes/opentest2/images/icons/trinux-sb_r12_c18.gif' align=absmiddle> "._MENU_PRINTS."</a><br>
+
+			-->
+			";
+		themeleftbox(_MENU_VIEW_ROOT,$content,"",false);
+		break;
+
+	}
+
+
+	//-- ���� �����������
+	themeleftbox(_MENU_AUTHORIZATION, "","",false);
+	include("modules/auth/auth_menu_form.php");
+?>

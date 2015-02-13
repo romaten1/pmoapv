@@ -1,0 +1,47 @@
+<?php
+	/************************************************************************/
+    /* OpenTEST System: The System Of Computer Testing Knowleges            */
+    /* ============================================                         */
+    /*                                                                      */
+    /* Copyright (c) 2002-2005 by OpenTEST Team                             */
+    /* http://opentest.com.ua                                               */
+    /* e-mail: opentest@opentest.com.ua                                     */
+    /*                                                                      */
+    /************************************************************************/
+    /* 11/01/2005 08:00:00                                                  */
+	/************************************************************************/
+	
+	if (INDEXPHP!=1)
+		die ("You can't access this file directly...");
+	
+	global $test_category_id,$group_category_id, $page;
+		
+	if(isset($_REQUEST['test_category_id']))
+		$test_category_id = intval($_REQUEST['test_category_id']);
+	else
+		$test_category_id = 0;
+		
+	if(isset($_REQUEST['group_category_id']))
+		$group_category_id = intval($_REQUEST['group_category_id']);
+	else
+		$group_category_id = 0;
+		
+	//-- меню общие задачи
+	$content = "<a href='index.php'>
+	<img  class='img_icon' src='themes/opentest2/images/icons/trinux-sb_r8_c18.gif' align=absmiddle> "._MENU_BASIC_MENU."</a><br>
+	<a href='index.php?module=".$module."'>
+	<img  class='img_icon' src='themes/opentest2/images/icons/trinux-sb_r6_c4.gif' align=absmiddle> "._MENU_RESULTS_ROOT."</a><br>";
+	themeleftbox(_MENU_COMMON_TASKS, $content,"",false);
+	
+	//-- меню администратора
+	$content = "<a href='index.php?module=".$module."&page=t_category'><img  class='img_icon' src='themes/opentest2/images/icons/trinux-sb_r8_c16.gif' align=absmiddle> "._TCATEGORY_OVERVIEW_HEADER."</a><br>
+				<a href='index.php?module=".$module."&page=t_category&action=crt_category_frm'><img  class='img_icon' src='themes/opentest2/images/icons/trinux-sb_r6_c20.gif' align=absmiddle> "._MENU_NEW_TEST_CATEGORY."</a><br>
+				<a href='index.php?module=".$module."&page=g_category'><img  class='img_icon' src='themes/opentest2/images/icons/trinux-sb_r8_c16.gif' align=absmiddle> "._GCATEGORY_OVERVIEW_HEADER."</a><br>	
+				<a href='index.php?module=".$module."&page=g_category&action=crt_category_frm'><img  class='img_icon' src='themes/opentest2/images/icons/trinux-sb_r6_c20.gif' align=absmiddle> "._MENU_NEW_GROUP_CATEGORY."</a><br>
+                <a href='index.php?module=".$module."&page=import_asuvuz'><img  class='img_icon' src='themes/opentest2/images/icons/trinux-sb_r2_c2.gif' align=absmiddle> "._MENU_IMPORT_ASUVUZ."</a><br>";
+	themeleftbox(_MENU_ADMIN,$content,"",false);
+	
+	//-- меню авторизации
+	themeleftbox(_MENU_AUTHORIZATION, "","",false);
+	include("modules/auth/auth_menu_form.php");
+?>

@@ -1,0 +1,64 @@
+<?php
+if (INDEXPHP!=1) die ("You can't access this file directly...");
+
+$allow_attempts=$GLOBALS['config']["allow_attempts"];
+$allow_interval=$GLOBALS['config']["allow_interval"];
+
+$cookie_opentest_hash=$GLOBALS['config']['auth_cookie_opentest_hash'];
+$cookie_opentest_user_id=$GLOBALS['config']['auth_cookie_opentest_user_id'];
+$cookie_opentest_test_id=$GLOBALS['config']['auth_cookie_opentest_test_id'];
+$cookie_opentest_group_id=$GLOBALS['config']['auth_cookie_opentest_group_id'];
+$cookie_opentest_path=$GLOBALS['config']['auth_cookie_opentest_path'];
+$cookie_opentest_time=$GLOBALS['config']['auth_cookie_opentest_time'];
+$last_log_interval=$GLOBALS['config']['auth_last_log_interval'];
+
+@$user_id = str_replace("'", "", $_COOKIE[$cookie_opentest_user_id]);
+
+$result = sql_query("SELECT users.* FROM users,groups WHERE 
+	users.user_id='$user_id' AND
+	!users.user_disable AND
+	users.group_id=groups.group_id and
+	!groups.group_disable and
+	users.last_log_date>DATE_SUB(NOW(), INTERVAL $last_log_interval MINUTE)") or die (mysql_error());
+	if (mysql_num_rows($result)<=0) {
+		$res_check_disabled=sql_query("SELECT users.* FROM users WHERE 
+			users.user_id='$user_id' AND
+			users.last_log_date>DATE_SUB(NOW(), INTERVAL $last_log_interval MINUTE)
+    ");
+		if (mysql_num_rows($res_check_disabled)>=1) {
+			$GLOBALS['error_message']="<p style='color:red;'>"._ACCOUNT_DISABLED."</p>";
+		}
+	}
+
+	if (!mysql_error() && mysql_num_rows($result)==1) {
+		$current_user = mysql_fetch_array($result);
+    $current_group=sql_single_query("select * from groups where group_id='".$current_user['group_id']."' ");
+		$current_group_category=sql_single_query("select * from group_categories where group_category_id='".$current_group['group_category_id']."' ");
+	 
+  if ($config['strong_hash']) {
+    $hash_to_check = md5($_SERVER['REMOTE_ADDR'].md5($current_user['user_password']));		
+  } else {
+    $hash_to_check = md5($current_user['last_log_date'].$_SERVER['REMOTE_ADDR'].
+		md5($current_user['user_password'].$current_user['last_log_hash']));
+  }
+
+  if ($hash_to_check == $_COOKIE[$cookie_opentest_hash]) {
+    $current_time = time();
+    $result=sql_query("UPDATE users SET last_log_date='". date("Y-m-d H:i:s",
+      $current_time). "' WHERE user_id='$user_id'") or die (mysql_error());
+             
+	 if ($config['strong_hash']) {
+		setcookie($cookie_opentest_hash, md5($_SERVER['REMOTE_ADDR'].md5($current_user['user_password'])) , $cookie_opentest_time,$cookie_opentest_path);
+		} else {
+			setcookie($cookie_opentest_hash, md5(date("Y-m-d H:i:s", $current_time).
+				$_SERVER['REMOTE_ADDR'].md5($current_user['user_password'].$current_user['last_log_hash'])), $cookie_opentest_time,
+	      $cookie_opentest_path);
+	  }
+             
+	  $identificated=true;
+	} else {
+		$identificated=false;
+	}
+} else {
+	$identificated=false;
+}

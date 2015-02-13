@@ -1,0 +1,7 @@
+﻿// Register the related command.
+FCKCommands.RegisterCommand( 'Video', new FCKDialogCommand( 'Video', FCKLang.VideoDlgTitle, FCKPlugins.Items['video'].Path + 'fck_video.html', 450, 300 ) ) ;
+
+// Create the "Video" toolbar button.
+var oVideoItem = new FCKToolbarButton( 'Video', FCKLang.VideoBtn ) ;
+oVideoItem.IconPath = FCKPlugins.Items['video'].Path + 'video.gif' ;
+FCKToolbarItems.RegisterItem( 'Video', oVideoItem ) ;

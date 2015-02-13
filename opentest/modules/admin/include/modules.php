@@ -1,0 +1,39 @@
+<?php
+	/************************************************************************/
+    /* OpenTEST System: The System Of Computer Testing Knowleges            */
+    /* ============================================                         */
+    /*                                                                      */
+    /* Copyright (c) 2002-2005 by OpenTEST Team                             */
+    /* http://opentest.com.ua                                               */
+    /* e-mail: opentest@opentest.com.ua                                     */
+    /*                                                                      */
+    /************************************************************************/
+    /* 11/01/2005 08:00:00                                                  */
+	/************************************************************************/
+	
+	if (INDEXPHP!=1)
+		die ("You can't access this file directly...");
+		
+	
+	
+	if(isset($_REQUEST['action']))
+		$action = $_REQUEST['action'];
+	else
+		$action = "";
+		
+	$page_buf = "<tr><td>";		
+	switch($action)
+	{
+		default:
+			//--header
+			themeleftbox(_MODULES_PERM_HEADER,"","",true); 	        
+			for($i=0;$i<count($modules);++$i)
+				$page_buf .= "<table cellpadding=0 cellspacing=0 border=".$config['debug_table'].">
+								<tr><td nowrap>
+								<a href='index.php?module=".$module."&page=rights&for_module=".($i+1)."'><img title='"._PERMISSIONS."' align='absmiddle' src='themes/".$current_theme."/images/permissions.png'></a></td>
+								<td>&nbsp;".$modules[$i]."</td></tr></table>";
+			$page_buf .= "</td></tr>";
+		break;
+	}
+	echo $page_buf;
+?>

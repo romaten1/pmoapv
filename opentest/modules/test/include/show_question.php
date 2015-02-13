@@ -1,0 +1,346 @@
+<?php
+/************************************************************************/
+/* OpenTEST 2                                                           */
+/* ============================================                         */
+/*                                                                      */
+/* Copyright (c) 2002-2013 by OpenTEST Team                             */
+/* http://opentest.com.ua                                               */
+/* e-mail: nserv@opentest.com.ua                                        */
+/*                                                                      */
+/************************************************************************/
+
+if (INDEXPHP!=1) die ("You can't access this file directly...");
+if (TESTTEST!=1) die ("You can't access this file directly...");
+
+if(!isset($_REQUEST['ready']))
+$ready=""; else $ready=$_REQUEST['ready'];
+
+if(!isset($_REQUEST['number']))
+$number=""; else $number=$_REQUEST['number'];
+
+// Получаем кол-во вопросов на тест
+$query = "SELECT num_questions
+		FROM sessions 
+		WHERE user_id='$user_id' and test_id='$test_id' and group_id='$group_id' and teacher_id='$teacher_id'
+		";
+$row=sql_single_query($query);
+$num_questions=$row['num_questions'];
+
+if($number > $num_questions or $number <= 0 ) $number=1;
+
+// Получаем $id вопроса $number
+$query = "SELECT  prepared_question_id,question_id,marker,answers_is_show
+		FROM prepared_questions 
+		WHERE user_id='$user_id' and test_id='$test_id' and teacher_id='$teacher_id'
+		AND number='$number'
+		";
+$result=sql_query($query);
+$row=mysql_fetch_assoc($result);
+$prepared_question_id=$row['prepared_question_id'];
+$question_id=$row['question_id'];
+$marker=$row['marker'];
+$answers_is_show=$row['answers_is_show'];
+
+// Получаем текст, тип вопроса и время показа его ответов
+$query = "SELECT  question_text, question_type, show_later
+		FROM questions 
+		WHERE question_id='$question_id'
+		";
+$row=sql_single_query($query);
+$question_text=$row['question_text'];
+$question_type=$row['question_type'];
+$show_later=$row['show_later'];
+
+
+// Получаем масив ID-шников вариантов ответов
+$query = "SELECT   prepared_answers.answer_id,prepared_answers.selected,answers.answer_text,answers.answer_sample,
+		prepared_answers.selected_sample
+		FROM prepared_answers, answers
+		WHERE prepared_answers.prepared_question_id='$prepared_question_id' and prepared_answers.answer_id=answers.answer_id
+		";
+$result=sql_query($query);
+?>
+<BODY topMargin=0 marginwidth="0" marginheight="0">
+<div align="center"> 
+  <table width="100%" border="0" cellspacing="0" cellpadding="0">
+    <tr> 
+      <td> 
+        <div align="right">
+        <?echo _BALANCE_TIME; ?>
+		</div>
+      </td>
+    </tr>
+    <tr> 
+      <td> 
+  		<form name=form1 >     
+          <div align="right"> 
+            <input type=edit border=0 style=border:0px; value="1000" name=edit1 size=8 >
+          </div>
+       </form>
+        <div align="right"> 
+          <script>
+<!--
+<?
+echo" var timevalue= $time_to_end_test * 1000; ";
+?>
+function az(t) {
+	return ((t*1<10)?'0':'')+t;
+}
+
+function BeginCount(timeval) {
+	timeval-=1000;
+	if(timeval<0) window.location="index.php?module=<?=$module?>&page=test&action=end_test&timer=1&r=<?=rand();?>&send_test_id=<?=$test_id?>";
+	var d=new Date;
+	d.setTime(timeval);
+	var h="", m="", s="";
+	m=d.getMinutes();
+	s=d.getSeconds();
+	h=((timeval/1000)-m*60-s)
+	h=az(h);
+	m=az(m);
+	s=az(s);
+	document.forms['form1'].elements['edit1'].value=h + ":" + m + " " + s;
+	window.setTimeout('BeginCount(' + timeval + ')', 1000);
+}
+
+BeginCount(timevalue);
+//-->
+</script>
+        </div>
+      </td>
+    </tr>
+  </table>
+  <p><font size="2" face="Arial, Helvetica, sans-serif"><b><font color="#0066FF">
+<?
+	echo _QUESTION_NUMBER." $number "._OF." $num_questions";
+?>
+</font></b></font><BR>
+  </p>
+</div>
+<?
+if($question_type=='3')
+{
+	while ($row = mysql_fetch_assoc($result)) 
+	{	
+		$ii = $row['answer_id'];
+		$selected_value[$ii] = $row['selected_sample'];
+		$search[] = "/\[_A$ii\]/U";
+		$replace[] = "<input type='text' size='8' name='answer_id[$ii]'
+		value=\"".htmlspecialchars($selected_value[$ii])."\">";
+	}	
+		
+	$question_text = preg_replace($search,
+	$replace,
+	"$question_text");
+}
+echo"
+<FORM action='index.php?r=".rand()."&module=$module&page=test' method=post enctype='multipart/form-data'>
+";
+?>
+<TABLE cellSpacing=0 cellPadding=0 align=center border=0 width="75%">
+  <TBODY> 
+  <TR> 
+    <TD> 
+      <p><b>
+			<?
+			echo"      
+			".$question_text."
+			<br>
+        </b>
+        <BR>     
+
+";
+// условие показа вариантов ответов
+if($show_later==0 or $ready=='1' or $answers_is_show=='1')
+{
+	if($question_type=='1')
+	{
+		$i=1;
+		echo"<table>";
+		while ($row = mysql_fetch_assoc($result)) 
+		{ 
+			if($row['selected']==1) $checked="checked"; 
+			else $checked="";
+	    	echo"
+			<tr><td>
+			<input $checked class=input type='radio' name='answer_id[1]' value='$row[answer_id]'>
+			</td><td>
+			".$row['answer_text']."
+			</td></tr>
+			";
+			$i++;
+		}
+		echo"</table>";	
+	}
+	
+	if($question_type=='2')
+	{
+		$i=1;
+		echo"<table>";
+		while ($row = mysql_fetch_assoc($result)) 
+		{ 
+			if($row['selected']==1) $checked="checked"; 
+			else $checked="";
+	    	echo"
+	    	<tr><td>
+			<input $checked class=input type='checkbox' name='answer_id[$i]' value='$row[answer_id]'>
+			</td><td>
+			".$row['answer_text']."
+			</td></tr>		
+			";
+			$i++;
+		}
+		echo"</table>";
+	}
+	if($question_type=='3')
+	{
+	}
+	if($question_type=='4')
+	{
+		$i=1;
+		echo"<table>";
+		while ($row = mysql_fetch_assoc($result)) 
+		{ 
+	    	echo"
+	    	<tr><td>
+	    	".$row['answer_text']."
+	    	</td><td>
+	    	<input type=hidden name=answer_id[$i] value=$row[answer_id]>
+			<select name='answer_value[$i]'>
+			";
+			
+			$query = "SELECT   answers.answer_sample
+				FROM prepared_answers, answers
+				WHERE prepared_answers.prepared_question_id='$prepared_question_id' and prepared_answers.answer_id=answers.answer_id
+				ORDER BY answers.answer_sample ASC
+			";
+			$result2=sql_query($query);
+
+			if($row['selected_sample'] == "") $checked="selected"; 
+			else $checked="";
+			echo"
+			<option value='' $checked>
+			"._NOT_SELECTED."
+			</option>
+			";
+
+			while ($row2 = mysql_fetch_assoc($result2)) 
+			{ 
+				if($row['selected_sample'] == $row2['answer_sample']) $checked="selected"; 
+				else $checked="";
+				echo"
+				
+				<option value=\"".htmlspecialchars($row2['answer_sample'])."\" $checked>
+				".$row2['answer_sample']."
+				</option>
+				";
+			}
+			echo"
+			</select>
+			</td></tr>
+			";
+			$i++;
+		}
+		echo"</table>";		
+	}
+}
+
+if( ($number > 1) and ($number < $num_questions) ) {$next_number=$number+1; $prev_number=$number-1;}
+if( $number == 1) {$next_number=$number+1; $prev_number=$num_questions;}
+if( $number == $num_questions) {$next_number=1; $prev_number=$num_questions-1;}
+$check_number=$number;
+echo"
+
+<input type=hidden name=check_number value='$check_number'>
+
+</p>
+<CENTER>
+        <a href='index.php?r=".rand()."&module=$module&page=test&number=$prev_number'><font color='#0066FF'>&lt;&lt;&lt;&lt;</font></a> 
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+";
+
+// условие показа кнопки "Ответить"
+if($show_later==0 or ($ready=='1' and $answers_is_show=='0'))
+{         
+	echo"
+	<input type=hidden name=number value='$next_number'>
+	<input type=hidden name=action value='check_answer'>
+	<input class=submit type=submit value='"._REPLY."' name='submit'>
+	
+	";
+}
+
+// условие показа кнопки "Ответ готов"
+if($show_later>0 and $ready!='1' and $answers_is_show=='0')
+{         
+	echo"
+	<input type=hidden name=number value='$number'>
+	<input type=hidden name=action value='show_answers'>
+	<input type=hidden name=ready value='1'>
+	<input class=submit type=submit value='"._ANSWER_READY."' name='submit'>
+	";
+}
+if($ready=='1')
+{ 
+	$query = "UPDATE prepared_questions 
+			SET answers_is_show='1' 
+			WHERE user_id='$user_id' and test_id='$test_id' and teacher_id='$teacher_id' and question_id='$question_id'
+			 ";
+	sql_query($query);
+
+	$current_time = time();
+	$query = "UPDATE sessions 
+			SET start_show_answers='".date("Y-m-d H:i:s" , $current_time )."'
+			WHERE user_id='$user_id' and test_id='$test_id' and group_id='$group_id' and teacher_id='$teacher_id'
+	";
+	sql_query($query);
+	echo"<META HTTP-EQUIV=Refresh CONTENT='$show_later; URL=index.php?r=".rand()."&module=$module&page=test&number=$next_number'>";
+}
+
+
+    
+echo"        
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href='index.php?r=".rand()."&module=$module&page=test&number=$next_number'><font color='#0066FF'>&gt;&gt;&gt;&gt;</font> 
+        </a> ";
+        
+if($show_later=='0' or ($ready=='1' and $answers_is_show=='0'))
+{         
+	echo"
+	<br><br><b style='color:red'>"._DO_NOT_FORGET_REPLY."</b>
+	";
+}
+echo"        
+      </CENTER>
+";
+?>      
+    </TD>
+    
+  </TR>
+  </TBODY> 
+</TABLE>
+<table width="75%" border="0" cellspacing="0" cellpadding="0" align="center">
+  <tr>
+    <td> <font size="1">OpenTEST Testing System </font></td>
+    <td width="0%">&nbsp;</td>
+    <td width="0%">&nbsp; </td>
+    <td> 
+      <div align="right"><font size="2" color="#0066FF"><a href="index.php?module=<?=$module?>&page=test&action=end_test&send_test_id=<?=$test_id?>&r=<?=rand();?>"><font size="1">
+        <?=_END_TEST; ?>
+        </font></a></font></div>
+    </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<p align="right">&nbsp;</p>
+</form>
+</BODY></HTML>
+
+<?php
+// Обновление сессии
+$query = "UPDATE sessions 
+		SET check_number='$check_number', question_type='$question_type',
+		last_prepared_question_id='$prepared_question_id',show_later='$show_later' 
+		WHERE user_id='$user_id' and test_id='$test_id' and group_id='$group_id' and teacher_id='$teacher_id'
+		 ";
+sql_query($query);

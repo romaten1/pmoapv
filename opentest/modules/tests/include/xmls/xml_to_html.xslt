@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+	<xsl:output method="xml" version="1.0" encoding="UTF-8" indent="no"/>
+	<xsl:template match="opentest_multimedia">
+		<xsl:choose>
+			<xsl:when test="@type='image'">
+				<xsl:element name="img">
+				<xsl:attribute name="opentest_type">opentest_image</xsl:attribute>
+					<xsl:attribute name="src"><xsl:value-of select="@href"/></xsl:attribute>
+					<xsl:for-each select="render_options/opentest2_param">
+						<xsl:attribute name="{@name}"><xsl:value-of select="@value"/></xsl:attribute>
+					</xsl:for-each>
+				</xsl:element>
+			</xsl:when>
+			<xsl:when test="@type='flash'">
+				<xsl:element name="embed">
+				<xsl:attribute name="opentest_type">flash</xsl:attribute>
+					<xsl:attribute name="src"><xsl:value-of select="@href"/></xsl:attribute>
+					<xsl:attribute name="quality">high</xsl:attribute>
+					<xsl:attribute name="type">application/x-shockwave-flash</xsl:attribute>
+					<xsl:attribute name="pluginspage">http://opentest2.kture/installs/flash_install.exe</xsl:attribute>
+					<xsl:for-each select="render_options/opentest2_param">
+						<xsl:attribute name="{@name}"><xsl:value-of select="@value"/></xsl:attribute>
+					</xsl:for-each>
+				</xsl:element>
+			</xsl:when>
+			<xsl:when test="@type='video'">
+				<xsl:element name="embed">
+				<xsl:attribute name="opentest_type">video</xsl:attribute>
+					<xsl:attribute name="filename"><xsl:value-of select="@href"/></xsl:attribute>
+					<xsl:attribute name="src_temp"><xsl:value-of select="@href"/></xsl:attribute>
+					<xsl:attribute name="autostart">0</xsl:attribute>
+					<xsl:attribute name="type">application/x-mplayer2</xsl:attribute>
+					<xsl:attribute name="pluginspage">http://opentest2.kture/installs/mplayer_install.exe</xsl:attribute>
+					<xsl:for-each select="render_options/opentest2_param">
+						<xsl:attribute name="{@name}"><xsl:value-of select="@value"/></xsl:attribute>
+					</xsl:for-each>
+				</xsl:element>
+			</xsl:when>
+			<xsl:when test="@type='audio'">
+				<xsl:element name="embed">
+				<xsl:attribute name="opentest_type">audio</xsl:attribute>
+					<xsl:attribute name="src_temp"><xsl:value-of select="@href"/></xsl:attribute>
+
+					<xsl:attribute name="filename"><xsl:value-of select="@href"/></xsl:attribute>
+					<xsl:attribute name="autostart">0</xsl:attribute>
+					<xsl:attribute name="type">application/x-mplayer2</xsl:attribute>
+					<xsl:attribute name="pluginspage">http://opentest2.kture/installs/mplayer_install.exe</xsl:attribute>
+					<xsl:attribute name="ShowPositionControls">0</xsl:attribute>
+					<xsl:attribute name="ShowStatusBar">0</xsl:attribute>
+						ShowPositionControls
+					
+					<xsl:for-each select="render_options/opentest2_param">
+						<xsl:attribute name="{@name}"><xsl:value-of select="@value"/></xsl:attribute>
+					</xsl:for-each>
+				</xsl:element>
+			</xsl:when>
+		</xsl:choose>
+	</xsl:template>
+</xsl:stylesheet>

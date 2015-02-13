@@ -1,0 +1,25 @@
+<?php
+if (INDEXPHP!=1) {die ("You can't access this file directly...");}
+
+define("_META1","UTF-8");
+define("_DB1","Error MySQL <br>");
+define("_DB2","BD error <br>");
+define("_DB3","WARNING not 1 row");
+define("_HEADER1","ERROR thems");
+define("_HEADER2","OpenTEST 2.3.0");
+define("_MAINFILE1","lang. was successfuly chamged");
+define("_MAINFILE2","there is no lang file!");
+define("_MAINFILE3","Status");
+define("_TEXT_FOR_ABC","For fitering choose letter");
+// перевести
+
+define("_MAINFILE_CURRENT_PAGE","Текущая страница: &nbsp;");
+define("_MAINFILE_PAGE_NO","Страница №: &nbsp;");
+define("_MAINFILE_TOTAL_PAGES",". Всего страниц: &nbsp;");
+define("_MAINFILE_BUTTON_GOTO","Перейти");
+define("_MAINFILE_KEYWORD_SEARCH","Поиск по ключевому слову");
+define("_MAINFILE_BUTTON_SEARCH","Найти");
+
+global $rus_alf, $eng_alf;
+$rus_alf = array('Все','А','Б','В','Г','Д','Е','Ё','Ж','З','И','Й','К','Л','М','Н','О','П','Р','С','Т','У','Ф','Х','Ц','Ч','Ш','Щ','Э','Ю','Я','І');
+$eng_alf = array('All','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z');

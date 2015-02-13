@@ -1,0 +1,14 @@
+<?php
+if (INDEXPHP!=1) die ("You can't access this file directly...");
+
+$cookie_opentest_hash=$GLOBALS['config']['auth_cookie_opentest_hash'];
+$cookie_opentest_user_id=$GLOBALS['config']['auth_cookie_opentest_user_id'];
+$cookie_opentest_test_id=$GLOBALS['config']['auth_cookie_opentest_test_id'];
+$cookie_opentest_group_id=$GLOBALS['config']['auth_cookie_opentest_group_id'];
+$cookie_opentest_path=$GLOBALS['config']['auth_cookie_opentest_path'];
+$cookie_opentest_time=$GLOBALS['config']['auth_cookie_opentest_time'];
+$last_log_interval=$GLOBALS['config']['auth_last_log_interval'];
+
+setcookie($cookie_opentest_hash,"",$cookie_opentest_time, $cookie_opentest_path);
+setcookie($cookie_opentest_user_id,"",$cookie_opentest_time, $cookie_opentest_path);
+$identificated=false;

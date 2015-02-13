@@ -1,0 +1,103 @@
+<?php
+if (INDEXPHP!=1) die ("You can't access this file directly...");
+
+if(!isset($_REQUEST['page_num']))
+	$page_num=0;
+else
+	$page_num=(int)$_REQUEST['page_num']-1;
+
+if(!isset($_REQUEST['letter']))
+	$letter="";
+else
+	$letter=$_REQUEST['letter'];
+
+if(!isset($_REQUEST['keyword']))
+	$keyword="";
+else
+	$keyword=$_REQUEST['keyword'];
+
+if(isset($_REQUEST['page']))
+	$page = $_REQUEST['page'];
+
+if(isset($_REQUEST['next_action']))
+	$next_action = $_REQUEST['next_action'];
+
+if(isset($_REQUEST['f_date'])) $f_date = $_REQUEST['f_date'];
+	else $f_date = array("y"=>date("Y"), "m"=>date("m"),"d"=>date("d"));
+
+if(isset($_REQUEST['t_date'])) $t_date = $_REQUEST['t_date'];
+	else $t_date = array("y"=>date("Y"),"m"=>date("m"),"d"=>date("d"));
+
+themeleftbox(_TEST_CHOOSE_HEADER,"","",true);
+
+echo "<tr><td><br>";
+	
+if ($keyword!='') {	
+	$null_message = TEST_NO_T_KEYWORD;
+} elseif ($letter=='') {
+	$null_message = _TEST_NO_TEST;
+} else {	
+	$null_message = _TEST_NO_T_LETTER;
+}
+
+$count = get_count($test_category_id,5,false,$keyword,$letter);	
+
+show_abc('index.php?module='.$module.'&page='.$page.'&next_action='.$next_action.'&group_id='.$group_id.'&test_id='.$test_id.'&test_category_id='.$test_category_id.'&letter=');
+
+if ($count==0) {
+	echo "<center><b>".$null_message."</b></center>";
+} else {
+	CloseTable();
+	
+	$query_add = '';
+	if ($keyword!='') $query_add=" AND t.test_name RLIKE '.*".$keyword.".*'";
+	if ($letter!='') $query_add=" AND t.test_name RLIKE '^".$letter.".*'";
+		
+	$query = "SELECT t.test_id,t.test_name
+		FROM tests t,permissions p
+		WHERE t.test_category_id=".(int)$test_category_id.$query_add;
+
+	$query.=" AND ((p.object_code=11 AND p.object_id='".(int)$test_category_id."') OR (p.object_code=12 AND p.object_id=t.test_id ))
+			AND (p.user_id=".$GLOBALS['auth_result']['user']['user_id']."
+				OR p.group_id=".$GLOBALS['auth_result']['user']['group_id']."
+				OR p.group_category_id=".$GLOBALS['auth_result']['group']['group_category_id'].")
+			AND (p.permission_read=1 OR p.permission_write=1 OR p.permission_owner=1)";
+	
+	$query .= " ORDER BY test_name ASC
+			LIMIT ".(int)($page_num*$limit_page).",".(int)$limit_page;
+			
+	$result=sql_query($query);
+
+	$n=0;
+
+	$col_width=100/$limit_col;
+
+	$page_buf = '<table border="0"style="width:100%"><tr><td style="vertical-align:top" width='.$col_width.'%>';
+	while ($row=mysql_fetch_assoc($result)) {
+		if ($n==$limit_row) {
+			$page_buf .= "<td style='vertical-align:top' width=".$col_width."%>";
+			$n=0;
+		}
+		$n++;
+		switch ($next_action) {
+			case "return_show_results":
+				$page_buf .= "<table cellpadding=0 cellspacing=0 border=".$config['debug_table'].">
+					<tr><td nowrap>
+					<a href='index.php?module=".$module."&page=show_results&action=add_new_test&group_id=".$group_id."&test_category_id=".$test_category_id."&&test_id=".$test_id."&new_test_id=".$row['test_id']."&f_date[y]=".$f_date['y']."&f_date[m]=".$f_date['m']."&f_date[d]=".$f_date['d']."&t_date[y]=".$t_date['y']."&t_date[m]=".$t_date['m']."&t_date[d]=".$t_date['d']."'><img title='"._TEST_CHOOSE_TEST."' align='absmiddle' src='themes/".$current_theme."/images/view.png'></a>
+					</td><td>
+					&nbsp;".$row['test_name']."
+					</td></tr></table>";
+		   	break;
+			case "return_gystograms":
+				$page_buf .= "<table cellpadding=0 cellspacing=0 border=".$config['debug_table'].">
+					<tr><td nowrap>
+					<a href='index.php?module=".$module."&page=gystograms&action=add_new_test&group_id=".$group_id."&test_category_id=".$test_category_id."&&test_id=".$test_id."&new_test_id=".$row['test_id']."'><img title='"._TEST_CHOOSE_TEST."' align='absmiddle' src='themes/".$current_theme."/images/view.png'></a>
+					</td><td>
+					&nbsp;".$row['test_name']."
+					</td></tr></table>";
+		   	break;
+		}
+	}
+	$page_buf .= "<tr><td colspan=".$limit_col."><br>";
+	echo $page_buf.nav_bar($count,"index.php?module=".$module."&next_action=".$next_action."&page=".$page."&group_id=".$group_id."&test_id=".$test_id."&test_category_id=".$test_category_id."&letter=".$letter."&page_num=");
+}

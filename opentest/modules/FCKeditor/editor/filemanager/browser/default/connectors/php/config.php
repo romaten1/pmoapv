@@ -1,0 +1,49 @@
+<?php
+/*
+ * FCKeditor - The text editor for internet
+ * Copyright (C) 2003-2004 Frederico Caldeira Knabben
+ * 
+ * Licensed under the terms of the GNU Lesser General Public License:
+ * 		http://www.opensource.org/licenses/lgpl-license.php
+ * 
+ * For further information visit:
+ * 		http://www.fckeditor.net/
+ * 
+ * File Name: config.php
+ * 	Configuration file for the File Manager Connector for PHP.
+ * 
+ * Version:  2.0 RC3
+ * Modified: 2005-02-08 12:01:53
+ * 
+ * File Authors:
+ * 		Frederico Caldeira Knabben (fredck@fckeditor.net)
+ */
+
+global $Config ;
+
+// Path to user files relative to the document root.
+// SECURITY TIP: Uncomment the following line to set a fixed path.
+//$Config['UserFilesPath'] = '/media/test_1/' ;
+
+$Config['AllowedExtensions']['File']	= array() ;
+$Config['DeniedExtensions']['File']		= array('php','asp','aspx','ascx','jsp','cfm','cfc','pl','bat','exe','dll','reg') ;
+
+$Config['AllowedExtensions']['Image']	= array('jpg','gif','jpeg','png','bmp') ;
+$Config['DeniedExtensions']['Image']	= array() ;
+
+$Config['AllowedExtensions']['Flash']	= array('swf') ;
+$Config['DeniedExtensions']['Flash']	= array() ;
+
+$Config['AllowedExtensions']['Video']	= array('avi','mpg','mpeg') ;
+$Config['DeniedExtensions']['Video']	= array() ;
+
+$Config['AllowedExtensions']['Audio']	= array('wav','mp3') ;
+$Config['DeniedExtensions']['Audio']	= array() ;
+
+/*$Config['AllowedExtensions']['Media']	= array('swf','fla','jpg','gif','jpeg','png','avi','mpg','mpeg') ;
+$Config['DeniedExtensions']['Media']	= array() ;*/
+
+$Config['AllowedExtensions']['']    = array_merge($Config['AllowedExtensions']['Image'],$Config['AllowedExtensions']['Flash'],$Config['AllowedExtensions']['Video'],$Config['AllowedExtensions']['Audio']);//array('swf','fla','jpg','gif','jpeg','png','avi','mpg','mpeg','wav','mp3') ;
+$Config['DeniedExtensions']['']    = array() ;
+
+?>

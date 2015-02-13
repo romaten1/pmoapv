@@ -1,0 +1,23 @@
+<?php
+if (INDEXPHP!=1) die ("You can't access this file directly...");
+
+if(!isset($_REQUEST['page'])) {
+	$_REQUEST['page'] = '';
+}
+
+switch($_REQUEST['page']) {
+	case "variant1":
+    break;
+    default:
+    	$content="
+    	<a href='index.php'>"._MENU1."</a> <br>
+		<a href='index.php?module=main&page=testlocalset'>"._MENU2."</a> <br>
+		<a href='index.php?module=main&page=support'>"._MENU3."</a> <br>
+		<a href='index.php?module=main&page=changelang'>"._MENU4."</a> <br>
+		";
+		themeleftbox(_MENU5, "$content","",false);
+    	themeleftbox(_MENU6, "","",false);
+
+		include("modules/auth/auth_menu_form.php");
+	break;
+}
