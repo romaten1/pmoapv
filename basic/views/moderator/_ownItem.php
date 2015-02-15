@@ -6,7 +6,9 @@
 
 <div class="panel panel-default">
 	<div class="panel-heading text-right">
-		<span class="pull-left"><strong class="">Для <?=User::findOne($model->receiver_id)->username?></strong></span>
+		<span class="pull-left"><strong class="">Для
+				<?=Html::a(User::findOne($model->receiver_id)->username, ['/user/profile/show/', 'id' => $model->receiver_id])?>
+			</strong></span>
 		<?=date("H:i:s - d.m.y", $model->created_at)?>
 	</div>
 	<div class="panel-body">

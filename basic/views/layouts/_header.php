@@ -14,14 +14,17 @@ NavBar::begin([
 ?>
 
 <?php
+Yii::setAlias('@example', 'http://example.com/');
 echo Nav::widget([
     'options' => ['class' => 'navbar-nav navbar-right'],
     'items' => [
         ['label' => 'Пошук на сайті', 'url' => ['/site/search']],
         Yii::$app->user->can('admin') ?
             ['label' => 'Admin', 'url' => ['/admin']] : '',
-        !Yii::$app->user->isGuest ?
-            ['label' => 'Профіль', 'url' => ['/user/settings/profile']] : '',
+	    !Yii::$app->user->isGuest ?
+		    ['label' => 'Тестування', 'url' => 'http://pmoapv/opentest'] : '',
+	    !Yii::$app->user->isGuest ?
+            ['label' => 'Профіль', 'url' => ['/user/settings/profile', true]] : '',
         Yii::$app->user->can('moderator') ?
             ['label' => 'Модерація', 'url' => ['/moderator']] : '',
         ['label' => 'Контакти', 'url' => ['/site/contact']],

@@ -91,7 +91,7 @@ $config = [
         ],
          'authClientCollection' => [
             'class' => 'yii\authclient\Collection',
-            'clients' => $authClients,
+            //'clients' => $authClients,
         ],
         'view' => [
             'theme' => [

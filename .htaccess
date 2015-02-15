@@ -3,4 +3,14 @@ RewriteBase /
 
 
 RewriteEngine on
+
 RewriteRule ^((?!basic/web/).*)$ basic/web/$1 [L,NC]
+
+
+
+
+# Заборона індексації всіх папок
+Options -Indexes
+
+ErrorDocument 403 /403.php
+ErrorDocument 404 /404.php
