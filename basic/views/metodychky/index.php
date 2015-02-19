@@ -27,9 +27,8 @@ $this->params['breadcrumbs'][] = $this->title;
 			<div class="panel-collapse collapse" id="collapseOne">
 				<div class="panel-body">
 					<div class="row">
-						<?php echo $this->render('_search', ['model' => $searchModel]); ?>
-					</div>
-
+						<?php  echo $this->render('_search', ['model' => $searchModel]); ?>
+					</div
 				</div>
 			</div>
 		</div>

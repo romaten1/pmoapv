@@ -13,4 +13,4 @@ RewriteRule ^((?!basic/web/).*)$ basic/web/$1 [L,NC]
 Options -Indexes
 
 ErrorDocument 403 /403.php
-ErrorDocument 404 /404.php
+#ErrorDocument 404 /404.php

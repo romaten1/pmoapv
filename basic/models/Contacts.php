@@ -22,7 +22,7 @@ class Contacts extends ActiveRecord
     const STATUS_ACTIVE = 0;
     const STATUS_REVIEWED = 1;
 
-    public function behaviors()
+	public function behaviors()
     {
         return [
             'timestampBehavior' => [
@@ -97,8 +97,8 @@ class Contacts extends ActiveRecord
      */
     public static function getStatus($active)
     {
-        $status = self::getStatusArray();
-        return $status[$active];
+	    $status = self::getStatusArray();
+	    return $status[$active];
     }
 
     public function getStatusLabel()

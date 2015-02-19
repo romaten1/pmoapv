@@ -26,7 +26,7 @@ $this->params['breadcrumbs'][] = $this->title;
 		<strong>Електронна версія: </strong>
 		<?php
 		echo $model->file ?
-			' <a href=' . Url::to( '/basic/web/uploads/metodychky/' . $model->file,	true ) .
+			' <a href=' . Url::to( '@web/uploads/metodychky/' . $model->file,	true ) .
 			' >' . $model->title . '</a>' .	'<br />Розмір файлу: ' . FileHelper::Size2Str( $model->size )
 			: 'Файл на сайті відсутній';
 		echo '<br />Додано: ' . date( 'd.m.Y', $model->updated_at );;

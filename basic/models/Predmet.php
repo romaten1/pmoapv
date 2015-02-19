@@ -2,11 +2,11 @@
 
 namespace app\models;
 
-use Yii;
 use app\behaviors\PurifierBehavior;
-use yii\db\ActiveRecord;
-use app\modules\admin\models\TeachPredmet;
 use app\modules\admin\models\PredmetMetodychky;
+use app\modules\admin\models\TeachPredmet;
+use Yii;
+use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
 
 /**
