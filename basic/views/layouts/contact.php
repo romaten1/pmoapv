@@ -2,7 +2,6 @@
 use yii\helpers\Html;
 use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
-use nirvana\prettyphoto\PrettyPhoto;
 /* @var $this \yii\web\View */
 /* @var $content string */
 
@@ -36,19 +35,6 @@ AppAsset::register($this);
 
 <?= $this->render('_footer') ?>
 
-<?php 
-        PrettyPhoto::widget([
-
-            'target' => "a[rel^='prettyPhoto']",
-            'pluginOptions' => [
-                'opacity' => 0.60,
-                'theme' => PrettyPhoto::THEME_LIGHT_ROUNDED,
-                'social_tools' => false,
-                'autoplay_slideshow' => false,
-                'modal' => true
-            ],
-        ]);        
-     ?>
 <?php $this->endBody() ?>
 </body>
 </html>
