@@ -6,7 +6,7 @@ use kartik\icons\Icon;
 /* @var $this yii\web\View */
 /* @var $model app\models\Teacher */
 
-$this->title = 'Створити викладача';
+$this->title = 'Створити викладача, майстра або лаборанта';
 $this->params['breadcrumbs'][] = ['label' => 'Викладачі', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>

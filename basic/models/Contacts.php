@@ -34,7 +34,7 @@ class Contacts extends ActiveRecord
             'purifierBehavior' => [
                 'class' => PurifierBehavior::className(),
                 'textAttributes' => [
-                    ActiveRecord::EVENT_BEFORE_INSERT => ['subject', 'body'],
+                    ActiveRecord::EVENT_BEFORE_INSERT => ['subject', 'body', 'name', 'email'],
                 ]
             ]
         ];

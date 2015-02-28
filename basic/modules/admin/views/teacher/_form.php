@@ -42,6 +42,10 @@ use app\models\Teacher;
 
     <?= $form->field($model, 'active')->dropDownList(Teacher::getStatusArray())  ?>
 
+	<?= $form->field($model, 'teach_or_master')->dropDownList(Teacher::getTeachMasterArray())  ?>
+
+	<?= $form->field($model, 'user_id')->textInput(['maxlength' => 5]) ?>
+
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Створити' : 'Оновити', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>

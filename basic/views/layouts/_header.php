@@ -54,6 +54,7 @@ echo Nav::widget([
                 ['label' => 'Про кафедру', 'url' => ['/static-page/view-alias', 'alias' => 'about']],
                 ['label' => 'Історія кафедри', 'url' => ['/static-page/view-alias', 'alias' => 'history']],
                 ['label' => 'Викладацький склад', 'url' => ['/teacher']],
+	            ['label' => 'Майстри та лаборанти', 'url' => ['/teacher/master']],
                 ['label' => 'Методична робота', 'url' => ['/static-page/view-alias', 'alias' => 'metod_work']],
                 ['label' => 'Організацйна робота', 'url' => ['/static-page/view-alias', 'alias' => 'org_work']],
                 ['label' => 'Практична підготовка студентів', 'url' => ['/static-page/view-alias', 'alias' => 'praktika']],

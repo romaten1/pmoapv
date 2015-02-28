@@ -23,11 +23,15 @@ use dektrium\user\models\User;
  * @property string $science_status
  * @property string $org_status
  * @property string $description
+ * @property integer $user_id
+ * @property integer $teach_or_master -
  */
 class Teacher extends ActiveRecord
 {
     const STATUS_PASSIVE = 0;
     const STATUS_ACTIVE = 1;
+	const STATUS_TEACHER = 0;
+	const STATUS_MASTER = 1;
 
     public function behaviors()
     {
@@ -56,12 +60,15 @@ class Teacher extends ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'second_name', 'last_name', 'job', 'description'], 'required'],
+            [['name', 'second_name', 'last_name', 'job', 'description', 'teach_or_master'], 'required'],
             [['description'], 'string'],
             [['name', 'second_name', 'last_name', 'job', 'science_status', 'org_status'], 'string', 'max' => 100],
             [['image'], 'file', 'extensions' => 'gif, jpg',],
             ['active', 'default', 'value' => self::STATUS_ACTIVE],
             ['active', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_PASSIVE]],
+	        ['teach_or_master', 'default', 'value' => self::STATUS_TEACHER],
+	        ['teach_or_master', 'in', 'range' => [self::STATUS_TEACHER, self::STATUS_MASTER]],
+	        ['user_id', 'integer'],
         ];
     }
 
@@ -80,6 +87,8 @@ class Teacher extends ActiveRecord
             'science_status' => 'Науковий ступінь',
             'org_status' => 'Організаційна посада',
             'description' => 'Короткий опис',
+	        'user_id' => 'ID користувача',
+	        'teach_or_master' => 'Викладач чи майстер',
         ];
     }
 
@@ -125,7 +134,7 @@ class Teacher extends ActiveRecord
         ];
     }
 
-    /**
+	/**
      * @param $active
      * @return mixed
      */
@@ -157,14 +166,13 @@ class Teacher extends ActiveRecord
      */
     public static function getTeacherByUserId($user_id)
     {
-        $teacher_id = UserTeacher::find()->where(['user_id' => $user_id])->one()->teacher_id;
-        $teacher = self::findOne($teacher_id);
+        $teacher = self::find()->where(['user_id' => $user_id])->one();
         return $teacher;
     }
 
 	public static function getUserByTeacherId($teacher_id)
 	{
-		$user_id = UserTeacher::find()->where(['teacher_id' => $teacher_id])->one()->user_id;
+		$user_id = self::find()->where(['id' => $teacher_id])->one()->user_id;
 		$user = User::findOne($user_id);
 		return $user;
 	}
@@ -176,8 +184,7 @@ class Teacher extends ActiveRecord
      */
     public static function getTeacherNameByUserId($user_id)
     {
-        $teacher_id = UserTeacher::find()->where(['user_id' => $user_id])->one()->teacher_id;
-        $teacher = self::findOne($teacher_id);
+        $teacher = self::find()->where(['user_id' => $user_id])->one();
         $teacher_name = $teacher->last_name . ' ' . $teacher->name . ' ' . $teacher->second_name;
         return $teacher_name;
     }
@@ -188,7 +195,7 @@ class Teacher extends ActiveRecord
      */
     public static function getUserIdTeacherNameArray()
     {
-        $user_teacher = UserTeacher::find()->asArray()->all();
+        $user_teacher = self::find()->asArray()->all();
         $teachers = [];
         foreach ($user_teacher as $item) {
             $teacher = self::getTeacherByUserId($item['user_id']);
@@ -204,14 +211,7 @@ class Teacher extends ActiveRecord
      */
     public static function getPrepodsArray()
     {
-        $teachers = [];
-        $userteacher = UserTeacher::find()->all();
-        foreach ($userteacher as $user) {
-            $teacher = self::findOne($user->teacher_id);
-            $teacher_fullname = $teacher->last_name . ' ' . $teacher->name . ' ' . $teacher->second_name;
-            $teachers[$user->user_id] = $teacher_fullname;
-        }
-        return $teachers;
+       return getUserIdTeacherNameArray();
     }
 
     /**
@@ -221,8 +221,20 @@ class Teacher extends ActiveRecord
      */
     public static function getPrepod($user_id)
     {
-        $teacher = self::getTeacherByUserId($user_id);
+        $teacher = self::find()->where(['user_id' => $user_id])->one();
         $teacher_fullname = $teacher->last_name . ' ' . $teacher->name . ' ' . $teacher->second_name;
         return $teacher_fullname;
     }
+
+	/**
+	 * @return array
+	 */
+	public static function getTeachMasterArray()
+	{
+		return [
+			self::STATUS_TEACHER => 'Викладач',
+			self::STATUS_MASTER => 'Майстер',
+
+		];
+	}
 }

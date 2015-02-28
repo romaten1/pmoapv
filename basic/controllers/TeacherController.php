@@ -16,14 +16,15 @@ class TeacherController extends Controller
 {
     public $layout = 'static';
     /**
-     * Lists all Teacher models.
+     * Lists all Teacher .
      * @return mixed
      */
     public function actionIndex()
     {
         $searchModel = new TeacherSearch();
         $dataProvider = new ActiveDataProvider([
-            'query' => Teacher::find()->where(['active'=>Teacher::STATUS_ACTIVE]),
+            'query' => Teacher::find()->where(['active'=>Teacher::STATUS_ACTIVE])
+	            ->where(['teach_or_master'=>Teacher::STATUS_TEACHER]),
             'pagination' => ['pageSize' => 10],
         ]);
         return $this->render('index', [
@@ -31,6 +32,23 @@ class TeacherController extends Controller
             'dataProvider' => $dataProvider,
         ]);
     }
+	/**
+	 * Lists all Master .
+	 * @return mixed
+	 */
+	public function actionMaster()
+	{
+		$searchModel = new TeacherSearch();
+		$dataProvider = new ActiveDataProvider([
+			'query' => Teacher::find()->where(['active'=>Teacher::STATUS_ACTIVE])
+				->where(['teach_or_master'=>Teacher::STATUS_MASTER]),
+			'pagination' => ['pageSize' => 10],
+		]);
+		return $this->render('masters', [
+			'searchModel' => $searchModel,
+			'dataProvider' => $dataProvider,
+		]);
+	}
 
     
     /**
@@ -43,13 +61,23 @@ class TeacherController extends Controller
 	{
 		$model = $this->findModel($id);
 		if ($model->active == Teacher::STATUS_ACTIVE) {
-			return $this->render('view', [
-				'model' => $model,
-			]);
+
+			if ($model->teach_or_master == Teacher::STATUS_TEACHER) {
+				return $this->render('view', [
+					'model' => $model,
+				]);
+			}
+			else {
+				return $this->render('viewMaster', [
+					'model' => $model,
+				]);
+			}
 		} else {
 			throw new NotFoundHttpException('Запис не активний');
 		}
 	}
+
+
 
     
 
