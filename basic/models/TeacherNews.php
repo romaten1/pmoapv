@@ -37,7 +37,8 @@ class TeacherNews extends ActiveRecord
             'purifierBehavior' => [
                 'class' => PurifierBehavior::className(),
                 'textAttributes' => [
-                    ActiveRecord::EVENT_BEFORE_INSERT => ['text'],
+	                ActiveRecord::EVENT_BEFORE_UPDATE => ['text', 'title'],
+	                ActiveRecord::EVENT_BEFORE_INSERT => ['text', 'title'],
                 ]
             ]
         ];

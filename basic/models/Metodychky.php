@@ -36,13 +36,6 @@ class Metodychky extends ActiveRecord
                     ActiveRecord::EVENT_BEFORE_UPDATE => 'updated_at',
                 ]
             ],
-            'purifierBehavior' => [
-                'class' => PurifierBehavior::className(),
-                'textAttributes' => [
-                    ActiveRecord::EVENT_BEFORE_UPDATE => ['description'],
-                    ActiveRecord::EVENT_BEFORE_INSERT => ['description'],
-                ]
-            ]
         ];
     }
 

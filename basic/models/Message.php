@@ -37,7 +37,7 @@ class Message extends ActiveRecord
             'purifierBehavior' => [
                 'class' => PurifierBehavior::className(),
                 'textAttributes' => [
-                    ActiveRecord::EVENT_BEFORE_INSERT => ['text'],
+                    ActiveRecord::EVENT_BEFORE_INSERT => ['text','receiver_id'],
                 ]
             ]
         ];

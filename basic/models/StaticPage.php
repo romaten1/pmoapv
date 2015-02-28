@@ -26,12 +26,7 @@ class StaticPage extends ActiveRecord
     public function behaviors()
     {
         return [
-            'purifierBehavior' => [
-                'class' => PurifierBehavior::className(),
-                'textAttributes' => [
-                    ActiveRecord::EVENT_BEFORE_INSERT => ['text'],
-                ]
-            ]
+
         ];
     }
 

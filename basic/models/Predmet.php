@@ -30,13 +30,6 @@ class Predmet extends ActiveRecord
     {
         return [
 
-            'purifierBehavior' => [
-                'class' => PurifierBehavior::className(),
-                'textAttributes' => [
-                    ActiveRecord::EVENT_BEFORE_UPDATE => ['description'],
-                    ActiveRecord::EVENT_BEFORE_INSERT => ['description'],
-                ]
-            ]
         ];
     }
 
