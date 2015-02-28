@@ -92,8 +92,9 @@ echo Nav::widget([
             'items' => [
                 ['label' => 'Напрямки наукових досліджень викладачів кафедри', 'url' => ['/static-page/view-alias', 'alias' => 'napryamy-nauki']],
                 ['label' => 'Наукова робота студентів', 'url' => ['/static-page/view-alias', 'alias' => 'student_work']],
-                ['label' => 'Наукові заходи', 'url' => ['/static-page/view-alias', 'alias' => 'zahody']],
-                ['label' => 'Пропозиції виробникам', 'url' => ['/static-page/view-alias', 'alias' => 'proposal']],
+                ['label' => 'Наукові заходи', 'url' => ['/conference']],
+	            ['label' => 'Статті наукових заходів', 'url' => ['/conference/conference-article']],
+	            ['label' => 'Пропозиції виробникам', 'url' => ['/static-page/view-alias', 'alias' => 'proposal']],
                 ['label' => 'Аспіранти кафедри', 'url' => ['/static-page/view-alias', 'alias' => 'aspirant']],
             ],
         ],

@@ -2,25 +2,24 @@
 
 use yii\helpers\Html;
 use yii\widgets\ListView;
-use app\assets\AccordeonAsset;
 
 /* @var $this yii\web\View */
-/* @var $searchModel app\models\MetodychkySearch */
+/* @var $searchModel app\modules\conference\models\ConferenceArticleSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
-AccordeonAsset::register($this);
 
-$this->title = 'Навчально-методичне забезпечення кафедри';
-$this->params['breadcrumbs'][] = $this->title;
+$this->title = 'Статті з конференцій';
+$this->params['breadcrumbs'][] = ['label' => 'Наукові заходи', 'url' => ['/conference']];
+$this->params['breadcrumbs'][] = ['label' => $this->title, 'url' => ['index']];
 ?>
-<div class="metodychky-index">
+<div class="conference-article-index">
 
-   <h1><?= Html::encode($this->title) ?></h1>
+    <h1><?= Html::encode($this->title) ?></h1>
 	<div class="panel-group" id="accordion">
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<h4 class="panel-title">
 					<a class="accordion-toggle" href="#collapseOne" data-toggle="collapse" data-parent="#accordion">
-						Пошук серед методичних вказівок
+						Пошук серед статей
 					</a>
 				</h4>
 			</div>
@@ -34,16 +33,10 @@ $this->params['breadcrumbs'][] = $this->title;
 		</div>
 	</div>
 
-    <p>
-        <?= ''; //Html::a('Створити методичні вказівки', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
-
     <?= ListView::widget([
         'dataProvider' => $dataProvider,
-       //'options' => ['class' => 'list-group'],
         'itemOptions' => ['class' => 'item well'],
         'itemView' => '_listItem',
-        'layout' => '{items}{pager}',
     ]) ?>
 
 </div>

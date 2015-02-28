@@ -11,7 +11,8 @@ $config = [
     'modules' => [
         'admin' => [
             'class' => 'app\modules\admin\Module',
-        ],  
+
+        ],
         'user' => [
             'class' => 'dektrium\user\Module',
             'enableConfirmation' => false,
@@ -32,6 +33,10 @@ $config = [
         ],
         'rbac' => [
 	        'class' => 'app\modules\admin\modules\rbac\Module',
+        ],
+        'conference' => [
+	        'class' => 'app\modules\conference\Module',
+	        'defaultRoute' => '/conference'
         ],
     ],
     'components' => [

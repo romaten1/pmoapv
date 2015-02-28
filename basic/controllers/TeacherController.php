@@ -24,7 +24,7 @@ class TeacherController extends Controller
         $searchModel = new TeacherSearch();
         $dataProvider = new ActiveDataProvider([
             'query' => Teacher::find()->where(['active'=>Teacher::STATUS_ACTIVE])
-	            ->where(['teach_or_master'=>Teacher::STATUS_TEACHER]),
+	            ->andWhere(['teach_or_master'=>Teacher::STATUS_TEACHER]),
             'pagination' => ['pageSize' => 10],
         ]);
         return $this->render('index', [

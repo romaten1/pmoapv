@@ -61,7 +61,8 @@ class Metodychky extends ActiveRecord
             [['title', 'description', 'active'], 'required'],
             [['description'], 'string'],
             [['active', 'size'], 'integer'],
-            [['title', 'file'], 'string', 'max' => 255],
+            [['title'], 'string', 'max' => 255],
+	        [['file'], 'file', 'maxSize' => 20*1024*1024],
             ['active', 'default', 'value' => self::STATUS_ACTIVE],
             ['active', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_PASSIVE]],
         ];

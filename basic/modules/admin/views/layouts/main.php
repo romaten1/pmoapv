@@ -106,6 +106,14 @@ AppAsset::register($this);
                             <?= Html::a('Список користувачів', ['/user/admin/index']) ?>
                         </div>
                     </div>
+	                <div class="panel panel-primary">
+		                <div class="panel-heading"><h3 class="panel-title"><?= Html::a('Наукові заходи', ['/admin/conference']) ?></h3></div>
+		                <div class="panel-body">
+			                <?= Html::a('Створити', ['/admin/conference/create']) ?><br />
+			                <?= Html::a('Статті конференцій', ['/admin/conference-article']) ?><br />
+			                <?= Html::a('Створити статтю конференції', ['/admin/conference-article/create']) ?>
+		                </div>
+	                </div>
                                           
 	            </div>
                 

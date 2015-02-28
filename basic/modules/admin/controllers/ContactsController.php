@@ -24,7 +24,7 @@ class ContactsController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['index', 'create', 'update', 'view', 'review', 'unreview'],
+                        'actions' => ['index', 'create', 'update', 'view', 'review', 'delete','unreview'],
                         'roles' => ['admin'],
                     ]
                 ],
@@ -90,6 +90,13 @@ class ContactsController extends Controller
 
         return $this->redirect(['index']);
     }
+
+	public function actionDelete($id)
+	{
+		$this->findModel($id)->delete();
+		Yii::info($this->id . ' - ' . $this->action->id . ' - id: ' . $id . ' - user: ' . \Yii::$app->user->id, 'admin');
+		return $this->redirect(['index']);
+	}
 
     /**
      * Finds the Contacts model based on its primary key value.
