@@ -29,7 +29,7 @@ class MetodychkyController extends Controller
 					[
 						'allow' => true,
 						'actions' => ['index', 'view'],
-						'roles' => ['@'],
+						'roles' => ['student'],
 					],
 					[
 						'allow' => true,

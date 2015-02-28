@@ -3,9 +3,7 @@
 namespace app\models;
 
 use Yii;
-use app\modules\admin\models\UserTeacher;
 use yii\helpers\ArrayHelper;
-use app\behaviors\PurifierBehavior;
 use yii\db\ActiveRecord;
 use app\modules\admin\models\TeachMetodychky;
 use app\modules\admin\models\TeachPredmet;
@@ -112,8 +110,7 @@ class Teacher extends ActiveRecord
      */
     public function getNews()
     {
-        return $this->hasMany(TeacherNews::className(), ['teacher_id' => 'user_id'])
-            ->viaTable(UserTeacher::tableName(), ['teacher_id' => 'id']);
+        return $this->hasMany(TeacherNews::className(), ['teacher_id' => 'user_id']);
     }
 
     /**
@@ -205,7 +202,7 @@ class Teacher extends ActiveRecord
      */
     public static function getPrepodsArray()
     {
-       return getUserIdTeacherNameArray();
+       return self::getUserIdTeacherNameArray();
     }
 
     /**

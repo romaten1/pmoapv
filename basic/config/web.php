@@ -29,7 +29,10 @@ $config = [
             'controllerMap' => [
                 'registration' => 'app\controllers\RegistrationController'
             ],
-        ],      
+        ],
+        'rbac' => [
+	        'class' => 'app\modules\admin\modules\rbac\Module',
+        ],
     ],
     'components' => [
         'request' => [
@@ -72,7 +75,7 @@ $config = [
             ],
         ],
         'authManager' => [
-            'class' => '\yii\rbac\PhpManager',
+            'class' => 'yii\rbac\DbManager',
             
         ],
         'db' => require(__DIR__ . '/db.php'),

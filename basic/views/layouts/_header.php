@@ -24,7 +24,7 @@ echo Nav::widget([
 	    !Yii::$app->user->isGuest ?
 		    ['label' => 'Тестування', 'url' => 'http://pmoapv/opentest'] : '',
 	    !Yii::$app->user->isGuest ?
-            ['label' => 'Профіль', 'url' => ['/user/settings/profile', true]] : '',
+            ['label' => 'Профіль', 'url' => ['/user/settings/profile']] : '',
         Yii::$app->user->can('moderator') ?
             ['label' => 'Модерація', 'url' => ['/moderator']] : '',
         ['label' => 'Контакти', 'url' => ['/site/contact']],

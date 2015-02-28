@@ -5,6 +5,7 @@ use dektrium\user\models\User;
 use Yii;
 use yii\base\InvalidParamException;
 use yii\console\Controller;
+use yii\rbac\DbManager;
 
 class RbacController extends Controller
 {
@@ -14,7 +15,9 @@ class RbacController extends Controller
             return self::EXIT_CODE_NORMAL;
         }
 
-        $auth = Yii::$app->authManager;
+        //$auth = Yii::$app->authManager;
+	    $auth = new DbManager;
+	    $auth->init();
         $auth->removeAll();
 
         $adminNews = $auth->createPermission('adminNews');
@@ -35,10 +38,15 @@ class RbacController extends Controller
 	    $updateTeacherNews->description = 'Update TeacherNews';
 	    $auth->add($updateTeacherNews);
 
+	    $student = $auth->createRole('student');
+	    $student->description = 'Student';
+	    $auth->add($student);
+
         $moderator = $auth->createRole('moderator');
         $moderator->description = 'Moderator';
         $auth->add($moderator);
         $auth->addChild($moderator, $adminNews);
+	    $auth->addChild($moderator, $student);
 
 	    // add the rule
 	    $rule = new \app\rbac\AuthorMetodychkaRule;
