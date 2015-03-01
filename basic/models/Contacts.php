@@ -17,9 +17,8 @@ use yii\helpers\ArrayHelper;
  * @property string $subject
  * @property string $body
  */
-class Contacts extends ActiveRecord
+class Contacts extends Root
 {
-    const STATUS_ACTIVE = 0;
     const STATUS_REVIEWED = 1;
 
 	public function behaviors()
@@ -90,17 +89,10 @@ class Contacts extends ActiveRecord
         ];
     }
 
-    /**
-     * Вертає 'Непереглянуто' або 'Переглянуто'
-     * @param $active
-     * @return mixed
-     */
-    public static function getStatus($active)
-    {
-	    $status = self::getStatusArray();
-	    return $status[$active];
-    }
-
+	/**
+	 *
+	 * @return string
+	 */
     public function getStatusLabel()
     {
         $statuses = $this->getStatusArray();

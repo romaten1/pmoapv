@@ -4,7 +4,6 @@ namespace app\models;
 
 use Yii;
 use yii\helpers\ArrayHelper;
-use yii\db\ActiveRecord;
 use app\modules\admin\models\TeachMetodychky;
 use app\modules\admin\models\TeachPredmet;
 use dektrium\user\models\User;
@@ -24,11 +23,9 @@ use dektrium\user\models\User;
  * @property integer $user_id
  * @property integer $teach_or_master -
  */
-class Teacher extends ActiveRecord
+class Teacher extends Root
 {
-    const STATUS_PASSIVE = 0;
-    const STATUS_ACTIVE = 1;
-	const STATUS_TEACHER = 0;
+    const STATUS_TEACHER = 0;
 	const STATUS_MASTER = 1;
 
     public function behaviors()
@@ -113,42 +110,6 @@ class Teacher extends ActiveRecord
         return $this->hasMany(TeacherNews::className(), ['teacher_id' => 'user_id']);
     }
 
-    /**
-     * @return array
-     */
-    public static function getStatusArray()
-    {
-        return [
-            self::STATUS_ACTIVE => 'Активно',
-            self::STATUS_PASSIVE => 'Неактивно',
-
-        ];
-    }
-
-	/**
-     * @param $active
-     * @return mixed
-     */
-    public static function getStatus($active)
-    {
-        $status = self::getStatusArray();
-        return $status[$active];
-    }
-
-    /**
-     * @return mixed
-     */
-	public function getStatusLabel()
-	{
-		$statuses = $this->getStatusArray();
-		if($this->active == self::STATUS_ACTIVE ){
-			$return = '<span class="label label-success">'.ArrayHelper::getValue($statuses, $this->active).'</span>';
-		}
-		else {
-			$return = '<span class="label label-warning">'.ArrayHelper::getValue($statuses, $this->active).'</span>';
-		}
-		return $return;
-	}
 
     /**
      * вертає об'єкт Teacher user_id якого згдіно таблиці UserTeacher відповідає введеному $user_id

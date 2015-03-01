@@ -22,7 +22,7 @@ echo Nav::widget([
         Yii::$app->user->can('admin') ?
             ['label' => 'Admin', 'url' => ['/admin']] : '',
 	    !Yii::$app->user->isGuest ?
-		    ['label' => 'Тестування', 'url' => 'http://pmoapv/opentest'] : '',
+		    ['label' => 'Тестування', 'url' => 'http://pmoapv.pp.ua/opentest'] : '',
 	    !Yii::$app->user->isGuest ?
             ['label' => 'Профіль', 'url' => ['/user/settings/profile']] : '',
         Yii::$app->user->can('moderator') ?

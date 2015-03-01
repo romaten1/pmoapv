@@ -19,11 +19,8 @@ use yii\helpers\ArrayHelper;
  * @property integer $updated_at
  * @property integer $active
  */
-class TeacherNews extends ActiveRecord
+class TeacherNews extends Root
 {
-    const STATUS_PASSIVE = 0;
-    const STATUS_ACTIVE = 1;
-
     public function behaviors()
     {
         return [
@@ -82,33 +79,6 @@ class TeacherNews extends ActiveRecord
             'active' => 'Активно',
         ];
     }
-
-    public static function getStatusArray()
-    {
-        return [
-            self::STATUS_ACTIVE => 'Активно',
-            self::STATUS_PASSIVE => 'Неактивно',
-
-        ];
-    }
-
-    public static function getStatus($active)
-    {
-        $status = self::getStatusArray();
-        return $status[$active];
-    }
-
-	public function getStatusLabel()
-	{
-		$statuses = $this->getStatusArray();
-		if($this->active == self::STATUS_ACTIVE ){
-			$return = '<span class="label label-success">'.ArrayHelper::getValue($statuses, $this->active).'</span>';
-		}
-		else {
-			$return = '<span class="label label-warning">'.ArrayHelper::getValue($statuses, $this->active).'</span>';
-		}
-		return $return;
-	}
 
 	public function getTeacher()
 	{

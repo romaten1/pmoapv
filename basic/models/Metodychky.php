@@ -6,9 +6,7 @@ use Yii;
 use app\modules\admin\models\TeachMetodychky;
 use app\models\query\MetodychkyQuery;
 use yii\behaviors\TimestampBehavior;
-use app\behaviors\PurifierBehavior;
 use yii\db\ActiveRecord;
-use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "metodychky".
@@ -20,11 +18,8 @@ use yii\helpers\ArrayHelper;
  * @property integer $active
  * @property string $size
  */
-class Metodychky extends ActiveRecord
+class Metodychky extends Root
 {
-
-    const STATUS_PASSIVE = 0;
-    const STATUS_ACTIVE = 1;
 
     public function behaviors()
     {
@@ -85,35 +80,9 @@ class Metodychky extends ActiveRecord
         ];
     }
 
-    public static function getStatusArray()
-    {
-        return [
-            self::STATUS_ACTIVE => 'Активно',
-            self::STATUS_PASSIVE => 'Неактивно',
-        ];
-    }
-
-    public function getTeachers()
-    {
-        return $this->hasMany(Teacher::className(), ['id' => 'teach_id'])
-            ->viaTable(TeachMetodychky::tableName(), ['metodychky_id' => 'id']);
-    }
-
-    public static function getStatus($active)
-    {
-        $status = self::getStatusArray();
-        return $status[$active];
-    }
-
-	public function getStatusLabel()
+	public function getTeachers()
 	{
-		$statuses = $this->getStatusArray();
-		if($this->active == self::STATUS_ACTIVE ){
-			$return = '<span class="label label-success">'.ArrayHelper::getValue($statuses, $this->active).'</span>';
-		}
-		else {
-			$return = '<span class="label label-warning">'.ArrayHelper::getValue($statuses, $this->active).'</span>';
-		}
-		return $return;
+		return $this->hasMany(Teacher::className(), ['id' => 'teach_id'])
+		            ->viaTable(TeachMetodychky::tableName(), ['metodychky_id' => 'id']);
 	}
 }

@@ -2,12 +2,9 @@
 
 namespace app\models;
 
-use app\behaviors\PurifierBehavior;
 use app\modules\admin\models\PredmetMetodychky;
 use app\modules\admin\models\TeachPredmet;
 use Yii;
-use yii\db\ActiveRecord;
-use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "predmet".
@@ -17,13 +14,10 @@ use yii\helpers\ArrayHelper;
  * @property string $description
  * @property integer $active
  */
-class Predmet extends ActiveRecord
+class Predmet extends Root
 {
 
-    const STATUS_PASSIVE = 0;
-    const STATUS_ACTIVE = 1;
-
-    /**
+   /**
      * @return array
      */
     public function behaviors()
@@ -86,42 +80,4 @@ class Predmet extends ActiveRecord
         return $this->hasMany(Metodychky::className(), ['id' => 'metodychky_id'])
             ->viaTable(PredmetMetodychky::tableName(), ['predmet_id' => 'id']);
     }
-
-    /**
-     * @return array
-     */
-    public static function getStatusArray()
-    {
-        return [
-            self::STATUS_ACTIVE => 'Активно',
-            self::STATUS_PASSIVE => 'Неактивно',
-
-        ];
-    }
-
-    /**
-     * @param $active
-     * @return mixed
-     */
-    public static function getStatus($active)
-    {
-        $status = self::getStatusArray();
-        return $status[$active];
-    }
-
-    /**
-     * @return mixed
-     */
-	public function getStatusLabel()
-	{
-		$statuses = $this->getStatusArray();
-		if($this->active == self::STATUS_ACTIVE ){
-			$return = '<span class="label label-success">'.ArrayHelper::getValue($statuses, $this->active).'</span>';
-		}
-		else {
-			$return = '<span class="label label-warning">'.ArrayHelper::getValue($statuses, $this->active).'</span>';
-		}
-		return $return;
-	}
-
 }

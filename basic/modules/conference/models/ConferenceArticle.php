@@ -3,7 +3,7 @@
 namespace app\modules\conference\models;
 
 use Yii;
-use yii\helpers\ArrayHelper;
+use app\models\Root;
 use yii\db\ActiveRecord;
 use yii\behaviors\TimestampBehavior;
 
@@ -20,11 +20,8 @@ use yii\behaviors\TimestampBehavior;
  * @property integer $active
  * @property string $author
  */
-class ConferenceArticle extends \yii\db\ActiveRecord
+class ConferenceArticle extends Root
 {
-	const STATUS_PASSIVE = 0;
-	const STATUS_ACTIVE = 1;
-
 	public function behaviors()
 	{
 		return [
@@ -79,34 +76,4 @@ class ConferenceArticle extends \yii\db\ActiveRecord
             'author' => 'Автор',
         ];
     }
-
-	public static function getStatusArray()
-	{
-		return [
-			self::STATUS_ACTIVE => 'Активно',
-			self::STATUS_PASSIVE => 'Неактивно',
-
-		];
-	}
-
-	public static function getStatus($active)
-	{
-		$status = self::getStatusArray();
-		return $status[$active];
-	}
-
-
-	public function getStatusLabel()
-	{
-		$statuses = $this->getStatusArray();
-		if($this->active == self::STATUS_ACTIVE ){
-			$return = '<span class="label label-success">'.ArrayHelper::getValue($statuses, $this->active).'</span>';
-		}
-		else {
-			$return = '<span class="label label-warning">'.ArrayHelper::getValue($statuses, $this->active).'</span>';
-		}
-		return $return;
-	}
-
-
 }

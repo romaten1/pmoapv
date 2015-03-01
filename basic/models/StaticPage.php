@@ -5,8 +5,6 @@ namespace app\models;
 use Yii;
 use yii\helpers\ArrayHelper;
 use app\modules\admin\models\ParentGroup;
-use app\behaviors\PurifierBehavior;
-use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "static_page".
@@ -18,11 +16,8 @@ use yii\db\ActiveRecord;
  * @property integer $active
  * @property integer $parent_group_id
  */
-class StaticPage extends ActiveRecord
+class StaticPage extends Root
 {
-    const STATUS_PASSIVE = 0;
-    const STATUS_ACTIVE = 1;
-
     public function behaviors()
     {
         return [
@@ -69,43 +64,6 @@ class StaticPage extends ActiveRecord
             'parent_group_id' => 'Код групи',
         ];
     }
-
-    /**
-     * @return array
-     */
-    public static function getStatusArray()
-    {
-        return [
-            self::STATUS_ACTIVE => 'Активно',
-            self::STATUS_PASSIVE => 'Неактивно',
-
-        ];
-    }
-
-    /**
-     * @param $active
-     * @return mixed
-     */
-    public static function getStatus($active)
-    {
-        $status = self::getStatusArray();
-        return $status[$active];
-    }
-
-    /**
-     * @return mixed
-     */
-	public function getStatusLabel()
-	{
-		$statuses = $this->getStatusArray();
-		if($this->active == self::STATUS_ACTIVE ){
-			$return = '<span class="label label-success">'.ArrayHelper::getValue($statuses, $this->active).'</span>';
-		}
-		else {
-			$return = '<span class="label label-warning">'.ArrayHelper::getValue($statuses, $this->active).'</span>';
-		}
-		return $return;
-	}
 
     /**
      * @return array
