@@ -85,4 +85,14 @@ class Message extends Root
             'active' => 'Активно',
         ];
     }
+
+	public static function getNotRecievedMessageCount()
+	{
+		$count = self::find()
+		             ->received_messages()
+		             ->where(['receiver_id' => Yii::$app->user->id])
+		             ->andWhere('recieved_at < 2')
+		             ->count();
+		return $count;
+	}
 }

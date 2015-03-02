@@ -7,42 +7,53 @@ use yii\base\InvalidParamException;
 use yii\console\Controller;
 use yii\rbac\DbManager;
 
+/**
+ * Class RbacController
+ * @package app\commands
+ */
 class RbacController extends Controller
 {
-    public function actionInit()
+	public function actionInit()
     {
         if (!$this->confirm("Are you sure? It will re-create permissions tree.")) {
             return self::EXIT_CODE_NORMAL;
         }
 
         //$auth = Yii::$app->authManager;
+	    // Підключення через Базу даних
 	    $auth = new DbManager;
 	    $auth->init();
         $auth->removeAll();
 
-        $adminNews = $auth->createPermission('adminNews');
+        //Не використовується! Управління новинами, статичними сторінками, предметами, методичками - для модераторів (викладачів)
+	    $adminNews = $auth->createPermission('adminNews');
         $adminNews->description = 'Administrate news, staticPages, predmets, metodychkies';
         $auth->add($adminNews);
 
+	    // Не використовується! Управління користувачами
         $adminUsers = $auth->createPermission('adminUsers');
         $adminUsers->description = 'Administrate users and teachers';
         $auth->add($adminUsers);
 
+	    // Оновлення методичок тільки автором
 	    // add "updateMetodychka" permission
 	    $updateMetodychka = $auth->createPermission('updateMetodychka');
 	    $updateMetodychka->description = 'Update Metodychka';
 	    $auth->add($updateMetodychka);
 
+	    //Оновлення повідомлень викладачів тільки автором
 	    // add "updateTeacherNews" permission
 	    $updateTeacherNews = $auth->createPermission('updateTeacherNews');
 	    $updateTeacherNews->description = 'Update TeacherNews';
 	    $auth->add($updateTeacherNews);
 
+	    // Роль студент
 	    $student = $auth->createRole('student');
 	    $student->description = 'Student';
 	    $auth->add($student);
 
-        $moderator = $auth->createRole('moderator');
+        // Роль модератор - для викладачів, наслідує роль студент
+	    $moderator = $auth->createRole('moderator');
         $moderator->description = 'Moderator';
         $auth->add($moderator);
         $auth->addChild($moderator, $adminNews);

@@ -1,6 +1,9 @@
 <?php
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
+use app\modules\admin\modules\rbac\models\AuthAssignment;
+// Визначаємо роль користувача і отримуємо об'єкт моделі AuthAssignment
+$assignment = AuthAssignment::find()->where(["user_id" => Yii::$app->user->id])->one();
 ?>
 
 <?php
@@ -14,7 +17,6 @@ NavBar::begin([
 ?>
 
 <?php
-Yii::setAlias('@example', 'http://example.com/');
 echo Nav::widget([
     'options' => ['class' => 'navbar-nav navbar-right'],
     'items' => [
@@ -25,6 +27,9 @@ echo Nav::widget([
 		    ['label' => 'Тестування', 'url' => 'http://pmoapv.pp.ua/opentest'] : '',
 	    !Yii::$app->user->isGuest ?
             ['label' => 'Профіль', 'url' => ['/user/settings/profile']] : '',
+	    // Перевіряємо чи користувач - студент і тоді виводимо посилання на сторінку студента
+	    ($assignment->item_name == 'student' ) ?
+		    ['label' => 'Сторінка студента', 'url' => ['/student']] : '',
         Yii::$app->user->can('moderator') ?
             ['label' => 'Модерація', 'url' => ['/moderator']] : '',
         ['label' => 'Контакти', 'url' => ['/site/contact']],
@@ -101,4 +106,5 @@ echo Nav::widget([
     ],
 ]);
 NavBar::end();
+
 ?>

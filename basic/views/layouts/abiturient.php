@@ -95,6 +95,8 @@ $this->title = 'Абітурієнту';
                 </div>
                 <div class="intro-heading">Приєднуйтесь до нас!</div>
                 <a href="#services" class="page-scroll btn btn-xl">Дізнайтесь більше</a>
+		        <span class="abo"> або </span>
+		        <a href="#contact" class="page-scroll btn btn-default btn-xl btn-contact">Звертайтесь до нас!</a>
             </div>
 			<?php endif; ?>
         </div>
@@ -141,6 +143,13 @@ $this->title = 'Абітурієнту';
                     <h3 class="section-heading">Заочна форма навчання</h3>
                 </div>
             </div>
+	        <div class="row">
+		        <div class="col-lg-12 text-center">
+			        <br />
+			        <h4 class="section-heading">Про умови вступу на нашу спеціальність дізнайтесь більше</h4>
+			        <a href="http://www.udau.edu.ua/ua/future-students/vstupna-kampaniya-2015/pravila-prijomu.html" class="btn btn-xl">на сайті університету</a>
+		        </div>
+	        </div>
         </div>
     </section>
 
@@ -571,9 +580,9 @@ $this->title = 'Абітурієнту';
                             <h2>Викладацький склад</h2>
                             <p class="item-intro text-muted">Навчитися може кожен, вчити - одиниці.</p>
                             <img class="img-responsive img-centered" src="abiturient/img/portfolio/teachers-preview.jpg" alt="">
-                            <p><a href="http://designmodo.com/startup/?u=787">Startup Framework</a> is a website builder for professionals. Startup Framework contains components and complex blocks (PSD+HTML Bootstrap themes and templates) which can easily be integrated into almost any design. All of these components are made in the same style, and can easily be integrated into projects, allowing you to create hundreds of solutions for your future projects.</p>
-                            <p>You can preview Startup Framework <a href="http://designmodo.com/startup/?u=787">here</a>.</p>
-                            <button type="button" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-share"></i> Закрити</button>
+                        <p>
+	                        Серед викладачів кафедри більшість кандидати та доктори технічних та інших наук. Викладачі проходять підвищення кваліфікації за дисциплінами, які викладаються.
+                        </p>
                         </div>
                     </div>
                 </div>

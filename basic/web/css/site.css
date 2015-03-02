@@ -188,4 +188,20 @@ section#contact label.control-label {
     color: #2c3e50;
 }
 
+nav.navbar-subnav ul.dropdown-menu li.active a {
+	color: #fff;
+}
+
+.intro-text .abo {
+	font-size: 20px;
+	padding: 0 20px 0;
+	display: inline;
+}
+/*Для сторінки абытурієнта - кнопка звертайтесь */
+.btn-contact {
+	color: white;
+	background-color: #2c3e50;
+	border-color: #2c3e50;
+}
+
 
