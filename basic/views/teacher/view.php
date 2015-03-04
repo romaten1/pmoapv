@@ -2,6 +2,11 @@
 
 use yii\helpers\Html;
 use app\models\Teacher;
+use app\models\Metodychky;
+use app\models\Predmet;
+use kartik\icons\Icon;
+
+Icon::map($this);
 /* @var $this yii\web\View */
 /* @var $model app\models\Teacher */
 
@@ -32,22 +37,26 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="col-md-6">
             <div class="well well-sm">Предмети, які веде викладач:</div>
              <p><?
-                    foreach($model->predmet as $predmet) {               
-                        echo 
-                        Html::a($predmet->title, 
-                            ['/predmet/view', 'id' => $predmet->id])
-                        . '<br />'; 
+                    foreach($model->predmet as $predmet) {
+	                    if ( $predmet->active == Predmet::STATUS_ACTIVE ) {
+		                    echo
+			                    Icon::show('folder-open') . Html::a( $predmet->title,
+				                    [ '/predmet/view', 'id' => $predmet->id ] )
+			                    . '<br />';
+	                    }
                     } 
                 ?></p>
         </div>
         <div class="col-md-6">
             <div class="well well-sm">Викладач є автором методичних вказівок:</div>
             <p><?php 
-                    foreach($model->metodychky as $metodychky) {               
-                        echo 
-                        Html::a($metodychky->title, 
-                            ['/metodychky/view', 'id' => $metodychky->id])
-                        . '<br />'; 
+                    foreach($model->metodychky as $metodychky) {
+	                    //Виводимо методички тільки тоді коли вони активні
+	                    if ( $metodychky->active == Metodychky::STATUS_ACTIVE ) {
+		                    echo  Icon::show('book') . Html::a( $metodychky->title,
+				                    [ '/metodychky/view', 'id' => $metodychky->id ] )
+			                    . '<br />';
+	                    }
                     }
                  ?></p>
         </div>

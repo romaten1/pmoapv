@@ -2,7 +2,11 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use app\models\Teacher;
+use app\models\Metodychky;
 use kartik\icons\Icon;
+
+Icon::map($this);
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Predmet */
@@ -23,24 +27,28 @@ $this->params['predmet_id'] = $model->id;
             <div class="col-md-6">
                 <div class="well well-sm">Викладачі, що ведуть предмет:</div>  
                  <p><?php 
-                        foreach($model->teachers as $teach) {               
-                            echo 
-                            Html::a($teach->last_name.' '
-                                .$teach->name.' '
-                                .$teach->second_name, 
-                                ['/teacher/view', 'id' => $teach->id])
-                            . '<br />'; 
+                        foreach($model->teachers as $teach) {
+	                        if ( $teach->active == Teacher::STATUS_ACTIVE ) {
+		                        echo
+			                        Icon::show('user') . Html::a( $teach->last_name . ' '
+			                                 . $teach->name . ' '
+			                                 . $teach->second_name,
+				                        [ '/teacher/view', 'id' => $teach->id ] )
+			                        . '<br />';
+	                        }
                         }
                      ?></p>
             </div>
             <div class="col-md-6">
                 <div class="well well-sm">Методичні вказівки по даному предмету:</div>  
                  <p><?php 
-                        foreach($model->metodychkies as $metodychky) {               
-                            echo 
-                            Html::a($metodychky->title, 
-                                ['/metodychky/view', 'id' => $metodychky->id])
-                            . '<br />'; 
+                        foreach($model->metodychkies as $metodychky) {
+	                        if ( $metodychky->active == Metodychky::STATUS_ACTIVE  ) {
+		                        echo
+			                        Icon::show('book') . Html::a( $metodychky->title,
+				                        [ '/metodychky/view', 'id' => $metodychky->id ] )
+			                        . '<br />';
+	                        }
                         }
                      ?></p>
             </div>

@@ -3,7 +3,10 @@
 use yii\helpers\Html;
 use yii\helpers\Url;
 use app\helpers\FileHelper;
+use app\models\Teacher;
+use kartik\icons\Icon;
 
+Icon::map($this);
 /* @var $this yii\web\View */
 /* @var $model app\models\Metodychky */
 
@@ -20,7 +23,7 @@ $this->params['breadcrumbs'][] = $this->title;
 					echo Html::a('Оновити методичні вказівки', ['/metodychky/update/', 'id' => $model->id ], ['class' => 'btn btn-success']);
 				} ?>
 	</p>
-	<p><?= $model->description ?></p>
+	<p><?= Html::decode($model->description) ?></p>
 
 	<p>
 		<strong>Електронна версія: </strong>
@@ -38,12 +41,14 @@ $this->params['breadcrumbs'][] = $this->title;
 			<div class="well well-sm">Автори методичних вказівок:</div>
 			<p><?php
 				foreach ( $model->teachers as $teach ) {
-					echo
-						Html::a( $teach->last_name . ' '
-						         . $teach->name . ' '
-						         . $teach->second_name,
-							[ '/teacher/view', 'id' => $teach->id ] )
-						. '<br />';
+					if ( $teach->active == Teacher::STATUS_ACTIVE ) {
+						echo
+							Icon::show('user') . Html::a( $teach->last_name . ' '
+							         . $teach->name . ' '
+							         . $teach->second_name,
+								[ '/teacher/view', 'id' => $teach->id ] )
+							. '<br />';
+					}
 				}
 				?></p>
 		</div>
