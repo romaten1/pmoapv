@@ -1,6 +1,10 @@
 <?php 
 use yii\helpers\Html;
 use app\helpers\FileHelper;
+use app\models\Teacher;
+use kartik\icons\Icon;
+
+Icon::map($this);
 ?>
 
 
@@ -14,8 +18,11 @@ use app\helpers\FileHelper;
          <?php
          echo 'Автори: <br />';
          foreach($model->teachers as $teacher){
+	         if ( $teacher->active == Teacher::STATUS_ACTIVE  ) {
 		         echo
-		         Html::a(Html::encode($teacher->last_name).' '.Html::encode($teacher->name), ['/teacher/view', 'id' => $teacher->id]). ', <br />';
+			         Icon::show( 'user' ) . Html::a( Html::encode( $teacher->last_name ) . ' ' . Html::encode( $teacher->name ),
+				         [ '/teacher/view', 'id' => $teacher->id ] ) . ', <br />';
+	         }
 	         }
          ?>
     </div>

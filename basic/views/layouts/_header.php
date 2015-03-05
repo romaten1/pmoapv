@@ -47,8 +47,10 @@ echo Nav::widget([
 NavBar::end();
 
 NavBar::begin([
-    'options' => [
-        'class' => 'navbar navbar-subnav navbar-down',
+	'brandLabel' => 'ПМОАПВ',
+	'brandUrl' => Yii::$app->homeUrl,
+	'options' => [
+        'class' => 'navbar  navbar-down',
     ],
 ]);
 echo Nav::widget([
@@ -61,7 +63,7 @@ echo Nav::widget([
                 ['label' => 'Викладацький склад', 'url' => ['/teacher']],
 	            ['label' => 'Майстри та лаборанти', 'url' => ['/teacher/master']],
                 ['label' => 'Методична робота', 'url' => ['/static-page/view-alias', 'alias' => 'metod_work']],
-                ['label' => 'Організацйна робота', 'url' => ['/static-page/view-alias', 'alias' => 'org_work']],
+                ['label' => 'Організаційна робота', 'url' => ['/static-page/view-alias', 'alias' => 'org_work']],
                 ['label' => 'Практична підготовка студентів', 'url' => ['/static-page/view-alias', 'alias' => 'praktika']],
                 ['label' => 'Навчальні лабораторії', 'url' => ['/static-page/view-alias', 'alias' => 'laboratory']],
                 ['label' => 'Матеріально-технічна база', 'url' => ['/static-page/view-alias', 'alias' => 'mattehbaza']],

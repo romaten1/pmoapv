@@ -3,7 +3,6 @@
 use yii\helpers\Html;
 use app\modules\conference\models\Conference;
 use yii\helpers\Url;
-use app\helpers\FileHelper;
 
 /* @var $this yii\web\View */
 /* @var $model app\modules\conference\models\ConferenceArticle */
@@ -31,5 +30,4 @@ $this->params['breadcrumbs'][] = $this->title;
 		echo 'Додано: ' . date( 'd.m.Y', $model->updated_at );;
 		?>
 	</p>
-
 </div>

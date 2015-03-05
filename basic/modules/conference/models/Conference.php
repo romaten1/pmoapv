@@ -3,8 +3,9 @@
 namespace app\modules\conference\models;
 
 use Yii;
-use yii\helpers\ArrayHelper;
 use app\models\Root;
+
+use app\modules\conference\models\ConferenceArticle;
 
 /**
  * This is the model class for table "conference".
@@ -65,6 +66,12 @@ class Conference extends Root
 	{
 		$status = self::getConferenceArray();
 		return $status[$conference_id];
+	}
+
+	//Отримуємо масив об'єктів з усіма статтями, що відносять до даної конференції
+	public function getArticles()
+	{
+		return $this->hasMany(ConferenceArticle::className(), ['conference_id' => 'id']);
 	}
 
 }

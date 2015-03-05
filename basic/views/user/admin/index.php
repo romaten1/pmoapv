@@ -31,7 +31,14 @@ $this->params['breadcrumbs'][] = $this->title;
     'layout' => "{items}\n{pager}",
     'columns' => [
 	    'id',
-	    'username',
+
+	    [
+		    'attribute' => 'username',
+		    'value' => function ($model, $key, $index, $widget) {
+			    return Html::a($model->username, ['/user/profile/show', 'id' => $model->id]);
+		    },
+		    'format' => 'html',
+	    ],
         'email:email',
         [
             'attribute' => 'registration_ip',
