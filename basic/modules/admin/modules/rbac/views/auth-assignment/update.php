@@ -1,14 +1,15 @@
 <?php
 
 use yii\helpers\Html;
+use dektrium\user\models\User;
 
 /* @var $this yii\web\View */
 /* @var $model app\modules\admin\modules\rbac\models\AuthAssignment */
 
-$this->title = 'Update Auth Assignment: ' . ' ' . $model->item_name;
-$this->params['breadcrumbs'][] = ['label' => 'Auth Assignments', 'url' => ['index']];
+$this->title = 'Оновити роль користувача: ' . ' ' . User::findOne($model->user_id)->username;
+$this->params['breadcrumbs'][] = ['label' => 'Ролі користувачів', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->item_name, 'url' => ['view', 'item_name' => $model->item_name, 'user_id' => $model->user_id]];
-$this->params['breadcrumbs'][] = 'Update';
+$this->params['breadcrumbs'][] = 'Оновити';
 ?>
 <div class="auth-assignment-update">
 

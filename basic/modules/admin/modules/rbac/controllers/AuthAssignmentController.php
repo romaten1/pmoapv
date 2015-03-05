@@ -78,9 +78,13 @@ class AuthAssignmentController extends Controller
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'item_name' => $model->item_name, 'user_id' => $model->user_id]);
         } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
+	        $get = Yii::$app->request->get();
+	        if(isset($get['user_id'])){
+	            $model->user_id = $get['user_id'];
+            }
+	        return $this->render('create', [
+		        'model' => $model,
+	        ]);
         }
     }
 
@@ -98,9 +102,9 @@ class AuthAssignmentController extends Controller
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'item_name' => $model->item_name, 'user_id' => $model->user_id]);
         } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
+	    return $this->render('update', [
+		    'model' => $model,
+	    ]);
         }
     }
 

@@ -47,8 +47,6 @@ echo Nav::widget([
 NavBar::end();
 
 NavBar::begin([
-	'brandLabel' => 'ПМОАПВ',
-	'brandUrl' => Yii::$app->homeUrl,
 	'options' => [
         'class' => 'navbar  navbar-down',
     ],

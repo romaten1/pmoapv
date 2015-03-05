@@ -9,7 +9,7 @@ use dektrium\user\models\User;
 /* @var $searchModel app\modules\admin\modules\rbac\models\AuthAssignmentSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Auth Assignments';
+$this->title = 'Ролі користувачів';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="auth-assignment-index">
@@ -18,7 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Create Auth Assignment', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Задати роль користувача', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?= GridView::widget([
@@ -32,7 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
 		        'format' => 'html',
 		        'value' => function ($model) {
 			        $username = User::findOne($model->user_id);
-			        return $username->username;},
+			        return Html::a($username->username, ['/user/profile/show', 'id' => $username->id, ['class' => 'btn btn-success']]);},
 
 	        ],
 	        [

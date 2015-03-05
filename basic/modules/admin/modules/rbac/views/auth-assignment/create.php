@@ -6,8 +6,8 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\modules\admin\modules\rbac\models\AuthAssignment */
 
-$this->title = 'Create Auth Assignment';
-$this->params['breadcrumbs'][] = ['label' => 'Auth Assignments', 'url' => ['index']];
+$this->title = 'Задати роль для користувача';
+$this->params['breadcrumbs'][] = ['label' => 'Ролі користувачів', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="auth-assignment-create">
