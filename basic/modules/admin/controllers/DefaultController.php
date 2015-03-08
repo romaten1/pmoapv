@@ -16,9 +16,9 @@ class DefaultController extends Controller
                 //'only' => ['admin', 'create', 'update', 'delete'], //only be applied to
                 'rules' => [
                     [
-                        'allow' => true,
-                        'actions' => ['index'],
-                        'roles' => ['admin'],
+                        'allow'   => true,
+                        'actions' => [ 'index' ],
+                        'roles'   => [ 'admin' ],
                     ]
                 ],
             ]
@@ -27,7 +27,8 @@ class DefaultController extends Controller
 
     public function actionIndex()
     {
-        Yii::info($this->id . ' - ' . $this->action->id . ' - id: admin\Index - user: ' . \Yii::$app->user->id, 'admin');
-        return $this->render('index');
+        Yii::info( $this->id . ' - ' . $this->action->id . ' - id: admin\Index - user: ' . \Yii::$app->user->id,
+            'admin' );
+        return $this->render( 'index' );
     }
 }

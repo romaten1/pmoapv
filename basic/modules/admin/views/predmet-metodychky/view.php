@@ -8,41 +8,41 @@ use yii\helpers\ArrayHelper;
 
 /* @var $this yii\web\View */
 /* @var $model app\modules\admin\models\TeachMetodychky */
-$metodychky = Metodychky::findOne($model->metodychky_id)->title;
-$predmet = Predmet::findOne($model->predmet_id)->title;
-$this->title = $metodychky . ': '. $teacher;
+$metodychky  = Metodychky::findOne( $model->metodychky_id )->title;
+$predmet     = Predmet::findOne( $model->predmet_id )->title;
+$this->title = $metodychky . ': ' . $teacher;
 
-$this->params['breadcrumbs'][] = ['label' => 'Предмет-Методичні вказівки', 'url' => ['index']];
+$this->params['breadcrumbs'][] = [ 'label' => 'Предмет-Методичні вказівки', 'url' => [ 'index' ] ];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="predmet-metodychky-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h1><?= Html::encode( $this->title ) ?></h1>
 
     <p>
-        <?= Html::a('Оновити', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Видалити', ['delete', 'id' => $model->id], [
+        <?= Html::a( 'Оновити', [ 'update', 'id' => $model->id ], [ 'class' => 'btn btn-primary' ] ) ?>
+        <?= Html::a( 'Видалити', [ 'delete', 'id' => $model->id ], [
             'class' => 'btn btn-danger',
-            'data' => [
+            'data'  => [
                 'confirm' => 'Ви впевнені, що хочете видалити цей запис?',
-                'method' => 'post',
+                'method'  => 'post',
             ],
-        ]) ?>
+        ] ) ?>
     </p>
 
-    <?= DetailView::widget([
-        'model' => $model,
+    <?= DetailView::widget( [
+        'model'      => $model,
         'attributes' => [
             [
                 'attribute' => 'predmet_id',
-                'value' => $predmet,
-                
+                'value'     => $predmet,
+
             ],
             [
                 'attribute' => 'metodychky_id',
-                'value' =>$metodychky,
+                'value'     => $metodychky,
             ],
         ],
-    ]) ?>
+    ] ) ?>
 
 </div>

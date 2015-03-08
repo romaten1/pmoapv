@@ -18,8 +18,8 @@ class ParentGroupSearch extends ParentGroup
     public function rules()
     {
         return [
-            [['id'], 'integer'],
-            [['title'], 'safe'],
+            [ [ 'id' ], 'integer' ],
+            [ [ 'title' ], 'safe' ],
         ];
     }
 
@@ -39,23 +39,23 @@ class ParentGroupSearch extends ParentGroup
      *
      * @return ActiveDataProvider
      */
-    public function search($params)
+    public function search( $params )
     {
         $query = ParentGroup::find();
 
-        $dataProvider = new ActiveDataProvider([
+        $dataProvider = new ActiveDataProvider( [
             'query' => $query,
-        ]);
+        ] );
 
-        if (!($this->load($params) && $this->validate())) {
+        if ( ! ( $this->load( $params ) && $this->validate() )) {
             return $dataProvider;
         }
 
-        $query->andFilterWhere([
+        $query->andFilterWhere( [
             'id' => $this->id,
-        ]);
+        ] );
 
-        $query->andFilterWhere(['like', 'title', $this->title]);
+        $query->andFilterWhere( [ 'like', 'title', $this->title ] );
 
         return $dataProvider;
     }

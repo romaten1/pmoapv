@@ -18,7 +18,7 @@ class TeachMetodychkySearch extends TeachMetodychky
     public function rules()
     {
         return [
-            [['id', 'teach_id', 'metodychky_id'], 'integer'],
+            [ [ 'id', 'teach_id', 'metodychky_id' ], 'integer' ],
         ];
     }
 
@@ -38,23 +38,23 @@ class TeachMetodychkySearch extends TeachMetodychky
      *
      * @return ActiveDataProvider
      */
-    public function search($params)
+    public function search( $params )
     {
         $query = TeachMetodychky::find();
 
-        $dataProvider = new ActiveDataProvider([
+        $dataProvider = new ActiveDataProvider( [
             'query' => $query,
-        ]);
+        ] );
 
-        if (!($this->load($params) && $this->validate())) {
+        if ( ! ( $this->load( $params ) && $this->validate() )) {
             return $dataProvider;
         }
 
-        $query->andFilterWhere([
-            'id' => $this->id,
-            'teach_id' => $this->teach_id,
+        $query->andFilterWhere( [
+            'id'            => $this->id,
+            'teach_id'      => $this->teach_id,
             'metodychky_id' => $this->metodychky_id,
-        ]);
+        ] );
 
         return $dataProvider;
     }

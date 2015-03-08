@@ -6,7 +6,7 @@ use app\helpers\FileHelper;
 use app\models\Teacher;
 use kartik\icons\Icon;
 
-Icon::map($this);
+Icon::map( $this );
 /* @var $this yii\web\View */
 /* @var $model app\models\Metodychky */
 
@@ -17,40 +17,43 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="metodychky-view">
 
-	<h2><?= Html::encode( $this->title ) ?></h2>
-	<p>
-		<?php if(Yii::$app->user->can('moderator')){
-					echo Html::a('Оновити методичні вказівки', ['/metodychky/update/', 'id' => $model->id ], ['class' => 'btn btn-success']);
-				} ?>
-	</p>
-	<p><?= Html::decode($model->description) ?></p>
+    <h2><?= Html::encode( $this->title ) ?></h2>
 
-	<p>
-		<strong>Електронна версія: </strong>
-		<?php
-		echo $model->file ?
-			' <a href=' . Url::to( '@web/uploads/metodychky/' . $model->file,	true ) .
-			' >' . $model->title . '</a>' .	'<br />Розмір файлу: ' . FileHelper::Size2Str( $model->size )
-			: 'Файл на сайті відсутній';
-		echo '<br />Додано: ' . date( 'd.m.Y', $model->updated_at );;
-		?>
-	</p>
+    <p>
+        <?php if (Yii::$app->user->can( 'moderator' )) {
+            echo Html::a( 'Оновити методичні вказівки', [ '/metodychky/update/', 'id' => $model->id ],
+                [ 'class' => 'btn btn-success' ] );
+        } ?>
+    </p>
 
-	<div class="row">
-		<div class="col-md-6">
-			<div class="well well-sm">Автори методичних вказівок:</div>
-			<p><?php
-				foreach ( $model->teachers as $teach ) {
-					if ( $teach->active == Teacher::STATUS_ACTIVE ) {
-						echo
-							Icon::show('user') . Html::a( $teach->last_name . ' '
-							         . $teach->name . ' '
-							         . $teach->second_name,
-								[ '/teacher/view', 'id' => $teach->id ] )
-							. '<br />';
-					}
-				}
-				?></p>
-		</div>
-	</div>
+    <p><?= Html::decode( $model->description ) ?></p>
+
+    <p>
+        <strong>Електронна версія: </strong>
+        <?php
+        echo $model->file ?
+            ' <a href=' . Url::to( '@web/uploads/metodychky/' . $model->file, true ) .
+            ' >' . $model->title . '</a>' . '<br />Розмір файлу: ' . FileHelper::Size2Str( $model->size )
+            : 'Файл на сайті відсутній';
+        echo '<br />Додано: ' . date( 'd.m.Y', $model->updated_at );;
+        ?>
+    </p>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="well well-sm">Автори методичних вказівок:</div>
+            <p><?php
+                foreach ($model->teachers as $teach) {
+                    if ($teach->active == Teacher::STATUS_ACTIVE) {
+                        echo
+                            Icon::show( 'user' ) . Html::a( $teach->last_name . ' '
+                                                            . $teach->name . ' '
+                                                            . $teach->second_name,
+                                [ '/teacher/view', 'id' => $teach->id ] )
+                            . '<br />';
+                    }
+                }
+                ?></p>
+        </div>
+    </div>
 </div>

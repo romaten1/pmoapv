@@ -18,7 +18,7 @@ class PredmetMetodychkySearch extends PredmetMetodychky
     public function rules()
     {
         return [
-            [['id', 'predmet_id', 'metodychky_id'], 'integer'],
+            [ [ 'id', 'predmet_id', 'metodychky_id' ], 'integer' ],
         ];
     }
 
@@ -38,23 +38,23 @@ class PredmetMetodychkySearch extends PredmetMetodychky
      *
      * @return ActiveDataProvider
      */
-    public function search($params)
+    public function search( $params )
     {
         $query = PredmetMetodychky::find();
 
-        $dataProvider = new ActiveDataProvider([
+        $dataProvider = new ActiveDataProvider( [
             'query' => $query,
-        ]);
+        ] );
 
-        if (!($this->load($params) && $this->validate())) {
+        if ( ! ( $this->load( $params ) && $this->validate() )) {
             return $dataProvider;
         }
 
-        $query->andFilterWhere([
-            'id' => $this->id,
-            'predmet_id' => $this->predmet_id,
+        $query->andFilterWhere( [
+            'id'            => $this->id,
+            'predmet_id'    => $this->predmet_id,
             'metodychky_id' => $this->metodychky_id,
-        ]);
+        ] );
 
         return $dataProvider;
     }

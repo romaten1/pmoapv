@@ -10,22 +10,22 @@ use yii\widgets\ActiveForm;
 
 <div class="news-search">
 
-    <?php $form = ActiveForm::begin([
-        'action' => ['index'],
+    <?php $form = ActiveForm::begin( [
+        'action' => [ 'index' ],
         'method' => 'get',
-    ]); ?>
-	<div class="col-md-12">
-	    <?= $form->field($model, 'title') ?>
+    ] ); ?>
+    <div class="col-md-12">
+        <?= $form->field( $model, 'title' ) ?>
 
-		<?= $form->field($model, 'description') ?>
+        <?= $form->field( $model, 'description' ) ?>
 
-	    <?= $form->field($model, 'text') ?>
+        <?= $form->field( $model, 'text' ) ?>
 
-		<div class="form-group">
-			<?= Html::submitButton('Пошук', ['class' => 'btn btn-primary']) ?>
-			<?= '';//Html::resetButton('Відмінити', ['class' => 'btn btn-default']) ?>
-		</div>
-	</div>
+        <div class="form-group">
+            <?= Html::submitButton( 'Пошук', [ 'class' => 'btn btn-primary' ] ) ?>
+            <?= '';//Html::resetButton('Відмінити', ['class' => 'btn btn-default'])  ?>
+        </div>
+    </div>
     <?php ActiveForm::end(); ?>
 
 </div>

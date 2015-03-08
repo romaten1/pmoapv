@@ -12,61 +12,65 @@ use app\helpers\FileHelper;
 /* @var $model app\models\Metodychky */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Навчально-методичне забезпечення кафедри - журнал';
+$this->title                   = 'Навчально-методичне забезпечення кафедри - журнал';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="metodychky-index">
 
-    <h1><?= Icon::show('book', [], Icon::BSG).Html::encode($this->title) ?></h1>
-    <?php echo $this->render('_search', ['model' => $searchModel]); ?>
+    <h1><?= Icon::show( 'book', [ ], Icon::BSG ) . Html::encode( $this->title ) ?></h1>
+    <?php echo $this->render( '_search', [ 'model' => $searchModel ] ); ?>
 
     <p>
-        <?= Html::a('Створити методичні вказівки', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a( 'Створити методичні вказівки', [ 'create' ], [ 'class' => 'btn btn-success' ] ) ?>
     </p>
 
-    <?= GridView::widget([
+    <?= GridView::widget( [
         'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+        'filterModel'  => $searchModel,
+        'columns'      => [
+            [ 'class' => 'yii\grid\SerialColumn' ],
             //'id',            
             [
                 'attribute' => 'title',
-                'format' => 'html',
-                'value' => function ($model) {
-                    return Html::a($model->title, ['/admin/metodychky/view/', 'id'=>$model->id]);},
+                'format'    => 'html',
+                'value'     => function ( $model ) {
+                    return Html::a( $model->title, [ '/admin/metodychky/view/', 'id' => $model->id ] );
+                },
                 //'filter' => ['0' => 'Неактивна', '1' => 'Активна']
             ],
             //'description:ntext',            
             [
                 'attribute' => 'file',
-                'format' => 'html',
-                'value' => function ($model) {
-					
-                    return $model->file ? 
-                    	'<a href=' . Url::to('/basic/web/uploads/metodychky/'. $model->file, true).'> Файл на сайті </a>' 
-                    	: 'Файл відсутній на сайті';},
+                'format'    => 'html',
+                'value'     => function ( $model ) {
+
+                    return $model->file ?
+                        '<a href=' . Url::to( '/basic/web/uploads/metodychky/' . $model->file,
+                            true ) . '> Файл на сайті </a>'
+                        : 'Файл відсутній на сайті';
+                },
             ],
             [
                 'attribute' => 'active',
-                'format' => 'html',
-                'value' => function ($model) {
-                    return $model->getStatusLabel();},
-                'filter' => Metodychky::getStatusArray()
+                'format'    => 'html',
+                'value'     => function ( $model ) {
+                    return $model->getStatusLabel();
+                },
+                'filter'    => Metodychky::getStatusArray()
             ],
-	        [
-		        'attribute' => 'updated_at',
-		        'format' => 'date',
-	        ],
-	        [
-		        'attribute' => 'size',
-		        'format' => 'html',
-		        'value' => function ($model) {
-			        return FileHelper::Size2Str($model->size);}
-	        ],
-
-            ['class' => 'yii\grid\ActionColumn'],
+            [
+                'attribute' => 'updated_at',
+                'format'    => 'date',
+            ],
+            [
+                'attribute' => 'size',
+                'format'    => 'html',
+                'value'     => function ( $model ) {
+                    return FileHelper::Size2Str( $model->size );
+                }
+            ],
+            [ 'class' => 'yii\grid\ActionColumn' ],
         ],
-    ]); ?>
+    ] ); ?>
 
 </div>

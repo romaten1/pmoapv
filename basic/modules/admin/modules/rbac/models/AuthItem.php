@@ -35,10 +35,10 @@ class AuthItem extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'type'], 'required'],
-            [['type', 'created_at', 'updated_at'], 'integer'],
-            [['description', 'data'], 'string'],
-            [['name', 'rule_name'], 'string', 'max' => 64]
+            [ [ 'name', 'type' ], 'required' ],
+            [ [ 'type', 'created_at', 'updated_at' ], 'integer' ],
+            [ [ 'description', 'data' ], 'string' ],
+            [ [ 'name', 'rule_name' ], 'string', 'max' => 64 ]
         ];
     }
 
@@ -48,13 +48,13 @@ class AuthItem extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'name' => 'Name',
-            'type' => 'Type',
+            'name'        => 'Name',
+            'type'        => 'Type',
             'description' => 'Description',
-            'rule_name' => 'Rule Name',
-            'data' => 'Data',
-            'created_at' => 'Created At',
-            'updated_at' => 'Updated At',
+            'rule_name'   => 'Rule Name',
+            'data'        => 'Data',
+            'created_at'  => 'Created At',
+            'updated_at'  => 'Updated At',
         ];
     }
 
@@ -63,7 +63,7 @@ class AuthItem extends \yii\db\ActiveRecord
      */
     public function getAuthAssignments()
     {
-        return $this->hasMany(AuthAssignment::className(), ['item_name' => 'name']);
+        return $this->hasMany( AuthAssignment::className(), [ 'item_name' => 'name' ] );
     }
 
     /**
@@ -71,7 +71,7 @@ class AuthItem extends \yii\db\ActiveRecord
      */
     public function getRuleName()
     {
-        return $this->hasOne(AuthRule::className(), ['name' => 'rule_name']);
+        return $this->hasOne( AuthRule::className(), [ 'name' => 'rule_name' ] );
     }
 
     /**
@@ -79,18 +79,19 @@ class AuthItem extends \yii\db\ActiveRecord
      */
     public function getAuthItemChildren()
     {
-        return $this->hasMany(AuthItemChild::className(), ['child' => 'name']);
+        return $this->hasMany( AuthItemChild::className(), [ 'child' => 'name' ] );
     }
-	public static function getAuthItemArray()
-	{
-		$array = self::find()->asArray()->all();
-		$items = [];
-		foreach($array as $key => $val){
-			if($val['type'] == 1){
-				$items[$val['name']] = $val['name'];
-			}
-		}
-		return $items;
-	}
+
+    public static function getAuthItemArray()
+    {
+        $array = self::find()->asArray()->all();
+        $items = [ ];
+        foreach ($array as $key => $val) {
+            if ($val['type'] == 1) {
+                $items[$val['name']] = $val['name'];
+            }
+        }
+        return $items;
+    }
 
 }

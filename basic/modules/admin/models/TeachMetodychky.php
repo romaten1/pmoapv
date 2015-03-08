@@ -27,8 +27,8 @@ class TeachMetodychky extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['teach_id', 'metodychky_id'], 'required'],
-            [['teach_id', 'metodychky_id'], 'integer']
+            [ [ 'teach_id', 'metodychky_id' ], 'required' ],
+            [ [ 'teach_id', 'metodychky_id' ], 'integer' ]
         ];
     }
 
@@ -38,8 +38,8 @@ class TeachMetodychky extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'teach_id' => 'Викладач',
+            'id'            => 'ID',
+            'teach_id'      => 'Викладач',
             'metodychky_id' => 'Методичні вказівки',
         ];
     }

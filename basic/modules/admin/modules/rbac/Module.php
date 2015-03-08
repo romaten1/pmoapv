@@ -1,5 +1,4 @@
 <?php
-
 namespace app\modules\admin\modules\rbac;
 
 class Module extends \yii\base\Module

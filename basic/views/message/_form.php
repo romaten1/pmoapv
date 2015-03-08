@@ -12,14 +12,14 @@ use app\models\Teacher;
 
 <div class="message-form">
 
-    <?php $form = ActiveForm::begin(); ?>  
+    <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'receiver_id')->dropDownList(Teacher::getPrepodsArray()) ?>
+    <?= $form->field( $model, 'receiver_id' )->dropDownList( Teacher::getPrepodsArray() ) ?>
 
-    <?= $form->field($model, 'text')->textarea(['rows' => 6]) ?> 
+    <?= $form->field( $model, 'text' )->textarea( [ 'rows' => 6 ] ) ?>
 
     <div class="form-group">
-        <?= Html::submitButton('Створити', ['class' => 'btn btn-success']) ?>
+        <?= Html::submitButton( 'Створити', [ 'class' => 'btn btn-success' ] ) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

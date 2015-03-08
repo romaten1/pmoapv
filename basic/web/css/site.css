@@ -1,191 +1,198 @@
 html,
 body {
-    height: 100%;
+	height: 100%;
 }
 
 .wrap {
-    min-height: 100%;
-    height: auto !important;
-    height: 100%;
-    margin: 0 auto -140px;
-    padding: 0 0 140px;
+	min-height: 100%;
+	height: auto !important;
+	height: 100%;
+	margin: 0 auto -140px;
+	padding: 0 0 140px;
 }
 
 .wrap > .container {
-    padding: 20px 15px 20px;
+	padding: 20px 15px 20px;
 }
-.row-pad{
-    padding: 20px;
+
+.row-pad {
+	padding: 20px;
 }
+
 .footer {
-    height: 140px;
-    background-color: #f5f5f5;
-    border-top: 1px solid #ddd;
-    padding-top: 20px;
+	height: 140px;
+	background-color: #f5f5f5;
+	border-top: 1px solid #ddd;
+	padding-top: 20px;
 }
-.container_upper
-{
-    background-color: #f5f5f5;
-    border-top: 1px solid #ddd;
-    padding-top: 20px;
-    padding: 20px 15px 20px;
-   
+
+.container_upper {
+	background-color: #f5f5f5;
+	border-top: 1px solid #ddd;
+	padding-top: 20px;
+	padding: 20px 15px 20px;
+
 }
+
 .container2 {
-    background-color: #f5f5f5;
-    border-top: 1px solid #ddd;
-    padding-top: 20px;
-    padding: 20px 15px 20px;
+	background-color: #f5f5f5;
+	border-top: 1px solid #ddd;
+	padding-top: 20px;
+	padding: 20px 15px 20px;
 }
+
 .container3 {
-    background-color: #fff;
-    border-top: 1px solid #ddd;
-    padding-top: 20px;
-    height: auto;
-    padding: 20px 15px 20px;
+	background-color: #fff;
+	border-top: 1px solid #ddd;
+	padding-top: 20px;
+	height: auto;
+	padding: 20px 15px 20px;
 }
 
 .jumbotron {
-    padding-top: 0px;
-    text-align: center;
-    background-color: transparent;
-    padding-bottom: 0px;
-    color: #2c3e50;
+	padding-top: 0px;
+	text-align: center;
+	background-color: transparent;
+	padding-bottom: 0px;
+	color: #2c3e50;
 }
 
 .jumbotron .btn {
-    font-size: 21px;
-    padding: 14px 24px;
+	font-size: 21px;
+	padding: 14px 24px;
 }
 
 .jumbotron p a {
-    font-size: 24px;
+	font-size: 24px;
 }
 
 .not-set {
-    color: #c55;
-    font-style: italic;
+	color: #c55;
+	font-style: italic;
 }
 
-.navbar {    
-    margin: 0 auto 0;
-    
+.navbar {
+	margin: 0 auto 0;
+
 }
 
 /* add sorting icons to gridview sort links */
 a.asc:after, a.desc:after {
-    position: relative;
-    top: 1px;
-    display: inline-block;
-    font-family: 'Glyphicons Halflings';
-    font-style: normal;
-    font-weight: normal;
-    line-height: 1;
-    padding-left: 5px;
+	position: relative;
+	top: 1px;
+	display: inline-block;
+	font-family: 'Glyphicons Halflings';
+	font-style: normal;
+	font-weight: normal;
+	line-height: 1;
+	padding-left: 5px;
 }
 
 a.asc:after {
-    content: /*"\e113"*/ "\e151";
+	content: /*"\e113"*/ "\e151";
 }
 
 a.desc:after {
-    content: /*"\e114"*/ "\e152";
+	content: /*"\e114"*/ "\e152";
 }
 
 .sort-numerical a.asc:after {
-    content: "\e153";
+	content: "\e153";
 }
 
 .sort-numerical a.desc:after {
-    content: "\e154";
+	content: "\e154";
 }
 
 .sort-ordinal a.asc:after {
-    content: "\e155";
+	content: "\e155";
 }
 
 .sort-ordinal a.desc:after {
-    content: "\e156";
+	content: "\e156";
 }
 
 .grid-view th {
-    white-space: nowrap;
+	white-space: nowrap;
 }
 
 .hint-block {
-    display: block;
-    margin-top: 5px;
-    color: #999;
+	display: block;
+	margin-top: 5px;
+	color: #999;
 }
 
 .error-summary {
-    color: #a94442;
-    background: #fdf7f7;
-    border-left: 3px solid #eed3d7;
-    padding: 10px 20px;
-    margin: 0 0 15px 0;
+	color: #a94442;
+	background: #fdf7f7;
+	border-left: 3px solid #eed3d7;
+	padding: 10px 20px;
+	margin: 0 0 15px 0;
 }
 
 #sp_slidercontrolls {
-    margin-bottom: 55px;
+	margin-bottom: 55px;
 }
 
 /* Featurettes for main page
 ------------------------- */
 
 .featurette-divider {
-  margin: 80px 0; /* Space out the Bootstrap <hr> more */
+	margin: 80px 0; /* Space out the Bootstrap <hr> more */
 }
+
 .featurette {
-  padding-top: 120px; /* Vertically center images part 1: add padding above and below text. */
-  overflow: hidden; /* Vertically center images part 2: clear their floats. */
+	padding-top: 120px; /* Vertically center images part 1: add padding above and below text. */
+	overflow: hidden; /* Vertically center images part 2: clear their floats. */
 }
+
 .featurette-image {
-  margin-top: -120px; /* Vertically center images part 3: negative margin up the image the same amount of the padding to center it. */
-  margin-bottom: 20px;
+	margin-top: -120px; /* Vertically center images part 3: negative margin up the image the same amount of the padding to center it. */
+	margin-bottom: 20px;
 }
 
 /* Give some space on the sides of the floated elements so text doesn't run right into it. */
 .featurette-image.pull-left {
-  margin-right: 40px;
+	margin-right: 40px;
 }
+
 .featurette-image.pull-right {
-  margin-left: 40px;
+	margin-left: 40px;
 }
 
 /* Thin out the marketing headings */
 .featurette-heading {
-  font-size: 50px;
-  font-weight: 300;
-  line-height: 1;
-  letter-spacing: -1px;
+	font-size: 50px;
+	font-weight: 300;
+	line-height: 1;
+	letter-spacing: -1px;
 }
 
 /* Detail view first column width
 ------------------------- */
 .detail-view tr th {
-  max-width: 400px;
+	max-width: 400px;
 }
 
 /*for labels on abiturient landing page*/
 section#contact label.control-label {
-    color: white;
+	color: white;
 }
 
 .header {
-    background-image: url('/img/index/fon3.jpg');
-    background-repeat: none;
-    background-attachment: scroll;
-    background-position: center center;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    background-size: cover;
-    -o-background-size: cover;
-    text-align: center;
+	background-image: url('/img/index/fon3.jpg');
+	background-repeat: none;
+	background-attachment: scroll;
+	background-position: center center;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	background-size: cover;
+	-o-background-size: cover;
+	text-align: center;
 }
 
 .navbar-nav.navbar-left a {
-    color: #2c3e50;
+	color: #2c3e50;
 }
 
 nav.navbar-subnav ul.dropdown-menu li.active a {
@@ -197,6 +204,7 @@ nav.navbar-subnav ul.dropdown-menu li.active a {
 	padding: 0 20px 0;
 	display: inline;
 }
+
 /*Для сторінки абытурієнта - кнопка звертайтесь */
 .btn-contact {
 	color: white;

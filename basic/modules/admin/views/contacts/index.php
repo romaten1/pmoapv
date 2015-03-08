@@ -8,33 +8,34 @@ use app\models\Contacts;
 /* @var $searchModel app\modules\admin\models\SearchContacts */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Звернення користувачів';
+$this->title                   = 'Звернення користувачів';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="contacts-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
-    
-    <?= GridView::widget([
+    <h1><?= Html::encode( $this->title ) ?></h1>
+
+    <?= GridView::widget( [
         'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],            
+        'filterModel'  => $searchModel,
+        'columns'      => [
+            [ 'class' => 'yii\grid\SerialColumn' ],
             [
                 'attribute' => 'subject',
-                'format' => 'html',
-                'value' => function ($model) {
-                    return Html::a($model->subject, ['/admin/contacts/view/', 'id'=>$model->id]);},                
+                'format'    => 'html',
+                'value'     => function ( $model ) {
+                    return Html::a( $model->subject, [ '/admin/contacts/view/', 'id' => $model->id ] );
+                },
             ],
             'name',
             'email:email',
-            
             [
                 'attribute' => 'active',
-                'format' => 'html',
-                'value' => function ($model) {
-                    return $model->getStatusLabel();},
-                'filter' => Contacts::getStatusArray()
+                'format'    => 'html',
+                'value'     => function ( $model ) {
+                    return $model->getStatusLabel();
+                },
+                'filter'    => Contacts::getStatusArray()
             ],
             /*[
                 'attribute' => 'created_at',
@@ -52,25 +53,25 @@ $this->params['breadcrumbs'][] = $this->title;
             ],*/
             [
                 'attribute' => 'created_at',
-                'format' => 'date',
-                'filter' => [],
+                'format'    => 'date',
+                'filter'    => [ ],
             ],
             [
                 'attribute' => 'reviewed_at',
-                'format' => 'html',
-                'value' => function ($model) {
-                    if($model->reviewed_at == 0){
+                'format'    => 'html',
+                'value'     => function ( $model ) {
+                    if ($model->reviewed_at == 0) {
                         return '<span class="label label-warning">Не дивилися</span>';
-                    }
-                    else{
-                        return date('H:i / d-m-Y',$model->reviewed_at);
+                    } else {
+                        return date( 'H:i / d-m-Y', $model->reviewed_at );
                     }
                 },
-            ],            
-            ['class' => 'yii\grid\ActionColumn',
-            'template' => '{view}{delete}',
+            ],
+            [
+                'class'    => 'yii\grid\ActionColumn',
+                'template' => '{view}{delete}',
             ],
         ],
-    ]); ?>
+    ] ); ?>
 
 </div>

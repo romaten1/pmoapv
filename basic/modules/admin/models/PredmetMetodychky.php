@@ -27,8 +27,8 @@ class PredmetMetodychky extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['predmet_id', 'metodychky_id'], 'required'],
-            [['predmet_id', 'metodychky_id'], 'integer']
+            [ [ 'predmet_id', 'metodychky_id' ], 'required' ],
+            [ [ 'predmet_id', 'metodychky_id' ], 'integer' ]
         ];
     }
 
@@ -38,8 +38,8 @@ class PredmetMetodychky extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'predmet_id' => 'Предмет',
+            'id'            => 'ID',
+            'predmet_id'    => 'Предмет',
             'metodychky_id' => 'Методичні вказівки',
         ];
     }

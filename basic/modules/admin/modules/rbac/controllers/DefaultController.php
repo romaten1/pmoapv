@@ -8,25 +8,25 @@ use Yii;
 
 class DefaultController extends Controller
 {
-	public function behaviors()
-	{
-		return [
-			'access' => [
-				'class' => AccessControl::className(),
-				//'only' => ['admin', 'create', 'update', 'delete'], //only be applied to
-				'rules' => [
-					[
-						'allow' => true,
-						'actions' => ['index'],
-						'roles' => ['admin'],
-					]
-				],
-			]
-		];
-	}
-
-	public function actionIndex()
+    public function behaviors()
     {
-        return $this->render('index');
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+                //'only' => ['admin', 'create', 'update', 'delete'], //only be applied to
+                'rules' => [
+                    [
+                        'allow'   => true,
+                        'actions' => [ 'index' ],
+                        'roles'   => [ 'admin' ],
+                    ]
+                ],
+            ]
+        ];
+    }
+
+    public function actionIndex()
+    {
+        return $this->render( 'index' );
     }
 }

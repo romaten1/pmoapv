@@ -11,15 +11,16 @@ $this->title = $name;
 ?>
 <div class="site-error">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h1><?= Html::encode( $this->title ) ?></h1>
 
     <div class="alert alert-danger">
-        <?= nl2br(Html::encode($message)) ?>
+        <?= nl2br( Html::encode( $message ) ) ?>
     </div>
 
     <p>
         Ой... Ця помилка трапилася при обробці сервером Вашого запиту.
     </p>
+
     <p>
         Будь-ласка, зв'яжіться з нами, якщо Ви вважаєте, що помилка трапилася з вини сервера.
     </p>

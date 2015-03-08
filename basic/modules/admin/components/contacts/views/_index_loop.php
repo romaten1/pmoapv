@@ -10,8 +10,8 @@ use yii\helpers\Html;
 
 if ($models) {
     foreach ($models as $model) {
-        echo '<li>На тему: ' . Html::a(Html::encode($model->subject),
-                ['/admin/contacts/view', 'id' => $model->id])
-            . '<br />від: ' . Html::encode($model->name) . '</li>';
+        echo '<li>На тему: ' . Html::a( Html::encode( $model->subject ),
+                [ '/admin/contacts/view', 'id' => $model->id ] )
+             . '<br />від: ' . Html::encode( $model->name ) . '</li>';
     }
 }

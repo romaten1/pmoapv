@@ -27,8 +27,8 @@ class UserTeacher extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['user_id', 'teacher_id'], 'required'],
-            [['user_id', 'teacher_id'], 'integer']
+            [ [ 'user_id', 'teacher_id' ], 'required' ],
+            [ [ 'user_id', 'teacher_id' ], 'integer' ]
         ];
     }
 
@@ -38,8 +38,8 @@ class UserTeacher extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'user_id' => 'User ID',
+            'id'         => 'ID',
+            'user_id'    => 'User ID',
             'teacher_id' => 'Teacher ID',
         ];
     }

@@ -18,7 +18,7 @@ class TeachPredmetSearch extends TeachPredmet
     public function rules()
     {
         return [
-            [['id', 'teach_id', 'predmet_id'], 'integer'],
+            [ [ 'id', 'teach_id', 'predmet_id' ], 'integer' ],
         ];
     }
 
@@ -38,23 +38,23 @@ class TeachPredmetSearch extends TeachPredmet
      *
      * @return ActiveDataProvider
      */
-    public function search($params)
+    public function search( $params )
     {
         $query = TeachPredmet::find();
 
-        $dataProvider = new ActiveDataProvider([
+        $dataProvider = new ActiveDataProvider( [
             'query' => $query,
-        ]);
+        ] );
 
-        if (!($this->load($params) && $this->validate())) {
+        if ( ! ( $this->load( $params ) && $this->validate() )) {
             return $dataProvider;
         }
 
-        $query->andFilterWhere([
-            'id' => $this->id,
-            'teach_id' => $this->teach_id,
+        $query->andFilterWhere( [
+            'id'         => $this->id,
+            'teach_id'   => $this->teach_id,
             'predmet_id' => $this->predmet_id,
-        ]);
+        ] );
 
         return $dataProvider;
     }

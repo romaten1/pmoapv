@@ -7,23 +7,23 @@ use yii\widgets\ListView;
 /* @var $searchModel app\models\TeacherNewsSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Новини викладачів';
+$this->title                   = 'Новини викладачів';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="teacher-news-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h1><?= Html::encode( $this->title ) ?></h1>
     <?php //echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Створити новину', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a( 'Створити новину', [ 'create' ], [ 'class' => 'btn btn-success' ] ) ?>
     </p>
 
-    <?= ListView::widget([
+    <?= ListView::widget( [
         'dataProvider' => $dataProvider,
-        'itemOptions' => ['class' => 'item'],
-        'layout' => '<div class="row">{items}</div><div class="row">{pager}</div>',
-        'itemView' => '_listItem'
-    ]) ?>
+        'itemOptions'  => [ 'class' => 'item' ],
+        'layout'       => '<div class="row">{items}</div><div class="row">{pager}</div>',
+        'itemView'     => '_listItem'
+    ] ) ?>
 
 </div>

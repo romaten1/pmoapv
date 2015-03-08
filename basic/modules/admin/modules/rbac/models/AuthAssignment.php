@@ -18,19 +18,19 @@ use yii\db\ActiveRecord;
 class AuthAssignment extends \yii\db\ActiveRecord
 {
 
-	public function behaviors()
-	{
-		return [
-			'timestampBehavior' => [
-				'class' => TimestampBehavior::className(),
-				'attributes' => [
-					ActiveRecord::EVENT_BEFORE_INSERT => ['created_at'],
-				]
-			],
-		];
-	}
+    public function behaviors()
+    {
+        return [
+            'timestampBehavior' => [
+                'class'      => TimestampBehavior::className(),
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => [ 'created_at' ],
+                ]
+            ],
+        ];
+    }
 
-	/**
+    /**
      * @inheritdoc
      */
     public static function tableName()
@@ -44,9 +44,9 @@ class AuthAssignment extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['item_name', 'user_id'], 'required'],
-            [['created_at'], 'integer'],
-            [['item_name', 'user_id'], 'string', 'max' => 64]
+            [ [ 'item_name', 'user_id' ], 'required' ],
+            [ [ 'created_at' ], 'integer' ],
+            [ [ 'item_name', 'user_id' ], 'string', 'max' => 64 ]
         ];
     }
 
@@ -56,8 +56,8 @@ class AuthAssignment extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'item_name' => 'Назва ролі',
-            'user_id' => 'User ID',
+            'item_name'  => 'Назва ролі',
+            'user_id'    => 'User ID',
             'created_at' => 'Створено',
         ];
     }
@@ -67,6 +67,6 @@ class AuthAssignment extends \yii\db\ActiveRecord
      */
     public function getItemName()
     {
-        return $this->hasOne(AuthItem::className(), ['name' => 'item_name']);
+        return $this->hasOne( AuthItem::className(), [ 'name' => 'item_name' ] );
     }
 }

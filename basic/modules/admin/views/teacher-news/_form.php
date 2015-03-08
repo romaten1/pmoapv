@@ -18,25 +18,28 @@ $fullname = Teacher::getUserIdTeacherNameArray();
 
     <?php $form = ActiveForm::begin(); ?>
 
-   <?= $form->field($model, 'teacher_id')->dropDownList($fullname)  ?>
+    <?= $form->field( $model, 'teacher_id' )->dropDownList( $fullname ) ?>
 
-    <?= $form->field($model, 'title')->textInput(['maxlength' => 255]) ?>
+    <?= $form->field( $model, 'title' )->textInput( [ 'maxlength' => 255 ] ) ?>
 
-    <?= $form->field($model, 'text')->widget(CKEditor::className(),[
-        'editorOptions' => ElFinder::ckeditorOptions(['elfinder', 'path' => 'Global'],['preset' => 'full', 
-            'inline' => false,
-            'height' => '250']
-            ),        
-    ]);?>
+    <?= $form->field( $model, 'text' )->widget( CKEditor::className(), [
+        'editorOptions' => ElFinder::ckeditorOptions( [ 'elfinder', 'path' => 'Global' ], [
+                'preset' => 'full',
+                'inline' => false,
+                'height' => '250'
+            ]
+        ),
+    ] ); ?>
 
-    <strong>Створено:</strong> <?= date('H:i / d-m-Y', $model->created_at)?><br /><br />
+    <strong>Створено:</strong> <?= date( 'H:i / d-m-Y', $model->created_at ) ?><br/><br/>
 
-    <strong>Оновлено:</strong> <?= date('H:i / d-m-Y', $model->updated_at)?><br /><br />
+    <strong>Оновлено:</strong> <?= date( 'H:i / d-m-Y', $model->updated_at ) ?><br/><br/>
 
-    <?= $form->field($model, 'active')->dropDownList(TeacherNews::getStatusArray())  ?>
+    <?= $form->field( $model, 'active' )->dropDownList( TeacherNews::getStatusArray() ) ?>
 
     <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? 'Створити' : 'Оновити', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?= Html::submitButton( $model->isNewRecord ? 'Створити' : 'Оновити',
+            [ 'class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary' ] ) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

@@ -1,5 +1,6 @@
 $(function () {
-    var d = function () {};
+    var d = function () {
+    };
     $(document).delegate(".b-ball_bounce", "mouseenter", function () {
         b(this);
         m(this)
@@ -17,6 +18,7 @@ $(function () {
             hasPriority: "true"
         })
     }
+
     function h(i) {
         if ($.browser.msie) {
             return window[i]
@@ -24,11 +26,13 @@ $(function () {
             return document[i]
         }
     }
+
     window.flashInited = function () {
         d = function (j) {
             try {
                 h("z-audio__player").playSound(j)
-            } catch (i) {}
+            } catch (i) {
+            }
         }
     };
     if (window.swfobject) {
@@ -66,6 +70,7 @@ $(function () {
             d((i + j * 9) % g)
         }
     }
+
     function m(j) {
         var i = $(j);
         if (j.className.indexOf(" bounce") > -1) {
@@ -85,12 +90,16 @@ $(function () {
                     function q() {
                         i.removeClass("bounce3")
                     }
+
                     setTimeout(q, 300)
                 }
+
                 setTimeout(p, 300)
             }
+
             setTimeout(o, 300)
         }
+
         setTimeout(n, 300)
     }
 });

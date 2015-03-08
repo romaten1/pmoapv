@@ -10,41 +10,44 @@ use yii\helpers\ArrayHelper;
 /* @var $searchModel app\modules\admin\models\PredmetMetodychkySearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Предмет-Методичні вказівки';
+$this->title                   = 'Предмет-Методичні вказівки';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="predmet-metodychky-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h1><?= Html::encode( $this->title ) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Вказати, до якого предмета відносяться методичні вказівки', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a( 'Вказати, до якого предмета відносяться методичні вказівки', [ 'create' ],
+            [ 'class' => 'btn btn-success' ] ) ?>
     </p>
 
-    <?= GridView::widget([
+    <?= GridView::widget( [
         'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+        'filterModel'  => $searchModel,
+        'columns'      => [
+            [ 'class' => 'yii\grid\SerialColumn' ],
             [
                 'attribute' => 'metodychky_id',
-                'format' => 'html',
-                'value' => function ($model) {
-                    $metodychky = Metodychky::findOne($model->metodychky_id);
-                    return $metodychky->title;},
-                'filter' => ArrayHelper::map(Metodychky::find()->all(), 'id', 'title'),
+                'format'    => 'html',
+                'value'     => function ( $model ) {
+                    $metodychky = Metodychky::findOne( $model->metodychky_id );
+                    return $metodychky->title;
+                },
+                'filter'    => ArrayHelper::map( Metodychky::find()->all(), 'id', 'title' ),
             ],
             [
                 'attribute' => 'predmet_id',
-                'format' => 'html',
-                'value' => function ($model) {
-                    $predmet = Predmet::findOne($model->predmet_id);
-                    return $predmet->title;},
-                 'filter' => ArrayHelper::map(Predmet::find()->all(), 'id', 'title'),                
-            ],     
-            ['class' => 'yii\grid\ActionColumn'],
+                'format'    => 'html',
+                'value'     => function ( $model ) {
+                    $predmet = Predmet::findOne( $model->predmet_id );
+                    return $predmet->title;
+                },
+                'filter'    => ArrayHelper::map( Predmet::find()->all(), 'id', 'title' ),
+            ],
+            [ 'class' => 'yii\grid\ActionColumn' ],
         ],
-    ]); ?>
+    ] ); ?>
 
 </div>

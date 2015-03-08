@@ -18,8 +18,8 @@ class AuthAssignmentSearch extends AuthAssignment
     public function rules()
     {
         return [
-            [['item_name', 'user_id'], 'safe'],
-            [['created_at'], 'integer'],
+            [ [ 'item_name', 'user_id' ], 'safe' ],
+            [ [ 'created_at' ], 'integer' ],
         ];
     }
 
@@ -39,24 +39,24 @@ class AuthAssignmentSearch extends AuthAssignment
      *
      * @return ActiveDataProvider
      */
-    public function search($params)
+    public function search( $params )
     {
         $query = AuthAssignment::find();
 
-        $dataProvider = new ActiveDataProvider([
+        $dataProvider = new ActiveDataProvider( [
             'query' => $query,
-        ]);
+        ] );
 
-        if (!($this->load($params) && $this->validate())) {
+        if ( ! ( $this->load( $params ) && $this->validate() )) {
             return $dataProvider;
         }
 
-        $query->andFilterWhere([
+        $query->andFilterWhere( [
             'created_at' => $this->created_at,
-        ]);
+        ] );
 
-        $query->andFilterWhere(['like', 'item_name', $this->item_name])
-            ->andFilterWhere(['like', 'user_id', $this->user_id]);
+        $query->andFilterWhere( [ 'like', 'item_name', $this->item_name ] )
+              ->andFilterWhere( [ 'like', 'user_id', $this->user_id ] );
 
         return $dataProvider;
     }

@@ -29,8 +29,8 @@ class AuthItemChild extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['parent', 'child'], 'required'],
-            [['parent', 'child'], 'string', 'max' => 64]
+            [ [ 'parent', 'child' ], 'required' ],
+            [ [ 'parent', 'child' ], 'string', 'max' => 64 ]
         ];
     }
 
@@ -41,7 +41,7 @@ class AuthItemChild extends \yii\db\ActiveRecord
     {
         return [
             'parent' => 'Parent',
-            'child' => 'Child',
+            'child'  => 'Child',
         ];
     }
 
@@ -50,7 +50,7 @@ class AuthItemChild extends \yii\db\ActiveRecord
      */
     public function getParent0()
     {
-        return $this->hasOne(AuthItem::className(), ['name' => 'parent']);
+        return $this->hasOne( AuthItem::className(), [ 'name' => 'parent' ] );
     }
 
     /**
@@ -58,6 +58,6 @@ class AuthItemChild extends \yii\db\ActiveRecord
      */
     public function getChild0()
     {
-        return $this->hasOne(AuthItem::className(), ['name' => 'child']);
+        return $this->hasOne( AuthItem::className(), [ 'name' => 'child' ] );
     }
 }

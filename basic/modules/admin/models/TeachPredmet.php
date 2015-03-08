@@ -28,8 +28,8 @@ class TeachPredmet extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['teach_id', 'predmet_id'], 'required'],
-            [['teach_id', 'predmet_id'], 'integer']
+            [ [ 'teach_id', 'predmet_id' ], 'required' ],
+            [ [ 'teach_id', 'predmet_id' ], 'integer' ]
         ];
     }
 
@@ -39,8 +39,8 @@ class TeachPredmet extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'teach_id' => 'Викладач',
+            'id'         => 'ID',
+            'teach_id'   => 'Викладач',
             'predmet_id' => 'Предмет',
         ];
     }

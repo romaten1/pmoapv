@@ -26,8 +26,8 @@ class ParentGroup extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['title'], 'required'],
-            [['title'], 'string', 'max' => 100]
+            [ [ 'title' ], 'required' ],
+            [ [ 'title' ], 'string', 'max' => 100 ]
         ];
     }
 
@@ -37,7 +37,7 @@ class ParentGroup extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
+            'id'    => 'ID',
             'title' => 'Назва батьківської категорії статичної сторінки',
         ];
     }
