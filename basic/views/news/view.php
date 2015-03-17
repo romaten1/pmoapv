@@ -19,7 +19,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <p><?= '<br />Опубліковано: ' . date( 'd.m.Y', $model->updated_at ); ?></p>
 
-    <p><?= Html::encode( $model->description ) ?></p>
+    <p><?= Html::decode( $model->description ) ?></p>
 
     <p><?= $model->text ?></p>
 

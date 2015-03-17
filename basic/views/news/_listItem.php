@@ -14,7 +14,7 @@ use yii\helpers\Html;
         <br/>
         <?= date( 'H:i / d-m-Y', $model->updated_at ) ?>
         <br/>
-        <?= Html::encode( $model->description ) ?>
+        <?= Html::decode( $model->description ) ?>
     </div>
 </div>
 <br/>

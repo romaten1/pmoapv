@@ -39,6 +39,7 @@ AppAsset::register( $this );
     echo Nav::widget( [
         'options' => [ 'class' => 'navbar-nav navbar-right' ],
         'items'   => [
+            [ 'label' => 'Logs', 'url' => [ '/admin/log/' ] ],
             [ 'label' => 'RBAC', 'url' => [ '/rbac/auth-assignment' ] ],
             [ 'label' => 'Admin', 'url' => [ '/admin' ] ],
             [ 'label' => 'Профіль', 'url' => [ '/user/settings/profile' ] ],

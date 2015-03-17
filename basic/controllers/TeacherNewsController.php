@@ -53,7 +53,7 @@ class TeacherNewsController extends Controller
     {
         $searchModel = new TeacherNewsSearch();
         $dataProvider = new ActiveDataProvider([
-            'query' => TeacherNews::find()->where(['active'=>TeacherNews::STATUS_ACTIVE]),
+            'query' => TeacherNews::find()->where(['active'=>TeacherNews::STATUS_ACTIVE])->orderBy(['updated_at' => SORT_DESC]),
             'pagination' => ['pageSize' => 15],
         ]);
         

@@ -57,7 +57,7 @@ class Metodychky extends Root
             [['description'], 'string'],
             [['active', 'size'], 'integer'],
             [['title'], 'string', 'max' => 255],
-	        [['file'], 'file', 'maxSize' => 20*1024*1024],
+	        [['file'], 'file', 'maxSize' => 50*1024*1024],
             ['active', 'default', 'value' => self::STATUS_ACTIVE],
             ['active', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_PASSIVE]],
         ];

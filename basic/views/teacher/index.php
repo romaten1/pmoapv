@@ -22,18 +22,5 @@ $this->params['breadcrumbs'][] = $this->title;
         'itemOptions'  => [ 'class' => 'item' ],
         'itemView'     => '_listItem',
     ] ) ?>
-    <?php
-    PrettyPhoto::widget( [
-        'target'        => "a[rel^='prettyPhoto']",
-        'pluginOptions' => [
-            'opacity'            => 0.60,
-            'theme'              => PrettyPhoto::THEME_LIGHT_ROUNDED,
-            'social_tools'       => false,
-            'autoplay_slideshow' => false,
-            'modal'              => true
-        ],
-    ] );
-    ?>
-
 
 </div>

@@ -1,4 +1,7 @@
 <?php
+use app\modules\admin\models\Log;
+date_default_timezone_set("Europe/Kiev");
+
 
 $params = require(__DIR__ . '/params.php');
 $authClients = require(__DIR__ . '/auth/clients.php');
@@ -8,6 +11,15 @@ $config = [
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'language' => 'uk',
+    'on beforeAction' => function ($event) {
+        //echo "Hello";
+        $log = new Log;
+        Yii::$app->user->id ? $log->user = Yii::$app->user->id : $log->user = 0;
+        $log->request = Yii::$app->request->absoluteUrl;
+        $log->time = time();
+        $log->ip = Yii::$app->request->userIP;
+        $log->save($data);
+    },
     'modules' => [
         'admin' => [
             'class' => 'app\modules\admin\Module',
