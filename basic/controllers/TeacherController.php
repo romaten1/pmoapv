@@ -77,6 +77,26 @@ class TeacherController extends Controller
 		}
 	}
 
+    public function actionScienceWorks($id)
+    {
+        $model = $this->findModel($id);
+        if ($model->active == Teacher::STATUS_ACTIVE) {
+
+            if ($model->teach_or_master == Teacher::STATUS_TEACHER) {
+                return $this->render('scienceWorks', [
+                    'model' => $model,
+                ]);
+            }
+            else {
+                return $this->render('viewMaster', [
+                    'model' => $model,
+                ]);
+            }
+        } else {
+            throw new NotFoundHttpException('Запис не активний');
+        }
+    }
+
 
 
     

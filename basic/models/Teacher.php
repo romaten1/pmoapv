@@ -22,6 +22,7 @@ use dektrium\user\models\User;
  * @property string $description
  * @property integer $user_id
  * @property integer $teach_or_master -
+ * @property string $science_works -
  */
 class Teacher extends Root
 {
@@ -50,7 +51,7 @@ class Teacher extends Root
     {
         return [
             [['name', 'second_name', 'last_name', 'job', 'description', 'teach_or_master'], 'required'],
-            [['description'], 'string'],
+            [['description', 'science_works'], 'string'],
             [['name', 'second_name', 'last_name', 'job', 'science_status', 'org_status'], 'string', 'max' => 100],
             [['image'], 'file', 'extensions' => 'gif, jpg',],
             ['active', 'default', 'value' => self::STATUS_ACTIVE],
@@ -78,6 +79,7 @@ class Teacher extends Root
             'description' => 'Короткий опис',
 	        'user_id' => 'ID користувача',
 	        'teach_or_master' => 'Викладач чи майстер',
+            'science_works' => 'Перелік наукових праць викладача',
         ];
     }
 

@@ -44,6 +44,15 @@ use app\models\Teacher;
         ),
     ] ); ?>
 
+    <?= $form->field( $model, 'science_works' )->widget( CKEditor::className(), [
+        'editorOptions' => ElFinder::ckeditorOptions( [ 'elfinder', 'path' => 'Global' ], [
+                'preset' => 'full',
+                'inline' => false,
+                'height' => '250'
+            ]
+        ),
+    ] ); ?>
+
     <?= $form->field( $model, 'active' )->dropDownList( Teacher::getStatusArray() ) ?>
 
     <?= $form->field( $model, 'teach_or_master' )->dropDownList( Teacher::getTeachMasterArray() ) ?>

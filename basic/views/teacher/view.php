@@ -24,8 +24,10 @@ $this->params['breadcrumbs'][] = $this->title;
             [ '/message/user-message', 'receiver_id' => Teacher::getUserByTeacherId( $model->id )->id ],
             [ 'class' => 'btn btn-success' ] );
     }?>
-
-
+    <?php if ( !empty($model->science_works)) {
+        echo Html::a( 'Перелік наукових праць викладача',
+        [ '/teacher/science-works', 'id' => $model->id ], [ 'class' => 'btn btn-info' ] );
+    }?>
     <p><?= 'Посада: ' . Html::encode( $model->job ) ?></p>
 
     <p><?= 'Науковий ступінь: ' . Html::encode( $model->science_status ) ?></p>
