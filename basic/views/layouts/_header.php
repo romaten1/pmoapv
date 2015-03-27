@@ -92,7 +92,7 @@ echo Nav::widget( [
                     'label' => 'Напрям підготовки 6.100202 Процеси, машини та обладнання агропромислового виробництва',
                     'url'   => [ '/static-page/view-alias', 'alias' => 'napryam' ]
                 ],
-                [
+                /*[
                     'label' => 'Спеціальність 7.10010201  Процеси, машини та обладнання агропромислових підприємств',
                     'url'   => [ '/static-page/view-alias', 'alias' => 'spec7' ]
                 ],
@@ -100,18 +100,18 @@ echo Nav::widget( [
                     'label' => 'Спеціальність 8.10010201  Процеси, машини та обладнання агропромислових підприємств',
                     'url'   => [ '/static-page/view-alias', 'alias' => 'spec8' ]
                 ],
-                [ 'label' => 'Заочна форма навчання', 'url' => [ '/static-page/view-alias', 'alias' => 'zaochna' ] ],
+                [ 'label' => 'Заочна форма навчання', 'url' => [ '/static-page/view-alias', 'alias' => 'zaochna' ] ],*/
             ],
         ],
         [
             'label' => 'Студенту',
             'items' => [
                 [ 'label' => 'Предмети', 'url' => [ '/predmet' ] ],
-                [ 'label' => 'Навчальні плани', 'url' => [ '/static-page/view-alias', 'alias' => 'plany' ] ],
-                [ 'label' => 'Робочі програми', 'url' => [ '/static-page/view-alias', 'alias' => 'programy' ] ],
+                //[ 'label' => 'Навчальні плани', 'url' => [ '/static-page/view-alias', 'alias' => 'plany' ] ],
+                //[ 'label' => 'Робочі програми', 'url' => [ '/static-page/view-alias', 'alias' => 'programy' ] ],
                 [ 'label' => 'Навчально-методичне забезпечення', 'url' => [ '/metodychky' ] ],
-                [ 'label' => 'Дипломнику', 'url' => [ '/static-page/view-alias', 'alias' => 'dyplomnik' ] ],
-                [ 'label' => 'Корисні посилання', 'url' => [ '/static-page/view-alias', 'alias' => 'links' ] ],
+                //[ 'label' => 'Дипломнику', 'url' => [ '/static-page/view-alias', 'alias' => 'dyplomnik' ] ],
+                //[ 'label' => 'Корисні посилання', 'url' => [ '/static-page/view-alias', 'alias' => 'links' ] ],
                 [
                     'label' => 'Програми практики',
                     'url'   => [ '/static-page/view-alias', 'alias' => 'praktikprogramy' ]
@@ -132,7 +132,7 @@ echo Nav::widget( [
                 [ 'label' => 'Наукові заходи', 'url' => [ '/conference' ] ],
                 [ 'label' => 'Статті наукових заходів', 'url' => [ '/conference/conference-article' ] ],
                 [ 'label' => 'Пропозиції виробникам', 'url' => [ '/static-page/view-alias', 'alias' => 'proposal' ] ],
-                [ 'label' => 'Аспіранти кафедри', 'url' => [ '/static-page/view-alias', 'alias' => 'aspirant' ] ],
+                //[ 'label' => 'Аспіранти кафедри', 'url' => [ '/static-page/view-alias', 'alias' => 'aspirant' ] ],
             ],
 
         ],

@@ -23,10 +23,7 @@ class PredmetController extends Controller
     {
         
         $searchModel = new PredmetSearch();
-        $dataProvider = new ActiveDataProvider([
-            'query' => Predmet::find()->where(['active'=>Predmet::STATUS_ACTIVE]),
-            'pagination' => ['pageSize' => 10],
-        ]);
+        $dataProvider = $searchModel->searchActive(Yii::$app->request->queryParams);
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,

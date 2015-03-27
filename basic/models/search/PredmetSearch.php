@@ -61,4 +61,23 @@ class PredmetSearch extends Predmet
 
         return $dataProvider;
     }
+
+    public function searchActive($params)
+    {
+        $query = Predmet::find()->active_predmet();
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+            'pagination' => ['pageSize' => 10],
+            'sort' => ['defaultOrder' => ['title'=>SORT_ASC]]
+        ]);
+
+        if (!($this->load($params) && $this->validate())) {
+            return $dataProvider;
+        }
+
+        $query->andFilterWhere(['like', 'title', $this->title]);
+
+        return $dataProvider;
+    }
 }

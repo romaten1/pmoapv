@@ -7,10 +7,12 @@ use app\models\Metodychky;
 use app\models\search\MetodychkySearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
+use yii\web\BadRequestHttpException;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\web\UploadedFile;
 use app\helpers\TransliterateHelper;
+use app\modules\admin\modules\rbac\models\AuthAssignment;
 
 /**
  * MetodychkyController implements the CRUD actions for Metodychky model.
@@ -29,7 +31,7 @@ class MetodychkyController extends Controller
 					[
 						'allow' => true,
 						'actions' => ['index', 'view'],
-						'roles' => ['student'],
+						'roles' => ['@'],
 					],
 					[
 						'allow' => true,
@@ -55,10 +57,17 @@ class MetodychkyController extends Controller
 	/**
      * Lists all Metodychky models.
      * @return mixed
+     * @throws BadRequestHttpException
      */
     public function actionIndex()
     {
-	    $searchModel = new MetodychkySearch();
+        $assignment = AuthAssignment::find()->where( [ "user_id" => Yii::$app->user->id ] )->one();
+	    if(!$assignment->item_name){
+            throw new BadRequestHttpException('Ви зареєстровані на сайті, однак для отримання доступу
+            до методичних матеріалів вам потрібно отримати права студента. Для цього ,якщо ви студент, напишіть
+            повідомлення адміністратору сайту із вказанням власного прізвища, курсу та групи. Ми якнайшвидше розглянемо ваш запит.');
+        }
+        $searchModel = new MetodychkySearch();
         $dataProvider = $searchModel->searchActive(Yii::$app->request->queryParams);
 		return $this->render('index', [
             'searchModel' => $searchModel,
@@ -71,10 +80,17 @@ class MetodychkyController extends Controller
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException
+     * @throws BadRequestHttpException
      */
     public function actionView($id)
     {
-	    $model = $this->findModel($id);
+        $assignment = AuthAssignment::find()->where( [ "user_id" => Yii::$app->user->id ] )->one();
+        if(!$assignment->item_name){
+            throw new BadRequestHttpException('Ви зареєстровані на сайті, однак для отримання доступу
+            до методичних матеріалів вам потрібно отримати права студента. Для цього ,якщо ви студент, напишіть
+            повідомлення адміністратору сайту із вказанням власного прізвища, курсу та групи. Ми якнайшвидше розглянемо ваш запит.');
+        }
+        $model = $this->findModel($id);
 	    if ($model->active == Metodychky::STATUS_ACTIVE) {
 		    return $this->render('view', [
 			    'model' => $model,

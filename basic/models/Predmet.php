@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use app\models\query\PredmetQuery;
 use app\modules\admin\models\PredmetMetodychky;
 use app\modules\admin\models\TeachPredmet;
 use Yii;
@@ -33,6 +34,11 @@ class Predmet extends Root
     public static function tableName()
     {
         return 'predmet';
+    }
+
+    public static function find()
+    {
+        return new PredmetQuery(get_called_class());
     }
 
     /**
