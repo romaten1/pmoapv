@@ -18,12 +18,11 @@ class MainPageAsset extends AssetBundle
     public $basePath = '@webroot';
     public $baseUrl = '@web';
     public $css = [
-        'css/newyear.css',
-
+        'css/animate.css'
     ];
     public $js = [
-        'js/swfobject.js',
-        'js/newyear.js'
+        'js/wow.min.js',
+        'js/wow.init.js'
     ];
     public $depends = [
         'yii\web\YiiAsset',

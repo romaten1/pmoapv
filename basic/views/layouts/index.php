@@ -1,4 +1,5 @@
 <?php
+use app\assets\MainPageAsset;
 use yii\helpers\Html;
 use app\assets\AppAsset;
 
@@ -10,7 +11,7 @@ use app\assets\AppAsset;
 /* @var $this \yii\web\View */
 /* @var $content string */
 
-//MainPageAsset::register($this);
+MainPageAsset::register($this);
 AppAsset::register( $this );
 ?>
 <?php $this->beginPage() ?>

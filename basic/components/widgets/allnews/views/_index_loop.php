@@ -15,7 +15,7 @@ if ($models) {
 		if($row%2 == 0){ 
 				echo '<div class="row row-pad">';
 			}    
-		echo '<div class="col-md-6">
+		echo '<div class="col-md-6 wow flipInX" data-wow-delay="'. $row/2 .'s">
                 <div class="row">
                     <div class="col-md-3">
                         <a href="'.Url::to('@web/uploads/news/').$model->image.'" rel="prettyPhoto" title="">

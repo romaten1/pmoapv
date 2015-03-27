@@ -6,7 +6,7 @@ use app\components\widgets\allnews\AllnewsWidget;
 
 $this->title = 'Кафедра ПМОАПВ УНУС';
 ?>
-<div class="site-index">
+<div class="site-index wow zoomIn" data-wow-duration="2s">
 
     <div class="jumbotron">
         <img src="<?= Url::to( '@web/uploads/logo.png', true ) ?>">
@@ -29,7 +29,7 @@ $this->title = 'Кафедра ПМОАПВ УНУС';
 <div class="container_upper">
     <div class="container">
         <div class="row">
-            <div class="col-md-4 text-center">
+            <div class="col-md-4 text-center wow zoomInLeft" data-wow-duration="3s" >
                 <img class="img-circle" src="<?= Url::to( '@web/img/index/13.jpg' ); ?>">
 
                 <h2>Методична робота</h2>
@@ -48,7 +48,7 @@ $this->title = 'Кафедра ПМОАПВ УНУС';
                       href="<?= Url::to( [ '/static-page/view-alias', 'alias' => 'metod_work' ] ); ?>">Далі
                         ... &raquo;</a></p>
             </div>
-            <div class="col-md-4 text-center">
+            <div class="col-md-4 text-center wow zoomInUp" data-wow-duration="3s" >
                 <img class="img-circle" src="<?= Url::to( '@web/img/index/08.jpg' ); ?>">
 
                 <h2>Історія кафедри</h2>
@@ -67,7 +67,7 @@ $this->title = 'Кафедра ПМОАПВ УНУС';
                       href="<?= Url::to( [ '/static-page/view-alias', 'alias' => 'history' ] ); ?>">Далі ... &raquo;</a>
                 </p>
             </div>
-            <div class="col-md-4 text-center">
+            <div class="col-md-4 text-center wow zoomInRight" data-wow-duration="3s" >
                 <img class="img-circle" src="<?= Url::to( '@web/img/index/03.jpg' ); ?>">
 
                 <h2>Наукова робота</h2>
@@ -91,7 +91,7 @@ $this->title = 'Кафедра ПМОАПВ УНУС';
     <div class="container">
         <!-- START THE FEATURETTES -->
         <div class="featurette">
-            <img class="featurette-image img-circle pull-right" src="<?= Url::to( '@web/img/index/06.jpg' ); ?>">
+            <img class="featurette-image img-circle pull-right wow bounceInRight" src="<?= Url::to( '@web/img/index/06.jpg' ); ?>">
 
             <h2 class="featurette-heading">Абітурієнтам: <span
                     class="text-muted">наша кафедра – Ваш правильний вибір!</span></h2>
@@ -113,7 +113,7 @@ $this->title = 'Кафедра ПМОАПВ УНУС';
     <div class="container">
         <!-- START THE FEATURETTES -->
         <div class="featurette">
-            <img class="featurette-image img-circle pull-left" src="<?= Url::to( '@web/img/index/05.jpg' ); ?>">
+            <img class="featurette-image img-circle pull-left wow bounceInLeft" src="<?= Url::to( '@web/img/index/05.jpg' ); ?>">
 
             <h2 class="featurette-heading">Студентам: <span
                     class="text-muted">Все що потрібнно для якісної освіти </span></h2>

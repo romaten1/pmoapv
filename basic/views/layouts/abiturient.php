@@ -1,4 +1,5 @@
 <?php
+use app\assets\MainPageAsset;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use app\assets\AbiturientAsset;
@@ -8,6 +9,7 @@ use app\assets\AppAsset;
 /* @var $content string */
 AbiturientAsset::register( $this );
 AppAsset::register( $this );
+MainPageAsset::register($this);
 
 $this->title = 'Абітурієнту';
 ?>
@@ -77,9 +79,9 @@ $this->title = 'Абітурієнту';
     <header>
         <div class="container">
             <?php if (Yii::$app->session->hasFlash( 'contactFormSubmitted' )): ?>
-                <div class="intro-text">
+                <div class="intro-text ">
                     <div class="intro-lead-in">
-                        <div class="backs">
+                        <div class="backs wow fadeInUp">
                             Дякуємо, що зв'язалися з нами! <br/>
                             Ми відповімо Вам як тільки зможемо.
                         </div>
@@ -87,14 +89,14 @@ $this->title = 'Абітурієнту';
                 </div>
 
             <?php else: ?>
-                <div class="intro-text">
+                <div class="intro-text ">
                     <div class="intro-lead-in">
-                        <div class="backs">
+                        <div class="backs wow fadeInUp">
                             Шановні абітурієнти!<br/> <br/>
                             Кафедра ПМОАПВ рада вітати Вас!
                         </div>
                     </div>
-                    <div class="intro-heading">Приєднуйтесь до нас!</div>
+                    <div class="intro-heading wow zoomInUp" data-wow-delay="1s">Приєднуйтесь до нас!</div>
                     <a href="#services" class="page-scroll btn btn-xl">Дізнайтесь більше</a>
                     <span class="abo"> або </span>
                     <a href="#contact" class="page-scroll btn btn-default btn-xl btn-contact">Звертайтесь до нас!</a>
@@ -174,7 +176,7 @@ $this->title = 'Абітурієнту';
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-4 col-sm-6 portfolio-item">
+                <div class="col-md-4 col-sm-6 portfolio-item wow flipInX" data-wow-delay="0s">
                     <a href="#portfolioModal7" class="portfolio-link" data-toggle="modal">
                         <div class="portfolio-hover">
                             <div class="portfolio-hover-content">
@@ -191,7 +193,7 @@ $this->title = 'Абітурієнту';
                             кращими студентами аграрних вузів</p>
                     </div>
                 </div>
-                <div class="col-md-4 col-sm-6 portfolio-item">
+                <div class="col-md-4 col-sm-6 portfolio-item wow flipInX" data-wow-delay="0.5s">
                     <a href="#portfolioModal8" class="portfolio-link" data-toggle="modal">
                         <div class="portfolio-hover">
                             <div class="portfolio-hover-content">
@@ -208,7 +210,7 @@ $this->title = 'Абітурієнту';
                             спеціальностіі</p>
                     </div>
                 </div>
-                <div class="col-md-4 col-sm-6 portfolio-item">
+                <div class="col-md-4 col-sm-6 portfolio-item wow flipInX" data-wow-delay="1s">
                     <a href="#portfolioModal9" class="portfolio-link" data-toggle="modal">
                         <div class="portfolio-hover">
                             <div class="portfolio-hover-content">
@@ -225,7 +227,7 @@ $this->title = 'Абітурієнту';
                             науки і техніки</p>
                     </div>
                 </div>
-                <div class="col-md-4 col-sm-6 portfolio-item">
+                <div class="col-md-4 col-sm-6 portfolio-item wow flipInX" data-wow-delay="0s">
                     <a href="#portfolioModal1" class="portfolio-link" data-toggle="modal">
                         <div class="portfolio-hover">
                             <div class="portfolio-hover-content">
@@ -241,7 +243,7 @@ $this->title = 'Абітурієнту';
                         <p class="text-muted">Кафедра заснована 1929 року</p>
                     </div>
                 </div>
-                <div class="col-md-4 col-sm-6 portfolio-item">
+                <div class="col-md-4 col-sm-6 portfolio-item wow flipInX" data-wow-delay="0.5s">
                     <a href="#portfolioModal2" class="portfolio-link" data-toggle="modal">
                         <div class="portfolio-hover">
                             <div class="portfolio-hover-content">
@@ -257,7 +259,7 @@ $this->title = 'Абітурієнту';
                         <p class="text-muted">Заняття ведуть висококваліфіковані викладачі</p>
                     </div>
                 </div>
-                <div class="col-md-4 col-sm-6 portfolio-item">
+                <div class="col-md-4 col-sm-6 portfolio-item wow flipInX" data-wow-delay="1s">
                     <a href="#portfolioModal3" class="portfolio-link" data-toggle="modal">
                         <div class="portfolio-hover">
                             <div class="portfolio-hover-content">
@@ -273,7 +275,7 @@ $this->title = 'Абітурієнту';
                         <p class="text-muted">Співпрацюємо з десятками передових підприємств галузі по всій Україні</p>
                     </div>
                 </div>
-                <div class="col-md-4 col-sm-6 portfolio-item">
+                <div class="col-md-4 col-sm-6 portfolio-item wow flipInX" data-wow-delay="0s">
                     <a href="#portfolioModal4" class="portfolio-link" data-toggle="modal">
                         <div class="portfolio-hover">
                             <div class="portfolio-hover-content">
@@ -289,7 +291,7 @@ $this->title = 'Абітурієнту';
                         <p class="text-muted">Ваше бажання відкриттів буде підтримано і втілено</p>
                     </div>
                 </div>
-                <div class="col-md-4 col-sm-6 portfolio-item">
+                <div class="col-md-4 col-sm-6 portfolio-item wow flipInX" data-wow-delay="0.5s">
                     <a href="#portfolioModal5" class="portfolio-link" data-toggle="modal">
                         <div class="portfolio-hover">
                             <div class="portfolio-hover-content">
@@ -306,7 +308,7 @@ $this->title = 'Абітурієнту';
                             поповнюється</p>
                     </div>
                 </div>
-                <div class="col-md-4 col-sm-6 portfolio-item">
+                <div class="col-md-4 col-sm-6 portfolio-item wow flipInX" data-wow-delay="1s">
                     <a href="#portfolioModal6" class="portfolio-link" data-toggle="modal">
                         <div class="portfolio-hover">
                             <div class="portfolio-hover-content">
@@ -341,7 +343,7 @@ $this->title = 'Абітурієнту';
                     <ul class="timeline">
                         <li>
                             <div class="timeline-image">
-                                <img class="img-circle img-responsive" src="abiturient/img/about/1.jpg" alt="">
+                                <img class="img-circle img-responsive wow pulse" src="abiturient/img/about/1.jpg" alt="" data-wow-iteration="5">
                             </div>
                             <div class="timeline-panel">
                                 <div class="timeline-heading">
@@ -357,7 +359,7 @@ $this->title = 'Абітурієнту';
                         </li>
                         <li class="timeline-inverted">
                             <div class="timeline-image">
-                                <img class="img-circle img-responsive" src="abiturient/img/about/2.jpg" alt="">
+                                <img class="img-circle img-responsive wow pulse" src="abiturient/img/about/2.jpg" alt="" data-wow-iteration="5">
                             </div>
                             <div class="timeline-panel">
                                 <div class="timeline-heading">
@@ -373,7 +375,7 @@ $this->title = 'Абітурієнту';
                         </li>
                         <li>
                             <div class="timeline-image">
-                                <img class="img-circle img-responsive" src="abiturient/img/about/3.jpg" alt="">
+                                <img class="img-circle img-responsive wow pulse" src="abiturient/img/about/3.jpg" alt="" data-wow-iteration="5">
                             </div>
                             <div class="timeline-panel">
                                 <div class="timeline-heading">
@@ -388,7 +390,7 @@ $this->title = 'Абітурієнту';
                         </li>
                         <li class="timeline-inverted">
                             <div class="timeline-image">
-                                <img class="img-circle img-responsive" src="abiturient/img/about/4.jpg" alt="">
+                                <img class="img-circle img-responsive wow pulse" src="abiturient/img/about/4.jpg" alt="" data-wow-iteration="5">
                             </div>
                             <div class="timeline-panel">
                                 <div class="timeline-heading">
@@ -404,7 +406,7 @@ $this->title = 'Абітурієнту';
                         </li>
                         <li>
                             <div class="timeline-image">
-                                <img class="img-circle img-responsive" src="abiturient/img/about/5.jpg" alt="">
+                                <img class="img-circle img-responsive wow pulse" src="abiturient/img/about/5.jpg" alt="" data-wow-iteration="5">
                             </div>
                             <div class="timeline-panel">
                                 <div class="timeline-heading">
@@ -421,7 +423,7 @@ $this->title = 'Абітурієнту';
                         </li>
                         <li class="timeline-inverted">
                             <div class="timeline-image">
-                                <img class="img-circle img-responsive" src="abiturient/img/about/6.jpg" alt="">
+                                <img class="img-circle img-responsive wow pulse" src="abiturient/img/about/6.jpg" alt="" data-wow-iteration="5">
                             </div>
                             <div class="timeline-panel">
                                 <div class="timeline-heading">
