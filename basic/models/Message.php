@@ -6,7 +6,6 @@ use Yii;
 use yii\behaviors\TimestampBehavior;
 use app\behaviors\PurifierBehavior;
 use yii\db\ActiveRecord;
-use yii\helpers\ArrayHelper;
 use app\models\query\MessageQuery;
 
 /**

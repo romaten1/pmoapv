@@ -57,7 +57,7 @@ class SiteController extends Controller
     {
         $this->layout = 'abiturient';
         $model = new ContactForm();
-        if ($model->load(Yii::$app->request->post()) && $model->contact(Yii::$app->params['adminEmail'])) {
+        if ($model->load(Yii::$app->request->post()) && $model->contact()) {
             Yii::$app->session->setFlash('contactFormSubmitted');
 
             return $this->refresh();
@@ -100,10 +100,14 @@ class SiteController extends Controller
     {
         $this->layout = 'contact';
         $model = new ContactForm();
-        if ($model->load(Yii::$app->request->post()) && $model->contact(Yii::$app->params['adminEmail'])) {
-            Yii::$app->session->setFlash('contactFormSubmitted');
-
-            return $this->refresh();
+        if ($model->load(Yii::$app->request->post()) ) {
+            $model->active      = ContactForm::STATUS_ACTIVE;
+            $model->created_at  = time();
+            $model->reviewed_at = '1';
+            if ( $model->validate() && $model->save(false)) {
+                Yii::$app->session->setFlash('contactFormSubmitted');
+                return $this->refresh();
+            }
         } else {
             return $this->render('contact', [
                 'model' => $model,

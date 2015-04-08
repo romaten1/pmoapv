@@ -213,3 +213,6 @@ nav.navbar-subnav ul.dropdown-menu li.active a {
 }
 
 
+.navbar-header .navbar-toggle  {
+	border: 1px solid #2c3e50;
+}

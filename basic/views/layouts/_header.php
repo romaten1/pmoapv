@@ -5,6 +5,18 @@ use app\modules\admin\modules\rbac\models\AuthAssignment;
 
 // Визначаємо роль користувача і отримуємо об'єкт моделі AuthAssignment
 $assignment = AuthAssignment::find()->where( [ "user_id" => Yii::$app->user->id ] )->one();
+$status = '';
+switch($assignment->item_name){
+    case('student'):
+        $status = 'студент';
+        break;
+    case('admin'):
+        $status = 'адміністратор';
+        break;
+    case('moderator'):
+        $status = 'викладач';
+        break;
+}
 ?>
 
 <?php
@@ -45,13 +57,15 @@ echo Nav::widget( [
                 'url' => [ '/user/security/logout' ],
                 'linkOptions' => [ 'data-method' => 'post' ]
             ],
+        $status ?
+            [ 'label' => 'Я ' . $status , 'options'=>['class'=>'label label-success']] : '',
     ],
 ] );
 NavBar::end();
 
 NavBar::begin( [
     'options' => [
-        'class' => 'navbar  navbar-down',
+        'class' => 'navbar  navbar-up',
     ],
 ] );
 echo Nav::widget( [

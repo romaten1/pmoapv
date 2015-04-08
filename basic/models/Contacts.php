@@ -6,7 +6,6 @@ use Yii;
 use yii\behaviors\TimestampBehavior;
 use app\behaviors\PurifierBehavior;
 use yii\db\ActiveRecord;
-use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "contacts".
@@ -76,32 +75,5 @@ class Contacts extends Root
             'reviewed_at' => 'Дата перегляду',
 
         ];
-    }
-
-    /**
-     * @return array
-     */
-    public static function getStatusArray()
-    {
-        return [
-            self::STATUS_ACTIVE => 'Непереглянуто',
-            self::STATUS_REVIEWED => 'Переглянуто',
-        ];
-    }
-
-	/**
-	 *
-	 * @return string
-	 */
-    public function getStatusLabel()
-    {
-        $statuses = $this->getStatusArray();
-	    if($this->active == self::STATUS_REVIEWED ){
-	        $return = '<span class="label label-success">'.ArrayHelper::getValue($statuses, $this->active).'</span>';
-	    }
-	    else {
-		    $return = '<span class="label label-warning">'.ArrayHelper::getValue($statuses, $this->active).'</span>';
-	    }
-        return $return;
     }
 }

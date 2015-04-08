@@ -5,11 +5,11 @@ date_default_timezone_set("Europe/Kiev");
 
 $params = require(__DIR__ . '/params.php');
 $authClients = require(__DIR__ . '/auth/clients.php');
-
 $config = [
+    'name' => 'ПМОАПВ',
     'id' => 'basic',
     'basePath' => dirname(__DIR__),
-    'bootstrap' => ['log'],
+    'bootstrap' => ['log', 'debug'],
     'language' => 'uk',
     'on beforeAction' => function ($event) {
         //echo "Hello";
@@ -50,6 +50,10 @@ $config = [
 	        'class' => 'app\modules\conference\Module',
 	        'defaultRoute' => '/conference'
         ],
+        'debug' => [
+            'class' => 'yii\debug\Module',
+            'allowedIPs' => ['176.98.70.9', '::1']
+        ]
     ],
     'components' => [
         'request' => [
@@ -103,9 +107,7 @@ $config = [
                     'basePath' => '@webroot',
                     'baseUrl' => '@web',
                     'css' => ['css/bootstrap.css'],
-                ],                
-                       
-                
+                ],
             ],
 
         ],

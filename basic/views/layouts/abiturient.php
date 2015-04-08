@@ -97,9 +97,9 @@ $this->title = 'Абітурієнту';
                         </div>
                     </div>
                     <div class="intro-heading wow zoomInUp" data-wow-delay="1s">Приєднуйтесь до нас!</div>
-                    <a href="#services" class="page-scroll btn btn-xl">Дізнайтесь більше</a>
-                    <span class="abo"> або </span>
-                    <a href="#contact" class="page-scroll btn btn-default btn-xl btn-contact">Звертайтесь до нас!</a>
+                    <a href="#services" class="page-scroll btn btn-xl wow zoomIn" data-wow-delay="2s">Дізнайтесь більше</a>
+                    <span class="abo  wow zoomIn" data-wow-delay="3s"> або </span>
+                    <a href="#contact" class="page-scroll btn btn-default btn-xl btn-contact wow zoomIn" data-wow-delay="3s">Звертайтесь до нас!</a>
                 </div>
             <?php endif; ?>
         </div>
@@ -110,13 +110,13 @@ $this->title = 'Абітурієнту';
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 text-center">
-                    <h2 class="section-heading">Ми пропонуємо</h2>
+                    <h2 class="section-heading wow tada" data-wow-offset="200">Ми пропонуємо</h2>
 
                     <h3 class="section-subheading text-muted">Навчання за такими спеціальностями</h3>
                 </div>
             </div>
             <div class="row text-center">
-                <div class="col-md-4">
+                <div class="col-md-4 wow bounceIn" data-wow-delay="1s">
                     <span class="fa-stack fa-4x">
                         <i class="fa fa-circle fa-stack-2x text-primary"></i>
                         <i class="fa fa-user fa-stack-1x fa-inverse"></i>
@@ -126,7 +126,7 @@ $this->title = 'Абітурієнту';
                     <p class="text-muted">Напрям підготовки 6.100202 Процеси, машини та обладнання агропромислового
                         виробництва</p>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-4 wow bounceIn" data-wow-delay="2s">
                     <span class="fa-stack fa-4x">
                         <i class="fa fa-circle fa-stack-2x text-primary"></i>
                         <i class="fa fa-university fa-stack-1x fa-inverse"></i>
@@ -136,7 +136,7 @@ $this->title = 'Абітурієнту';
                     <p class="text-muted">Спеціальність 7.10010201 Процеси, машини та обладнання агропромислових
                         підприємств</p>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-4 wow bounceIn" data-wow-delay="3s">
                     <span class="fa-stack fa-4x">
                         <i class="fa fa-circle fa-stack-2x text-primary"></i>
                         <i class="fa fa-mortar-board fa-stack-1x fa-inverse"></i>
@@ -149,13 +149,13 @@ $this->title = 'Абітурієнту';
             </div>
             <div class="row">
                 <div class="col-lg-12 text-center">
-                    <h3 class="section-subheading text-muted">а також за вказаними спеціальностями</h3>
+                    <h3 class="section-subheading text-muted  wow bounceIn" data-wow-delay="4s">а також за вказаними спеціальностями</h3>
 
-                    <h3 class="section-heading">Заочна форма навчання</h3>
+                    <h3 class="section-heading  wow fadeInUp" data-wow-delay="5s">Заочна форма навчання</h3>
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-12 text-center">
+                <div class="col-lg-12 text-center  wow bounceIn" data-wow-delay="6s">
                     <br/>
                     <h4 class="section-heading">Про умови вступу на нашу спеціальність дізнайтесь більше</h4>
                     <a href="http://www.udau.edu.ua/ua/future-students/vstupna-kampaniya-2015/pravila-prijomu.html"
