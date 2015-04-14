@@ -29,7 +29,8 @@ $this->params['breadcrumbs'][] = $this->title;
 						echo
 							Icon::show('file-pdf-o') . Html::a( $article->title . ' ',
 								[ '/conference/conference-article/view', 'id' => $article->id ] )
-							. '<br />';
+							. '<br />'
+                            . 'Автори: ' .$article->author . '<br /><br />';
 					}
 				}
 				?></p>

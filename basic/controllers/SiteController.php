@@ -57,15 +57,19 @@ class SiteController extends Controller
     {
         $this->layout = 'abiturient';
         $model = new ContactForm();
-        if ($model->load(Yii::$app->request->post()) && $model->contact()) {
-            Yii::$app->session->setFlash('contactFormSubmitted');
-
-            return $this->refresh();
+        if ($model->load(Yii::$app->request->post()) ) {
+            $model->active      = ContactForm::STATUS_ACTIVE;
+            $model->created_at  = time();
+            $model->reviewed_at = '1';
+            if ( $model->validate() && $model->save(false)) {
+                Yii::$app->session->setFlash('contactFormSubmitted');
+                return $this->refresh();
+            }
         } else {
             return $this->render('abiturient', [
                 'model' => $model,
             ]);
-        }        
+        }
     }
 
     public function actionSearch()

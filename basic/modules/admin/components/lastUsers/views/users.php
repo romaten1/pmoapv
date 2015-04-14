@@ -3,7 +3,7 @@ use yii\helpers\Html;
 
 ?>
 
-<div class="col-md-6">
+<div class="col-md-4">
     <div class="panel panel-warning" id="news-widget">
         <div class="panel-heading"><h3 class="panel-title"><?= Html::a( 'Останні зареєстровані користувачі',
                     [ '/user/admin/index' ] ) ?></h3></div>
