@@ -76,6 +76,19 @@ use yii\helpers\Url;
             </li>
             <li class="treeview">
                 <a href="#">
+                    <i class="fa fa-user"></i>
+                    <span>Студенти</span>
+                    <i class="fa fa-angle-left pull-right"></i>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="<?= Url::toRoute('/admin/student')?>"><i class="fa fa-angle-double-right"></i>Перелік</a></li>
+                    <li><a href="<?= Url::toRoute('/admin/student/create')?>"><i class="fa fa-angle-double-right"></i>Створити</a></li>
+                    <li><a href="<?= Url::toRoute('/admin/student-group')?>"><i class="fa fa-angle-double-right"></i>Студентські групи</a></li>
+                    <li><a href="<?= Url::toRoute('/admin/best-student')?>"><i class="fa fa-angle-double-right"></i>Кращі студенти</a></li>
+                </ul>
+            </li>
+            <li class="treeview">
+                <a href="#">
                     <i class="fa fa-book"></i>
                     <span>Предмети</span>
                     <i class="fa fa-angle-left pull-right"></i>

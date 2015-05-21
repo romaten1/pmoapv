@@ -29,6 +29,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         'method'  => 'post',
                     ],
                 ] ) ?>
+                <?= Html::a( 'Переглянути запис на фронті', [ '/teacher/view', 'id' => $model->id ], [ 'class' => 'btn btn-info' ] ) ?>
                 <?= Html::a( 'Створити нового викладача', [ 'create' ], [ 'class' => 'btn btn-success' ] ) ?>
             </p>
         </div>

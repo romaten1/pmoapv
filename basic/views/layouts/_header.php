@@ -130,6 +130,7 @@ echo Nav::widget( [
                     'label' => 'Програми практики',
                     'url'   => [ '/static-page/view-alias', 'alias' => 'praktikprogramy' ]
                 ],
+                [ 'label' => 'Кращі студенти кафедри', 'url' => [ '/best-student' ] ],
             ],
         ],
         [

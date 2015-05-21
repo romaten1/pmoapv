@@ -56,6 +56,12 @@ $config = [
         ]
     ],
     'components' => [
+        'urlManager' => [
+
+            'rules' => [
+                ['class' => 'yii\rest\UrlRule', 'controller' => 'teacher-rest'],
+            ],
+        ],
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => 'iQRGjcWe952CXOgy9zc5zdB_Ght4o_K1',
