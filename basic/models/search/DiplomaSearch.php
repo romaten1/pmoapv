@@ -1,16 +1,16 @@
 <?php
 
-namespace app\modules\admin\models;
+namespace app\models\search;
 
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\modules\admin\models\Log;
+use app\models\Diploma;
 
 /**
- * LogSearch represents the model behind the search form about `app\modules\admin\models\Log`.
+ * DiplomaSearch represents the model behind the search form about `app\models\Diploma`.
  */
-class LogSearch extends Log
+class DiplomaSearch extends Diploma
 {
     /**
      * @inheritdoc
@@ -18,8 +18,8 @@ class LogSearch extends Log
     public function rules()
     {
         return [
-            [['id', 'time'], 'integer'],
-            [['user', 'request', 'ip'], 'safe'],
+            [['id', 'rating', 'created_at', 'updated_at', 'active'], 'integer'],
+            [['title', 'image'], 'safe'],
         ];
     }
 
@@ -41,13 +41,12 @@ class LogSearch extends Log
      */
     public function search($params)
     {
-        $query = Log::find();
+        $query = Diploma::find();
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
-            'sort' => ['defaultOrder' => ['time'=>SORT_DESC]],
             'pagination' => [
-                'pageSize' => 50,
+                'pageSize' => 30,
             ],
         ]);
 
@@ -61,12 +60,14 @@ class LogSearch extends Log
 
         $query->andFilterWhere([
             'id' => $this->id,
-            'time' => $this->time,
+            'rating' => $this->rating,
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
+            'active' => $this->active,
         ]);
 
-        $query->andFilterWhere(['like', 'user', $this->user])
-            ->andFilterWhere(['like', 'request', $this->request])
-            ->andFilterWhere(['like', 'ip', $this->ip]);
+        $query->andFilterWhere(['like', 'title', $this->title])
+            ->andFilterWhere(['like', 'image', $this->image]);
 
         return $dataProvider;
     }

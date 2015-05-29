@@ -89,6 +89,7 @@ echo Nav::widget( [
                     'label' => 'Матеріально-технічна база',
                     'url'   => [ '/static-page/view-alias', 'alias' => 'mattehbaza' ]
                 ],
+                [ 'label' => 'Грамоти та дипломи', 'url' => [ '/diploma'] ],
             ],
         ],
         [

@@ -28,7 +28,9 @@
         "mihaildev/yii2-elfinder": "*",
         "yiisoft/yii2-authclient": "*",
         "codeception/codeception": "*",
-        "dmstr/yii2-adminlte-asset": "1.*"
+        "dmstr/yii2-adminlte-asset": "1.*",
+        "cnx-faeton/yii2-photobox": "^0.5.0",
+        "raveren/kint": "^1.0"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",

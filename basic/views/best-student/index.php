@@ -2,6 +2,7 @@
 
 use app\assets\MasonryAsset;
 use yii\helpers\Html;
+use yii\widgets\LinkPager;
 use yii\widgets\ListView;
 
 /* @var $this yii\web\View */
@@ -21,8 +22,10 @@ MasonryAsset::register( $this );
         'dataProvider' => $dataProvider,
         //'orderBy' => ['rating' => SORT_DESC],
         'options' => ['class' => 'masonry'],
-        'layout' => '{items}{pager}',
+        'layout' => '{items}',
         'itemView'     => '_listItem',
     ]) ?>
-
+<?php echo LinkPager::widget([
+    'pagination'=>$dataProvider->pagination,
+]); ?>
 </div>
