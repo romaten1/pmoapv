@@ -9,14 +9,14 @@ class m160124_135001_chat extends Migration
 
 	public function up()
 	{
-		// Для хранения информации про отдельные чаты
+		// пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
 		$this->createTable( '{{%chat}}', [
 			'id'     => Schema::TYPE_PK,
 			'title'  => Schema::TYPE_STRING . '(64) NOT NULL',
 			'status' => Schema::TYPE_INTEGER . '(5) NOT NULL',
 		], $this->tableOptions );
 
-		// ДЛя хранения информации про сообщения из всех чатов на сайте
+		// пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
 		$this->createTable( '{{%chat_message}}', [
 			'id'         => Schema::TYPE_PK,
 			'chat_id'    => Schema::TYPE_INTEGER . '(10) NOT NULL',
