@@ -6,9 +6,15 @@ use app\modules\admin\components\message\MessageWidget;
 ?>
 <h1>Панель адміністрування сайту</h1>
 <div class="row">
-    <?php echo ContactsWidget::widget(); ?>
-    <?php echo LastUsersWidget::widget(); ?>
-    <?php echo MessageWidget::widget(); ?>
+	<div class="col-md-3">
+		<?php echo ContactsWidget::widget(); ?>
+	</div>
+	<div class="col-md-4">
+		<?php echo LastUsersWidget::widget(); ?>
+	</div>
+	<div class="col-md-5">
+		<?php echo MessageWidget::widget(); ?>
+	</div>
 </div>
 
 

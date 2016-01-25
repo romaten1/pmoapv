@@ -10,8 +10,12 @@ use app\models\Message;
 
 <div class="row">
     <div class="col-md-9">
-        <h2 class="featurette-heading">Сторінка викладача </h2>
 
+        <h2 class="featurette-heading">Сторінка викладача </h2>
+	    <?= Html::a( 'Викладацький чат', [ '/chat' ],
+		    [ 'class' => 'btn btn-success' ] ) ?>
+	    <br />
+	    <br />
         <div class="panel-group" id="accordion">
             <div class="panel panel-default">
                 <div class="panel-heading">

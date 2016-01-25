@@ -18,6 +18,7 @@ class AbiturientAsset extends AssetBundle
     public $baseUrl = '@web';
     public $css = [
         'abiturient/css/agency.css',
+        'abiturient/css/client-caroussel.css',
 	    '/abiturient/font-awesome/css/font-awesome.min.css',
 	    'http://fonts.googleapis.com/css?family=Montserrat:400,700',
 	    'http://fonts.googleapis.com/css?family=Kaushan+Script',
@@ -36,6 +37,9 @@ class AbiturientAsset extends AssetBundle
         'abiturient/js/jqBootstrapValidation.js',
 		'https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js',
 		'https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js',
+        'abiturient/js/js/masonry.pkgd.min.js',
+        'abiturient/js/js/jquery.flexslider-min.js',
+        'abiturient/js/js/main.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',
@@ -43,3 +47,4 @@ class AbiturientAsset extends AssetBundle
 	    'yii\web\JqueryAsset',
     ];
 }
+

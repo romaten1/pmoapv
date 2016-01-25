@@ -24,7 +24,7 @@ if ($models) {
                     </div>
                     <div class="col-md-9"><strong>'
                         .Html::a(Html::encode($model->title), ['/news/view', 'id' => $model->id],['class'=>'text-primary']).                        
-                        '</strong><br />'.date('d.m.Y', $model->updated_at).
+                        '</strong><br />'.date('d.m.Y', $model->created_at).
                     '</div>
                 </div>
             </div>';

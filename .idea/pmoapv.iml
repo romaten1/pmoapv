@@ -10,28 +10,29 @@
     <orderEntry type="module-library">
       <library name="PHP">
         <CLASSES>
-          <root url="file://$MODULE_DIR$/../../modules/php/PHP-5.4" />
+          <root url="file://F:/OpenServer/modules/php/PHP-5.4" />
         </CLASSES>
         <SOURCES>
-          <root url="file://$MODULE_DIR$/../../modules/php/PHP-5.4" />
+          <root url="file://F:/OpenServer/modules/php/PHP-5.4" />
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library">
       <library name="PHARS">
         <CLASSES>
-          <root url="phar://$MODULE_DIR$/../../modules/php/PHP-5.4/PEAR/go-pear.phar" />
-          <root url="phar://$MODULE_DIR$/../../modules/php/PHP-5.4/composer.phar" />
-          <root url="phar://$MODULE_DIR$/../../modules/php/PHP-5.4/pharcommand.phar" />
+          <root url="phar://F:/OpenServer/modules/php/PHP-5.4/PEAR/go-pear.phar" />
+          <root url="phar://F:/OpenServer/modules/php/PHP-5.4/composer.phar" />
+          <root url="phar://$MODULE_DIR$/basic/vendor/mihaildev/yii2-elfinder/volume/aws.phar" />
+          <root url="phar://F:/OpenServer/modules/php/PHP-5.4/pharcommand.phar" />
         </CLASSES>
         <SOURCES>
-          <root url="phar://$MODULE_DIR$/../../modules/php/PHP-5.4/PEAR/go-pear.phar" />
-          <root url="phar://$MODULE_DIR$/../../modules/php/PHP-5.4/composer.phar" />
-          <root url="phar://$MODULE_DIR$/../../modules/php/PHP-5.4/pharcommand.phar" />
+          <root url="phar://F:/OpenServer/modules/php/PHP-5.4/PEAR/go-pear.phar" />
+          <root url="phar://F:/OpenServer/modules/php/PHP-5.4/composer.phar" />
+          <root url="phar://$MODULE_DIR$/basic/vendor/mihaildev/yii2-elfinder/volume/aws.phar" />
+          <root url="phar://F:/OpenServer/modules/php/PHP-5.4/pharcommand.phar" />
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="library" name="sass-stdlib" level="application" />
   </component>
 </module>
-

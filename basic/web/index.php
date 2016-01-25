@@ -1,4 +1,8 @@
 <?php
+//ini_set('mysql.connect_timeout', 3000);
+//ini_set('default_socket_timeout', 3000);
+//ini_set( 'max_execution_time', 3000 );
+//set_time_limit( 0 );
 
 // comment out the following two lines when deployed to production
 defined( 'YII_DEBUG' ) or define( 'YII_DEBUG', true );

@@ -30,7 +30,12 @@
         "codeception/codeception": "*",
         "dmstr/yii2-adminlte-asset": "1.*",
         "cnx-faeton/yii2-photobox": "^0.5.0",
-        "raveren/kint": "^1.0"
+        "raveren/kint": "^1.0",
+        "2amigos/yii2-date-picker-widget": "~1.0",
+        "trntv/yii2-bootstrap-datetimepicker": "^1.5",
+        "romaten1/yii2-books-module": "dev-master",
+        "romaten1/yii2-customer-module": "dev-master",
+        "faisalman/simple-excel-php" : "^0.3.15"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",

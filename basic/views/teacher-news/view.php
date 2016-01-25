@@ -26,7 +26,7 @@ $image_code        = '<a href="' .
                 [ 'class' => 'btn btn-success' ] );
         } ?>
         <br/>
-        <?= $model->text ?>
+        <?=  Html::decode( $model->text ) ?>
     </div>
     <div class="col-md-1">
         <?= $teacher->image ? $image_code : ''; ?>

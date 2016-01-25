@@ -41,8 +41,8 @@ echo Nav::widget( [
         ! Yii::$app->user->isGuest ?
             [ 'label' => 'Профіль', 'url' => [ '/user/settings/profile' ] ] : '',
         // Перевіряємо чи користувач - студент і тоді виводимо посилання на сторінку студента
-        ( $assignment->item_name == 'student' ) ?
-            [ 'label' => 'Сторінка студента', 'url' => [ '/student' ] ] : '',
+       /* ( $assignment->item_name == 'student' ) ?
+            [ 'label' => 'Сторінка студента', 'url' => [ '/student' ] ] : '',*/
         Yii::$app->user->can( 'moderator' ) ?
             [ 'label' => 'Модерація', 'url' => [ '/moderator' ] ] : '',
         [ 'label' => 'Контакти', 'url' => [ '/site/contact' ] ],
@@ -90,6 +90,7 @@ echo Nav::widget( [
                     'url'   => [ '/static-page/view-alias', 'alias' => 'mattehbaza' ]
                 ],
                 [ 'label' => 'Грамоти та дипломи', 'url' => [ '/diploma'] ],
+                //[ 'label' => 'Співпраця з виробництвом', 'url' => [ '/site/cooperation' ] ],
             ],
         ],
         [
@@ -132,6 +133,7 @@ echo Nav::widget( [
                     'url'   => [ '/static-page/view-alias', 'alias' => 'praktikprogramy' ]
                 ],
                 [ 'label' => 'Кращі студенти кафедри', 'url' => [ '/best-student' ] ],
+                [ 'label' => 'Розклад', 'url' => [ '/site/rozklad' ] ],
             ],
         ],
         [

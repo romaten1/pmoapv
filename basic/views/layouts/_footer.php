@@ -9,7 +9,7 @@ use yii\helpers\Html;
                 <strong>&copy; ПМОАПВ <?= date( 'Y' ) ?></strong><br/>
                 м. Умань, пров. Інтернаціональний, 1<br>
                 <abbr title="Phone">Тел:</abbr> (04744) 3-98-37, 3-98-93<br/>
-                <abbr title="Mail">E-mail:</abbr> pmoapv@meta.ua, kafedra.pmo@gmail.com
+                <abbr title="Mail">E-mail:</abbr> pmoapv@udau.edu.ua
             </address>
         </div>
         <div class="col-md-2">

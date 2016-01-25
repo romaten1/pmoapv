@@ -12,7 +12,7 @@ use yii\helpers\Html;
     <div class="col-md-10">
         <?= Html::a( Html::encode( $model->title ), [ 'view', 'id' => $model->id ] ) ?>
         <br/>
-        <?= date( 'H:i / d-m-Y', $model->updated_at ) ?>
+        <?= date( 'H:i / d-m-Y', $model->created_at ) ?>
         <br/>
         <?= Html::decode( $model->description ) ?>
     </div>

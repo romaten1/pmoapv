@@ -21,7 +21,7 @@ $image_code        = '<a href="' .
         <br/>
         <?= date( 'H:i / d-m-Y', $model->updated_at ); ?>
         <br/>
-        <?= StringHelper::truncateWords( $model->text, 30 ) ?>
+        <?= StringHelper::truncateWords( Html::decode($model->text), 20 ) ?>
     </div>
     <div class="col-md-1">
         <?= $teacher->image ? $image_code : ''; ?>

@@ -123,6 +123,9 @@ class Teacher extends Root
     public static function getTeacherByUserId($user_id)
     {
         $teacher = self::find()->where(['user_id' => $user_id])->one();
+        if(!$teacher){
+            return $teacher;
+        }
         return $teacher;
     }
 

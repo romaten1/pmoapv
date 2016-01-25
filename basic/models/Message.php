@@ -63,7 +63,7 @@ class Message extends Root
         return [
             [['author_id', 'text'], 'required'],
             [['author_id', 'receiver_id', 'created_at', 'recieved_at', 'active'], 'integer'],
-            [['text'], 'string', 'max' => 2000],
+            [['text'], 'string', 'max' => 12000],
             ['active', 'default', 'value' => self::STATUS_ACTIVE],
             ['active', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_PASSIVE]],
         ];

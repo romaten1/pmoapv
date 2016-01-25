@@ -21,6 +21,6 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <p><?= Html::decode( $model->description ) ?></p>
 
-    <p><?= $model->text ?></p>
+    <p><?= Html::decode( $model->text ) ?></p>
 
 </div>

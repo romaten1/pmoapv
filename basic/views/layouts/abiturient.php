@@ -54,7 +54,7 @@ $this->title = 'Абітурієнту';
                         <a class="page-scroll" href="#page-top">Вітаємо</a>
                     </li>
                     <li>
-                        <a class="page-scroll" href="#services">Ми пропонуємо</a>
+                        <a class="page-scroll" href="#services">Навчання</a>
                     </li>
                     <li>
                         <a class="page-scroll" href="#portfolio">Про нас</a>
@@ -64,6 +64,9 @@ $this->title = 'Абітурієнту';
                     </li>
                     <li>
                         <a class="page-scroll" href="#team">Команда</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#testimonials">Відгуки</a>
                     </li>
                     <li>
                         <a class="page-scroll" href="#contact">Контакти</a>
@@ -156,10 +159,12 @@ $this->title = 'Абітурієнту';
             </div>
             <div class="row">
                 <div class="col-lg-12 text-center  wow bounceIn" data-wow-delay="6s">
+                    <h4 class="section-heading">В 2015 році на нашу спеціальність потрібно в атестаті мати такі конкурсні предмети:</h4>
+                    <h3 > Українська мова, математика, фізика </h3>
                     <br/>
                     <h4 class="section-heading">Про умови вступу на нашу спеціальність дізнайтесь більше</h4>
                     <a href="http://www.udau.edu.ua/ua/future-students/vstupna-kampaniya-2015/pravila-prijomu.html"
-                       class="btn btn-xl">на сайті університету</a>
+                       class="btn btn-xl" target="_blank">на сайті університету</a>
                 </div>
             </div>
         </div>
@@ -467,48 +472,21 @@ $this->title = 'Абітурієнту';
                     <div class="team-member">
                         <img src="abiturient/img//team/1.jpg" class="img-responsive img-circle" alt="">
                         <h4>Андрій Войтік</h4>
-
                         <p class="text-muted">Завідувач кафедри, к.т.н.</p>
-                        <ul class="list-inline social-buttons">
-                            <li><a href="#"><i class="fa fa-twitter"></i></a>
-                            </li>
-                            <li><a href="#"><i class="fa fa-facebook"></i></a>
-                            </li>
-                            <li><a href="#"><i class="fa fa-vk"></i></a>
-                            </li>
-                        </ul>
                     </div>
                 </div>
                 <div class="col-sm-4">
                     <div class="team-member">
                         <img src="abiturient/img//team/2.jpg" class="img-responsive img-circle" alt="">
                         <h4>Олександр Пушка</h4>
-
                         <p class="text-muted">Декан факультету, к.т.н., доцент</p>
-                        <ul class="list-inline social-buttons">
-                            <li><a href="#"><i class="fa fa-twitter"></i></a>
-                            </li>
-                            <li><a href="#"><i class="fa fa-facebook"></i></a>
-                            </li>
-                            <li><a href="#"><i class="fa fa-vk"></i></a>
-                            </li>
-                        </ul>
                     </div>
                 </div>
                 <div class="col-sm-4">
                     <div class="team-member">
                         <img src="abiturient/img//team/3.jpg" class="img-responsive img-circle" alt="">
                         <h4>Юрій Ковальчук</h4>
-
                         <p class="text-muted">К.т.н., доцент</p>
-                        <ul class="list-inline social-buttons">
-                            <li><a href="#"><i class="fa fa-twitter"></i></a>
-                            </li>
-                            <li><a href="#"><i class="fa fa-facebook"></i></a>
-                            </li>
-                            <li><a href="#"><i class="fa fa-vk"></i></a>
-                            </li>
-                        </ul>
                     </div>
                 </div>
             </div>
@@ -522,6 +500,38 @@ $this->title = 'Абітурієнту';
                 </div>
             </div>
         </div>
+    </section>
+    <section id="testimonials">
+    <div class="cd-testimonials-wrapper cd-container ">
+        <h2>Наші студенти про навчання у нас:</h2>
+        <ul class="cd-testimonials">
+            <li>
+                <p>Кафедра розташована біля чудового парку "Софіївка", де можна відпочити після пар.
+                    Також ми щороку щороку відвідуємо виставку рентабельного високоефективного  сільського господарства «ІнтерАГРО»,
+                    що є гарною мотивацією для відмінного навчання студентів, адже з такою технікою працюють лише найкращі</p>
+                <div class="cd-author">
+                    <img src="img/avatar-1.jpg" alt="Author image">
+                    <ul class="cd-author-info">
+                        <li>Розуменко Яна</li>
+                        <li>студентка 31-ім групи</li>
+                    </ul>
+                </div>
+            </li>
+
+            <li>
+                <p>Під час навчання на кафедрі ми розглядали багато цікавих механізмів і
+                    машин, основи їх розрахунків, проектування, ремонту.
+                    Тут нам заклали фундамент інженерного мислення!  Отримані знання зараз активно застосовую на роботі.</p>
+                <div class="cd-author">
+                    <img src="img/avatar-2.jpg" alt="Author image">
+                    <ul class="cd-author-info">
+                        <li>Ігор Рецький</li>
+                        <li>Випускник 2014 р.</li>
+                    </ul>
+                </div>
+            </li>
+        </ul> <!-- cd-testimonials -->
+    </div>
     </section>
 
     <!-- Clients Aside -->
@@ -568,15 +578,12 @@ $this->title = 'Абітурієнту';
         <div class="container">
             <div class="row">
                 <div class="col-md-4">
-                    <span class="copyright">Кафедра ПМОАПВ 2015</span>
+                    <a class="navbar-brand page-scroll" href="<?= Url::to( [ '/' ] ); ?>">
+                        <span class="copyright">Кафедра ПМОАПВ 2015</span></a>
                 </div>
                 <div class="col-md-4">
                     <ul class="list-inline social-buttons">
-                        <li><a href="#"><i class="fa fa-twitter"></i></a>
-                        </li>
-                        <li><a href="#"><i class="fa fa-facebook"></i></a>
-                        </li>
-                        <li><a href="#"><i class="fa fa-vk"></i></a>
+                        <li><a href="https://vk.com/public94067764"><i class="fa fa-vk"></i></a>
                         </li>
                     </ul>
                 </div>
@@ -614,6 +621,7 @@ $this->title = 'Абітурієнту';
                                 Матеріальна база кафедри в перші роки складалася з машин і знарядь на кінній тязі.
                                 У 1935-1941 роках кафедра поповнилася тракторами, машинами на тракторній тязі,
                                 молотарками та ін.</p>
+                            <a class="btn btn-info" href="<?= Url::to( [ '/static-page/view-alias', 'alias' => 'history' ] ); ?>">Історія кафедри</a>
                             <button type="button" class="btn btn-primary" data-dismiss="modal"><i
                                     class="fa fa-share"></i> Закрити
                             </button>
@@ -724,6 +732,7 @@ $this->title = 'Абітурієнту';
                                 Результати науково-дослідної роботи студенти використовують при
                                 підготовці доповідей на студентських наукових конференціях,
                                 наукових тез і статей, виконанні курсових і дипломних проектів. </p>
+                            <a class="btn btn-info" href="<?= Url::to( [ '/static-page/view-alias', 'alias' => 'napryamy-nauki' ] ); ?>">Напрямки наукових досліджень викладачів кафедри</a>
                             <button type="button" class="btn btn-primary" data-dismiss="modal"><i
                                     class="fa fa-share"></i> Закрити
                             </button>
@@ -765,6 +774,7 @@ $this->title = 'Абітурієнту';
                                 2 гусеничних і 6 колісних тракторів; зернозбиральний комбайн;
                                 ґрунтообробна, посівна, збиральна, фермська та інша
                                 сільськогосподарська техніка понад 40 найменувань.</p>
+                            <a class="btn btn-info" href="<?= Url::to( [ '/static-page/view-alias', 'alias' => 'mattehbaza' ] ); ?>">Матеріально-технічна база кафедри</a>
                             <button type="button" class="btn btn-primary" data-dismiss="modal"><i
                                     class="fa fa-share"></i> Закрити
                             </button>
@@ -839,6 +849,7 @@ $this->title = 'Абітурієнту';
                                 Уманського національного університету садівництва Панчук Дмитро і Легкун Сергій
                                 та зайняли почесне 4 командне місце в рейтингу
                                 серед студентів 17 аграрних вищих навчальних закладів України.</p>
+                            <a class="btn btn-info" href="<?= Url::to( [ '/diploma' ] ); ?>">Дипломи та грамоти студентів кафедри</a>
                             <button type="button" class="btn btn-primary" data-dismiss="modal"><i
                                     class="fa fa-share"></i> Закрити
                             </button>
@@ -878,6 +889,7 @@ $this->title = 'Абітурієнту';
                                 садівництва Демиденко Віктор показав вагомі теоретичні
                                 та практичні знання, які допомогли йому стати переможцем
                                 олімпіади і отримати диплом ІІ ступеня. </p>
+                            <a class="btn btn-info" href="<?= Url::to( [ '/best-student' ] ); ?>">Кращі студенти кафедри</a>
                             <button type="button" class="btn btn-primary" data-dismiss="modal"><i
                                     class="fa fa-share"></i> Закрити
                             </button>
@@ -919,6 +931,16 @@ $this->title = 'Абітурієнту';
             </div>
         </div>
     </div>
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-64512529-1', 'auto');
+        ga('send', 'pageview');
+
+    </script>
     <?php $this->endBody() ?>
     </body>
 

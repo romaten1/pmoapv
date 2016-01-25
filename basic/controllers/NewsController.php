@@ -21,7 +21,6 @@ class NewsController extends Controller
      */
     public function actionIndex()
     {
-
 	    $searchModel = new NewsSearch();
 	    $dataProvider = $searchModel->searchActive(Yii::$app->request->queryParams);
 

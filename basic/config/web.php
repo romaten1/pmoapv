@@ -23,7 +23,11 @@ $config = [
     'modules' => [
         'admin' => [
             'class' => 'app\modules\admin\Module',
-
+            'modules' => [
+                'vk' => [
+                    'class' => 'app\modules\admin\modules\vk\Module',
+                ],
+            ],
         ],
         'user' => [
             'class' => 'dektrium\user\Module',
@@ -53,9 +57,24 @@ $config = [
         'debug' => [
             'class' => 'yii\debug\Module',
             'allowedIPs' => ['176.98.70.9', '::1']
-        ]
+        ],
+        'books' => [
+            'class' => 'romaten1\books\Module',
+        ],
+        'customer' => [
+            'class' => 'romaten1\customer\Module',
+        ],
     ],
     'components' => [
+        'response' => [
+            'formatters' => [
+                'xml' => [
+                    'class' => 'yii\web\XmlResponseFormatter',
+                    'itemTag' => 'page',
+                    'rootTag' => 'pages'
+                ],
+            ],
+        ],
         'urlManager' => [
 
             'rules' => [

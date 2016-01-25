@@ -20,7 +20,7 @@ foreach ($student as $value) {
 
 <div class="best-student-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin(['action' => '/vk/region']); ?>
 
     <?= $form->field( $model, 'student_id' )->dropDownList( Student::getStudentsArray(), ['prompt' => ''] ) ?>
 

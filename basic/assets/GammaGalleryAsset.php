@@ -18,7 +18,6 @@ class GammaGalleryAsset extends AssetBundle
     public $baseUrl = '@web';
     public $css = [
         'GammaGallery/css/style.css',
-
 	];
 	public $js = [
         'GammaGallery/js/modernizr.custom.70736.js',

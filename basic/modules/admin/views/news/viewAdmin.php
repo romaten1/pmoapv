@@ -49,6 +49,10 @@ $this->params['breadcrumbs'][] = $this->title;
                 'value'     => News::getStatus( $model->active ),
             ],
             [
+                'attribute' => 'unus_public',
+                'value'     => News::getPublicUnus( $model->unus_public ),
+            ],
+            [
                 'attribute' => 'created_at',
                 'format'    => 'date'
             ],

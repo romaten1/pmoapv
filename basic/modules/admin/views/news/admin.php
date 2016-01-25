@@ -58,6 +58,14 @@ $this->params['breadcrumbs'][] = $this->title;
                 },
                 'filter'    => News::getStatusArray()
             ],
+            [
+                'attribute' => 'unus_public',
+                'format'    => 'html',
+                'value'     => function ( $model ) {
+                    return $model->getPublicLabel();
+                },
+                'filter'    => News::getPublicUnusArray()
+            ],
             //'text:ntext',
             //'image',
 

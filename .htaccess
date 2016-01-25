@@ -1,13 +1,12 @@
 # Do not remove this line or mod_rewrite rules and search engine friendly URLs will stop working
 RewriteBase /
 
-
 RewriteEngine on
 
 RewriteRule ^((?!basic/web/).*)$ basic/web/$1 [L,NC]
 
-
-
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
 
 # Заборона індексації всіх папок
 Options -Indexes

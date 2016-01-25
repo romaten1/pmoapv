@@ -1,0 +1,32 @@
+{
+    "name": "romaten1/yii2-books-module",
+    "description": "Yii2 module for work with books (for test task)",
+    "keywords": [
+        "yii2",
+        "books",
+        "module"
+    ],
+    "type": "yii2-extension",
+    "license": "MIT",
+    "support": {
+        "source": "https://github.com/romaten1/yii2-books-module"
+    },
+    "authors": [
+        {
+            "name": "romaten1",
+            "homepage": "https://github.com/romaten1"
+        }
+    ],
+    "require": {
+        "yiisoft/yii2": "*",
+        "trntv/yii2-bootstrap-datetimepicker": "*"
+    },
+    "require-dev": {
+        "yiisoft/yii2-imagine": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "romaten1\\books\\": ""
+        }
+    }
+}

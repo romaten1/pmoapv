@@ -1,0 +1,29 @@
+{
+    "name": "romaten1/yii2-customer-module",
+    "description": "Yii2 module for work with customers (for test task)",
+    "keywords": [
+        "yii2",
+        "books",
+        "module"
+    ],
+    "type": "yii2-extension",
+    "license": "MIT",
+    "support": {
+        "source": "https://github.com/romaten1/yii2-customer-module"
+    },
+    "authors": [
+        {
+            "name": "romaten1",
+            "homepage": "https://github.com/romaten1"
+        }
+    ],
+    "require": {
+        "yiisoft/yii2": "*",
+        "trntv/yii2-bootstrap-datetimepicker": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "romaten1\\customer\\": ""
+        }
+    }
+}

@@ -45,6 +45,9 @@ use app\models\News;
 
     <?= $form->field( $model, 'active' )->dropDownList( News::getStatusArray() ) ?>
 
+    <?= $form->field( $model, 'unus_public' )->dropDownList( News::getPublicUnusArray() ) ?>
+
+
     <div class="form-group">
         <?= Html::submitButton( $model->isNewRecord ? 'Створити' : 'Оновити',
             [ 'class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary' ] ) ?>
